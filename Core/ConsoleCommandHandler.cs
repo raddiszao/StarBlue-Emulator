@@ -43,7 +43,7 @@ namespace StarBlue.Core
                         }
                     #endregion
 
-                    #region restartt
+                    #region restart
                     case "restart":
                     case "reiniciar":
                         {
