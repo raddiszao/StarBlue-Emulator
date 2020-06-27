@@ -1,0 +1,21 @@
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\StarBlue.exe.config
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\StarBlue.exe
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\StarBlue.pdb
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\Fleck.dll
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\log4net.dll
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\MySql.Data.dll
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\Newtonsoft.Json.dll
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\bin\Debug\log4net.xml
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\obj\x86\Debug\StarBlue.csproj.CoreCompileInputs.cache
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\obj\x86\Debug\StarBlue.csproj.CopyComplete
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\obj\x86\Debug\StarBlue.exe
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\obj\x86\Debug\StarBlue.pdb
+C:\Users\theje\OneDrive\Desktop\RDS Server - Heibbo\obj\x86\Debug\StarBlue.csprojAssemblyReference.cache
+E:\BKP\Desktop\StarBlue Emulator\obj\x86\Debug\StarBlue.csproj.CoreCompileInputs.cache
+E:\BKP\Desktop\StarBlue Emulator\bin\Debug\StarBlue.exe.config
+E:\BKP\Desktop\StarBlue Emulator\bin\Debug\StarBlue.exe
+E:\BKP\Desktop\StarBlue Emulator\bin\Debug\StarBlue.pdb
+E:\BKP\Desktop\StarBlue Emulator\obj\x86\Debug\StarBlue.csproj.CopyComplete
+E:\BKP\Desktop\StarBlue Emulator\obj\x86\Debug\StarBlue.exe
+E:\BKP\Desktop\StarBlue Emulator\obj\x86\Debug\StarBlue.pdb
+E:\BKP\Desktop\StarBlue Emulator\obj\x86\Debug\StarBlue.csprojAssemblyReference.cache

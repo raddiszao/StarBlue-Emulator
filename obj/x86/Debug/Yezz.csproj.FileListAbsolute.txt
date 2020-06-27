@@ -1,0 +1,82 @@
+C:\Users\forbi_zgvn\Desktop\UFO.Server\bin\Debug\UFOServer.exe.config
+C:\Users\forbi_zgvn\Desktop\UFO.Server\obj\x86\Debug\UFOServer.exe
+C:\Users\forbi_zgvn\Desktop\UFO.Server\obj\x86\Debug\UFOServer.pdb
+C:\Users\forbi_zgvn\Desktop\UFO.Server\bin\Debug\UFOServer.exe
+C:\Users\forbi_zgvn\Desktop\UFO.Server\bin\Debug\UFOServer.pdb
+C:\Users\forbi_zgvn\Desktop\UFO.Server\bin\Debug\Fleck.dll
+C:\Users\forbi_zgvn\Desktop\UFO.Server\bin\Debug\log4net.dll
+C:\Users\forbi_zgvn\Desktop\UFO.Server\bin\Debug\MySql.Data.dll
+C:\Users\forbi_zgvn\Desktop\UFO.Server\bin\Debug\log4net.xml
+C:\Users\forbi_zgvn\Desktop\UFO.Server\obj\x86\Debug\Yezz.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\UFO.Server\obj\x86\Debug\Yezz.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\UFO.Server\obj\x86\Debug\Yezz.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\UFO.Server\obj\x86\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO.Server\obj\x86\Debug\UFOServer.pdb
+C:\Users\Administrator\Desktop\UFO.Server\bin\Debug\UFOServer.exe.config
+C:\Users\Administrator\Desktop\UFO.Server\bin\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO.Server\bin\Debug\UFOServer.pdb
+C:\Users\Administrator\Desktop\UFO.Server\bin\Debug\Fleck.dll
+C:\Users\Administrator\Desktop\UFO.Server\bin\Debug\log4net.dll
+C:\Users\Administrator\Desktop\UFO.Server\bin\Debug\MySql.Data.dll
+C:\Users\Administrator\Desktop\UFO.Server\bin\Debug\log4net.xml
+C:\Users\Administrator\Desktop\UFO.Server\obj\x86\Debug\Yezz.csproj.CopyComplete
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\bin\Debug\UFOServer.exe.config
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\bin\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\bin\Debug\UFOServer.pdb
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\bin\Debug\Fleck.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\bin\Debug\log4net.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\bin\Debug\MySql.Data.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\bin\Debug\log4net.xml
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\obj\x86\Debug\Yezz.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\obj\x86\Debug\Yezz.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\obj\x86\Debug\Yezz.csproj.CopyComplete
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\obj\x86\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP\obj\x86\Debug\UFOServer.pdb
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\bin\Debug\UFOServer.exe.config
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\bin\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\bin\Debug\UFOServer.pdb
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\bin\Debug\Fleck.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\bin\Debug\log4net.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\bin\Debug\MySql.Data.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\bin\Debug\log4net.xml
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\obj\x86\Debug\Yezz.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\obj\x86\Debug\Yezz.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\obj\x86\Debug\Yezz.csproj.CopyComplete
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\obj\x86\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP - Copy\obj\x86\Debug\UFOServer.pdb
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\UFOServer.exe.config
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\UFOServer.pdb
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\Fleck.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\log4net.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\MySql.Data.dll
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\log4net.xml
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\Yezz.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\Yezz.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\Yezz.csproj.CopyComplete
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\UFOServer.exe
+C:\Users\Administrator\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\UFOServer.pdb
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\UFOServer.exe.config
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\UFOServer.exe
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\UFOServer.pdb
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\UFOServer.exe
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\UFOServer.pdb
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\Fleck.dll
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\log4net.dll
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\MySql.Data.dll
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\bin\Debug\log4net.xml
+C:\Users\Marcos\Desktop\UFO Emu - BACKUP2 - Copy\obj\x86\Debug\Yezz.csprojResolveAssemblyReference.cache
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\UFOServer.exe.config
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\UFOServer.exe
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\UFOServer.pdb
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\Fleck.dll
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\log4net.dll
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\MySql.Data.dll
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\Newtonsoft.Json.dll
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\bin\Debug\log4net.xml
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\Yezz.csproj.CoreCompileInputs.cache
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\Yezz.csproj.CopyComplete
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\UFOServer.exe
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\UFOServer.pdb
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\Yezz.csprojAssemblyReference.cache

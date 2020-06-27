@@ -1,0 +1,187 @@
+
+Exception logged 17/06/2020 00:55:39 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+
+
+
+
+
+Exception logged 17/06/2020 00:56:38 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+
+
+
+
+
+Exception logged 17/06/2020 00:56:54 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+
+
+
+
+
+Exception logged 17/06/2020 00:57:02 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+
+
+
+
+
+Exception logged 17/06/2020 00:57:13 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+
+
+
+
+
+Exception logged 17/06/2020 00:57:17 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 818
+
+
+
+
+
+Exception logged 17/06/2020 01:00:55 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+
+
+
+
+
+Exception logged 17/06/2020 01:00:58 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+
+
+
+
+
+Exception logged 17/06/2020 01:05:18 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+
+
+
+
+
+Exception logged 17/06/2020 01:05:24 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+
+
+
+
+
+Exception logged 17/06/2020 01:05:27 in :
+System.InvalidOperationException: A sequ?ncia n?o cont?m elementos
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+Source:
+System.Core
+Data:
+Message:
+A sequ?ncia n?o cont?m elementos
+Stack trace:
+   em System.Linq.Enumerable.Last[TSource](IEnumerable`1 source)
+   em StarBlue.HabboHotel.Rooms.RoomUserManager.OnCycle() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Rooms\RoomUserManager.cs:linha 817
+
+
+
+

@@ -1,0 +1,4 @@
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\RDServer.csprojAssemblyReference.cache
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\RDServer.csproj.CoreCompileInputs.cache
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\UFOServer.exe
+C:\Users\theje\OneDrive\Desktop\UFO Emu -Traduzido\obj\x86\Debug\UFOServer.pdb
