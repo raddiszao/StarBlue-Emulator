@@ -1,8 +1,6 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
@@ -27,7 +25,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
         {
             this.Instance = Instance;
             this.Item = Item;
-            SetItems = new ConcurrentDictionary<int, Item>();
+            this.SetItems = new ConcurrentDictionary<int, Item>();
         }
 
         public void HandleSave(ClientPacket Packet)
@@ -36,91 +34,24 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
             int Option = Packet.PopInt();
             string Unknown2 = Packet.PopString();
 
-            BoolData = Option == 1;
+            this.BoolData = Option == 1;
 
-            if (SetItems.Count > 0)
-            {
-                SetItems.Clear();
-            }
+            if (this.SetItems.Count > 0)
+                this.SetItems.Clear();
 
             int FurniCount = Packet.PopInt();
             for (int i = 0; i < FurniCount; i++)
             {
                 Item SelectedItem = Instance.GetRoomItemHandler().GetItem(Packet.PopInt());
                 if (SelectedItem != null)
-                {
                     SetItems.TryAdd(SelectedItem.Id, SelectedItem);
-                }
             }
         }
 
-        public bool Execute(params object[] Params)
-        {
-            return BoolData ? AllFurniHaveFurniOn() : SomeFurniHaveFurniOn();
-        }
+        public bool Execute(params object[] Params) => this.BoolData ? AllFurniHaveFurniOn() : SomeFurniHaveFurniOn();
 
-        public bool AllFurniHaveFurniOn()
-        {
-            foreach (Item Item in SetItems.Values.ToList())
-            {
-                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item))
-                {
-                    continue;
-                }
+        public bool AllFurniHaveFurniOn() => SetItems.Values.All(i => i.GetRoom().GetGameMap().GetRoomItemForMinZ(i.GetX, i.GetY, i.TotalHeight).Count > 0);
 
-                bool Furni = false;
-                List<Item> Items = Instance.GetGameMap().GetAllRoomItemForSquare(Item.GetX, Item.GetY);
-                if (Items.Where(x => x.GetZ >= Item.GetZ).Count() > 1)
-                {
-                    Furni = true;
-                }
-
-                if (!Furni)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public bool SomeFurniHaveFurniOn()
-        {
-            foreach (Item Item in SetItems.Values.ToList())
-            {
-                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item)) //Si el Furni esta en la sala
-                {
-                    continue;
-                }
-
-                bool Furni = false;
-                foreach (String I in ItemsData.Split(';'))
-                {
-                    if (String.IsNullOrEmpty(I))
-                    {
-                        continue;
-                    }
-
-                    Item II = Instance.GetRoomItemHandler().GetItem(Convert.ToInt32(I));
-
-                    if (II == null)
-                    {
-                        continue;
-                    }
-
-                    List<Item> Items = Instance.GetGameMap().GetAllRoomItemForSquare(II.GetX, II.GetY);
-                    if ((Items.Where(x => x.GetZ >= Item.GetZ).Count() > 1))
-                    {
-                        Furni = true;
-                        break;
-                    }
-
-                }
-                if (!Furni)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public bool SomeFurniHaveFurniOn() => SetItems.Values.Any(i => i.GetRoom().GetGameMap().GetRoomItemForMinZ(i.GetX, i.GetY, i.TotalHeight).Count > 0);
     }
 }

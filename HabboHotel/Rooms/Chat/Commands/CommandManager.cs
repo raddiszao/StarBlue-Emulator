@@ -339,6 +339,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("afk", new AfkCommand());
 
             Register("sexo", new SexCommand());
+            Register("fumar", new FumarCommand());
 
             Register("closedice", new CloseDiceCommand());
 

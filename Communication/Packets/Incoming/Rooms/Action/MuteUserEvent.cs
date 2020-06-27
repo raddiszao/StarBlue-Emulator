@@ -39,14 +39,8 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 
             if (Room.MutedUsers.ContainsKey(UserId))
             {
-                if (Room.MutedUsers[UserId] < StarBlueServer.GetUnixTimestamp())
-                {
-                    Room.MutedUsers.Remove(UserId);
-                }
-                else
-                {
-                    return;
-                }
+                Room.MutedUsers.Remove(UserId);
+                return;
             }
 
             Room.MutedUsers.Add(UserId, (StarBlueServer.GetUnixTimestamp() + (Time * 60)));

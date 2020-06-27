@@ -1455,6 +1455,24 @@ namespace StarBlue.HabboHotel.Rooms
             return true;
         }
 
+        public List<Item> GetRoomItemForMinZ(int pX, int pY, double pZ)
+        {
+            var itemsToReturn = new List<Item>();
+            var coord = new Point(pX, pY);
+
+            if (mCoordinatedItems.ContainsKey(coord))
+            {
+                var itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
+                foreach (var item in itemsFromSquare)
+                {
+                    if (pZ <= item.GetZ)
+                        itemsToReturn.Add(item);
+                }
+            }
+
+            return itemsToReturn;
+        }
+
         public int outgoing_dir(int inconming_dir, bool ejey, bool ejex)
         {
             if (ejex && ejey)

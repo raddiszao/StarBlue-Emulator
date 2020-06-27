@@ -1152,10 +1152,10 @@ namespace StarBlue.HabboHotel.Rooms
                     Session.SendMessage(new CarryObjectComposer(RoomUser.VirtualId, RoomUser.CarryItemID));
                 }
 
-                if (!RoomUser.IsBot && !RoomUser.IsPet && RoomUser.CurrentEffect > 0)
-                {
-                    Room.SendMessage(new AvatarEffectComposer(RoomUser.VirtualId, RoomUser.CurrentEffect));
-                }
+              //  if (!RoomUser.IsBot && !RoomUser.IsPet && RoomUser.CurrentEffect > 0)
+               // {
+               //     Room.SendMessage(new AvatarEffectComposer(RoomUser.VirtualId, RoomUser.CurrentEffect));
+               // }
             }
 
             Session.SendMessage(new UserUpdateComposer(_roomUserManager.GetUserList().ToList()));
