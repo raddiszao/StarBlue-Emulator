@@ -232,17 +232,6 @@ namespace StarBlue.HabboHotel.GameClients
                         _habbo.MachineId = MachineId;
                     }
 
-                    if (StarBlueServer.GetGame().GetPermissionManager().TryGetGroup(_habbo.Rank, out PermissionGroup PermissionGroup))
-                    {
-                        if (!String.IsNullOrEmpty(PermissionGroup.Badge))
-                        {
-                            if (!_habbo.GetBadgeComponent().HasBadge(PermissionGroup.Badge))
-                            {
-                                _habbo.GetBadgeComponent().GiveBadge(PermissionGroup.Badge, true, this);
-                            }
-                        }
-                    }
-
                     if (StarBlueServer.GetGame().GetSubscriptionManager().TryGetSubscriptionData(_habbo.VIPRank, out SubscriptionData SubData))
                     {
 

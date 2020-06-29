@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Rooms.PathFinding
 {
@@ -47,18 +48,12 @@ namespace StarBlue.HabboHotel.Rooms.PathFinding
         public static PathFinderNode FindPathReversed(RoomUser User, bool Diag, Gamemap Map, Vector2D Start, Vector2D End)
         {
             var OpenList = new MinHeap<PathFinderNode>(256);
-
             var PfMap = new PathFinderNode[Map.Model.MapSizeX, Map.Model.MapSizeY];
             PathFinderNode Node;
             Vector2D Tmp;
-            int Cost;
-            int Diff;
-
-            var Current = new PathFinderNode(Start)
-            {
-                Cost = 0
-            };
-
+            Int64 Cost;
+            Int64 Diff;
+            var Current = new PathFinderNode(Start) { Cost = 0 };
             var Finish = new PathFinderNode(End);
             PfMap[Current.Position.X, Current.Position.Y] = Current;
             OpenList.Add(Current);

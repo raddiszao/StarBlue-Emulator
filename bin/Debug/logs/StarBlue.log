@@ -1362,3 +1362,995 @@
 2020-06-27 13:28:59,493 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
 2020-06-27 13:29:16,842 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
 2020-06-27 13:29:23,710 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:51:52,520 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 17:51:52,591 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 17:51:52,599 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 17:51:52,615 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 17:51:52,621 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 17:51:52,621 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 17:51:54,731 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 17:51:54,767 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 17:51:54,769 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 17:51:54,775 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 17:51:54,777 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 17:51:54,777 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 17:51:54,982 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 17:51:55,269 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 17:51:55,503 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 17:51:55,593 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 17:51:55,641 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 17:51:55,762 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 17:51:55,778 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 17:51:55,788 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 17:51:55,806 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 17:51:55,860 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 17:51:55,882 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 17:51:55,882 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 17:51:55,896 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 17:51:55,947 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 17:51:56,017 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 17:51:56,035 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 17:51:56,058 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 17:51:56,060 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 17:51:56,089 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 17:51:56,120 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 17:54:08,239 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 17:54:08,241 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 17:54:08,324 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 17:54:08,414 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 17:54:08,427 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 17:54:08,429 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 17:54:30,133 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 17:54:30,164 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 17:54:30,166 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 17:54:30,170 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 17:54:30,171 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 17:54:30,172 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 17:54:30,379 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 17:54:30,554 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 17:54:30,578 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 17:54:30,593 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 17:54:30,626 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 17:54:30,657 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 17:54:30,662 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 17:54:30,666 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 17:54:30,676 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 17:54:30,692 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 17:54:30,698 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 17:54:30,699 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 17:54:30,706 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 17:54:30,743 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 17:54:30,762 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 17:54:30,765 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 17:54:30,775 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 17:54:30,777 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 17:54:30,786 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 17:54:30,791 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 17:54:48,501 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 17:54:48,503 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 17:54:48,571 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 17:54:48,623 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 17:54:48,633 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 17:54:48,635 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 17:55:10,204 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:55:10,234 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:55:10,276 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 17:55:10,293 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:55:10,304 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 17:55:10,581 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 17:55:10,593 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 17:55:10,598 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 17:55:10,703 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 17:55:10,716 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 17:55:10,719 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 17:55:10,727 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 17:55:10,729 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 17:55:10,733 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 17:55:10,734 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:55:10,735 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 17:55:10,736 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 17:55:10,780 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 17:55:10,783 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 17:55:23,311 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 17:55:30,254 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:55:30,287 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:55:50,305 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:56:00,253 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:56:19,845 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 17:56:19,846 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 17:56:19,922 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 17:56:19,974 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 17:56:19,984 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 17:56:19,985 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 17:56:20,960 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:56:20,987 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 17:56:21,023 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:56:21,287 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 17:56:21,710 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 17:56:21,807 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 17:56:21,814 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 17:56:21,840 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 17:56:21,843 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 17:56:21,864 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 17:56:21,886 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 17:56:21,889 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 17:56:21,940 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 17:56:21,941 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 17:56:21,943 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 17:56:21,947 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 17:56:21,948 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 17:56:21,950 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 17:56:30,270 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:56:34,971 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:56:54,987 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:57:00,286 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:57:14,988 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:57:30,303 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:57:35,006 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:57:55,019 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:58:00,319 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:58:05,469 INFO  - StarBlue.StarBlueServer >> StarBlue EMULATOR --> CLOSING
+2020-06-28 17:58:07,977 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> Done disposing rooms!
+2020-06-28 17:58:08,060 INFO  - StarBlue.StarBlueServer >> StarBlue session shutted down.
+2020-06-28 17:58:09,285 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 17:58:09,530 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 17:58:09,544 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 17:58:09,557 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 17:58:09,596 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 17:58:09,636 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 17:58:09,643 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 17:58:09,648 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 17:58:09,663 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 17:58:09,683 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 17:58:09,690 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 17:58:09,692 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 17:58:09,704 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 17:58:09,757 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 17:58:09,778 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 17:58:09,789 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 17:58:09,802 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 17:58:09,806 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 17:58:09,820 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 17:58:09,825 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 17:58:12,218 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 17:58:12,220 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 17:58:12,289 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 17:58:16,678 INFO  - StarBlue.StarBlueServer >> StarBlue EMULATOR --> CLOSING
+2020-06-28 17:58:19,183 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> Done disposing rooms!
+2020-06-28 17:58:19,265 INFO  - StarBlue.StarBlueServer >> StarBlue session shutted down.
+2020-06-28 17:58:20,321 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 17:58:20,572 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 17:58:20,589 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 17:58:20,601 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 17:58:20,633 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 17:58:20,672 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 17:58:20,678 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 17:58:20,681 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 17:58:20,692 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 17:58:20,709 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 17:58:20,716 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 17:58:20,717 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 17:58:20,725 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 17:58:20,766 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 17:58:20,791 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 17:58:20,796 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 17:58:20,809 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 17:58:20,811 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 17:58:20,825 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 17:58:20,831 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 17:58:24,252 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 17:58:24,253 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 17:58:24,322 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 17:58:24,374 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 17:58:24,383 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 17:58:24,385 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 17:58:25,622 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:58:25,651 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 17:58:25,696 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:58:25,711 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 17:58:25,733 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 17:58:25,745 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 17:58:26,028 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 17:58:27,741 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 17:58:27,833 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 17:58:27,867 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 17:58:27,987 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 17:58:27,988 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 17:58:28,019 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 17:58:28,021 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 17:58:28,101 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 17:58:28,141 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 17:58:28,150 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 17:58:28,152 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 17:58:28,176 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3077] OpenFlatConnectionEvent
+2020-06-28 17:58:28,354 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1336] BODY: 
+2020-06-28 17:58:28,357 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3844] GetHabboGroupBadgesEvent
+2020-06-28 17:58:28,386 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1627] GetFurnitureAliasesEvent
+2020-06-28 17:58:28,409 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2480] GetRoomEntryDataEvent
+2020-06-28 17:58:29,713 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2850] GetCameraPriceEvent
+2020-06-28 17:58:29,919 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1810] GetAchievementsEvent
+2020-06-28 17:58:31,078 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3387] BODY: 
+2020-06-28 17:58:31,115 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 17:58:33,505 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2069] SMSVerification
+2020-06-28 17:58:35,074 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 17:58:36,908 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [637] StartTypingEvent
+2020-06-28 17:58:38,250 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 17:58:38,481 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 17:58:38,482 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [957] CancelTypingEvent
+2020-06-28 17:58:38,987 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:58:40,920 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 17:58:42,570 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [637] StartTypingEvent
+2020-06-28 17:58:42,601 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 17:58:42,633 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [957] CancelTypingEvent
+2020-06-28 17:58:42,636 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3562] AvatarEffectSelectedEvent
+2020-06-28 17:58:43,243 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 17:58:43,255 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2319] GetPromoArticlesEvent
+2020-06-28 17:58:43,257 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 17:58:43,258 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 17:58:43,458 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 17:58:43,462 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 17:58:43,626 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:58:43,699 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3077] OpenFlatConnectionEvent
+2020-06-28 17:58:43,729 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1336] BODY: 
+2020-06-28 17:58:43,745 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:58:43,758 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3844] GetHabboGroupBadgesEvent
+2020-06-28 17:58:43,772 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2480] GetRoomEntryDataEvent
+2020-06-28 17:58:44,196 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2850] GetCameraPriceEvent
+2020-06-28 17:58:44,468 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3387] BODY: 
+2020-06-28 17:58:45,264 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 17:58:45,937 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 17:58:46,954 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 17:58:48,639 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 17:58:50,121 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:58:59,004 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:59:19,021 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:59:20,154 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:59:39,023 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 17:59:43,806 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 17:59:50,170 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 17:59:59,041 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:00:19,056 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:00:20,170 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:00:39,071 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:00:50,187 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:00:59,077 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:01:19,090 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:01:20,186 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:01:39,104 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:01:50,208 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:01:59,105 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:02:19,121 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:02:20,203 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:03:00,286 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 18:03:00,383 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 18:03:00,388 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 18:03:00,394 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 18:03:00,396 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 18:03:00,397 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 18:03:00,662 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 18:03:00,865 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 18:03:00,878 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 18:03:00,891 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 18:03:00,926 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 18:03:00,966 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 18:03:00,974 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 18:03:00,979 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 18:03:00,990 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 18:03:01,009 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 18:03:01,018 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 18:03:01,019 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 18:03:01,025 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 18:03:01,068 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 18:03:01,090 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 18:03:01,094 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 18:03:01,107 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 18:03:01,109 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 18:03:01,124 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 18:03:01,135 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 18:03:06,681 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 18:03:06,683 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 18:03:06,755 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 18:03:06,809 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 18:03:06,820 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 18:03:06,822 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 18:03:07,892 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:03:07,919 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 18:03:07,962 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:03:07,966 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 18:03:08,059 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 18:03:09,620 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 18:03:09,917 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 18:03:10,019 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 18:03:10,057 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 18:03:10,065 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 18:03:10,144 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 18:03:10,149 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 18:03:10,198 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 18:03:10,200 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 18:03:10,218 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 18:03:10,248 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 18:03:10,250 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 18:03:10,251 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 18:03:10,251 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3077] OpenFlatConnectionEvent
+2020-06-28 18:03:10,336 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1336] BODY: 
+2020-06-28 18:03:10,340 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3844] GetHabboGroupBadgesEvent
+2020-06-28 18:03:10,359 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1627] GetFurnitureAliasesEvent
+2020-06-28 18:03:10,381 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2480] GetRoomEntryDataEvent
+2020-06-28 18:03:11,680 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2850] GetCameraPriceEvent
+2020-06-28 18:03:11,959 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1810] GetAchievementsEvent
+2020-06-28 18:03:12,977 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3387] BODY: 
+2020-06-28 18:03:12,982 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 18:03:22,336 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:03:30,453 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:03:42,354 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:03:43,804 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2069] SMSVerification
+2020-06-28 18:03:45,288 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:03:46,855 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:03:49,142 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [637] StartTypingEvent
+2020-06-28 18:03:49,626 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 18:03:49,672 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [957] CancelTypingEvent
+2020-06-28 18:03:50,640 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:03:52,281 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 18:03:53,605 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [637] StartTypingEvent
+2020-06-28 18:03:55,193 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 18:03:55,408 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 18:03:55,408 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [957] CancelTypingEvent
+2020-06-28 18:03:56,704 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:03:58,417 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 18:03:58,443 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3562] AvatarEffectSelectedEvent
+2020-06-28 18:03:59,050 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 18:03:59,062 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2319] GetPromoArticlesEvent
+2020-06-28 18:03:59,264 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 18:03:59,290 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 18:03:59,304 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2647] RefreshCampaignEvent
+2020-06-28 18:03:59,408 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 18:03:59,416 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:03:59,565 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3077] OpenFlatConnectionEvent
+2020-06-28 18:03:59,578 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1336] BODY: 
+2020-06-28 18:03:59,585 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:03:59,588 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3844] GetHabboGroupBadgesEvent
+2020-06-28 18:03:59,590 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2480] GetRoomEntryDataEvent
+2020-06-28 18:03:59,916 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2850] GetCameraPriceEvent
+2020-06-28 18:04:00,113 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3387] BODY: 
+2020-06-28 18:04:00,985 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 18:04:00,991 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:04:01,570 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:04:02,354 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:04:02,412 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:04:03,819 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:04:04,171 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:04:08,971 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [637] StartTypingEvent
+2020-06-28 18:04:11,641 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 18:04:11,647 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [957] CancelTypingEvent
+2020-06-28 18:04:22,370 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:04:30,469 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:04:42,387 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:04:59,622 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:05:00,469 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:05:02,404 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:05:22,420 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:05:30,505 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:05:42,437 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:09:42,028 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 18:09:42,084 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 18:09:42,086 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 18:09:42,092 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 18:09:42,094 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 18:09:42,094 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 18:09:42,437 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 18:09:43,000 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 18:09:43,043 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 18:09:43,061 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 18:09:43,121 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 18:09:43,171 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 18:09:43,182 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 18:09:43,188 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 18:09:43,205 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 18:09:43,229 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 18:09:43,238 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 18:09:43,241 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 18:09:43,252 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 18:09:43,308 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 18:09:43,341 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 18:09:43,346 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 18:09:43,373 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 18:09:43,378 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 18:09:43,398 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 18:09:43,409 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 18:09:51,247 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 18:09:51,254 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 18:09:51,350 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 18:09:51,418 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 18:09:51,436 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 18:09:51,437 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 18:09:53,511 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:09:53,556 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 18:09:53,612 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:09:53,711 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 18:09:55,751 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 18:09:56,112 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 18:09:56,160 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 18:09:56,328 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 18:09:56,433 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 18:09:56,445 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 18:09:56,447 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 18:09:56,485 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 18:09:56,493 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 18:09:56,558 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 18:09:56,563 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 18:09:56,605 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 18:09:56,608 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 18:09:56,609 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 18:09:56,610 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3077] OpenFlatConnectionEvent
+2020-06-28 18:09:56,742 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1336] BODY: 
+2020-06-28 18:09:56,749 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3844] GetHabboGroupBadgesEvent
+2020-06-28 18:09:56,766 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1627] GetFurnitureAliasesEvent
+2020-06-28 18:09:56,803 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2480] GetRoomEntryDataEvent
+2020-06-28 18:09:58,554 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2850] GetCameraPriceEvent
+2020-06-28 18:09:59,212 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1810] GetAchievementsEvent
+2020-06-28 18:10:00,493 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3387] BODY: 
+2020-06-28 18:10:00,496 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 18:10:06,045 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:10:12,577 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:10:19,600 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2069] SMSVerification
+2020-06-28 18:10:21,147 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:21,661 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:22,477 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:24,279 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:26,047 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:10:26,097 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:27,144 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:29,562 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:31,810 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3349] MoveAvatarEvent
+2020-06-28 18:10:42,594 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:10:46,060 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:10:57,412 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 18:11:06,077 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:11:12,610 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:11:26,549 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:11:42,666 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:11:46,701 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:12:06,871 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:12:12,910 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:12:26,984 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:12:43,075 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:12:47,094 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:13:07,213 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:13:12,737 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:13:27,320 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:13:42,913 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:13:47,434 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:14:07,572 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:14:13,105 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:14:27,677 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:14:42,746 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:14:47,768 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:15:07,864 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:15:12,889 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:15:27,959 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:15:43,071 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:15:48,101 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:16:08,217 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:16:12,741 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:16:28,315 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:16:42,886 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:16:48,418 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:17:08,514 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:17:13,033 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:17:28,612 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:17:43,181 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:17:48,709 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:18:08,803 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:18:12,825 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:18:28,904 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:18:42,971 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:18:49,002 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:19:09,125 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:19:13,145 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:19:29,221 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:19:43,289 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:19:49,320 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:20:09,452 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:20:12,967 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:20:29,546 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:20:43,111 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:20:49,645 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:21:09,751 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:21:13,270 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:21:29,850 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:21:42,911 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:21:49,946 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:22:10,045 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:22:13,060 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:22:30,137 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:22:43,200 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:22:50,233 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:23:10,335 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:23:13,349 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:23:30,439 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:23:43,001 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:23:50,539 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:24:10,635 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:24:13,146 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:24:30,729 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:24:43,289 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:24:50,826 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:24:53,866 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 18:25:10,943 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:25:13,454 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:25:31,041 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:25:43,098 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:25:51,136 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:26:11,255 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:26:13,266 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:26:31,357 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:26:43,412 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:26:51,453 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:27:11,553 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:27:13,060 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:27:31,651 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:27:43,207 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:27:51,749 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:28:11,847 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:28:13,354 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:28:31,948 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:28:43,502 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:28:52,041 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:29:12,140 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:29:13,145 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:29:32,241 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:29:43,292 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:29:52,340 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:30:12,463 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:30:13,469 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:30:32,575 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:30:43,127 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:30:52,671 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:31:12,768 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:31:13,271 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:31:32,881 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:31:43,435 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:31:52,988 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:32:13,092 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:32:13,601 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:32:33,203 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:32:43,256 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:32:53,309 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:33:13,418 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:33:13,421 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:33:33,535 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:33:43,603 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:33:53,657 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:34:13,267 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:34:13,770 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:34:33,887 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:34:43,437 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:34:53,985 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:35:13,583 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:35:14,085 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:35:34,180 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:35:43,225 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:35:54,279 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:36:13,372 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:36:14,378 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:36:34,475 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:36:43,517 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:36:54,570 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:37:13,667 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:37:14,673 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:37:34,773 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:37:43,315 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:37:54,871 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:38:13,462 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:38:14,969 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:38:35,071 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:38:43,613 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:38:55,165 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:39:13,752 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:39:15,260 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:39:35,360 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:39:43,402 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:39:53,985 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 18:39:55,492 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:40:13,577 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:40:15,585 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:40:35,683 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:40:43,719 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:40:55,784 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:41:13,370 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:41:15,882 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:41:35,980 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:41:43,523 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:41:56,082 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:42:13,668 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:42:16,183 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:42:36,280 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:42:43,816 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:42:56,375 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:43:13,465 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:43:16,479 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:43:36,587 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:43:43,620 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:43:56,683 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:44:13,775 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:44:16,791 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:44:36,885 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:44:43,416 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:44:56,982 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:45:13,559 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:45:17,078 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:45:37,171 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:45:43,703 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:45:57,270 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:46:13,849 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:46:17,368 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:46:37,466 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:46:43,494 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:46:57,567 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:47:13,656 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:47:17,675 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:47:37,772 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:47:43,805 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:47:57,876 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:48:13,954 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:48:17,975 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:48:38,071 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:48:43,598 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:48:58,169 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:49:13,744 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:49:18,265 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:49:38,360 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:49:43,886 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:49:58,458 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:50:13,560 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:50:18,586 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:50:38,680 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:50:43,704 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:50:58,777 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:51:13,869 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:51:18,894 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:51:38,991 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:51:44,011 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:51:59,078 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:52:13,639 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:52:19,179 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:52:39,285 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:52:43,816 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:52:59,392 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:53:13,972 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:53:19,499 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:53:39,611 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:53:43,630 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:53:59,713 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 18:54:13,783 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 18:54:19,846 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:37:37,976 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 20:37:38,011 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 20:37:38,022 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 20:37:38,056 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 20:37:38,066 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 20:37:38,066 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 20:37:38,497 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 20:37:38,764 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 20:37:38,907 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 20:37:38,981 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 20:37:39,057 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 20:37:39,190 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 20:37:39,212 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 20:37:39,222 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 20:37:39,245 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 20:37:39,280 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 20:37:39,308 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 20:37:39,310 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 20:37:39,320 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 20:37:39,379 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 20:37:39,451 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 20:37:39,459 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 20:37:39,498 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 20:37:39,501 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 20:37:39,546 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 20:37:39,562 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 20:48:53,685 INFO  - StarBlue.StarBlueServer >> StarBlue EMULATOR --> CLOSING
+2020-06-28 20:48:56,252 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> Done disposing rooms!
+2020-06-28 20:48:56,486 INFO  - StarBlue.StarBlueServer >> StarBlue session shutted down.
+2020-06-28 20:48:58,143 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 20:48:58,181 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 20:48:58,184 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 20:48:58,189 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 20:48:58,190 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 20:48:58,191 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 20:48:58,491 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 20:48:58,687 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 20:48:58,705 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 20:48:58,715 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 20:48:58,761 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 20:48:58,830 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 20:48:58,858 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 20:48:58,865 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 20:48:58,895 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 20:48:58,947 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 20:48:58,961 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 20:48:58,963 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 20:48:58,977 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 20:48:59,047 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 20:48:59,092 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 20:48:59,098 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 20:48:59,127 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 20:48:59,130 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 20:48:59,166 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 20:48:59,236 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 20:52:54,839 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 20:52:54,842 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 20:52:54,934 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 20:52:55,041 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 20:52:55,060 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 20:52:55,062 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 20:53:15,472 INFO  - StarBlue.StarBlueServer >> StarBlue EMULATOR --> CLOSING
+2020-06-28 20:53:18,061 INFO  - StarBlue.HabboHotel.GameClients.GameClientManager >> <<- SERVER SHUTDOWN ->> SAVING ITEMS
+2020-06-28 20:53:18,140 INFO  - StarBlue.HabboHotel.GameClients.GameClientManager >> <<- SERVER SHUTDOWN ->> FECHANDO CONEXÕES
+2020-06-28 20:53:18,277 INFO  - StarBlue.HabboHotel.GameClients.GameClientManager >> <<- SERVER SHUTDOWN ->> FECHANDO CONEXÕES
+2020-06-28 20:53:18,278 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> Done disposing rooms!
+2020-06-28 20:53:18,390 INFO  - StarBlue.StarBlueServer >> StarBlue session shutted down.
+2020-06-28 20:53:19,739 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 20:53:19,954 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 20:53:19,982 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 20:53:19,997 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 20:53:20,069 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 20:53:20,140 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 20:53:20,151 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 20:53:20,156 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 20:53:20,176 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 20:53:20,205 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 20:53:20,216 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 20:53:20,218 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 20:53:20,234 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 20:53:20,272 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 20:53:20,294 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 20:53:20,301 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 20:53:20,313 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 20:53:20,315 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 20:53:20,321 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 20:53:20,324 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 20:53:32,173 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 20:53:32,174 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 20:53:32,560 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 20:53:33,077 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 20:53:33,086 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 20:53:33,098 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 20:54:20,818 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 20:54:20,847 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:54:20,891 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:54:20,914 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 20:54:20,918 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 20:54:20,919 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 20:54:20,929 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 20:54:20,930 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2660] GetSanctionStatusEvent
+2020-06-28 20:54:20,933 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 20:54:20,933 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 20:54:21,033 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 20:54:21,040 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 20:54:21,042 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 20:54:21,045 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 20:54:21,045 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 20:54:21,046 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 20:54:21,049 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:54:21,052 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 20:54:21,130 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 20:54:21,187 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 20:54:21,254 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 20:54:37,330 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 20:54:40,975 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:54:49,487 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:54:59,181 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 20:54:59,182 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 20:54:59,632 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 20:55:00,153 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 20:55:00,181 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 20:55:00,193 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 20:55:02,681 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 20:55:02,712 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 20:55:02,724 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 20:55:02,844 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 20:55:02,877 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 20:55:02,915 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2660] GetSanctionStatusEvent
+2020-06-28 20:55:03,342 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 20:55:03,376 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 20:55:03,399 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 20:55:03,507 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 20:55:03,538 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 20:55:03,577 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 20:55:03,583 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 20:55:03,612 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 20:55:03,627 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 20:55:03,648 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 20:55:03,664 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 20:55:03,683 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 20:55:03,685 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 20:55:11,488 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:55:19,513 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:55:26,725 INFO  - StarBlue.StarBlueServer >> StarBlue EMULATOR --> CLOSING
+2020-06-28 20:55:29,325 INFO  - StarBlue.HabboHotel.GameClients.GameClientManager >> <<- SERVER SHUTDOWN ->> SAVING ITEMS
+2020-06-28 20:55:29,431 INFO  - StarBlue.HabboHotel.GameClients.GameClientManager >> <<- SERVER SHUTDOWN ->> FECHANDO CONEXÕES
+2020-06-28 20:55:29,546 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> Done disposing rooms!
+2020-06-28 20:55:29,842 INFO  - StarBlue.StarBlueServer >> StarBlue session shutted down.
+2020-06-28 20:55:31,122 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 20:55:31,398 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 20:55:31,426 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 20:55:31,444 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 20:55:31,486 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 20:55:31,530 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 20:55:31,539 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 20:55:31,547 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 20:55:31,562 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 20:55:31,584 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 20:55:31,592 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 20:55:31,594 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 20:55:31,601 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 20:55:31,640 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 20:55:31,657 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 20:55:31,661 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 20:55:31,669 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 20:55:31,671 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 20:55:31,678 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 20:55:31,683 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 20:55:56,257 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 20:55:56,264 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 20:55:56,363 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 20:55:56,408 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 20:55:56,421 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 20:55:56,423 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 20:55:57,559 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 20:55:57,599 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 20:55:57,635 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 20:55:57,655 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 20:55:57,671 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 20:55:57,938 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 20:55:58,556 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 20:55:58,684 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 20:55:58,692 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 20:55:58,726 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 20:55:58,748 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 20:55:58,779 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 20:55:58,782 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 20:55:58,803 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 20:55:58,804 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 20:55:58,826 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 20:55:58,832 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 20:55:58,832 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 20:56:00,913 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:56:08,281 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:56:28,297 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:56:30,914 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:56:48,314 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:57:00,931 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:57:08,331 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:57:28,348 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:57:30,946 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:57:48,363 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:57:59,813 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3077] OpenFlatConnectionEvent
+2020-06-28 20:57:59,977 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1336] BODY: 
+2020-06-28 20:57:59,985 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3844] GetHabboGroupBadgesEvent
+2020-06-28 20:58:00,008 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1627] GetFurnitureAliasesEvent
+2020-06-28 20:58:00,029 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2480] GetRoomEntryDataEvent
+2020-06-28 20:58:01,049 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2850] GetCameraPriceEvent
+2020-06-28 20:58:01,227 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1810] GetAchievementsEvent
+2020-06-28 20:58:02,314 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3387] BODY: 
+2020-06-28 20:58:02,351 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 20:58:02,474 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:58:08,364 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:58:28,383 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:58:30,965 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:58:48,399 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:59:00,415 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 20:59:00,980 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:59:08,414 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:59:28,431 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 20:59:30,996 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 20:59:48,448 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:00:01,012 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:00:08,463 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:00:28,464 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:00:31,031 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:00:48,465 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:01:01,032 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:01:08,481 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:01:28,499 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:01:31,048 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:01:48,514 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:02:01,048 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:02:08,531 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:02:28,548 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:02:31,049 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:02:48,563 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:02:56,254 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [460] NewNavigatorSearchEvent
+2020-06-28 21:02:56,397 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:02:56,623 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [460] NewNavigatorSearchEvent
+2020-06-28 21:02:56,628 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:02:56,657 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:03:01,065 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:03:01,267 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3165] BODY: [0][0][0]_[0][0][0]<[0][0]¬[0][0]?[0][0][0][0][0]
+2020-06-28 21:03:01,268 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:03:08,565 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:03:28,582 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:03:31,080 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:03:48,600 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:03:59,848 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2069] SMSVerification
+2020-06-28 21:04:01,098 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:04:08,613 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:04:23,087 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [637] StartTypingEvent
+2020-06-28 21:04:24,027 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2901] ChatEvent
+2020-06-28 21:04:24,087 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 21:04:24,089 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [957] CancelTypingEvent
+2020-06-28 21:04:25,716 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [460] NewNavigatorSearchEvent
+2020-06-28 21:04:25,739 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:04:28,631 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:04:31,114 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:04:58,842 INFO  - StarBlue.Core.Settings.SettingsManager >> >> Loaded 23 Server Settings.
+2020-06-28 21:04:58,888 INFO  - StarBlue.Core.FigureData >> >> Loaded 13 Figure Parts.
+2020-06-28 21:04:58,890 INFO  - StarBlue.Core.Language.LanguageManager >> >> Loaded 9 Language Locales.
+2020-06-28 21:04:58,895 INFO  - StarBlue.Core.Rank.RankManager >> >> Loaded 9 Ranks.
+2020-06-28 21:04:58,896 INFO  - StarBlue.Communication.ConnectionManager >> >> Successfully setup GameSocketManager on port (30000)!
+2020-06-28 21:04:58,896 INFO  - StarBlue.Communication.ConnectionManager >> >> Maximum connections per IP has been set to [10]!
+2020-06-28 21:04:59,109 INFO  - StarBlue.HabboHotel.Items.ItemDataManager >> >> Items Manager -> READY!
+2020-06-28 21:04:59,305 INFO  - StarBlue.HabboHotel.Catalog.CatalogManager >> >> Catalog Manager -> READY!
+2020-06-28 21:04:59,325 INFO  - StarBlue.HabboHotel.Items.Crafting.CraftingManager >> >> Crafting Manager -> READY!
+2020-06-28 21:04:59,337 INFO  - StarBlue.HabboHotel.Navigator.NavigatorManager >> >> Navigator Manager -> READY!
+2020-06-28 21:04:59,368 INFO  - StarBlue.HabboHotel.Rooms.RoomManager >> >> Rooms Manager -> READY!
+2020-06-28 21:04:59,400 INFO  - StarBlue.HabboHotel.Rooms.Chat.ChatManager >> >> Chat Manager -> READY!
+2020-06-28 21:04:59,409 INFO  - StarBlue.HabboHotel.Groups.GroupManager >> >> Group Manager -> READY!
+2020-06-28 21:04:59,414 INFO  - StarBlue.HabboHotel.Quests.QuestManager >> >> Quest Manager -> READY!
+2020-06-28 21:04:59,431 INFO  - StarBlue.HabboHotel.Achievements.AchievementManager >> >> Achievement Manager -> READY!
+2020-06-28 21:04:59,448 INFO  - StarBlue.HabboHotel.LandingView.LandingViewManager >> >> LandingView Manager -> READY! 
+2020-06-28 21:04:59,454 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> GameCenter Manager -> READY!
+2020-06-28 21:04:59,455 INFO  - StarBlue.Core.ServerStatusUpdatear >> >> Server Status -> READY!
+2020-06-28 21:04:59,463 INFO  - StarBlue.HabboHotel.Cache.CacheManager >> >> Cache Manager -> READY!
+2020-06-28 21:04:59,493 INFO  - StarBlue.HabboHotel.Badges.BadgeManager >> >> Badge Manager -> READY!
+2020-06-28 21:04:59,515 INFO  - StarBlue.HabboHotel.Permissions.PermissionManager >> >> Permissions Manager -> READY!
+2020-06-28 21:04:59,518 INFO  - StarBlue.HabboHotel.Subscriptions.SubscriptionManager >> >> Subscription Manager -> READY!
+2020-06-28 21:04:59,525 INFO  - StarBlue.HabboHotel.Calendar.CalendarManager >> >> Calendar Manager -> READY!
+2020-06-28 21:04:59,528 INFO  - StarBlue.HabboHotel.Games.GameDataManager >> >> LeaderBoardData Manager -> READY!
+2020-06-28 21:04:59,539 INFO  - StarBlue.HabboHotel.Polls.PollManager >> >> Poll's Manager -> READY!
+2020-06-28 21:04:59,543 INFO  - StarBlue.HabboHotel.Rooms.TraxMachine >> >> Jukebox Manager -> READY!
+2020-06-28 21:05:10,846 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [4000] GetClientVersionEvent
+2020-06-28 21:05:10,848 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1961] InitCryptoEvent
+2020-06-28 21:05:10,941 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1838] GenerateSecretKeyEvent
+2020-06-28 21:05:11,004 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3270] ClientVariablesEvent
+2020-06-28 21:05:11,014 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3229] UniqueIDEvent
+2020-06-28 21:05:11,016 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2060] SSOTicketEvent
+2020-06-28 21:05:12,421 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:05:12,457 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [333] InfoRetrieveEvent
+2020-06-28 21:05:12,506 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:05:12,642 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [19] GetGameListingEvent
+2020-06-28 21:05:14,963 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3657] InitializeGameCenterEvent
+2020-06-28 21:05:15,344 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2828] BODY: 
+2020-06-28 21:05:15,345 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3111] MessengerInitEvent
+2020-06-28 21:05:15,651 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2083] InitializeNewNavigatorEvent
+2020-06-28 21:05:15,659 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1796] GetCreditsInfoEvent
+2020-06-28 21:05:15,669 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1086] ScrGetUserInfoEvent
+2020-06-28 21:05:15,672 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3046] BODY: 
+2020-06-28 21:05:15,679 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3640] BODY: 
+2020-06-28 21:05:15,689 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [63] GetAdsOfferEvent
+2020-06-28 21:05:15,693 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3010] SetUsernameEvent
+2020-06-28 21:05:15,695 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3082] GetUserFlatCatsEvent
+2020-06-28 21:05:15,748 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [809] GetNavigatorFlatsEvent
+2020-06-28 21:05:15,750 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [2041] BODY: [0]citizenship
+2020-06-28 21:05:15,752 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1220] BODY: 
+2020-06-28 21:05:16,007 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3077] OpenFlatConnectionEvent
+2020-06-28 21:05:16,158 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [1336] BODY: 
+2020-06-28 21:05:16,254 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3844] GetHabboGroupBadgesEvent
+2020-06-28 21:05:16,280 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1627] GetFurnitureAliasesEvent
+2020-06-28 21:05:16,307 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2480] GetRoomEntryDataEvent
+2020-06-28 21:05:17,937 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2850] GetCameraPriceEvent
+2020-06-28 21:05:19,379 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1810] GetAchievementsEvent
+2020-06-28 21:05:19,441 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3387] BODY: 
+2020-06-28 21:05:19,574 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1334] GetGuestRoomEvent
+2020-06-28 21:05:23,729 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [397] LatencyTestEvent
+2020-06-28 21:05:28,950 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [1181] PingEvent
+2020-06-28 21:05:29,965 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [2069] SMSVerification
+2020-06-28 21:05:32,219 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [460] NewNavigatorSearchEvent
+2020-06-28 21:05:32,306 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:05:32,545 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [460] NewNavigatorSearchEvent
+2020-06-28 21:05:32,585 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:05:32,600 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent
+2020-06-28 21:05:37,233 DEBUG - StarBlue.Communication.Packets >> Unhandled Packet: [3165] BODY: [0][0][0]_[0][0][0]<[0][0]¬[0][0]?[0][0][0][0][0]
+2020-06-28 21:05:37,234 DEBUG - StarBlue.Communication.Packets >> Handled Packet: [3466] EventTrackerEvent

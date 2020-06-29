@@ -4168,3 +4168,93 @@ System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava pr
    em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
    em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
 
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+
+
+Error in packet [3111] BODY: : 
+System.Collections.Generic.KeyNotFoundException: A chave fornecida n?o estava presente no dicion?rio.
+   em System.ThrowHelper.ThrowKeyNotFoundException()
+   em System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   em StarBlue.Communication.Packets.Outgoing.Messenger.MessengerInitComposer..ctor(Int32 Rank) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Messenger\MessengerInitComposer.cs:linha 13
+   em StarBlue.Communication.Packets.Incoming.Messenger.MessengerInitEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Messenger\MessengerInitEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 157
+   em StarBlue.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 72
+

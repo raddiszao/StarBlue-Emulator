@@ -16,8 +16,6 @@ namespace StarBlue.HabboHotel.Permissions
 
         private readonly Dictionary<string, PermissionCommand> _commands = new Dictionary<string, PermissionCommand>();
 
-        private readonly Dictionary<int, PermissionGroup> PermissionGroups = new Dictionary<int, PermissionGroup>();
-
         private readonly Dictionary<int, List<string>> PermissionGroupRights = new Dictionary<int, List<string>>();
 
         private readonly Dictionary<int, List<string>> PermissionSubscriptionRights = new Dictionary<int, List<string>>();
@@ -31,7 +29,6 @@ namespace StarBlue.HabboHotel.Permissions
         {
             Permissions.Clear();
             _commands.Clear();
-            PermissionGroups.Clear();
             PermissionGroupRights.Clear();
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
@@ -64,20 +61,6 @@ namespace StarBlue.HabboHotel.Permissions
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT * FROM `permissions_groups`");
-                DataTable GetPermissionGroups = dbClient.GetTable();
-
-                if (GetPermissionGroups != null)
-                {
-                    foreach (DataRow Row in GetPermissionGroups.Rows)
-                    {
-                        PermissionGroups.Add(Convert.ToInt32(Row["id"]), new PermissionGroup(Convert.ToString("name"), Convert.ToString("description"), Convert.ToString("badge")));
-                    }
-                }
-            }
-
-            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-            {
                 dbClient.SetQuery("SELECT * FROM `permissions_rights`");
                 DataTable GetPermissionRights = dbClient.GetTable();
 
@@ -87,12 +70,6 @@ namespace StarBlue.HabboHotel.Permissions
                     {
                         int GroupId = Convert.ToInt32(Row["group_id"]);
                         int PermissionId = Convert.ToInt32(Row["permission_id"]);
-
-                        if (!PermissionGroups.ContainsKey(GroupId))
-                        {
-                            continue; // permission group does not exist
-                        }
-
 
                         if (!Permissions.TryGetValue(PermissionId, out Permission Permission))
                         {
@@ -158,10 +135,6 @@ namespace StarBlue.HabboHotel.Permissions
             log.Info(">> Permissions Manager -> READY!");
         }
 
-        public bool TryGetGroup(int Id, out PermissionGroup Group)
-        {
-            return PermissionGroups.TryGetValue(Id, out Group);
-        }
 
         public List<string> GetPermissionsForPlayer(Habbo Player)
         {

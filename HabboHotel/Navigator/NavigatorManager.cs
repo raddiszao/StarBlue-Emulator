@@ -74,7 +74,7 @@ namespace StarBlue.HabboHotel.Navigator
                     }
                 }
 
-                dbClient.SetQuery("SELECT `room_id`,`image` FROM `navigator_publics`");
+                dbClient.SetQuery("SELECT `room_id`,`image` FROM `navigator_publics` order by order_num asc");
                 DataTable GetPublics = dbClient.GetTable();
 
                 if (GetPublics != null)
@@ -88,7 +88,7 @@ namespace StarBlue.HabboHotel.Navigator
                     }
                 }
 
-                dbClient.SetQuery("SELECT `room_id`,`image` FROM `navigator_juegos`");
+                dbClient.SetQuery("SELECT `room_id`,`image` FROM `navigator_juegos` order by room_id desc");
                 DataTable GetPublics2 = dbClient.GetTable();
 
                 if (GetPublics2 != null)

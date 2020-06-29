@@ -6,7 +6,7 @@ namespace StarBlue.HabboHotel.Rooms.PathFinding
     {
         public Vector2D Position;
         public PathFinderNode Next;
-        public int Cost = Int32.MaxValue;
+        public Int64 Cost = Int64.MaxValue;
         public bool InOpen = false;
         public bool InClosed = false;
 

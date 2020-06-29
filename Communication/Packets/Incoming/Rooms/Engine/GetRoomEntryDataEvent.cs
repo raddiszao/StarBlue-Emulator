@@ -34,7 +34,8 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             //  }
 
             if (Session.GetRoomUser() == null)
-                Room.GetRoomUserManager().AddAvatarToRoom(Session);
+                if (!Room.GetRoomUserManager().AddAvatarToRoom(Session))
+                    Room.GetRoomUserManager().RemoveUserFromRoom(Session, false, false);
 
             Room.SendObjects(Session);
             if (Room.RoomData.HideWired)

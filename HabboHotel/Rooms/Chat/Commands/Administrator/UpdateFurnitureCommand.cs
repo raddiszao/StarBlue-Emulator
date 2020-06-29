@@ -4,6 +4,7 @@ using StarBlue.HabboHotel.Items;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -13,9 +14,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
     {
         public string PermissionRequired
         {
-            get { return "user_17"; }
+            get { return "user_18"; }
         }
-
 
         public string Parameters
         {
@@ -24,29 +24,28 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
         public string Description
         {
-            get { return "Envie um alerta para todo o hotel."; }
+            get { return "Editar uma mobília."; }
         }
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            RoomUser RUser = Room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
-            List<Item> Items = Room.GetGameMap().GetRoomItemForSquare(RUser.X, RUser.Y);
-            if (Params.Length == 1 || Params[1] == "utilidad")
+            List<Item> Items = Room.GetGameMap().GetCoordinatedItems(new Point(Session.GetRoomUser().X, Session.GetRoomUser().Y));
+            if (Params.Length == 1 || Params[1] == "info")
             {
                 StringBuilder Lista = new StringBuilder();
                 Lista.Append("Lista de usos: (Nota: Edita TODOS os items abaixo): \r\r");
                 Lista.Append("1) :item width numero (Editar para largura do item) \r");
                 Lista.Append("2) :item length numero (Editar para comprimento do item) \r");
                 Lista.Append("3) :item height numero (Editar a altura do Item) \r");
-                Lista.Append("4) :item cansit si/no (Permite / Não Permite sentar sobre o Item) \r");
-                Lista.Append("5) :item canwalk si/no (Permite / Não Permite caminhar sobre o Item) \r");
-                Lista.Append("6) :item canstack si/no (Permite / Não Permite empilhar sobre o Item) \r");
-                Lista.Append("7) :item mercadillo si/no (Permite / Não Permite a venda do Item no mercado) \r");
-                Lista.Append("8) :item interaction nombre (Atribuir uma interação ao item) \r");
-                Lista.Append("9) :item interactioncount numero (Atribuir o número de interações do item) \r\r");
+                Lista.Append("4) :item cansit yes/no (Permite / Não Permite sentar sobre o Item) \r");
+                Lista.Append("5) :item canwalk yes/no (Permite / Não Permite caminhar sobre o Item) \r");
+                Lista.Append("6) :item canstack yes/no (Permite / Não Permite empilhar sobre o Item) \r");
+                Lista.Append("7) :item interaction nome (Atribuir uma interação ao item) \r");
+                Lista.Append("8) :item interactioncount numero (Atribuir o número de interações do item) \r\r");
                 Lista.Append("Nota: Para atualizar o Item, você deve pegá-lo e colocá-lo na sala novamente ou atualizar o quarto.");
                 Session.SendMessage(new MOTDNotificationComposer(Lista.ToString()));
                 return;
             }
+
             String Type = Params[1].ToLower();
             int numeroint = 0, FurnitureID = 0;
             double numerodouble = 0;
@@ -78,13 +77,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `width` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("Anchura del Item: " + FurnitureID + " editada com éxito (Valor de anchura ingresado: " + numeroint.ToString() + ")");
+                                Session.SendWhisper("Lagura do item: " + FurnitureID + " editada com sucesso. (Valor: " + numeroint.ToString() + ")");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
                         {
-                            Session.SendNotification("Ocorreu um erro (Ingrese números válidos)");
+                            Session.SendNotification("Ocorreu um erro.");
                         }
                     }
                     break;
@@ -112,13 +111,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `length` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("Longitud del Item: " + FurnitureID + " editada con éxito (Valor de longitud ingresado: " + numeroint.ToString() + ")");
+                                Session.SendWhisper("Comprimento do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
                         {
-                            Session.SendNotification("Ocorreu um erro (Ingrese números válidos)");
+                            Session.SendNotification("Ocorreu um erro.");
                         }
                     }
                     break;
@@ -146,13 +145,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `stack_height` = '" + numerodouble + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("Altura del Item: " + FurnitureID + " editada con éxito (Valor de altura ingresado: " + numerodouble.ToString() + ")");
+                                Session.SendWhisper("Altura do item: " + FurnitureID + " editado com sucesso. (Valor: " + numerodouble.ToString() + ")");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
                         {
-                            Session.SendNotification("Ocorreu um erro (Ingrese números válidos)");
+                            Session.SendNotification("Ocorreu um erro.");
                         }
                     }
                     break;
@@ -180,13 +179,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `interaction_modes_count` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("Numero de interacciones del Item: " + FurnitureID + " editado con éxito (Valor ingresado: " + numeroint.ToString() + ")");
+                                Session.SendWhisper("Número de interações do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
                         {
-                            Session.SendNotification("Ocorreu um erro (Ingrese números válidos)");
+                            Session.SendNotification("Ocorreu um erro.");
                         }
                     }
                     break;
@@ -195,12 +194,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             opcion = Params[2].ToLower();
-                            if (!opcion.Equals("si") && !opcion.Equals("no"))
+                            if (!opcion.Equals("yes") && !opcion.Equals("no"))
                             {
-                                Session.SendWhisper("Ingresa una opción valida (si/no)");
+                                Session.SendWhisper("Digite uma opção válida. (yes/no)");
                                 return;
                             }
-                            if (opcion.Equals("si"))
+                            if (opcion.Equals("yes"))
                             {
                                 opcion = "1";
                             }
@@ -228,7 +227,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `can_sit` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("can_sit del Item: " + FurnitureID + " editado con éxito");
+                                Session.SendWhisper("can_sit do item: " + FurnitureID + " editado com sucesso.");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
@@ -243,12 +242,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             opcion = Params[2].ToLower();
-                            if (!opcion.Equals("si") && !opcion.Equals("no"))
+                            if (!opcion.Equals("yes") && !opcion.Equals("no"))
                             {
-                                Session.SendWhisper("Ingresa una opción valida (si/no)");
+                                Session.SendWhisper("Digite uma opção válida (yes/no)");
                                 return;
                             }
-                            if (opcion.Equals("si"))
+                            if (opcion.Equals("yes"))
                             {
                                 opcion = "1";
                             }
@@ -276,7 +275,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `can_stack` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("can_stack del Item: " + FurnitureID + " editado con éxito");
+                                Session.SendWhisper("can_stack do item: " + FurnitureID + " editado com sucesso.");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
@@ -291,12 +290,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             opcion = Params[2].ToLower();
-                            if (!opcion.Equals("si") && !opcion.Equals("no"))
+                            if (!opcion.Equals("yes") && !opcion.Equals("no"))
                             {
-                                Session.SendWhisper("Ingresa una opción valida (si/no)");
+                                Session.SendWhisper("Digite uma opção válida (yes/no)");
                                 return;
                             }
-                            if (opcion.Equals("si"))
+                            if (opcion.Equals("yes"))
                             {
                                 opcion = "1";
                             }
@@ -324,55 +323,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `is_walkable` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("can_walk del Item: " + FurnitureID + " editado con éxito");
-                            }
-                            StarBlueServer.GetGame().GetItemManager().Init();
-                        }
-                        catch (Exception)
-                        {
-                            Session.SendNotification("Ocorreu um erro.");
-                        }
-                    }
-                    break;
-                case "mercadillo":
-                    {
-                        try
-                        {
-                            opcion = Params[2].ToLower();
-                            if (!opcion.Equals("si") && !opcion.Equals("no"))
-                            {
-                                Session.SendWhisper("Ingresa una opción valida (si/no)");
-                                return;
-                            }
-                            if (opcion.Equals("si"))
-                            {
-                                opcion = "1";
-                            }
-                            else if (opcion.Equals("no"))
-                            {
-                                opcion = "0";
-                            }
-
-                            foreach (Item IItem in Items.ToList())
-                            {
-                                if (IItem == null)
-                                {
-                                    continue;
-                                }
-
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `is_rare` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Opción de venta en el mercadillo del Item: " + FurnitureID + " editado con éxito");
+                                Session.SendWhisper("can_walk do item: " + FurnitureID + " editado com sucesso.");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
@@ -406,7 +357,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                     FurnitureID = Convert.ToInt32(Item[0]);
                                     dbClient.RunFastQuery("UPDATE `furniture` SET `interaction_type` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                                 }
-                                Session.SendWhisper("Interacción del Item: " + FurnitureID + " editada con éxito. (Valor ingresado: " + opcion + ")");
+                                Session.SendWhisper("Interação do item: " + FurnitureID + " editada com sucesso. (Valor: " + opcion + ")");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
@@ -418,7 +369,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                     break;
                 default:
                     {
-                        Session.SendNotification("A opção digitada não existe, para saber as opções digite :item utilidad");
+                        Session.SendNotification("A opção digitada não existe, para saber as opções digite :item info");
                         return;
                     }
             }
