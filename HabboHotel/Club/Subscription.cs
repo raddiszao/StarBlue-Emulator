@@ -7,21 +7,9 @@ namespace StarBlue.HabboHotel.Club
         private readonly string Caption;
         private int TimeExpire;
 
-        internal string SubscriptionId
-        {
-            get
-            {
-                return Caption;
-            }
-        }
+        internal string SubscriptionId => Caption;
 
-        internal int ExpireTime
-        {
-            get
-            {
-                return TimeExpire;
-            }
-        }
+        internal int ExpireTime => TimeExpire;
 
         internal Subscription(string Caption, int TimeExpire)
         {

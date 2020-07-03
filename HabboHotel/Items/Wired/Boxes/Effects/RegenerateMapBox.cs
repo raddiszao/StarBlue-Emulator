@@ -10,10 +10,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public Room Instance { get; set; }
         public Item Item { get; set; }
 
-        public WiredBoxType Type
-        {
-            get { return WiredBoxType.EffectRegenerateMaps; }
-        }
+        public WiredBoxType Type => WiredBoxType.EffectRegenerateMaps;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }

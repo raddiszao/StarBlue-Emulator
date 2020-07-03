@@ -2,20 +2,11 @@
 {
     class OnlineCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Ver quantidade de usuários online."; }
-        }
+        public string Description => "Ver quantidade de usuários online.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

@@ -6,20 +6,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class SuperPushCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
+        public string PermissionRequired => "user_vip";
 
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get { return "Empurre outro usuário a 3 quadrados de você."; }
-        }
+        public string Description => "Empurre outro usuário a 3 quadrados de você.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

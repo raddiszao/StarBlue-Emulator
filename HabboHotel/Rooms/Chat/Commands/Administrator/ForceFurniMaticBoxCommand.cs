@@ -8,20 +8,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class ForceFurniMaticBoxCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_16"; }
-        }
+        public string PermissionRequired => "user_16";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "TEST Command - Rewards"; }
-        }
+        public string Description => "TEST Command - Rewards";
 
         public void Execute(GameClients.GameClient Session, Room Room, string[] Params)
         {

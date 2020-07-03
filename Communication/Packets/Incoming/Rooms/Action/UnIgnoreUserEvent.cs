@@ -1,35 +1,51 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Action;
+﻿using Database_Manager.Database.Session_Details.Interfaces;
+using StarBlue.Communication.Packets.Outgoing.Rooms.Action;
+using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     class UnIgnoreUserEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient session, ClientPacket packet)
         {
-            if (!Session.GetHabbo().InRoom)
+            if (!session.GetHabbo().InRoom)
             {
                 return;
             }
 
-            Room Room = Session.GetHabbo().CurrentRoom;
-            if (Room == null)
+            Room room = session.GetHabbo().CurrentRoom;
+            if (room == null)
             {
                 return;
             }
 
-            String Username = Packet.PopString();
+            string username = packet.PopString();
 
-            Habbo User = StarBlueServer.GetHabboByUsername(Username);
-            if (User == null || !Session.GetHabbo().MutedUsers.Contains(User.Id))
+            Habbo player = StarBlueServer.GetHabboByUsername(username);
+            if (player == null)
             {
                 return;
             }
 
-            Session.GetHabbo().MutedUsers.Remove(User.Id);
-            Session.SendMessage(new IgnoreStatusComposer(3, Username));
+            if (!session.GetHabbo().GetIgnores().TryGet(player.Id))
+            {
+                return;
+            }
+
+            if (session.GetHabbo().GetIgnores().TryRemove(player.Id))
+            {
+                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                {
+                    dbClient.SetQuery("DELETE FROM `user_ignores` WHERE `user_id` = @uid AND `ignore_id` = @ignoreId");
+                    dbClient.AddParameter("uid", session.GetHabbo().Id);
+                    dbClient.AddParameter("ignoreId", player.Id);
+                    dbClient.RunQuery();
+                }
+
+                session.SendMessage(new IgnoreStatusComposer(3, player.Username));
+            }
         }
     }
 }

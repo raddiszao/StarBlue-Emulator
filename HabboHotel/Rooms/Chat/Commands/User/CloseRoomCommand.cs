@@ -2,20 +2,11 @@
 {
     class CloseRoomCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Fecha o quarto atual."; }
-        }
+        public string Description => "Fecha o quarto atual.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

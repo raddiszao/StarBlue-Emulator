@@ -19,32 +19,32 @@
 
         public int RaceId
         {
-            get { return _raceId; }
-            set { _raceId = value; }
+            get => _raceId;
+            set => _raceId = value;
         }
 
         public int PrimaryColour
         {
-            get { return _primaryColour; }
-            set { _primaryColour = value; }
+            get => _primaryColour;
+            set => _primaryColour = value;
         }
 
         public int SecondaryColour
         {
-            get { return _secondaryColour; }
-            set { _secondaryColour = value; }
+            get => _secondaryColour;
+            set => _secondaryColour = value;
         }
 
         public bool HasPrimaryColour
         {
-            get { return _hasPrimaryColour; }
-            set { _hasPrimaryColour = value; }
+            get => _hasPrimaryColour;
+            set => _hasPrimaryColour = value;
         }
 
         public bool HasSecondaryColour
         {
-            get { return _hasSecondaryColour; }
-            set { _hasSecondaryColour = value; }
+            get => _hasSecondaryColour;
+            set => _hasSecondaryColour = value;
         }
     }
 }

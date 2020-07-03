@@ -230,14 +230,11 @@ namespace StarBlue.HabboHotel.Rooms
 
         public RoomPromotion Promotion
         {
-            get { return _promotion; }
-            set { _promotion = value; }
+            get => _promotion;
+            set => _promotion = value;
         }
 
-        public bool HasActivePromotion
-        {
-            get { return Promotion != null; }
-        }
+        public bool HasActivePromotion => Promotion != null;
 
         public void EndPromotion()
         {

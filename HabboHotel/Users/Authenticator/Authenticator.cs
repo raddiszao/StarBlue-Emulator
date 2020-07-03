@@ -18,7 +18,7 @@ namespace StarBlue.HabboHotel.Users.Authenticator
                 StarBlueServer.EnumToBool(Row["allow_gifts"].ToString()), Convert.ToInt32(Row["friend_bar_state"]), StarBlueServer.EnumToBool(Row["disable_forced_effects"].ToString()),
                 StarBlueServer.EnumToBool(Row["allow_mimic"].ToString()), Convert.ToInt32(Row["rank_vip"]), Convert.ToByte(Row["guia"].ToString()),
                 Convert.ToByte(Row["builder"].ToString()), Convert.ToByte(Row["croupier"].ToString()), (Row["nux_user"].ToString() == "true"), (Row["nux_room"].ToString() == "true"), Convert.ToByte(Row["targeted_buy"]),
-                Convert.ToString(Row["namecolor"]), Convert.ToString(Row["bubble_color"]), Convert.ToString(Row["tag"]), Convert.ToString(Row["tagcolor"]), Convert.ToInt32(Row["bubble_id"]), Convert.ToByte(Row["changename"]), Convert.ToString(Row["pin_client"]), StarBlueServer.EnumToBool(Row["disabledevents"].ToString()));
+                Convert.ToString(Row["namecolor"]), Convert.ToString(Row["bubble_color"]), Convert.ToString(Row["tag"]), Convert.ToString(Row["tagcolor"]), Convert.ToInt32(Row["bubble_id"]), Convert.ToByte(Row["changename"]), Convert.ToString(Row["pin_client"]), StarBlueServer.EnumToBool(Row["disabledevents"].ToString()), StarBlueServer.EnumToBool(Row["disabledmentions"].ToString()));
         }
     }
 }

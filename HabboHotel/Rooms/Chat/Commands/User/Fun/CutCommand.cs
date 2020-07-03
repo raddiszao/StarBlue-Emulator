@@ -8,18 +8,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
     class
         CutCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
-        public string Description
-        {
-            get { return "Atirar em um usuário"; }
-        }
+        public string PermissionRequired => "user_normal";
+        public string Parameters => "[USUARIO]";
+        public string Description => "Atirar em um usuário";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             if (Params.Length == 1)

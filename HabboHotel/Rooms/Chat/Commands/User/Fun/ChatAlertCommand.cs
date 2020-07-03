@@ -4,18 +4,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class ChatAlertCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
-        public string Parameters
-        {
-            get { return "[USUARIO] [MENSAGEM]"; }
-        }
-        public string Description
-        {
-            get { return "Enviar mensagem para um usuário."; }
-        }
+        public string PermissionRequired => "user_vip";
+        public string Parameters => "[USUARIO] [MENSAGEM]";
+        public string Description => "Enviar mensagem para um usuário.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

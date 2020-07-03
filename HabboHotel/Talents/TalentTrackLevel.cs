@@ -39,14 +39,14 @@ namespace StarBlue.HabboHotel.Talents
 
         public List<string> Actions
         {
-            get { return _dataActions; }
-            private set { _dataActions = value; }
+            get => _dataActions;
+            private set => _dataActions = value;
         }
 
         public List<string> Gifts
         {
-            get { return _dataGifts; }
-            private set { _dataGifts = value; }
+            get => _dataGifts;
+            private set => _dataGifts = value;
         }
 
         public void Init()

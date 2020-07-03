@@ -16,7 +16,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
         {
             Room Room = Session.GetHabbo().CurrentRoom;
             if (Session == null || Session.GetHabbo() == null || Room == null)
+            {
                 return;
+            }
 
             // if (Session.GetHabbo().InRoom)
             // {
@@ -34,12 +36,18 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             //  }
 
             if (Session.GetRoomUser() == null)
+            {
                 if (!Room.GetRoomUserManager().AddAvatarToRoom(Session))
+                {
                     Room.GetRoomUserManager().RemoveUserFromRoom(Session, false, false);
+                }
+            }
 
             Room.SendObjects(Session);
             if (Room.RoomData.HideWired)
+            {
                 Room.SendMessage(Room.HideWiredMessages(true));
+            }
 
             try
             {
@@ -68,7 +76,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             Session.SendMessage(new RoomEventComposer(Room.RoomData, Room.RoomData.Promotion));
 
             if (Session.GetHabbo().Rank > 6 && !Session.GetHabbo().StaffOk)
+            {
                 Session.SendMessage(new SMSVerifyComposer(1, 1));
+            }
 
             if (Room.poolQuestion != string.Empty)
             {
@@ -131,7 +141,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             //User has already gotten today's prize :(
             //             }
             //          }
-            
+
             foreach (RoomUser Bot in Room.GetRoomUserManager().GetBots().Values.ToList())
             {
                 if (Bot == null || Bot.BotAI == null)
@@ -152,14 +162,16 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             {
                 Session.GetRoomUser().ApplyEffect(593);
             }
-            
+
             if (StarBlueServer.GetUnixTimestamp() < Session.GetHabbo().FloodTime && Session.GetHabbo().FloodTime != 0)
             {
                 Session.SendMessage(new FloodControlComposer((int)Session.GetHabbo().FloodTime - (int)StarBlueServer.GetUnixTimestamp()));
             }
 
             if (Room.UsersNow < 2)
+            {
                 Room.GetRoomItemHandler().SetSpeed(Room.RoomData.RollerSpeed);
+            }
         }
     }
 }

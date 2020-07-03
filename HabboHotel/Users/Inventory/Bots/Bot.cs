@@ -21,38 +21,38 @@
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         public int OwnerId
         {
-            get { return _ownerId; }
-            set { _ownerId = value; }
+            get => _ownerId;
+            set => _ownerId = value;
         }
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get => _name;
+            set => _name = value;
         }
 
         public string Motto
         {
-            get { return _motto; }
-            set { _motto = value; }
+            get => _motto;
+            set => _motto = value;
         }
 
         public string Figure
         {
-            get { return _figure; }
-            set { _figure = value; }
+            get => _figure;
+            set => _figure = value;
         }
 
         public string Gender
         {
-            get { return _gender; }
-            set { _gender = value; }
+            get => _gender;
+            set => _gender = value;
         }
     }
 }

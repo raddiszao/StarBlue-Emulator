@@ -15,20 +15,20 @@
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         public int PartId
         {
-            get { return _partId; }
-            set { _partId = value; }
+            get => _partId;
+            set => _partId = value;
         }
 
         public string Part
         {
-            get { return _part; }
-            set { _part = value; }
+            get => _part;
+            set => _part = value;
         }
     }
 }

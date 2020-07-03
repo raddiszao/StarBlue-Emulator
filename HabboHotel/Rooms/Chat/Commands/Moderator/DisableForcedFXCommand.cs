@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class DisableForcedFXCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_2"; }
-        }
+        public string PermissionRequired => "user_2";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Possibilidade de ignorar ou permitir efeitos forçados."; }
-        }
+        public string Description => "Possibilidade de ignorar ou permitir efeitos forçados.";
 
         public void Execute(GameClients.GameClient Session, Room Room, string[] Params)
         {

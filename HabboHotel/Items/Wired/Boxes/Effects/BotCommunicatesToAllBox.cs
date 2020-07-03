@@ -9,7 +9,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type { get { return WiredBoxType.EffectBotCommunicatesToAllBox; } }
+        public WiredBoxType Type => WiredBoxType.EffectBotCommunicatesToAllBox;
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }

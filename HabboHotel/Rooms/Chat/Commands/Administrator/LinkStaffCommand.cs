@@ -5,9 +5,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     internal class LinkStaffCommand : IChatCommand
     {
-        public string PermissionRequired { get { return "user_13"; } }
-        public string Parameters { get { return "%message%"; } }
-        public string Description { get { return "Envia um link ao quarto"; } }
+        public string PermissionRequired => "user_13";
+        public string Parameters => "%message%";
+        public string Description => "Envia um link ao quarto";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

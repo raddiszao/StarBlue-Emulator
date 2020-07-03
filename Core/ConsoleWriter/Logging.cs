@@ -11,8 +11,8 @@ namespace ConsoleWriter
 
         public static bool DisabledState
         {
-            get { return mDisabled; }
-            set { mDisabled = value; }
+            get => mDisabled;
+            set => mDisabled = value;
         }
 
         public static void WriteLine(string Line, ConsoleColor Colour = ConsoleColor.Gray)

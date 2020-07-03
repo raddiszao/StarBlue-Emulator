@@ -31,25 +31,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Logs
             }
         }
 
-        public int PlayerId
-        {
-            get { return _playerId; }
-        }
+        public int PlayerId => _playerId;
 
-        public int RoomId
-        {
-            get { return _roomId; }
-        }
+        public int RoomId => _roomId;
 
-        public string Message
-        {
-            get { return _message; }
-        }
+        public string Message => _message;
 
-        public double Timestamp
-        {
-            get { return _timestamp; }
-        }
+        public double Timestamp => _timestamp;
 
         public Habbo PlayerNullable()
         {

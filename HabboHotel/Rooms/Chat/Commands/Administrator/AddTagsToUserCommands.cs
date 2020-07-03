@@ -7,20 +7,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class AddTagsToUserCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_16"; }
-        }
+        public string PermissionRequired => "user_16";
 
-        public string Parameters
-        {
-            get { return "<usuario> <tag>"; }
-        }
+        public string Parameters => "<usuario> <tag>";
 
-        public string Description
-        {
-            get { return "Adiciona TAGS a um usuário."; }
-        }
+        public string Description => "Adiciona TAGS a um usuário.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
@@ -36,7 +27,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     dbClient.RunFastQuery("INSERT INTO `user_tags` (user_id, tag_name) VALUES(" + TargetClient.GetHabbo().Id + ", '" + Params[2] + "')");
-
                     TargetClient.GetHabbo().Tags.Add(Params[2]);
                 }
 

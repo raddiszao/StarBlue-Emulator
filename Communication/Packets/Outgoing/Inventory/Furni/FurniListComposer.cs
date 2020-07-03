@@ -21,6 +21,9 @@ namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 
         private void WriteItem(Item Item)
         {
+            if (Item.GetBaseItem() == null)
+                return;
+
             WriteInteger(Item.Id);
             WriteString(Item.GetBaseItem().Type.ToString().ToUpper());
             WriteInteger(Item.Id);

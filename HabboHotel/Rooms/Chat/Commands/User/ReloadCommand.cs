@@ -5,22 +5,13 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class Reloadcommand : IChatCommand
+    class ReloadCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Recarregue o quarto"; }
-        }
+        public string Description => "Recarregue o quarto";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
@@ -43,8 +34,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
                 User.GetClient().SendMessage(new RoomForwardComposer(Room.Id));
             }
-
-
         }
     }
 }

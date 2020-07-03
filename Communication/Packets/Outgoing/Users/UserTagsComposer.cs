@@ -7,7 +7,13 @@ namespace StarBlue.Communication.Packets.Outgoing.Users
         public UserTagsComposer(int UserId, GameClient Session)
             : base(ServerPacketHeader.UserTagsMessageComposer)
         {
-            if (Session.GetHabbo().Tags != null)
+            WriteInteger(UserId);
+            WriteInteger(0);//Count of the tags.
+            {
+                //Append a string.
+            }
+
+            /*if (Session.GetHabbo().Tags != null)
             {
                 base.WriteInteger(UserId);
                 base.WriteInteger(Session.GetHabbo().Tags.Count);//Count of the tags.
@@ -15,7 +21,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Users
                 {
                     base.WriteString(tag);
                 }
-            }
+            }*/
         }
     }
 }

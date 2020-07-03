@@ -12,7 +12,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 
         public Item Item { get; set; }
 
-        public WiredBoxType Type { get { return WiredBoxType.ConditionFurniHasUsers; } }
+        public WiredBoxType Type => WiredBoxType.ConditionFurniHasUsers;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
 

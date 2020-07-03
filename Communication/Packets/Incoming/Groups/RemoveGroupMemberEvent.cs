@@ -147,7 +147,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 
                     foreach (KeyValuePair<int, string> Data in Group.GetAllMembers)
                     {
-                        GroupMember GroupMember = Group.getGroupMember(Data.Key, Group.Id);
+                        GroupMember GroupMember = Group.GetGroupMember(Data.Key, Group.Id);
                         if (GroupMember == null)
                         {
                             continue;

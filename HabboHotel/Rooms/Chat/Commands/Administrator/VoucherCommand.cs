@@ -6,20 +6,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class VoucherCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_16"; }
-        }
+        public string PermissionRequired => "user_16";
 
-        public string Parameters
-        {
-            get { return "[MENSAGEM]"; }
-        }
+        public string Parameters => "[MENSAGEM]";
 
-        public string Description
-        {
-            get { return "Envia uma mensagem a todos os Staffs online."; }
-        }
+        public string Description => "Envia uma mensagem a todos os Staffs online.";
 
         public void Execute(GameClient Session, Rooms.Room Room, string[] Params)
         {

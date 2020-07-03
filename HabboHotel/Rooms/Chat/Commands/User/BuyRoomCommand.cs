@@ -6,20 +6,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class BuyRoomCommand : IChatCommand
     {
-        public string Description
-        {
-            get { return "Compra um quarto à venda."; }
-        }
+        public string Description => "Compra um quarto à venda.";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

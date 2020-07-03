@@ -2,20 +2,11 @@
 {
     class GOTOCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
+        public string PermissionRequired => "user_vip";
 
-        public string Parameters
-        {
-            get { return "[ROOMID]"; }
-        }
+        public string Parameters => "[ROOMID]";
 
-        public string Description
-        {
-            get { return "Ir para algum quarto"; }
-        }
+        public string Description => "Ir para algum quarto";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

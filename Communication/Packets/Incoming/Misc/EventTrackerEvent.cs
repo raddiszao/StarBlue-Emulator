@@ -9,7 +9,7 @@ namespace StarBlue.Communication.Packets.Incoming.Misc
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            string Test1 = Packet.PopString();
+            /*string Test1 = Packet.PopString();
             string Test2 = Packet.PopString();
             string Test3 = Packet.PopString();
             string Test5 = Packet.PopString();
@@ -50,7 +50,7 @@ namespace StarBlue.Communication.Packets.Incoming.Misc
             //}
             //Session.SendWhisper(Test1 + " - " + Test2 + " - " + Test3 + " - " + Test4 + " - " + Test5 + " - ");
 
-            //Session.SendMessage(RoomNotificationComposer.SendBubble("multi_whisper", Test1 + " - " + Test2 + " - " + Test3 + " - " + Test4 + " - " + Test5 + " - ", ""));
+            //Session.SendMessage(RoomNotificationComposer.SendBubble("multi_whisper", Test1 + " - " + Test2 + " - " + Test3 + " - " + Test4 + " - " + Test5 + " - ", ""));*/
         }
     }
 }

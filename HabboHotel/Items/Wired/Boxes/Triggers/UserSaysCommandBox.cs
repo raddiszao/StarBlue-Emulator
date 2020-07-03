@@ -14,7 +14,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type { get { return WiredBoxType.TriggerUserSaysCommand; } }
+        public WiredBoxType Type => WiredBoxType.TriggerUserSaysCommand;
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }

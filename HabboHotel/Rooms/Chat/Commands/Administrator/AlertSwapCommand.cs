@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class AlertSwapCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_16"; }
-        }
+        public string PermissionRequired => "user_16";
 
-        public string Parameters
-        {
-            get { return "%type% %id%"; }
-        }
+        public string Parameters => "%type% %id%";
 
-        public string Description
-        {
-            get { return "Troca o estilo dos alertas."; }
-        }
+        public string Description => "Troca o estilo dos alertas.";
 
         public void Execute(GameClients.GameClient Session, Room Room, string[] Params)
         {

@@ -13,19 +13,10 @@
             _username = Username;
         }
 
-        public string Username
-        {
-            get { return _username; }
-        }
+        public string Username => _username;
 
-        public int To
-        {
-            get { return _toUser; }
-        }
+        public int To => _toUser;
 
-        public int From
-        {
-            get { return _fromUser; }
-        }
+        public int From => _fromUser;
     }
 }

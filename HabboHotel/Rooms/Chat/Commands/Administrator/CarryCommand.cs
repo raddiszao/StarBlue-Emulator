@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class CarryCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return "[ID]"; }
-        }
+        public string Parameters => "[ID]";
 
-        public string Description
-        {
-            get { return "Permite carregar um item em sua mão."; }
-        }
+        public string Description => "Permite carregar um item em sua mão.";
 
         public void Execute(GameClients.GameClient Session, Room Room, string[] Params)
         {

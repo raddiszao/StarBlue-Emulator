@@ -2,14 +2,14 @@
 {
     class PrefixCommand2 : IChatCommand
     {
-        public string PermissionRequired => "user_vip";
+        public string PermissionRequired => "user_1";
         public string Parameters => "%remove%";
         public string Description => "Deletar prefixo.";
         public void Execute(GameClients.GameClient Session, Room Room, string[] Params)
         {
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Diga ':tagremover' para deletar seu prefixo (a Tag)", 34);
+                Session.SendWhisper("Diga ':tagremover remove' para deletar seu prefixo (a Tag)", 34);
                 return;
             }
 

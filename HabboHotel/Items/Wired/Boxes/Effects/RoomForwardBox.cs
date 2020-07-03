@@ -13,7 +13,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public Item Item { get; set; }
 
-        public WiredBoxType Type { get { return WiredBoxType.EffectRoomForward; } }
+        public WiredBoxType Type => WiredBoxType.EffectRoomForward;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
 

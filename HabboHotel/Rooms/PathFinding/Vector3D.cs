@@ -8,38 +8,20 @@
 
         public int X
         {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-            }
+            get => x;
+            set => x = value;
         }
 
         public int Y
         {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-            }
+            get => y;
+            set => y = value;
         }
 
         public double Z
         {
-            get
-            {
-                return z;
-            }
-            set
-            {
-                z = value;
-            }
+            get => z;
+            set => z = value;
         }
 
         public Vector3D() { }

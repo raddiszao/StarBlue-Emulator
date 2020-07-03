@@ -12,12 +12,12 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type { get { return WiredBoxType.EffectExecuteWiredStacks; } }
+        public WiredBoxType Type => WiredBoxType.EffectExecuteWiredStacks;
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
-        public int Delay { get { return _delay; } set { _delay = value; TickCount = value + 1; } }
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
         public int TickCount { get; set; }
         private int _delay = 0;
         private Queue _queue;

@@ -10,7 +10,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type { get { return WiredBoxType.ConditionActorHasNotDuckets; } }
+        public WiredBoxType Type => WiredBoxType.ConditionActorHasNotDuckets;
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }

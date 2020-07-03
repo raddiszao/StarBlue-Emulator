@@ -8,18 +8,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
     class
         FartFaceCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
-        public string Description
-        {
-            get { return "Jogue peido na cara do usuário."; }
-        }
+        public string PermissionRequired => "user_normal";
+        public string Parameters => "[USUARIO]";
+        public string Description => "Jogue peido na cara do usuário.";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             if (Params.Length == 1)

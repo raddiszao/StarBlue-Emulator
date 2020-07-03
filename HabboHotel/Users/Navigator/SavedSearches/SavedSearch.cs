@@ -15,20 +15,20 @@
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         public string Filter
         {
-            get { return _filter; }
-            set { _filter = value; }
+            get => _filter;
+            set => _filter = value;
         }
 
         public string Search
         {
-            get { return _search; }
-            set { _search = value; }
+            get => _search;
+            set => _search = value;
         }
     }
 }

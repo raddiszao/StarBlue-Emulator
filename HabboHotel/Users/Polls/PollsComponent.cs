@@ -53,10 +53,7 @@ namespace StarBlue.HabboHotel.Users.Polls
             return true;
         }
 
-        public ICollection<int> CompletedPolls
-        {
-            get { return _completedPolls; }
-        }
+        public ICollection<int> CompletedPolls => _completedPolls;
 
         public void Dispose()
         {

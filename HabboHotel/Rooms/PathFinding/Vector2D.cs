@@ -1,4 +1,6 @@
-﻿namespace StarBlue.HabboHotel.Rooms.PathFinding
+﻿using System;
+
+namespace StarBlue.HabboHotel.Rooms.PathFinding
 {
     public class Vector2D
     {
@@ -18,10 +20,10 @@
 
         public int Y { get; set; }
 
-        public int GetDistanceSquared(Vector2D Point)
+        public Int64 GetDistanceSquared(Vector2D Point)
         {
-            int dx = X - Point.X;
-            int dy = Y - Point.Y;
+            Int64 dx = X - Point.X;
+            Int64 dy = Y - Point.Y;
             return (dx * dx) + (dy * dy);
         }
 

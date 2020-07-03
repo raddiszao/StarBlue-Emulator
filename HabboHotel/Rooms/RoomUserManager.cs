@@ -154,8 +154,6 @@ namespace StarBlue.HabboHotel.Rooms
                 _bots.TryRemove(User.BotData.Id, out RoomUser BotRemoval);
             }
 
-
-
             User.BotAI.OnSelfLeaveRoom(Kicked);
 
             _room.SendMessage(new UserRemoveComposer(User.VirtualId));
@@ -206,10 +204,11 @@ namespace StarBlue.HabboHotel.Rooms
 
             Session.GetHabbo().CurrentRoomId = _room.RoomId;
 
+            if (_room.MultiWhispers.Contains(User))
+                _room.MultiWhispers.Remove(User);
+
             if (!_users.TryAdd(PersonalID, User))
-            {
                 return false;
-            }
 
             DynamicRoomModel Model = _room.GetGameMap().Model;
             if (Model == null)
@@ -330,23 +329,36 @@ namespace StarBlue.HabboHotel.Rooms
             try
             {
                 if (_room == null)
+                {
                     return;
+                }
 
                 if (Session == null || Session.GetHabbo() == null)
+                {
                     return;
+                }
 
                 if (NotifyKick)
+                {
                     Session.SendMessage(new GenericErrorComposer(4008));
+                }
 
                 if (NotifyClient)
+                {
                     Session.SendMessage(new CloseConnectionComposer());
+                }
 
                 if (Session.GetHabbo().TentId > 0)
+                {
                     Session.GetHabbo().TentId = 0;
+                }
 
                 if (Session.GetHabbo().CurrentRoom.GetWired() != null)
+                {
                     Session.GetHabbo().CurrentRoom.GetWired().TriggerEvent(WiredBoxType.TriggerLeaveRoom, Session.GetHabbo());
+                }
 
+                Session.GetHabbo().BuilderTool = false;
                 RoomUser User = GetRoomUserByHabbo(Session.GetHabbo().Id);
                 if (User != null)
                 {
@@ -1875,10 +1887,7 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public int PetCount
-        {
-            get { return petCount; }
-        }
+        public int PetCount => petCount;
 
         public ConcurrentDictionary<int, RoomUser> GetBots()
         {

@@ -8,20 +8,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class ConvertCreditsCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Envia suas moedas para o banco"; }
-        }
+        public string Description => "Envia suas moedas para o banco";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class ForceDiceCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_16"; }
-        }
+        public string PermissionRequired => "user_16";
 
-        public string Parameters
-        {
-            get { return "[USUÁRIO] [NÚMERO]"; }
-        }
+        public string Parameters => "[USUÁRIO] [NÚMERO]";
 
-        public string Description
-        {
-            get { return "Permite que defina uma figura para o dado"; }
-        }
+        public string Description => "Permite que defina uma figura para o dado";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

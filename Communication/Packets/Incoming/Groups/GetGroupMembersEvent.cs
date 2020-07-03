@@ -29,7 +29,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                     {
                         foreach (KeyValuePair<int, string> Data in Group.GetAllMembers)
                         {
-                            GroupMember GroupMember = Group.getGroupMember(Data.Key, Group.Id);
+                            GroupMember GroupMember = Group.GetGroupMember(Data.Key, Group.Id);
                             if (GroupMember == null)
                             {
                                 continue;
@@ -48,7 +48,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                         ConcurrentDictionary<int, string> AdminIds = Group.GetAdministrators;
                         foreach (int Id in AdminIds.Keys)
                         {
-                            GroupMember GroupMember = Group.getGroupMember(Id, Group.Id);
+                            GroupMember GroupMember = Group.GetGroupMember(Id, Group.Id);
                             if (GroupMember == null)
                             {
                                 continue;
@@ -67,7 +67,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                         ConcurrentDictionary<int, string> RequestIds = Group.GetRequests;
                         foreach (int Id in RequestIds.Keys)
                         {
-                            GroupMember GroupMember = Group.getGroupMember(Id, Group.Id);
+                            GroupMember GroupMember = Group.GetGroupMember(Id, Group.Id);
                             if (GroupMember == null)
                             {
                                 continue;

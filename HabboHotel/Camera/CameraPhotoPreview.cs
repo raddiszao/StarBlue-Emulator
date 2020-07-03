@@ -6,29 +6,11 @@
         private int _creatorId;
         private long _createdAt;
 
-        public int Id
-        {
-            get
-            {
-                return _photoId;
-            }
-        }
+        public int Id => _photoId;
 
-        public int CreatorId
-        {
-            get
-            {
-                return _creatorId;
-            }
-        }
+        public int CreatorId => _creatorId;
 
-        public long CreatedAt
-        {
-            get
-            {
-                return _createdAt;
-            }
-        }
+        public long CreatedAt => _createdAt;
 
         public CameraPhotoPreview(int photoId, int creatorId, long createdAt)
         {

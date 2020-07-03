@@ -9,6 +9,7 @@ using StarBlue.HabboHotel.Rooms.Chat.Styles;
 using StarBlue.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 {
@@ -58,7 +59,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
             }
 
             RoomUser User2 = Room.GetRoomUserManager().GetRoomUserByHabbo(ToUser);
-            if (User2 == null)
+            if (User2 == null && ToUser != "group")
             {
                 return;
             }
@@ -93,9 +94,44 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                 }
                 else
                 {
-                    Session.SendWhisper("Oops, você está silenciad@");
+                    Session.SendWhisper("Oops, você está silenciad@.");
                     return;
                 }
+            }
+
+            if (Room.MultiWhispers.Count > 0 && ToUser.Equals("group"))
+            {
+                if (Room.MultiWhispers.Contains(User))
+                {
+                    foreach (RoomUser RoomUserMW in Room.MultiWhispers)
+                    {
+                        if (RoomUserMW != null && RoomUserMW.GetClient() != null && RoomUserMW.GetClient().GetRoomUser() != null)
+                        {
+                            RoomUserMW.GetClient().SendMessage(new WhisperComposer(User.VirtualId, "@blue@ Sussurrando com (" + string.Join(",", Room.MultiWhispers.Select(r => r.GetClient().GetHabbo().Username)) + "): " + Message, 0, User.LastBubble));
+                        }
+                    }
+                    List<RoomUser> ToNotify2 = Room.GetRoomUserManager().GetRoomUserByRank(11);
+                    if (ToNotify2.Count > 0)
+                    {
+                        foreach (RoomUser user in ToNotify2)
+                        {
+                            if (user != null && user.HabboId != User.HabboId)
+                            {
+                                if (user.GetClient() != null && user.GetClient().GetHabbo() != null && !user.GetClient().GetHabbo().IgnorePublicWhispers)
+                                {
+                                    user.GetClient().SendMessage(new WhisperComposer(User.VirtualId, "@red@ [" + ToUser + "] " + Message, 0, User.LastBubble));
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Session.SendWhisper("Você não participa de nenhum grupo de sussurro.", 34);
+                    return;
+                }
+
+                return;
             }
 
             if (!User2.GetClient().GetHabbo().ReceiveWhispers && !Session.GetHabbo().GetPermissions().HasRight("room_whisper_override"))
@@ -150,21 +186,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                 return;
             }
 
-            List<RoomUser> MultiW = Session.GetHabbo().MultiWhispers;
-            if (MultiW.Count > 0)
-            {
-                foreach (RoomUser user in MultiW)
-                {
-                    if (user != null && user.HabboId != User2.HabboId && user.HabboId != User.HabboId)
-                    {
-                        if (user.GetClient() != null && user.GetClient().GetHabbo() != null && !user.GetClient().GetHabbo().IgnorePublicWhispers)
-                        {
-                            user.GetClient().SendMessage(new WhisperComposer(User.VirtualId, "@blue@" + Message, 0, User.LastBubble));
-                        }
-                    }
-                }
-            }
-
             Session.GetHabbo().LastMessage = Message;
             StarBlueServer.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.SOCIAL_CHAT);
 
@@ -173,13 +194,13 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 
             if (User2 != null && !User2.IsBot && User2.UserId != User.UserId)
             {
-                if (!User2.GetClient().GetHabbo().MutedUsers.Contains(Session.GetHabbo().Id))
+                if (!User2.GetClient().GetHabbo().GetIgnores().IgnoredUserIds().Contains(Session.GetHabbo().Id))
                 {
                     User2.GetClient().SendMessage(new WhisperComposer(User.VirtualId, Message, 0, User.LastBubble));
                 }
             }
 
-            List<RoomUser> ToNotify = Room.GetRoomUserManager().GetRoomUserByRank(4);
+            List<RoomUser> ToNotify = Room.GetRoomUserManager().GetRoomUserByRank(11);
             if (ToNotify.Count > 0)
             {
                 foreach (RoomUser user in ToNotify)

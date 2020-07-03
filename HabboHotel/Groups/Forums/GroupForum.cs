@@ -12,29 +12,11 @@ namespace StarBlue.HabboHotel.Groups.Forums
         public GroupForumSettings Settings;
         public List<GroupForumThread> Threads;
 
-        public int Id
-        {
-            get
-            {
-                return GroupId;
-            }
-        }
+        public int Id => GroupId;
 
-        public string Name
-        {
-            get
-            {
-                return Group.Name;
-            }
-        }
+        public string Name => Group.Name;
 
-        public string Description
-        {
-            get
-            {
-                return Group.Description;
-            }
-        }
+        public string Description => Group.Description;
 
 
         public GroupForum(Group group)
@@ -63,13 +45,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
             }
         }
 
-        public int MessagesCount
-        {
-            get
-            {
-                return Threads.SelectMany(c => c.Posts).Count();
-            }
-        }
+        public int MessagesCount => Threads.SelectMany(c => c.Posts).Count();
 
         public int UnreadMessages(int userid)
         {

@@ -41,22 +41,11 @@ namespace StarBlue.HabboHotel.Groups
             this.Badge = Badge;
             CreateTime = Time;
             CreatorId = Owner;
-            this.Colour1 = (Colour1 == 0) ? 1 : Colour1;
-            this.Colour2 = (Colour2 == 0) ? 1 : Colour2;
+            this.Colour1 = Colour1 == 0 ? 1 : Colour1;
+            this.Colour2 = Colour2 == 0 ? 1 : Colour2;
             HasForum = hforum;
             HasChat = hChat;
-            switch (Type)
-            {
-                case 0:
-                    GroupType = GroupType.OPEN;
-                    break;
-                case 1:
-                    GroupType = GroupType.LOCKED;
-                    break;
-                case 2:
-                    GroupType = GroupType.PRIVATE;
-                    break;
-            }
+            GroupType = (GroupType)Type;
 
             this.AdminOnlyDeco = AdminOnlyDeco;
             ForumEnabled = ForumEnabled;
@@ -125,35 +114,17 @@ namespace StarBlue.HabboHotel.Groups
             }
         }
 
-        public ConcurrentDictionary<int, string> GetMembers
-        {
-            get { return _members; }
-        }
+        public ConcurrentDictionary<int, string> GetMembers => _members;
 
-        public ConcurrentDictionary<int, string> GetRequests
-        {
-            get { return _requests; }
-        }
+        public ConcurrentDictionary<int, string> GetRequests => _requests;
 
-        public ConcurrentDictionary<int, string> GetAdministrators
-        {
-            get { return _administrators; }
-        }
+        public ConcurrentDictionary<int, string> GetAdministrators => _administrators;
 
-        public IEnumerable<KeyValuePair<int, string>> GetAllMembers
-        {
-            get { return _administrators.Concat(_members.OrderBy(x => x.Value)); }
-        }
+        public IEnumerable<KeyValuePair<int, string>> GetAllMembers => _administrators.Concat(_members.OrderBy(x => x.Value)).OrderBy(x => x.Value);
 
-        public int MemberCount
-        {
-            get { return _members.Count + _administrators.Count; }
-        }
+        public int MemberCount => _members.Count + _administrators.Count;
 
-        public int RequestCount
-        {
-            get { return _requests.Count; }
-        }
+        public int RequestCount => _requests.Count;
 
         public bool IsMember(int Id)
         {
@@ -172,7 +143,7 @@ namespace StarBlue.HabboHotel.Groups
 
         public void MakeAdmin(int Id)
         {
-            string Joined = "";
+            string Joined = Convert.ToString(DateTime.Now);
             if (_members.ContainsKey(Id))
             {
                 _members.TryRemove(Id, out Joined);
@@ -276,7 +247,7 @@ namespace StarBlue.HabboHotel.Groups
 
         public void CreateGroupChat(Group group)
         {
-            if (group.HasChat == true)
+            if (group.HasChat)
             {
                 return;
             }
@@ -287,6 +258,7 @@ namespace StarBlue.HabboHotel.Groups
                 dbClient.AddParameter("gid", group.Id);
                 dbClient.RunQuery();
             }
+
             group.HasChat = true;
             List<GameClient> GroupMembers = (from Client in StarBlueServer.GetGame().GetClientManager().GetClients.ToList() where Client != null && Client.GetHabbo() != null && IsMember(Client.GetHabbo().Id) select Client).ToList();
             foreach (GameClient Client in GroupMembers)
@@ -301,7 +273,7 @@ namespace StarBlue.HabboHotel.Groups
 
         }
 
-        public GroupMember getGroupMember(int Id, int GroupId)
+        public GroupMember GetGroupMember(int Id, int GroupId)
         {
             UserCache GroupMember = StarBlueServer.GetGame().GetCacheManager().GenerateUser(Id);
             if (GroupMember != null)

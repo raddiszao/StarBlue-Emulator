@@ -16,15 +16,12 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         private MovementDirection _startDirection;
         private WhenMovementBlock _whenMoveIsBlocked;
 
-        public WiredBoxType Type
-        {
-            get { return WiredBoxType.EffectMoveToDir; }
-        }
+        public WiredBoxType Type => WiredBoxType.EffectMoveToDir;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData
         {
-            get { return string.Format("{0};{1}", StartDirection, WhenMoveIsBlocked); }
+            get => string.Format("{0};{1}", StartDirection, WhenMoveIsBlocked);
             set
             {
                 var array = value.Split(';');
@@ -41,15 +38,9 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public bool BoolData { get; set; }
 
-        public int StartDirection
-        {
-            get { return (int)_startDirection; }
-        }
+        public int StartDirection => (int)_startDirection;
 
-        public int WhenMoveIsBlocked
-        {
-            get { return (int)_whenMoveIsBlocked; }
-        }
+        public int WhenMoveIsBlocked => (int)_whenMoveIsBlocked;
 
         public int Delay { get; set; } = 0 * 500;
 

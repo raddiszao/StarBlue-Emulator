@@ -9,20 +9,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class PickAllCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Recolhe todos os mobis do quarto."; }
-        }
+        public string Description => "Recolhe todos os mobis do quarto.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

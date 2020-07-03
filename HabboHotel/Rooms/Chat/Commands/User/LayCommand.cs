@@ -2,20 +2,11 @@
 {
     class LayCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Deite-se no chão."; }
-        }
+        public string Description => "Deite-se no chão.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

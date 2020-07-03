@@ -7,20 +7,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class MimicCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get { return "Copiar a roupa de outro usuário."; }
-        }
+        public string Description => "Copiar a roupa de outro usuário.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

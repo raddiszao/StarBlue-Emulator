@@ -2,20 +2,11 @@
 {
     class MoonwalkCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
+        public string PermissionRequired => "user_vip";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Faça o passo do Michael Jackson."; }
-        }
+        public string Description => "Faça o passo do Michael Jackson.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

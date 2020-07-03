@@ -98,10 +98,7 @@ namespace StarBlue.HabboHotel.Rooms.AI
             TargetUser = 0;
         }
 
-        public bool IsPet
-        {
-            get { return (AiType == BotAIType.PET); }
-        }
+        public bool IsPet => (AiType == BotAIType.PET);
 
         #region Speech Related
         public void LoadRandomSpeech(List<RandomSpeech> Speeches)
@@ -161,8 +158,8 @@ namespace StarBlue.HabboHotel.Rooms.AI
 
         public int ChatBubble
         {
-            get { return _chatBubble; }
-            set { _chatBubble = value; }
+            get => _chatBubble;
+            set => _chatBubble = value;
         }
     }
 }

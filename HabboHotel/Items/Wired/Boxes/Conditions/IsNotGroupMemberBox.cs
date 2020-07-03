@@ -9,7 +9,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type { get { return WiredBoxType.ConditionIsNotGroupMember; } }
+        public WiredBoxType Type => WiredBoxType.ConditionIsNotGroupMember;
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }

@@ -5,69 +5,69 @@ namespace StarBlue.Utilities.Enclosure
 {
     public class PointField
     {
-        private static readonly Point badPoint = new Point(-1, -1);
-        private readonly List<Point> PointList;
-        private Point mostDown = badPoint;
-        private Point mostLeft = badPoint;
-        private Point mostRight = badPoint;
-        private Point mostTop = badPoint;
+        private static readonly Point BadPoint = new Point(-1, -1);
+        private readonly List<Point> _pointList;
+        private Point _mostDown = BadPoint;
+        private Point _mostLeft = BadPoint;
+        private Point _mostRight = BadPoint;
+        private Point _mostTop = BadPoint;
 
         public PointField(byte forValue)
         {
-            PointList = new List<Point>();
-            this.forValue = forValue;
+            _pointList = new List<Point>();
+            ForValue = forValue;
         }
 
-        public byte forValue { get; private set; }
+        public byte ForValue { get; }
 
-        public List<Point> getPoints()
+        public List<Point> GetPoints()
         {
-            return PointList;
+            return _pointList;
         }
 
-        public void add(Point p)
+        public void Add(Point p)
         {
-            if (mostLeft == badPoint)
+            if (_mostLeft == BadPoint)
             {
-                mostLeft = p;
+                _mostLeft = p;
             }
 
-            if (mostRight == badPoint)
+            if (_mostRight == BadPoint)
             {
-                mostRight = p;
+                _mostRight = p;
             }
 
-            if (mostTop == badPoint)
+            if (_mostTop == BadPoint)
             {
-                mostTop = p;
+                _mostTop = p;
             }
 
-            if (mostDown == badPoint)
+            if (_mostDown == BadPoint)
             {
-                mostDown = p;
+                _mostDown = p;
             }
 
-            if (p.X < mostLeft.X)
+            if (p.X < _mostLeft.X)
             {
-                mostLeft = p;
+                _mostLeft = p;
             }
 
-            if (p.X > mostRight.X)
+            if (p.X > _mostRight.X)
             {
-                mostRight = p;
+                _mostRight = p;
             }
 
-            if (p.Y > mostTop.Y)
+            if (p.Y > _mostTop.Y)
             {
-                mostTop = p;
+                _mostTop = p;
             }
 
-            if (p.Y < mostDown.Y)
+            if (p.Y < _mostDown.Y)
             {
-                mostDown = p;
+                _mostDown = p;
             }
 
-            PointList.Add(p);
+            _pointList.Add(p);
         }
     }
 }

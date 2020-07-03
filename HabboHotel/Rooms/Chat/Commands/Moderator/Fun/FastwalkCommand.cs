@@ -2,20 +2,11 @@
 {
     class FastwalkCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
+        public string PermissionRequired => "user_vip";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Obter a habilidade de andar rápido"; }
-        }
+        public string Description => "Obter a habilidade de andar rápido";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

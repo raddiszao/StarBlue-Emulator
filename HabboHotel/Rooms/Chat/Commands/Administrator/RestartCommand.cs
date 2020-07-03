@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class RestartCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_18"; }
-        }
+        public string PermissionRequired => "user_18";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Reinicia o Hotel"; }
-        }
+        public string Description => "Reinicia o Hotel";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

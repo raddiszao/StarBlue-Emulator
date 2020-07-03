@@ -6,20 +6,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class DisableGiftsCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Ativar ou desativar presentes."; }
-        }
+        public string Description => "Ativar ou desativar presentes.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

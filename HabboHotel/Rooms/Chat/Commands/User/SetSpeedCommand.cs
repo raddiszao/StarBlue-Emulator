@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class SetSpeedCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return "[NUMERO]"; }
-        }
+        public string Parameters => "[NUMERO]";
 
-        public string Description
-        {
-            get { return "Escolha a velocidade dos Rollers de 0 a 10."; }
-        }
+        public string Description => "Escolha a velocidade dos Rollers de 0 a 10.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

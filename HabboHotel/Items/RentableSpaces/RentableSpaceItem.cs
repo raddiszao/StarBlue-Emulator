@@ -20,34 +20,31 @@
             return _expireStamp > StarBlueServer.GetUnixTimestamp();
         }
 
-        public bool Rented
-        {
-            get { return IsRented(); }
-        }
+        public bool Rented => IsRented();
 
         public int ItemId
         {
-            get { return _itemId; }
-            set { _itemId = value; }
+            get => _itemId;
+            set => _itemId = value;
         }
 
 
         public int OwnerId
         {
-            get { return _ownerId; }
-            set { _ownerId = value; }
+            get => _ownerId;
+            set => _ownerId = value;
         }
 
         public int ExpireStamp
         {
-            get { return _expireStamp; }
-            set { _expireStamp = value; }
+            get => _expireStamp;
+            set => _expireStamp = value;
         }
 
         public int Price
         {
-            get { return _price; }
-            set { _price = value; }
+            get => _price;
+            set => _price = value;
         }
 
         public int GetExpireSeconds()

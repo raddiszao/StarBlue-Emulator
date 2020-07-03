@@ -10,20 +10,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class ViewStaffEventListCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_13"; }
-        }
+        public string PermissionRequired => "user_13";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Observa uma lista dos eventos abertos por os Staffs."; }
-        }
+        public string Description => "Observa uma lista dos eventos abertos por os Staffs.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

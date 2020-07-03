@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class EmptyItemsCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return "[YES]"; }
-        }
+        public string Parameters => "[YES]";
 
-        public string Description
-        {
-            get { return "Limpa seu inventário."; }
-        }
+        public string Description => "Limpa seu inventário.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

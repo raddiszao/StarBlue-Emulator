@@ -276,6 +276,8 @@ namespace StarBlue.HabboHotel.Achievements
         }
 
         public Achievement GetAchievement(string achievementGroup)
-            => _achievements.ContainsKey(achievementGroup) ? _achievements[achievementGroup] : null;
+        {
+            return _achievements.ContainsKey(achievementGroup) ? _achievements[achievementGroup] : null;
+        }
     }
 }

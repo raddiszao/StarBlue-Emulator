@@ -7,29 +7,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     internal class FumarCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get
-            {
-                return "user_normal";
-            }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get
-            {
-                return "[ACCEPT]";
-            }
-        }
+        public string Parameters => "[ACCEPT]";
 
-        public string Description
-        {
-            get
-            {
-                return "Fumar um baseado , baseado custa (1000c)..";
-            }
-        }
+        public string Description => "Fumar um baseado , baseado custa (1000c)..";
         // Coded By Hamada.
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

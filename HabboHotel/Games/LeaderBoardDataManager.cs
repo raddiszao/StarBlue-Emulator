@@ -65,13 +65,7 @@ namespace StarBlue.HabboHotel.Games
             return false;
         }
 
-        public ICollection<LeaderBoardData> LeaderBoardData
-        {
-            get
-            {
-                return _leaderboards.Values;
-            }
-        }
+        public ICollection<LeaderBoardData> LeaderBoardData => _leaderboards.Values;
 
         public Dictionary<int, LeaderBoardData> getLeaderBoards()
         {

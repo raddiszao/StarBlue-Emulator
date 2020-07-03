@@ -31,40 +31,31 @@ namespace StarBlue.HabboHotel.Rooms
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get => _name;
+            set => _name = value;
         }
 
         public string Description
         {
-            get { return _description; }
-            set { _description = value; }
+            get => _description;
+            set => _description = value;
         }
-        public double TimestampStarted
-        {
-            get { return _timestampStarted; }
-        }
+        public double TimestampStarted => _timestampStarted;
 
         public double TimestampExpires
         {
-            get { return _timestampExpires; }
-            set { _timestampExpires = value; }
+            get => _timestampExpires;
+            set => _timestampExpires = value;
         }
 
-        public bool HasExpired
-        {
-            get { return (TimestampExpires - StarBlueServer.GetUnixTimestamp()) < 0; }
-        }
+        public bool HasExpired => (TimestampExpires - StarBlueServer.GetUnixTimestamp()) < 0;
 
-        public int MinutesLeft
-        {
-            get { return Convert.ToInt32(Math.Ceiling((TimestampExpires - StarBlueServer.GetUnixTimestamp()) / 60)); }
-        }
+        public int MinutesLeft => Convert.ToInt32(Math.Ceiling((TimestampExpires - StarBlueServer.GetUnixTimestamp()) / 60));
 
         public int CategoryId
         {
-            get { return _categoryId; }
-            set { _categoryId = value; }
+            get => _categoryId;
+            set => _categoryId = value;
         }
     }
 }

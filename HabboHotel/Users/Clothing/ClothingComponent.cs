@@ -72,10 +72,7 @@ namespace StarBlue.HabboHotel.Users.Clothing
             return _allClothing.TryGetValue(PartId, out ClothingPart);
         }
 
-        public ICollection<ClothingParts> GetClothingParts
-        {
-            get { return _allClothing.Values; }
-        }
+        public ICollection<ClothingParts> GetClothingParts => _allClothing.Values;
 
         /// <summary>
         /// Disposes the ClothingComponent.

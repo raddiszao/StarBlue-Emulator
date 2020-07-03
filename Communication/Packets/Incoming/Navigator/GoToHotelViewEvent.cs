@@ -1,6 +1,4 @@
-﻿
-using StarBlue.HabboHotel.Items.Wired;
-using StarBlue.HabboHotel.Rooms;
+﻿using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {

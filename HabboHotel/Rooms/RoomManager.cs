@@ -25,7 +25,6 @@ namespace StarBlue.HabboHotel.Rooms
         private DateTime _cycleLastExecution;
         private DateTime _purgeLastExecution;
 
-
         public RoomManager()
         {
             _roomModels = new Dictionary<string, RoomModel>();
@@ -80,15 +79,9 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public int LoadedRoomDataCount
-        {
-            get { return _loadedRoomData.Count; }
-        }
+        public int LoadedRoomDataCount => _loadedRoomData.Count;
 
-        public int Count
-        {
-            get { return _rooms.Count; }
-        }
+        public int Count => _rooms.Count;
 
         public void LoadModels()
         {

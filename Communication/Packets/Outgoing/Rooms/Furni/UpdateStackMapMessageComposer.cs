@@ -1,12 +1,13 @@
 ﻿using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.PathFinding;
+using System;
 using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
     class UpdateStackMapMessageComposer : ServerPacket
     {
-        public UpdateStackMapMessageComposer(Room Room, Dictionary<int, ThreeDCoord> Tiles, double Height = -1)
+        public UpdateStackMapMessageComposer(Room Room, Dictionary<int, ThreeDCoord> Tiles, bool HeightIsZero = false)
             : base(ServerPacketHeader.UpdateStackMapMessageComposer)
         {
             if (Tiles.Count > 127)
@@ -17,7 +18,13 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
                     Tiles.TryGetValue(i, out ThreeDCoord Tile);
                     base.WriteByte(Tile.X);
                     base.WriteByte(Tile.Y);
-                    base.WriteShort((int)((Height == -1 ? Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) : Height) * 256));
+                    int Height = (int)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
+                    if (Height > UInt16.MaxValue)
+                    {
+                        Height = UInt16.MaxValue;
+                    }
+
+                    base.WriteUnsignedShort((UInt16)(HeightIsZero ? 0 : Height));
                 }
             }
             else
@@ -27,7 +34,13 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
                 {
                     base.WriteByte(Tile.X);
                     base.WriteByte(Tile.Y);
-                    base.WriteShort((int)((Height == -1 ? Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) : Height) * 256));
+                    int Height = (int)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
+                    if (Height > UInt16.MaxValue)
+                    {
+                        Height = UInt16.MaxValue;
+                    }
+
+                    base.WriteUnsignedShort((UInt16)(HeightIsZero ? 0 : Height));
                 }
             }
         }

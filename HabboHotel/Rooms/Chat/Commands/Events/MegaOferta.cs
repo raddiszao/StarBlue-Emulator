@@ -4,15 +4,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class MegaOfertCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_16"; }
-        }
+        public string PermissionRequired => "user_16";
 
-        public string Parameters
-        {
-            get { return "[ON] ou [OFF]"; }
-        }
+        public string Parameters => "[ON] ou [OFF]";
 
         public string Description
         {

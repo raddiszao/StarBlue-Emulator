@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class ViewInventoryCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_16"; }
-        }
+        public string PermissionRequired => "user_16";
 
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get { return "Permite ver o inventario de um usuário"; }
-        }
+        public string Description => "Permite ver o inventario de um usuário";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

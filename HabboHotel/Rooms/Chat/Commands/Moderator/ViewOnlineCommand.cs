@@ -22,12 +22,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
             foreach (var client in StarBlueServer.GetGame().GetClientManager().GetClients.ToList())
             {
-                if (client == null)
+                if (client == null || client.GetHabbo() == null)
                 {
                     continue;
                 }
 
-                content.Append("¥ " + client.GetHabbo().Username + " » Se encontra no quarto: " + ((client.GetHabbo().CurrentRoom == null) ? "Em nenhum quarto." : client.GetHabbo().CurrentRoom.RoomData.Name) + "\r\n");
+                content.Append("¥ " + client.GetHabbo().Username + " » Se encontra no quarto: " + (client.GetHabbo().CurrentRoom == null ? "Em nenhum quarto." : client.GetHabbo().CurrentRoom.Name) + "\r\n");
             }
 
             Session.SendMessage(new MOTDNotificationComposer(content.ToString()));

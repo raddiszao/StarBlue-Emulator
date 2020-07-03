@@ -2,20 +2,11 @@
 {
     class ForceStandCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_7"; }
-        }
+        public string PermissionRequired => "user_7";
 
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get { return "Levantar outro usuário."; }
-        }
+        public string Description => "Levantar outro usuário.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

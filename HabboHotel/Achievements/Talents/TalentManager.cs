@@ -53,7 +53,10 @@ namespace StarBlue.HabboHotel.Achievements
         /// </summary>
         /// <param name="talentId">The talent identifier.</param>
         /// <returns>Talent.</returns>
-        public Talent GetTalent(int talentId) => Talents[talentId];
+        public Talent GetTalent(int talentId)
+        {
+            return Talents[talentId];
+        }
 
         /// <summary>
         ///     Levels the is completed.
@@ -62,11 +65,13 @@ namespace StarBlue.HabboHotel.Achievements
         /// <param name="trackType">Type of the track.</param>
         /// <param name="talentLevel">The talent level.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool LevelIsCompleted(GameClient session, string trackType, int talentLevel) =>
-               GetTalents(trackType, talentLevel).All(
-                   current =>
-                       !session.GetHabbo().Achievements.ContainsKey(current.AchievementGroup) ||
-                       session.GetHabbo().GetAchievementData(current.AchievementGroup).Level < current.AchievementLevel);
+        public bool LevelIsCompleted(GameClient session, string trackType, int talentLevel)
+        {
+            return GetTalents(trackType, talentLevel).All(
+current =>
+!session.GetHabbo().Achievements.ContainsKey(current.AchievementGroup) ||
+session.GetHabbo().GetAchievementData(current.AchievementGroup).Level < current.AchievementLevel);
+        }
 
         /// <summary>
         ///     Completes the user talent.
@@ -154,13 +159,18 @@ namespace StarBlue.HabboHotel.Achievements
         /// <param name="achGroup">The ach group.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public Talent GetTalentData(string achGroup)
-               => Talents.Values.FirstOrDefault(current => current.AchievementGroup == achGroup);
+        {
+            return Talents.Values.FirstOrDefault(current => current.AchievementGroup == achGroup);
+        }
 
         /// <summary>
         ///     Gets all talents.
         /// </summary>
         /// <returns>Dictionary&lt;System.Int32, Talent&gt;.</returns>
-        public Dictionary<int, Talent> GetAllTalents() => Talents;
+        public Dictionary<int, Talent> GetAllTalents()
+        {
+            return Talents;
+        }
 
         /// <summary>
         ///     Gets the talents.

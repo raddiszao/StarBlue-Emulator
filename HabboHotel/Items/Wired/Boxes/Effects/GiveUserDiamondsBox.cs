@@ -14,7 +14,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public Item Item { get; set; }
 
-        public WiredBoxType Type { get { return WiredBoxType.EffectGiveUserDiamonds; } }
+        public WiredBoxType Type => WiredBoxType.EffectGiveUserDiamonds;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
 

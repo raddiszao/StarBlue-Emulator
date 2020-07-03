@@ -114,20 +114,8 @@ namespace StarBlue.HabboHotel.Games
             return LeaderCount;
         }
 
-        public ICollection<GameData> GameData
-        {
-            get
-            {
-                return _games.Values;
-            }
-        }
+        public ICollection<GameData> GameData => _games.Values;
 
-        public ICollection<LeaderBoardData> LeaderData
-        {
-            get
-            {
-                return _leaderBoardData.Values;
-            }
-        }
+        public ICollection<LeaderBoardData> LeaderData => _leaderBoardData.Values;
     }
 }

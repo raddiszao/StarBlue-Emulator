@@ -2,20 +2,11 @@
 {
     class DisableNotificationEventCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Desative os alertas de eventos."; }
-        }
+        public string Description => "Desative os alertas de eventos.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

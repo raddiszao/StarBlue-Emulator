@@ -50,8 +50,8 @@ namespace StarBlue.HabboHotel.Rooms.Polls
 
         public Dictionary<int, RoomPollQuestionSelection> Selections
         {
-            get { return _selections; }
-            set { _selections = value; }
+            get => _selections;
+            set => _selections = value;
         }
     }
 }

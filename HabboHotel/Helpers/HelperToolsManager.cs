@@ -117,20 +117,11 @@ namespace StarBlue.HabboHotel.Helpers
             return GetAvaliableHelpers().Where(c => !Case.DeclinedHelpers.Any(d => d == c)).Where(c => Case.Session != c.Session && ((c.IsGuide && Case.Type == HelpCaseType.MEET_HOTEL) || (c.IsHelper && Case.Type == HelpCaseType.INSTRUCTION))).ToList();
         }
 
-        public static int GuideCount
-        {
-            get { return Helpers.Count(c => c.IsGuide); }
-        }
+        public static int GuideCount => Helpers.Count(c => c.IsGuide);
 
-        public static int HelperCount
-        {
-            get { return Helpers.Count(c => c.IsHelper); }
-        }
+        public static int HelperCount => Helpers.Count(c => c.IsHelper);
 
-        public static int GuardianCount
-        {
-            get { return Helpers.Count(c => c.IsGuardian); }
-        }
+        public static int GuardianCount => Helpers.Count(c => c.IsGuardian);
 
     }
 }

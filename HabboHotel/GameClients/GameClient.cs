@@ -21,7 +21,6 @@ using StarBlue.Core;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Helpers;
 using StarBlue.HabboHotel.Moderation;
-using StarBlue.HabboHotel.Permissions;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Subscriptions;
 using StarBlue.HabboHotel.Users;
@@ -267,7 +266,7 @@ namespace StarBlue.HabboHotel.GameClients
                         }
                     }
 
-                    if (GetHabbo().Rank >= 2)
+                    if (GetHabbo().Rank >= 12)
                     {
                         using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
@@ -562,10 +561,7 @@ namespace StarBlue.HabboHotel.GameClients
             SendMessage(new ShoutComposer(User.VirtualId, Message, 0, (Colour == 0 ? User.LastBubble : Colour)));
         }
 
-        public int ConnectionID
-        {
-            get { return _id; }
-        }
+        public int ConnectionID => _id;
 
         public ConnectionInformation GetConnection()
         {

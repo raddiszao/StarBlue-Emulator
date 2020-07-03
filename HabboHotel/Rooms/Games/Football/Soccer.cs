@@ -28,10 +28,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Football
             _balls = new ConcurrentDictionary<int, Item>();
             _gameStarted = false;
         }
-        public bool GameIsStarted
-        {
-            get { return _gameStarted; }
-        }
+        public bool GameIsStarted => _gameStarted;
         public void StopGame(bool userTriggered = false)
         {
             _gameStarted = false;

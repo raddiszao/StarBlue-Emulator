@@ -12,7 +12,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public Item Item { get; set; }
 
-        public WiredBoxType Type { get { return WiredBoxType.EffectGiveUserFastwalk; } }
+        public WiredBoxType Type => WiredBoxType.EffectGiveUserFastwalk;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
 

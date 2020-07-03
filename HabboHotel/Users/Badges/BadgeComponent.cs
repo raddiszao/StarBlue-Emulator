@@ -29,10 +29,7 @@ namespace StarBlue.HabboHotel.Users.Badges
             }
         }
 
-        public int Count
-        {
-            get { return _badges.Count; }
-        }
+        public int Count => _badges.Count;
 
         public DataTable GetBadgesOfflineUser(int UserId)
         {

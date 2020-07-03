@@ -15,7 +15,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public Room Instance { get; set; }
         public Item Item { get; set; }
 
-        public WiredBoxType Type { get { return WiredBoxType.EffectMoveFurniFromNearestUser; } }
+        public WiredBoxType Type => WiredBoxType.EffectMoveFurniFromNearestUser;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }

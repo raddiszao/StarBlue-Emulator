@@ -2,20 +2,11 @@
 {
     class ForceLayCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_7"; }
-        }
+        public string PermissionRequired => "user_7";
 
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get { return "Deitar outro usuário."; }
-        }
+        public string Description => "Deitar outro usuário.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

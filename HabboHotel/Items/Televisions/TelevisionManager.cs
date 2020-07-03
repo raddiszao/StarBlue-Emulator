@@ -43,13 +43,7 @@ namespace StarBlue.HabboHotel.Items.Televisions
         }
 
 
-        public ICollection<TelevisionItem> TelevisionList
-        {
-            get
-            {
-                return _televisions.Values;
-            }
-        }
+        public ICollection<TelevisionItem> TelevisionList => _televisions.Values;
 
         public bool TryGet(int ItemId, out TelevisionItem TelevisionItem)
         {

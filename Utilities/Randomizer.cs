@@ -6,13 +6,7 @@ namespace StarBlue.Utilities
     {
         private static Random rand = new Random();
 
-        public static Random GetRandom
-        {
-            get
-            {
-                return rand;
-            }
-        }
+        public static Random GetRandom => rand;
 
         public static int Next()
         {

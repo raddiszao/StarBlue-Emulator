@@ -319,10 +319,7 @@ namespace StarBlue.HabboHotel.Catalog
             return _botPresets.TryGetValue(ItemId, out Bot);
         }
 
-        public Dictionary<int, int> ItemOffers
-        {
-            get { return _itemOffers; }
-        }
+        public Dictionary<int, int> ItemOffers => _itemOffers;
 
         public bool TryGetPage(int pageId, out CatalogPage page)
         {

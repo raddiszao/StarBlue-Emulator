@@ -31,32 +31,32 @@ namespace StarBlue.HabboHotel.Catalog.Vouchers
 
         public string Code
         {
-            get { return _code; }
-            set { _code = value; }
+            get => _code;
+            set => _code = value;
         }
 
         public VoucherType Type
         {
-            get { return _type; }
-            set { _type = value; }
+            get => _type;
+            set => _type = value;
         }
 
         public int Value
         {
-            get { return _value; }
-            set { _value = value; }
+            get => _value;
+            set => _value = value;
         }
 
         public int CurrentUses
         {
-            get { return _currentUses; }
-            set { _currentUses = value; }
+            get => _currentUses;
+            set => _currentUses = value;
         }
 
         public int MaxUses
         {
-            get { return _maxUses; }
-            set { _maxUses = value; }
+            get => _maxUses;
+            set => _maxUses = value;
         }
     }
 }

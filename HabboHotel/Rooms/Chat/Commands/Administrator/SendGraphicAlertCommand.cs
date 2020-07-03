@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class SendGraphicAlertCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_13"; }
-        }
+        public string PermissionRequired => "user_13";
 
-        public string Parameters
-        {
-            get { return "[IMAGEM]"; }
-        }
+        public string Parameters => "[IMAGEM]";
 
-        public string Description
-        {
-            get { return "Envie uma mensagem de alerta com imagem para todo o hotel."; }
-        }
+        public string Description => "Envie uma mensagem de alerta com imagem para todo o hotel.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

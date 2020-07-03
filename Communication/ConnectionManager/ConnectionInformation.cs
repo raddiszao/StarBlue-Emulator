@@ -202,19 +202,11 @@ namespace StarBlue.Communication.ConnectionManager
         private void IncomingDataPacket(IAsyncResult iAr)
         {
             //Out.writeLine("Packet received from client [" + this.connectionID + "]", Out.logFlags.lowLogLevel);
-            int bytesReceived = 0;
+            int bytesReceived;
             try
             {
                 //The amount of bytes received in the packet
-                if (_dataSocket.Connected && _isConnected)
-                {
-                    bytesReceived = _dataSocket.EndReceive(iAr);
-                }
-                else
-                {
-                    Disconnect();
-                    return;
-                }
+                bytesReceived = _dataSocket.EndReceive(iAr);
             }
             catch //(Exception e)
             {

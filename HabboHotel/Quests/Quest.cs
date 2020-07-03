@@ -29,10 +29,7 @@
             HasEnded = (TimeLock >= StarBlueServer.GetUnixTimestamp() && TimeLock > 0) ? true : false;
         }
 
-        public string ActionName
-        {
-            get { return QuestTypeUtillity.GetString(GoalType); }
-        }
+        public string ActionName => QuestTypeUtillity.GetString(GoalType);
 
         public bool IsCompleted(int UserProgress)
         {

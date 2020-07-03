@@ -7,20 +7,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class ViewClonesCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_12"; }
-        }
+        public string PermissionRequired => "user_12";
 
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get { return "Ver clones."; }
-        }
+        public string Description => "Ver clones.";
 
         public void Execute(GameClients.GameClient session, Rooms.Room Room, string[] Params)
         {

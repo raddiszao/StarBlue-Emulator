@@ -12,20 +12,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class UpdateFurnitureCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_18"; }
-        }
+        public string PermissionRequired => "user_17";
 
-        public string Parameters
-        {
-            get { return "(tipo) (quantidade)"; }
-        }
+        public string Parameters => "(tipo) (quantidade)";
 
-        public string Description
-        {
-            get { return "Editar uma mobília."; }
-        }
+        public string Description => "Editar uma mobília.";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             List<Item> Items = Room.GetGameMap().GetCoordinatedItems(new Point(Session.GetRoomUser().X, Session.GetRoomUser().Y));

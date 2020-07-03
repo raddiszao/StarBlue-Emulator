@@ -6,20 +6,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class DisableFriendsCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "command_disable_friends"; }
-        }
+        public string PermissionRequired => "command_disable_friends";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Desativa as solicitações de amigos."; }
-        }
+        public string Description => "Desativa as solicitações de amigos.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

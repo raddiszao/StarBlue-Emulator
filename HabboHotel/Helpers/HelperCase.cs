@@ -14,23 +14,11 @@ namespace StarBlue.HabboHotel.Helpers
         int Expire;
 
 
-        public IHelperElement OtherElement
-        {
-            get
-            {
-                return Helper;
-            }
-        }
+        public IHelperElement OtherElement => Helper;
 
         public List<HabboHelper> DeclinedHelpers;
 
-        public int ReamingToExpire
-        {
-            get
-            {
-                return Expire - (int)StarBlueServer.GetUnixTimestamp();
-            }
-        }
+        public int ReamingToExpire => Expire - (int)StarBlueServer.GetUnixTimestamp();
 
         public HelperCase(GameClient client, string msg, int category)
         {

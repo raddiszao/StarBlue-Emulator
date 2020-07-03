@@ -31,69 +31,69 @@
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         //TODO: Make an enum?
         public string Category
         {
-            get { return _category; }
-            set { _category = value; }
+            get => _category;
+            set => _category = value;
         }
 
         public string CategoryIdentifier
         {
-            get { return _categoryName; }
-            set { _categoryName = value; }
+            get => _categoryName;
+            set => _categoryName = value;
         }
 
         public string PublicName
         {
-            get { return _customName; }
-            set { _customName = value; }
+            get => _customName;
+            set => _customName = value;
         }
 
         public bool CanDoActions
         {
-            get { return _canDoActions; }
-            set { _canDoActions = value; }
+            get => _canDoActions;
+            set => _canDoActions = value;
         }
 
         public int Colour
         {
-            get { return _colour; }
-            set { _colour = value; }
+            get => _colour;
+            set => _colour = value;
         }
 
         public int RequiredRank
         {
-            get { return _requiredRank; }
-            set { _requiredRank = value; }
+            get => _requiredRank;
+            set => _requiredRank = value;
         }
 
         public NavigatorViewMode ViewMode
         {
-            get { return _viewMode; }
-            set { _viewMode = value; }
+            get => _viewMode;
+            set => _viewMode = value;
         }
 
         public NavigatorCategoryType CategoryType
         {
-            get { return _categoryType; }
-            set { _categoryType = value; }
+            get => _categoryType;
+            set => _categoryType = value;
         }
 
         public NavigatorSearchAllowance SearchAllowance
         {
-            get { return _searchAllowance; }
-            set { _searchAllowance = value; }
+            get => _searchAllowance;
+            set => _searchAllowance = value;
         }
 
         public int OrderId
         {
-            get { return _orderId; }
-            set { _orderId = value; }
+            get => _orderId;
+            set => _orderId = value;
         }
     }
 }

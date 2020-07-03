@@ -78,7 +78,10 @@ namespace StarBlue.Core
 
         public static extern int EmptyWorkingSet(IntPtr hwProc);
 
-        public static void MinimizeFootprint() => EmptyWorkingSet(Process.GetCurrentProcess().Handle);
+        public static void MinimizeFootprint()
+        {
+            EmptyWorkingSet(Process.GetCurrentProcess().Handle);
+        }
 
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]

@@ -199,13 +199,7 @@ namespace StarBlue.HabboHotel.Users.Inventory
             return null;
         }
 
-        public IEnumerable<Item> GetItems
-        {
-            get
-            {
-                return _floorItems.Values.Concat(_wallItems.Values);
-            }
-        }
+        public IEnumerable<Item> GetItems => _floorItems.Values.Concat(_wallItems.Values);
 
         public Item AddNewItem(int Id, int BaseItem, string ExtraData, int Group, bool ToInsert, bool FromRoom, int LimitedNumber, int LimitedStack)
         {
@@ -454,6 +448,9 @@ namespace StarBlue.HabboHotel.Users.Inventory
 
         public bool TryAddItem(Item item)
         {
+            if (item.GetBaseItem() == null)
+                return false;
+
             if (item.Data.Type.ToString().ToLower() == "s")// ItemType.FLOOR)
             {
                 return _floorItems.TryAdd(item.Id, item);
@@ -474,12 +471,6 @@ namespace StarBlue.HabboHotel.Users.Inventory
             return _songDisks.Values;
         }
 
-        public IEnumerable<Item> GetWallAndFloor
-        {
-            get
-            {
-                return _floorItems.Values.Concat(_wallItems.Values);
-            }
-        }
+        public IEnumerable<Item> GetWallAndFloor => _floorItems.Values.Concat(_wallItems.Values);
     }
 }

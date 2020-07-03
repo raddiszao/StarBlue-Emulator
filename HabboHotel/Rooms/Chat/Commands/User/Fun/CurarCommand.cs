@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class CurarCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Curar um inchaço devido a um golpe recebido."; }
-        }
+        public string Description => "Curar um inchaço devido a um golpe recebido.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

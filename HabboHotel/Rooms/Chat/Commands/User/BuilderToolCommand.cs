@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class BuilderToolCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Ferramenta de construção."; }
-        }
+        public string Description => "Ferramenta de construção.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

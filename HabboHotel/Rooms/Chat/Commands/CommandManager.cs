@@ -147,13 +147,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
                     }
                 }
 
-
                 Session.GetHabbo().IChatCommand = Cmd;
                 Session.GetHabbo().CurrentRoom.GetWired().TriggerEvent(WiredBoxType.TriggerUserSaysCommand, Session.GetHabbo(), this);
 
                 Cmd.Execute(Session, Session.GetHabbo().CurrentRoom, Split);
                 return true;
             }
+
             return false;
         }
 
@@ -170,9 +170,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("balaobot", new BubbleBotCommand());
 
             Register("randomnumber", new RandomizeCommand());
+
             Register("nometamanho", new ChatHTMLSizeCommand());
+
             Register("emoji", new EmojiCommand());
-            Register("tagremover", new PrefixCommand2());
 
             Register("chatalerta", new ChatAlertCommand());
 
@@ -214,6 +215,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
         private void RegisterUser()
         {
+            Register("tag", new PrefixNameCommand());
+
+            Register("allfloorroom", new AllRoomFloorCommand());
+
             Register("chatdegrupo", new GroupChatCommand());
 
             Register("convertercreditos", new ConvertCreditsCommand());
@@ -245,6 +250,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("disableevents", new DisableNotificationEventCommand());
             Register("eventosoff", new DisableNotificationEventCommand());
 
+            Register("disablementions", new DisableMentionCommand());
+
             Register("copiar", new MimicCommand());
             Register("copy", new MimicCommand());
             Register("mimic", new MimicCommand());
@@ -255,6 +262,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("pet", new PetCommand());
 
             Register("lajota", new StackCommand());
+            Register("lj", new StackCommand());
 
             Register("mutarpets", new MutePetsCommand());
             Register("mutepets", new MutePetsCommand());
@@ -307,9 +315,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("construtor", new BuilderCommand());
             Register("build", new BuilderCommand());
 
-            Register("recarregar", new Reloadcommand());
-            Register("unload", new Reloadcommand());
-            Register("reload", new Reloadcommand());
+            Register("recarregar", new ReloadCommand());
+            Register("unload", new ReloadCommand());
+            Register("reload", new ReloadCommand());
 
             Register("fixroom", new RegenMapsCommand());
 
@@ -324,6 +332,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("beijar", new KissCommand());
 
             Register("golpear", new GolpeCommand());
+            Register("soco", new GolpeCommand());
 
             Register("curar", new CurarCommand());
 
@@ -335,7 +344,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
             Register("matar", new KillCommand());
 
-            Register("ausente", new AfkCommand());
+            Register("aus", new AfkCommand());
             Register("afk", new AfkCommand());
 
             Register("sexo", new SexCommand());
@@ -347,9 +356,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
         private void RegisterModerator()
         {
-
-            Register("tag", new PrefixNameCommand());
-
             Register("sa", new StaffAlertCommand());
 
             Register("coordenadas", new CoordsCommand());
@@ -495,7 +501,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("deletegroup", new DeleteGroupCommand());
             Register("deletargrupo", new DeleteGroupCommand());
 
-            Register("addtag", new AddTagsToUserCommand());
+            //Register("addtag", new AddTagsToUserCommand());
 
             Register("ca", new CustomizedHotelAlert());
 

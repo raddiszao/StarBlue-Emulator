@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class MassiveEventCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_13"; }
-        }
+        public string PermissionRequired => "user_13";
 
-        public string Parameters
-        {
-            get { return "[EVENTO]"; }
-        }
+        public string Parameters => "[EVENTO]";
 
-        public string Description
-        {
-            get { return "Envia um evento a todos os usuarios online."; }
-        }
+        public string Description => "Envia um evento a todos os usuarios online.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

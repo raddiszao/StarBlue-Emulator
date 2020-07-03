@@ -13,14 +13,14 @@
 
         public string Code
         {
-            get { return _code; }
-            set { _code = value; }
+            get => _code;
+            set => _code = value;
         }
 
         public string RequiredRight
         {
-            get { return _requiredRight; }
-            set { _requiredRight = value; }
+            get => _requiredRight;
+            set => _requiredRight = value;
         }
     }
 }

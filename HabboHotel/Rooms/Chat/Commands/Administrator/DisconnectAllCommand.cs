@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
     class DisconnectAllCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_18"; }
-        }
+        public string PermissionRequired => "user_18";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Reinicia (deconecta todos)."; }
-        }
+        public string Description => "Reinicia (deconecta todos).";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

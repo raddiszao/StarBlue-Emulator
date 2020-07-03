@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class SelfieCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Tirar uma selfie"; }
-        }
+        public string Description => "Tirar uma selfie";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

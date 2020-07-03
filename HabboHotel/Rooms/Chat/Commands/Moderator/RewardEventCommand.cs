@@ -9,20 +9,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class RewardEventCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_12"; }
-        }
+        public string PermissionRequired => "user_12";
 
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get { return "Todas as funções para recompensar um vencedor do evento."; }
-        }
+        public string Description => "Todas as funções para recompensar um vencedor do evento.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
@@ -54,7 +45,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 int Duckets = Convert.ToInt32(StarBlueServer.GetConfig().data["event.duckets"]);
                 if (Target.GetHabbo().UserPoints > 50)
                 {
-                    Diamonds = Diamonds *= 2;
+                    if (Target.GetHabbo().UserPoints > 100)
+                        Diamonds = 20;
+                    else
+                        Diamonds = Diamonds *= 2;
                     Credits = Credits *= 2;
                     Duckets = Duckets *= 2;
                 }

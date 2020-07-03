@@ -7,18 +7,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class ShutdownCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_18"; }
-        }
-        public string Parameters
-        {
-            get { return ""; }
-        }
-        public string Description
-        {
-            get { return "Fechar o hotel!"; }
-        }
+        public string PermissionRequired => "user_18";
+        public string Parameters => "";
+        public string Description => "Fechar o hotel!";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             int total_time = 1 * 60 * 1000;

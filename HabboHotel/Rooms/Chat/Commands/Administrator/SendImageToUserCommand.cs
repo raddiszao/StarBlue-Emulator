@@ -6,20 +6,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class SendImageToUserCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_13"; }
-        }
+        public string PermissionRequired => "user_13";
 
-        public string Parameters
-        {
-            get { return "[USUARIO] [IMAGEM]"; }
-        }
+        public string Parameters => "[USUARIO] [IMAGEM]";
 
-        public string Description
-        {
-            get { return "Enviar uma mensagem de aviso para um usuário"; }
-        }
+        public string Description => "Enviar uma mensagem de aviso para um usuário";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

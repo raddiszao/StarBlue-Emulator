@@ -11,10 +11,7 @@ namespace StarBlue.HabboHotel.Rooms.PathFinding
         private T[] array;
         private T[] tempArray;
 
-        public int Count
-        {
-            get { return count; }
-        }
+        public int Count => count;
 
         public MinHeap() : this(16) { }
 

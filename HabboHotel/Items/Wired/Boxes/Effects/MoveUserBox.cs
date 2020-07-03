@@ -14,10 +14,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public Room Instance { get; set; }
         public Item Item { get; set; }
 
-        public WiredBoxType Type
-        {
-            get { return WiredBoxType.EffectMoveUser; }
-        }
+        public WiredBoxType Type => WiredBoxType.EffectMoveUser;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
@@ -25,7 +22,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public int Delay
         {
-            get { return _delay; }
+            get => _delay;
             set
             {
                 _delay = value;

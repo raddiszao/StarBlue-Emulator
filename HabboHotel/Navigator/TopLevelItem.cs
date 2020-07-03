@@ -17,26 +17,26 @@
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         public string SearchCode
         {
-            get { return _searchCode; }
-            set { _searchCode = value; }
+            get => _searchCode;
+            set => _searchCode = value;
         }
 
         public string Filter
         {
-            get { return _filter; }
-            set { _filter = value; }
+            get => _filter;
+            set => _filter = value;
         }
 
         public string Localization
         {
-            get { return _localization; }
-            set { _localization = value; }
+            get => _localization;
+            set => _localization = value;
         }
     }
 }

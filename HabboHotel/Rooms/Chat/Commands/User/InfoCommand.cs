@@ -6,20 +6,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class InfoCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Informações do " + Convert.ToString(StarBlueServer.GetConfig().data["hotel.name"]) + "."; }
-        }
+        public string Description => "Informações do " + Convert.ToString(StarBlueServer.GetConfig().data["hotel.name"]) + ".";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class MassPollCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_13"; }
-        }
+        public string PermissionRequired => "user_13";
 
-        public string Parameters
-        {
-            get { return "[ID]"; }
-        }
+        public string Parameters => "[ID]";
 
-        public string Description
-        {
-            get { return "Envia uma poll a todo o hotel"; }
-        }
+        public string Description => "Envia uma poll a todo o hotel";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

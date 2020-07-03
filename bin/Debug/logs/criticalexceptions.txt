@@ -2,3 +2,24 @@
 Bug during user login: System.NullReferenceException: Refer?ncia de objeto n?o definida para uma inst?ncia de um objeto.
    em StarBlue.HabboHotel.GameClients.GameClient.TryAuthenticate(String AuthTicket) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 161
 
+
+Bug during user login: System.OverflowException: Opera??o aritm?tica resultou em um estouro.
+   em StarBlue.Communication.Packets.Outgoing.ServerPacket.WriteShort(Int64 s) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\ServerPacket.cs:linha 77
+   em StarBlue.Communication.Packets.Outgoing.ServerPacket..ctor(Int32 id) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\ServerPacket.cs:linha 18
+   em StarBlue.Communication.Packets.Outgoing.Users.HabboClubSubscriptionComposer..ctor() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Users\HabboClubSubscriptionComposer.cs:linha 5
+   em StarBlue.HabboHotel.GameClients.GameClient.TryAuthenticate(String AuthTicket) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 167
+
+
+Bug during user login: System.OverflowException: Opera??o aritm?tica resultou em um estouro.
+   em StarBlue.Communication.Packets.Outgoing.ServerPacket.WriteShort(Int64 s) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\ServerPacket.cs:linha 77
+   em StarBlue.Communication.Packets.Outgoing.ServerPacket..ctor(Int32 id) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\ServerPacket.cs:linha 18
+   em StarBlue.Communication.Packets.Outgoing.Users.HabboClubSubscriptionComposer..ctor() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Users\HabboClubSubscriptionComposer.cs:linha 5
+   em StarBlue.HabboHotel.GameClients.GameClient.TryAuthenticate(String AuthTicket) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 167
+
+
+Bug during user login: System.OverflowException: Opera??o aritm?tica resultou em um estouro.
+   em StarBlue.Communication.Packets.Outgoing.ServerPacket.WriteShort(Int32 s) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\ServerPacket.cs:linha 77
+   em StarBlue.Communication.Packets.Outgoing.ServerPacket..ctor(Int32 id) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\ServerPacket.cs:linha 18
+   em StarBlue.Communication.Packets.Outgoing.Users.HabboClubSubscriptionComposer..ctor() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Users\HabboClubSubscriptionComposer.cs:linha 5
+   em StarBlue.HabboHotel.GameClients.GameClient.TryAuthenticate(String AuthTicket) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 167
+

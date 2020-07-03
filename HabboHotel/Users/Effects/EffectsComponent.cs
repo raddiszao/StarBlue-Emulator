@@ -132,15 +132,12 @@ namespace StarBlue.HabboHotel.Users.Effects
             _habbo.CurrentRoom.SendMessage(new AvatarEffectComposer(User.VirtualId, EffectId));
         }
 
-        public ICollection<AvatarEffect> GetAllEffects
-        {
-            get { return _effects.Values; }
-        }
+        public ICollection<AvatarEffect> GetAllEffects => _effects.Values;
 
         public int CurrentEffect
         {
-            get { return _currentEffect; }
-            set { _currentEffect = value; }
+            get => _currentEffect;
+            set => _currentEffect = value;
         }
 
         /// <summary>

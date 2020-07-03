@@ -38,6 +38,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             }
 
             GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Username);
+            if (TargetClient == null)
+            {
+                Session.SendWhisper("O usuário precisa estar online para ver o histórico.", 34);
+                return;
+            }
 
             DataTable GetLogs = null;
             StringBuilder HabboInfo = new StringBuilder();

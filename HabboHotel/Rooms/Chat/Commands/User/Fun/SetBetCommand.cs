@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class SetBetCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return "[DIAMANTES]"; }
-        }
+        public string Parameters => "[DIAMANTES]";
 
-        public string Description
-        {
-            get { return "Defina quantos diamantes você deseja apostar nos slots."; }
-        }
+        public string Description => "Defina quantos diamantes você deseja apostar nos slots.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

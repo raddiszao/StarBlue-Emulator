@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     class BubbleCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
+        public string PermissionRequired => "user_vip";
 
-        public string Parameters
-        {
-            get { return "[ID]"; }
-        }
+        public string Parameters => "[ID]";
 
-        public string Description
-        {
-            get { return "Altere o balão do chat"; }
-        }
+        public string Description => "Altere o balão do chat";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

@@ -8,20 +8,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class SetChessGameCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Ativa o modo xadrez."; }
-        }
+        public string Description => "Ativa o modo xadrez.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

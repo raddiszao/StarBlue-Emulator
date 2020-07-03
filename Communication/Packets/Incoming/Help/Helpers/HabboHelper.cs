@@ -10,21 +10,9 @@ namespace StarBlue.HabboHotel.Helpers
         public HelperCase Case;
         public HelperCase InvinteCase;
 
-        public bool Busy
-        {
-            get
-            {
-                return Case != null || InvinteCase != null;
-            }
-        }
+        public bool Busy => Case != null || InvinteCase != null;
 
-        public IHelperElement OtherElement
-        {
-            get
-            {
-                return Case;
-            }
-        }
+        public IHelperElement OtherElement => Case;
 
         public HabboHelper(GameClient Session, bool guide, bool helper, bool guard)
         {

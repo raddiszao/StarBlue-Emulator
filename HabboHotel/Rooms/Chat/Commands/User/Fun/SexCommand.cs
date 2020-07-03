@@ -8,30 +8,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class SexCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get
-            {
-                return "user_normal";
-            }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get
-            {
-                return "[USUARIO]";
-            }
-        }
+        public string Parameters => "[USUARIO]";
 
-        public string Description
-        {
-            get
-            {
-                return "Faça sexo com um usuário.";
-            }
-        }
-        // Coded By Hamada.
+        public string Description => "Faça sexo com um usuário.";
+
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
             long nowTime = StarBlueServer.CurrentTimeMillis();
@@ -48,7 +30,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                 return;
             }
 
-            if (Params.Length < 1)
+            if (Params.Length == 1)
             {
                 Session.SendWhisper("Você deve digitar o nome de usuário da pessoa com quem deseja fazer sexo.", 34);
             }

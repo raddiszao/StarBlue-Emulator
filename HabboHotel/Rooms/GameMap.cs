@@ -50,7 +50,6 @@ namespace StarBlue.HabboHotel.Rooms
 
             mCoordinatedItems = new ConcurrentDictionary<Point, List<int>>();
 
-
             gotPublicPool = room.RoomData.Model.gotPublicPool;
             mGameMap = new byte[Model.MapSizeX, Model.MapSizeY];
             mItemHeightMap = new double[Model.MapSizeX, Model.MapSizeY];
@@ -1237,8 +1236,6 @@ namespace StarBlue.HabboHotel.Rooms
                         return false;
                     }
 
-
-
                     if (User.GetClient() == null || User.GetClient().GetHabbo() == null)
                     {
                         return false;
@@ -1267,13 +1264,14 @@ namespace StarBlue.HabboHotel.Rooms
                 }
             }
 
-            bool SquareOpen = true;
             bool Chair = false;
             double HighestZ = -1;
             foreach (Item Item in Items.ToList())
             {
                 if (Item == null)
+                {
                     continue;
+                }
 
                 if (Item.GetZ < HighestZ)
                 {
@@ -1283,19 +1281,17 @@ namespace StarBlue.HabboHotel.Rooms
 
                 HighestZ = Item.GetZ;
                 if (Item.GetBaseItem().IsSeat)
+                {
                     Chair = true;
-
-                if (!SquareIsOpen(To.X, To.Y, false) && Item.GetBaseItem().InteractionType == InteractionType.GATE)
-                    SquareOpen = false;
+                }
             }
-
-            if (!SquareOpen)
-                return false;
 
             if ((mGameMap[To.X, To.Y] == 3 && !EndOfPath && !Chair) || (mGameMap[To.X, To.Y] == 0) || (mGameMap[To.X, To.Y] == 2 && !EndOfPath))
             {
                 if (User.Path.Count > 0)
+                {
                     User.Path.Clear();
+                }
 
                 User.PathRecalcNeeded = true;
             }
@@ -1393,11 +1389,20 @@ namespace StarBlue.HabboHotel.Rooms
             List<Item> Items = _room.GetGameMap().GetAllRoomItemForSquare(To.X, To.Y);
             if (Items.Count > 0)
             {
+                if (!SquareIsOpen(To.X, To.Y, false) && Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType != InteractionType.ROLLER).Count() > 0)
+                {
+                    return false;
+                }
+
                 if (_room.RoomBlockingEnabled == 1 && Users.Count > 0)
                 {
                     foreach (RoomUser User in Users)
+                    {
                         if ((User.Statusses.ContainsKey("sit") && Items.ToList().Where(x => x != null && x.GetBaseItem().IsSeat).Count() > 0) || (User.Statusses.ContainsKey("lay") && Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType == InteractionType.BED).Count() > 0))
+                        {
                             return false;
+                        }
+                    }
                 }
 
                 bool HasGroupGate = Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE).Count() > 0;
@@ -1466,7 +1471,9 @@ namespace StarBlue.HabboHotel.Rooms
                 foreach (var item in itemsFromSquare)
                 {
                     if (pZ <= item.GetZ)
+                    {
                         itemsToReturn.Add(item);
+                    }
                 }
             }
 
@@ -2195,30 +2202,15 @@ namespace StarBlue.HabboHotel.Rooms
             return Math.Abs(X1 - X2) + Math.Abs(Y1 - Y2);
         }
 
-        public DynamicRoomModel Model
-        {
-            get { return mDynamicModel; }
-        }
+        public DynamicRoomModel Model => mDynamicModel;
 
-        public RoomModel StaticModel
-        {
-            get { return mStaticModel; }
-        }
+        public RoomModel StaticModel => mStaticModel;
 
-        public byte[,] EffectMap
-        {
-            get { return mUserItemEffect; }
-        }
+        public byte[,] EffectMap => mUserItemEffect;
 
-        public byte[,] GameMap
-        {
-            get { return mGameMap; }
-        }
+        public byte[,] GameMap => mGameMap;
 
-        public double[,] ItemHeightMap
-        {
-            get { return mItemHeightMap; }
-        }
+        public double[,] ItemHeightMap => mItemHeightMap;
 
         public void Dispose()
         {

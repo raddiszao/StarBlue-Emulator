@@ -92,6 +92,7 @@ namespace StarBlue.HabboHotel.Rooms
         private bool _hideWired;
         public int ForSaleAmount;
         public bool RoomForSale;
+        public List<RoomUser> MultiWhispers;
 
         public Room(RoomData Data)
         {
@@ -173,6 +174,7 @@ namespace StarBlue.HabboHotel.Rooms
             Bans = new Dictionary<int, double>();
             MutedUsers = new Dictionary<int, double>();
             Tents = new Dictionary<int, List<RoomUser>>();
+            MultiWhispers = new List<RoomUser>();
 
             _gamemap = new Gamemap(this);
             if (_roomItemHandling == null)
@@ -202,8 +204,8 @@ namespace StarBlue.HabboHotel.Rooms
 
         public List<string> WordFilterList
         {
-            get { return _wordFilterList; }
-            set { _wordFilterList = value; }
+            get => _wordFilterList;
+            set => _wordFilterList = value;
         }
 
         #region Room Bans
@@ -348,20 +350,11 @@ namespace StarBlue.HabboHotel.Rooms
         #endregion
 
 
-        public int UserCount
-        {
-            get { return _roomUserManager.GetRoomUsers().Count; }
-        }
+        public int UserCount => _roomUserManager.GetRoomUsers().Count;
 
-        public int RoomId
-        {
-            get { return Id; }
-        }
+        public int RoomId => Id;
 
-        public bool CanTradeInRoom
-        {
-            get { return true; }
-        }
+        public bool CanTradeInRoom => true;
 
         public List<ServerPacket> HideWiredMessages(bool hideWired)
         {
@@ -396,10 +389,7 @@ namespace StarBlue.HabboHotel.Rooms
             return list;
         }
 
-        public RoomData RoomData
-        {
-            get { return _roomData; }
-        }
+        public RoomData RoomData => _roomData;
 
         public Gamemap GetGameMap()
         {
@@ -1152,10 +1142,10 @@ namespace StarBlue.HabboHotel.Rooms
                     Session.SendMessage(new CarryObjectComposer(RoomUser.VirtualId, RoomUser.CarryItemID));
                 }
 
-              //  if (!RoomUser.IsBot && !RoomUser.IsPet && RoomUser.CurrentEffect > 0)
-               // {
-               //     Room.SendMessage(new AvatarEffectComposer(RoomUser.VirtualId, RoomUser.CurrentEffect));
-               // }
+                //  if (!RoomUser.IsBot && !RoomUser.IsPet && RoomUser.CurrentEffect > 0)
+                // {
+                //     Room.SendMessage(new AvatarEffectComposer(RoomUser.VirtualId, RoomUser.CurrentEffect));
+                // }
             }
 
             Session.SendMessage(new UserUpdateComposer(_roomUserManager.GetUserList().ToList()));
@@ -1244,7 +1234,7 @@ namespace StarBlue.HabboHotel.Rooms
 
             foreach (RoomUser User in Tents[TentId].ToList())
             {
-                if (User == null || User.GetClient() == null || User.GetClient().GetHabbo() == null || User.GetClient().GetHabbo().MutedUsers.Contains(Id) || User.GetClient().GetHabbo().TentId != TentId)
+                if (User == null || User.GetClient() == null || User.GetClient().GetHabbo() == null || User.GetClient().GetHabbo().GetIgnores().IgnoredUserIds().Contains(Id) || User.GetClient().GetHabbo().TentId != TentId)
                 {
                     continue;
                 }
@@ -1417,11 +1407,10 @@ namespace StarBlue.HabboHotel.Rooms
                 Bans.Clear();
                 MutedUsers.Clear();
                 Tents.Clear();
+                MultiWhispers.Clear();
 
                 if (ActiveTrades.Count > 0)
-                {
                     ActiveTrades.Clear();
-                }
 
                 TonerData = null;
                 MoodlightData = null;

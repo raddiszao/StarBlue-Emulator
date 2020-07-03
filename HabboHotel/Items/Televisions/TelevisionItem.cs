@@ -19,45 +19,15 @@ namespace StarBlue.HabboHotel.Items.Televisions
             _enabled = Enabled;
         }
 
-        public int Id
-        {
-            get
-            {
-                return _id;
-            }
-        }
+        public int Id => _id;
 
-        public string YouTubeId
-        {
-            get
-            {
-                return _youtubeId;
-            }
-        }
+        public string YouTubeId => _youtubeId;
 
 
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-        }
+        public string Title => _title;
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
-        }
+        public string Description => _description;
 
-        public bool Enabled
-        {
-            get
-            {
-                return _enabled;
-            }
-        }
+        public bool Enabled => _enabled;
     }
 }

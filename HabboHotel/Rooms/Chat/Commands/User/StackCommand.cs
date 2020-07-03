@@ -2,20 +2,11 @@
 {
     class StackCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return "[VALOR]"; }
-        }
+        public string Parameters => "[VALOR]";
 
-        public string Description
-        {
-            get { return "Altera a altura do seu quarto."; }
-        }
+        public string Description => "Altera a altura do seu quarto.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

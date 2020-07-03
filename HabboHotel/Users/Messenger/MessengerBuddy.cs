@@ -26,36 +26,23 @@ namespace StarBlue.HabboHotel.Users.Messenger
 
         #region Return values
 
-        public int Id
-        {
-            get { return UserId; }
-        }
+        public int Id => UserId;
 
-        public bool IsOnline
-        {
-            get
-            {
-                return (client != null && client.GetHabbo() != null && client.GetHabbo().GetMessenger() != null &&
+        public bool IsOnline => (client != null && client.GetHabbo() != null && client.GetHabbo().GetMessenger() != null &&
                         !client.GetHabbo().GetMessenger().AppearOffline);
-
-            }
-        }
 
         private GameClient Client
         {
-            get { return client; }
-            set { client = value; }
+            get => client;
+            set => client = value;
         }
 
-        public bool InRoom
-        {
-            get { return (currentRoom != null); }
-        }
+        public bool InRoom => (currentRoom != null);
 
         public Room CurrentRoom
         {
-            get { return currentRoom; }
-            set { currentRoom = value; }
+            get => currentRoom;
+            set => currentRoom = value;
         }
 
         #endregion

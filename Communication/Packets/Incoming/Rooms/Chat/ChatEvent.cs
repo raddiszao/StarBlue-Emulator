@@ -157,26 +157,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                 return;
             }
 
-            if (Session.GetHabbo().MultiWhisper)
-            {
-                Session.SendMessage(new WhisperComposer(User.VirtualId, "@blue@ [MULTI] " + Message, 0, User.LastBubble));
-                List<RoomUser> MultiW = Session.GetHabbo().MultiWhispers;
-                if (MultiW.Count > 0)
-                {
-                    foreach (RoomUser user in MultiW)
-                    {
-                        if (user != null)
-                        {
-                            if (user.GetClient() != null && user.GetClient().GetHabbo() != null && !user.GetClient().GetHabbo().IgnorePublicWhispers)
-                            {
-                                user.GetClient().SendMessage(new WhisperComposer(User.VirtualId, "@blue@ [MULTI] " + Message, 0, User.LastBubble));
-                            }
-                        }
-                    }
-                }
-                return;
-            }
-
             //if (Session.GetHabbo().IsBeingAsked == true && Message.ToLower().Contains("s"))
             //{
             //    Session.GetHabbo().SecureTradeEnabled = true;
@@ -203,7 +183,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                     new JProperty("userByLook", Session.GetHabbo().Look)
                 )));
 
-                if (Session.GetHabbo().Rank >= 12 && (To == "everyone" || To == "here"))
+                if (Session.GetHabbo().Rank >= 14 && (To == "everyone" || To == "here"))
                 {
                     StarBlueServer.GetGame().GetWebEventManager().BroadCastWebData(WebEventData.ToString());
                 }
@@ -220,10 +200,13 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                         {
                             Session.SendWhisper("Não pode mencionar você mesmo.", 34);
                         }
-                        else
+                        else if (UserHabboMentioned.DisabledMentions && Session.GetHabbo().Rank < UserHabboMentioned.Rank)
+                        {
+                            Session.SendWhisper("Este usuário desabilitou as menções.", 34);
+                        } else 
                         {
                             StarBlueServer.GetGame().GetWebEventManager().SendDataDirect(UserHabboMentioned.GetClient(), WebEventData.ToString());
-                            Session.SendWhisper("Você mencionou o usuário " + Params[0], 34);
+                            Session.SendWhisper("Você mencionou o usuário " + Params[0] + ".", 34);
                         }
                     }
                 }

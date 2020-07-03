@@ -581,17 +581,8 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public int Count
-        {
-            get { return _clients.Count; }
-        }
+        public int Count => _clients.Count;
 
-        public ICollection<GameClient> GetClients
-        {
-            get
-            {
-                return _clients.Values;
-            }
-        }
+        public ICollection<GameClient> GetClients => _clients.Values;
     }
 }

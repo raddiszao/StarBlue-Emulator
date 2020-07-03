@@ -5,102 +5,70 @@ namespace StarBlue.Communication.Packets.Incoming
 {
     public class ClientPacket
     {
-        private byte[] Body;
-        private int MessageId;
-        private int Pointer;
+        private byte[] _body;
+        private int _pointer;
 
-        public ClientPacket(int messageID, byte[] body)
+        public ClientPacket(int messageId, byte[] body)
         {
-            Init(messageID, body);
+            Init(messageId, body);
         }
 
-        public ClientPacket(byte[] body)
-        {
-            Body = body;
-            Pointer = 0;
-            MessageId = PopInt();
-        }
+        public int Id { get; private set; }
 
-        public int Id
-        {
-            get { return MessageId; }
-        }
+        public int RemainingLength => _body.Length - _pointer;
 
-        public int RemainingLength
-        {
-            get { return Body.Length - Pointer; }
-        }
-
-        public int Header
-        {
-            get { return MessageId; }
-        }
-
-        public void Init(byte[] body)
+        public void Init(int messageId, byte[] body)
         {
             if (body == null)
             {
                 body = new byte[0];
             }
 
-            Pointer = 0;
-            MessageId = PopInt();
-            Body = body;
+            Id = messageId;
+            _body = body;
 
-        }
-
-        public void Init(int messageID, byte[] body)
-        {
-            if (body == null)
-            {
-                body = new byte[0];
-            }
-
-            MessageId = messageID;
-            Body = body;
-
-            Pointer = 0;
+            _pointer = 0;
         }
 
         public override string ToString()
         {
-            return "[" + Header + "] BODY: " + (StarBlueServer.GetDefaultEncoding().GetString(Body).Replace(Convert.ToChar(0).ToString(), "[0]"));
+            return "[" + Id + "] BODY: " + (StarBlueServer.GetDefaultEncoding().GetString(_body).Replace(Convert.ToChar(0).ToString(), "[0]"));
         }
 
         public void AdvancePointer(int i)
         {
-            Pointer += i * 4;
+            _pointer += i * 4;
         }
 
-        public byte[] ReadBytes(int Bytes)
+        public byte[] ReadBytes(int bytes)
         {
-            if (Bytes > RemainingLength)
+            if (bytes > RemainingLength)
             {
-                Bytes = RemainingLength;
+                bytes = RemainingLength;
             }
 
-            var data = new byte[Bytes];
+            var data = new byte[bytes];
 
-            for (int i = 0; i < Bytes; i++)
+            for (int i = 0; i < bytes; i++)
             {
-                data[i] = Body[Pointer++];
+                data[i] = _body[_pointer++];
             }
 
             return data;
         }
 
-        public byte[] PlainReadBytes(int Bytes)
+        public byte[] PlainReadBytes(int bytes)
         {
-            if (Bytes > RemainingLength)
+            if (bytes > RemainingLength)
             {
-                Bytes = RemainingLength;
+                bytes = RemainingLength;
             }
 
-            var data = new byte[Bytes];
+            var data = new byte[bytes];
 
-            for (int x = 0, y = Pointer; x < Bytes; x++, y++)
+            for (int x = 0, y = _pointer; x < bytes; x++, y++)
             {
-                data[x] = Body[y];
+                data[x] = _body[y];
             }
 
             return data;
@@ -119,12 +87,7 @@ namespace StarBlue.Communication.Packets.Incoming
 
         public bool PopBoolean()
         {
-            if (RemainingLength > 0 && Body[Pointer++] == Convert.ToChar(1))
-            {
-                return true;
-            }
-
-            return false;
+            return RemainingLength > 0 && _body[_pointer++] == Convert.ToChar(1);
         }
 
         public int PopInt()
@@ -134,11 +97,11 @@ namespace StarBlue.Communication.Packets.Incoming
                 return 0;
             }
 
-            byte[] Data = PlainReadBytes(4);
+            byte[] data = PlainReadBytes(4);
 
-            Int32 i = HabboEncoding.DecodeInt32(Data);
+            int i = HabboEncoding.DecodeInt32(data);
 
-            Pointer += 4;
+            _pointer += 4;
 
             return i;
         }

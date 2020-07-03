@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class GuideAlertCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "command_guide_alert"; }
-        }
+        public string PermissionRequired => "command_guide_alert";
 
-        public string Parameters
-        {
-            get { return "%message%"; }
-        }
+        public string Parameters => "%message%";
 
-        public string Description
-        {
-            get { return "Envia um alerta a todos os staffs online."; }
-        }
+        public string Description => "Envia um alerta a todos os staffs online.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

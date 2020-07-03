@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class PrefixCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "command_prefix"; }
-        }
+        public string PermissionRequired => "command_prefix";
 
-        public string Parameters
-        {
-            get { return "%prefix%"; }
-        }
+        public string Parameters => "%prefix%";
 
-        public string Description
-        {
-            get { return "Borra tu prefijo."; }
-        }
+        public string Description => "Borra tu prefijo.";
 
         public void Execute(GameClient Session, Rooms.Room Room, string[] Params)
         {

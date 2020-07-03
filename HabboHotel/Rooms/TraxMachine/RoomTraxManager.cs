@@ -85,13 +85,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
             Playlist.Clear();
         }
 
-        public int TimestampSinceStarted
-        {
-            get
-            {
-                return (int)StarBlueServer.GetUnixTimestamp() - StartedPlayTimestamp;
-            }
-        }
+        public int TimestampSinceStarted => (int)StarBlueServer.GetUnixTimestamp() - StartedPlayTimestamp;
 
         public int TotalPlayListLength
         {

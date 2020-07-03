@@ -15,22 +15,10 @@
             _bannable = Bannable;
         }
 
-        public string Word
-        {
-            get { return _word; }
-        }
+        public string Word => _word;
 
-        public string Replacement
-        {
-            get { return _replacement; }
-        }
-        public bool IsStrict
-        {
-            get { return _strict; }
-        }
-        public bool IsBannable
-        {
-            get { return _bannable; }
-        }
+        public string Replacement => _replacement;
+        public bool IsStrict => _strict;
+        public bool IsBannable => _bannable;
     }
 }

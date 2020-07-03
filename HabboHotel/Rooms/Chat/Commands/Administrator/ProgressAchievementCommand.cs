@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class ProgressAchievementCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_17"; }
-        }
+        public string PermissionRequired => "user_17";
 
-        public string Parameters
-        {
-            get { return "<usuario> <conquista> < pontos>"; }
-        }
+        public string Parameters => "<usuario> <conquista> < pontos>";
 
-        public string Description
-        {
-            get { return "Altera os conquista de um usuário."; }
-        }
+        public string Description => "Altera os conquista de um usuário.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

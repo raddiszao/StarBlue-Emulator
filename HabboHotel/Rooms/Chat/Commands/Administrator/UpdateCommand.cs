@@ -85,7 +85,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                         StarBlueServer.GetGame().GetCatalogFrontPageManager().LoadFrontPage();
                         StarBlueServer.GetGame().GetCatalog().Init(StarBlueServer.GetGame().GetItemManager());
                         StarBlueServer.GetGame().GetClientManager().SendMessage(new CatalogUpdatedComposer());
-                        StarBlueServer.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("catalogue", "O catálogo foi atualizado.", "catalog/open/" + Message + ""));
+                        //StarBlueServer.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("catalogue", "O catálogo foi atualizado.", "catalog/open/" + Message + ""));
 
                         break;
                     }
@@ -181,7 +181,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                         }
 
                         StarBlueServer.GetGame().GetItemManager().Init();
-                        Session.SendWhisper("Items atualizados correctamente.");
+                        Session.SendWhisper("Items atualizados corretamente.");
                         break;
                     }
 

@@ -226,42 +226,39 @@ namespace StarBlue.HabboHotel.Items
 
         public ItemData Data
         {
-            get { return _data; }
-            set { _data = value; }
+            get => _data;
+            set => _data = value;
         }
 
-        public Dictionary<int, ThreeDCoord> GetAffectedTiles
-        {
-            get { return _affectedPoints; }
-        }
+        public Dictionary<int, ThreeDCoord> GetAffectedTiles => _affectedPoints;
 
         public Dictionary<int, ThreeDCoord> OldAffectedTiles
         {
-            get { return _oldAffectedTiles; }
-            set { _oldAffectedTiles = value; }
+            get => _oldAffectedTiles;
+            set => _oldAffectedTiles = value;
         }
 
         public int GetX
         {
-            get { return _coordX; }
-            set { _coordX = value; }
+            get => _coordX;
+            set => _coordX = value;
         }
 
         public int GetY
         {
-            get { return _coordY; }
-            set { _coordY = value; }
+            get => _coordY;
+            set => _coordY = value;
         }
 
         public double GetZ
         {
-            get { return _coordZ; }
-            set { _coordZ = value; }
+            get => _coordZ;
+            set => _coordZ = value;
         }
 
         public bool UpdateNeeded
         {
-            get { return updateNeeded; }
+            get => updateNeeded;
             set
             {
                 if (value && GetRoom() != null)
@@ -273,15 +270,9 @@ namespace StarBlue.HabboHotel.Items
             }
         }
 
-        public bool IsRoller
-        {
-            get { return mIsRoller; }
-        }
+        public bool IsRoller => mIsRoller;
 
-        public Point Coordinate
-        {
-            get { return new Point(GetX, GetY); }
-        }
+        public Point Coordinate => new Point(GetX, GetY);
 
         public List<Point> GetCoords
         {
@@ -337,19 +328,10 @@ namespace StarBlue.HabboHotel.Items
             }
         }
 
-        public bool IsWallItem
-        {
-            get { return mIsWallItem; }
-        }
+        public bool IsWallItem => mIsWallItem;
 
-        public bool IsFloorItem
-        {
-            get { return mIsFloorItem; }
-        }
-        public bool IsBuilderItem
-        {
-            get { return isBCitem; }
-        }
+        public bool IsFloorItem => mIsFloorItem;
+        public bool IsBuilderItem => isBCitem;
 
         public Point SquareInFront
         {
@@ -570,9 +552,8 @@ namespace StarBlue.HabboHotel.Items
                     case InteractionType.LOVELOCK:
                         return new InteractorLoveLock();
 
-
-                    case InteractionType.PRESSURE_PAD:
-                        return new InteractorPressurePad();
+                    //case InteractionType.PRESSURE_PAD:
+                    //  return new InteractorPressurePad();
 
                     case InteractionType.ROOM_PROVIDER:
                         return new InteractorRoomProvider();
@@ -1177,7 +1158,7 @@ namespace StarBlue.HabboHotel.Items
 
                                 UpdateState();
                                 //left off here
-                                StarBlueServer.GetHabboById(InteractingUser).casinoEvent(ExtraData);
+                                //StarBlueServer.GetHabboById(InteractingUser).casinoEvent(ExtraData);
 
                             }
                             break;
@@ -1861,11 +1842,11 @@ namespace StarBlue.HabboHotel.Items
             //    this.UpdateState();
             //}
 
-            if (GetBaseItem().InteractionType == InteractionType.PRESSURE_PAD)
-            {
-                ExtraData = "1";
-                UpdateState();
-            }
+            //if (GetBaseItem().InteractionType == InteractionType.PRESSURE_PAD)
+            // {
+            //    ExtraData = "1";
+            //    UpdateState();
+            // }
 
             GetRoom().GetWired().TriggerEvent(Wired.WiredBoxType.TriggerWalkOnFurni, user.GetClient().GetHabbo(), this);
             user.LastItem = this;

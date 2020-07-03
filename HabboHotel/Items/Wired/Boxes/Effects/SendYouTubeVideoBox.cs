@@ -13,7 +13,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public Item Item { get; set; }
 
-        public WiredBoxType Type { get { return WiredBoxType.EffectSendYouTubeVideo; } }
+        public WiredBoxType Type => WiredBoxType.EffectSendYouTubeVideo;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
 

@@ -6,18 +6,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class EmojiCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
-        public string Parameters
-        {
-            get { return "Número do 1 ao 189."; }
-        }
-        public string Description
-        {
-            get { return "Manda um emoji"; }
-        }
+        public string PermissionRequired => "user_normal";
+        public string Parameters => "Número do 1 ao 189.";
+        public string Description => "Manda um emoji";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             if (Params.Length == 1)
@@ -60,11 +51,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                                 RoomUser TargetUser = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Username);
                                 if (emojiNum < 10)
                                 {
-                                    Username = "<img src='/swf/c_images/emoji/" + emojiNum + ".png' height='20' width='20'><br>    ";
+                                    Username = "<img src='/c_images/emoji/" + emojiNum + ".png' height='20' width='20'><br>    ";
                                 }
                                 else
                                 {
-                                    Username = "<img src='/swf/c_images/emoji/" + emojiNum + ".png' height='20' width='20'><br>    ";
+                                    Username = "<img src='/c_images/emoji/" + emojiNum + ".png' height='20' width='20'><br>    ";
                                 }
                                 if (Room != null)
                                 {

@@ -33,10 +33,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
             _banzaiTiles = new ConcurrentDictionary<int, Item>();
         }
 
-        public bool isBanzaiActive
-        {
-            get { return banzaiStarted; }
-        }
+        public bool isBanzaiActive => banzaiStarted;
 
         public void AddTile(Item item, int itemID)
         {
@@ -402,16 +399,16 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                     {
                         user.LockedTilesCount++;
                         _room.GetGameManager().AddPointToTeam(item.team, 1);
-                        field.updateLocation(item.GetX, item.GetY, (byte)team);
-                        List<PointField> gfield = field.doUpdate();
+                        field.UpdateLocation(item.GetX, item.GetY, (byte)team);
+                        List<PointField> gfield = field.DoUpdate();
                         TEAM t;
                         foreach (PointField gameField in gfield)
                         {
-                            t = (TEAM)gameField.forValue;
-                            foreach (Point p in gameField.getPoints())
+                            t = (TEAM)gameField.ForValue;
+                            foreach (Point p in gameField.GetPoints())
                             {
                                 HandleMaxBanzaiTiles(new Point(p.X, p.Y), t);
-                                floorMap[p.Y, p.X] = gameField.forValue;
+                                floorMap[p.Y, p.X] = gameField.ForValue;
                             }
                         }
                     }

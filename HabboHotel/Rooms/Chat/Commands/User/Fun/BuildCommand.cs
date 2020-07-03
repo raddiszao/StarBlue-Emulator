@@ -7,20 +7,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fan
 {
     internal class BuildCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "command_give"; }
-        }
+        public string PermissionRequired => "command_give";
 
-        public string Parameters
-        {
-            get { return "%height%"; }
-        }
+        public string Parameters => "%height%";
 
-        public string Description
-        {
-            get { return "Habilita o teletransporte do quarto para construir com mais facilidade"; }
-        }
+        public string Description => "Habilita o teletransporte do quarto para construir com mais facilidade";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             string height = Params[1];

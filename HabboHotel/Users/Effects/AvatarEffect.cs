@@ -28,53 +28,47 @@ namespace StarBlue.HabboHotel.Users.Effects
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         public int UserId
         {
-            get { return _userId; }
-            set { _userId = value; }
+            get => _userId;
+            set => _userId = value;
         }
 
         public int SpriteId
         {
-            get { return _spriteId; }
-            set { _spriteId = value; }
+            get => _spriteId;
+            set => _spriteId = value;
         }
 
         public double Duration
         {
-            get { return _duration; }
-            set { _duration = value; }
+            get => _duration;
+            set => _duration = value;
         }
 
         public bool Activated
         {
-            get { return _activated; }
-            set { _activated = value; }
+            get => _activated;
+            set => _activated = value;
         }
 
         public double TimestampActivated
         {
-            get { return _timestampActivated; }
-            set { _timestampActivated = value; }
+            get => _timestampActivated;
+            set => _timestampActivated = value;
         }
 
         public int Quantity
         {
-            get { return _quantity; }
-            set { _quantity = value; }
+            get => _quantity;
+            set => _quantity = value;
         }
 
-        public double TimeUsed
-        {
-            get
-            {
-                return (UnixTimestamp.GetNow() - _timestampActivated);
-            }
-        }
+        public double TimeUsed => (UnixTimestamp.GetNow() - _timestampActivated);
 
         public double TimeLeft
         {
@@ -91,13 +85,7 @@ namespace StarBlue.HabboHotel.Users.Effects
             }
         }
 
-        public bool HasExpired
-        {
-            get
-            {
-                return (_activated && TimeLeft <= 0);
-            }
-        }
+        public bool HasExpired => (_activated && TimeLeft <= 0);
 
         /// <summary>
         /// Activates the AvatarEffect

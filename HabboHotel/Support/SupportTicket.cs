@@ -78,10 +78,7 @@ namespace StarBlue.HabboHotel.Support
             }
         }
 
-        public int TicketId
-        {
-            get { return Id; }
-        }
+        public int TicketId => Id;
 
         public void Pick(int pModeratorId, Boolean UpdateInDb)
         {

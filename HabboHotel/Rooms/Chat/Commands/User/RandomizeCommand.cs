@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class RandomizeCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
+        public string PermissionRequired => "user_vip";
 
-        public string Parameters
-        {
-            get { return "%min% %max%"; }
-        }
+        public string Parameters => "%min% %max%";
 
-        public string Description
-        {
-            get { return "Gera um numero aleatorio de 2 digitos."; }
-        }
+        public string Description => "Gera um numero aleatorio de 2 digitos.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {

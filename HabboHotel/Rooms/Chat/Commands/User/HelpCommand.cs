@@ -5,24 +5,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Events
 {
     internal class HelpCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get
-            {
-                return "user_normal";
-            }
-        }
-        public string Parameters
-        {
-            get { return "%message%"; }
-        }
-        public string Description
-        {
-            get
-            {
-                return "Envie um pedido de ajuda, descrevendo brevemente seu problema.";
-            }
-        }
+        public string PermissionRequired => "user_normal";
+        public string Parameters => "%message%";
+        public string Description => "Envie um pedido de ajuda, descrevendo brevemente seu problema.";
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
             long nowTime = StarBlueServer.CurrentTimeMillis();

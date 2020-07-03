@@ -77,8 +77,8 @@ namespace StarBlue.HabboHotel.Rooms
 
         public bool GotRollers
         {
-            get { return mGotRollers; }
-            set { mGotRollers = value; }
+            get => mGotRollers;
+            set => mGotRollers = value;
         }
 
         public void QueueRoomItemUpdate(Item item)
@@ -713,6 +713,9 @@ namespace StarBlue.HabboHotel.Rooms
 
         public bool SetFloorItem(GameClient Session, Item Item, int newX, int newY, int newRot, bool newItem, bool OnRoller, bool sendMessage, bool updateRoomUserStatuses = false, bool ball = false, double height = -1)
         {
+            if (Item == null)
+                return;
+
             bool NeedsReAdd = false;
 
             if (newItem)
@@ -1004,7 +1007,7 @@ namespace StarBlue.HabboHotel.Rooms
                     {
                         if (_room.GetGameMap().HasStackTool(__item.GetX, __item.GetY) && __item.Data.InteractionType != InteractionType.STACKTOOL)
                         {
-                            _room.SendMessage(new UpdateStackMapMessageComposer(_room, __item.GetAffectedTiles, 0));
+                            _room.SendMessage(new UpdateStackMapMessageComposer(_room, __item.GetAffectedTiles, true));
                             _room.GetGameMap().RemoveFromMap(__item);
                         }
                         else
@@ -1194,29 +1197,11 @@ namespace StarBlue.HabboHotel.Rooms
             return items;
         }
 
-        public ICollection<Item> GetFloor
-        {
-            get
-            {
-                return _floorItems.Values;
-            }
-        }
+        public ICollection<Item> GetFloor => _floorItems.Values;
 
-        public ICollection<Item> GetWall
-        {
-            get
-            {
-                return _wallItems.Values;
-            }
-        }
+        public ICollection<Item> GetWall => _wallItems.Values;
 
-        public IEnumerable<Item> GetWallAndFloor
-        {
-            get
-            {
-                return _floorItems.Values.Concat(_wallItems.Values);
-            }
-        }
+        public IEnumerable<Item> GetWallAndFloor => _floorItems.Values.Concat(_wallItems.Values);
 
 
         public bool CheckPosItem(GameClient Session, Item Item, int newX, int newY, int newRot, bool newItem, bool SendNotify = true)

@@ -4,20 +4,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     class customalertCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_12"; }
-        }
+        public string PermissionRequired => "user_12";
 
-        public string Parameters
-        {
-            get { return "[MENSAGEM]"; }
-        }
+        public string Parameters => "[MENSAGEM]";
 
-        public string Description
-        {
-            get { return "Envie uma mensagem de aviso para o hotel."; }
-        }
+        public string Description => "Envie uma mensagem de aviso para o hotel.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

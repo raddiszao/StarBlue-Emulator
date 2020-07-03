@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class FlagMeCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_12"; }
-        }
+        public string PermissionRequired => "user_12";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Troca seu nome de usuário."; }
-        }
+        public string Description => "Troca seu nome de usuário.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

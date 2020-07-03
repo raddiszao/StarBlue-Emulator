@@ -7,18 +7,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class OnDutyCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
-        public string Parameters
-        {
-            get { return ""; }
-        }
-        public string Description
-        {
-            get { return "Ve los usarios conectados ahora mismo."; }
-        }
+        public string PermissionRequired => "user_vip";
+        public string Parameters => "";
+        public string Description => "Ve los usarios conectados ahora mismo.";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             using (IQueryAdapter Adapter = StarBlueServer.GetDatabaseManager().GetQueryReactor())

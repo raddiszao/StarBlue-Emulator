@@ -2,20 +2,14 @@
 {
     class StandCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
         public string Parameters
         {
             get { return ""; ; }
         }
 
-        public string Description
-        {
-            get { return "Levanta-se."; }
-        }
+        public string Description => "Levanta-se.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

@@ -1,5 +1,4 @@
 ﻿using StarBlue.HabboHotel.GameClients;
-using StarBlue.HabboHotel.Items.Wired;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Connection
 {

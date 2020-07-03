@@ -29,8 +29,8 @@ namespace StarBlue.HabboHotel.Rooms.Games
 
         public int[] Points
         {
-            get { return _teamPoints; }
-            set { _teamPoints = value; }
+            get => _teamPoints;
+            set => _teamPoints = value;
         }
 
         public TEAM GetWinningTeam()

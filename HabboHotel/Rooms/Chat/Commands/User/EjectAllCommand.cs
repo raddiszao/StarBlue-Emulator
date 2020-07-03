@@ -7,20 +7,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class EjectAllCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return ""; }
-        }
+        public string Parameters => "";
 
-        public string Description
-        {
-            get { return "Limpa todos os mobis de grupo do quarto."; }
-        }
+        public string Description => "Limpa todos os mobis de grupo do quarto.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

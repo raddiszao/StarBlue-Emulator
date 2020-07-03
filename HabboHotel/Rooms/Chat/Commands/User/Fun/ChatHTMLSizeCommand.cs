@@ -4,18 +4,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class ChatHTMLSizeCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_vip"; }
-        }
-        public string Parameters
-        {
-            get { return "Número do 1 ao 20. Para voltar ao normal coloque o numéro 12"; }
-        }
-        public string Description
-        {
-            get { return "Mudar o tamanho do seu nome"; }
-        }
+        public string PermissionRequired => "user_vip";
+        public string Parameters => "Número do 1 ao 20. Para voltar ao normal coloque o numéro 12";
+        public string Description => "Mudar o tamanho do seu nome";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             if (Params.Length == 1)

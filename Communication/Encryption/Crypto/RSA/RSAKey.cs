@@ -147,7 +147,7 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
             {
                 int bl = GetBlockSize();
 
-                byte[] paddedBytes = pkcs1pad(src, bl, type);
+                byte[] paddedBytes = Pkcs1pad(src, bl, type);
                 BigInteger m = new BigInteger(paddedBytes);
                 if (m == 0)
                 {
@@ -181,7 +181,7 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
 
                 int bl = GetBlockSize();
 
-                byte[] bytes = pkcs1unpad(m.getBytes(), bl, type);
+                byte[] bytes = Pkcs1unpad(m.getBytes(), bl, type);
 
                 return bytes;
             }
@@ -191,7 +191,7 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
             }
         }
 
-        private byte[] pkcs1pad(byte[] src, int n, Pkcs1PadType type)
+        private byte[] Pkcs1pad(byte[] src, int n, Pkcs1PadType type)
         {
             byte[] bytes = new byte[n];
 
@@ -218,7 +218,7 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
             return bytes;
         }
 
-        private byte[] pkcs1unpad(byte[] src, int n, Pkcs1PadType type)
+        private byte[] Pkcs1unpad(byte[] src, int n, Pkcs1PadType type)
         {
             int i = 0;
             while (i < src.Length && src[i] == 0)
@@ -270,10 +270,4 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
     }
 
     public delegate BigInteger DoCalculateionDelegate(BigInteger m);
-
-    public enum Pkcs1PadType
-    {
-        FullByte = 1,
-        RandomByte = 2
-    }
 }

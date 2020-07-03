@@ -149,20 +149,11 @@ namespace StarBlue.HabboHotel.Rooms
         }
 
 
-        public Point Coordinate
-        {
-            get { return new Point(X, Y); }
-        }
+        public Point Coordinate => new Point(X, Y);
 
-        public bool IsPet
-        {
-            get { return (IsBot && BotData.IsPet); }
-        }
+        public bool IsPet => (IsBot && BotData.IsPet);
 
-        public int CurrentEffect
-        {
-            get { return GetClient().GetHabbo().Effects().CurrentEffect; }
-        }
+        public int CurrentEffect => GetClient().GetHabbo().Effects().CurrentEffect;
 
 
         public bool IsDancing
@@ -270,8 +261,8 @@ namespace StarBlue.HabboHotel.Rooms
 
         public double BuildHeight
         {
-            get { return _buildHeight; }
-            set { _buildHeight = value; }
+            get => _buildHeight;
+            set => _buildHeight = value;
         }
 
 
@@ -521,7 +512,7 @@ namespace StarBlue.HabboHotel.Rooms
                 SendNameColourPacket();
                 foreach (RoomUser User in mRoom.GetRoomUserManager().GetRoomUsers().ToList())
                 {
-                    if (User == null || User.GetClient() == null || User.GetClient().GetHabbo() == null)
+                    if (User == null || User.GetClient() == null || User.GetClient().GetHabbo() == null || User.GetClient().GetHabbo().GetIgnores().IgnoredUserIds().Contains(mClient.GetHabbo().Id))
                     {
                         continue;
                     }

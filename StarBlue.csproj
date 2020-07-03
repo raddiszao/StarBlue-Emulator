@@ -132,6 +132,7 @@
     <Compile Include="Communication\ConnectionManager\GameSocketManagerStatics.cs" />
     <Compile Include="Communication\ConnectionManager\IDataParser.cs" />
     <Compile Include="Communication\ConnectionManager\Socket Exceptions\SocketInitializationException.cs" />
+    <Compile Include="Communication\Encryption\Crypto\RSA\Pkcs1PadType.cs" />
     <Compile Include="Communication\GamePacketParser.cs" />
     <Compile Include="Communication\InitialPacketParser.cs" />
     <Compile Include="Communication\Interfaces\IServerPacket.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Communication\Packets\Incoming\Talents\GetCitizenshipTypeEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Talents\PostQuizAnswersMessage.cs" />
     <Compile Include="Communication\Packets\Incoming\Talents\Quiz.cs" />
+    <Compile Include="Communication\Packets\Incoming\Users\GetIgnoredUsersEvent.cs" />
     <Compile Include="Communication\Packets\Outgoing\Catalog\BCCatalogPageComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Catalog\GetClubOffersMessageComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Catalog\HabboMallOfferComposer.cs" />
@@ -241,6 +243,7 @@
     <Compile Include="Communication\Packets\Outgoing\Sound\SetJukeboxSongMusicDataComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Users\HabboClubSubscriptionComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Users\ClubGiftRecievedComposer.cs" />
+    <Compile Include="Communication\Packets\Outgoing\Users\IgnoredUsersComposer.cs" />
     <Compile Include="Core\FigureData\FigureDataManager.cs" />
     <Compile Include="Core\Language\LanguageManager.cs" />
     <Compile Include="Core\Rank\RankManager.cs" />
@@ -261,13 +264,6 @@
     <Compile Include="HabboHotel\Achievements\Talents\Talent.cs" />
     <Compile Include="HabboHotel\Achievements\Talents\TalentManager.cs" />
     <Compile Include="HabboHotel\Achievements\Talents\UserTalent.cs" />
-    <Compile Include="HabboHotel\Astar\AStarHeuristicType.cs" />
-    <Compile Include="HabboHotel\Astar\DreamPathfinder.cs" />
-    <Compile Include="HabboHotel\Astar\HeightInfo.cs" />
-    <Compile Include="HabboHotel\Astar\IPathNode.cs" />
-    <Compile Include="HabboHotel\Astar\ModelInfo.cs" />
-    <Compile Include="HabboHotel\Astar\SquareInformation.cs" />
-    <Compile Include="HabboHotel\Astar\SquarePoint.cs" />
     <Compile Include="HabboHotel\Calendar\CalendarDay.cs" />
     <Compile Include="HabboHotel\Calendar\CalendarManager.cs" />
     <Compile Include="HabboHotel\Catalog\BCCatalogItem.cs" />
@@ -973,7 +969,6 @@
     <Compile Include="HabboHotel\Moderation\ModerationPresetActions.cs" />
     <Compile Include="HabboHotel\Moderation\ModerationSupportTicketType.cs" />
     <Compile Include="HabboHotel\Navigator\FeaturedRoom2.cs" />
-    <Compile Include="HabboHotel\Navigator\JuegosRoom.cs" />
     <Compile Include="HabboHotel\Navigator\LoteSalas.cs" />
     <Compile Include="HabboHotel\Navigator\NavigatorCategoryType.cs" />
     <Compile Include="HabboHotel\Navigator\NavigatorCategoryTypeUtility.cs" />
@@ -1069,11 +1064,13 @@
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Moderator\ViewClonesCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Moderator\ViewOnlineCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\BuyRoomCommand.cs" />
+    <Compile Include="HabboHotel\Rooms\Chat\Commands\User\AllRoomFloorCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\ChangeBubbleBot.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\ColorCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\ColorListCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\ConvertDiamondsCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\CloseRoomCommand.cs" />
+    <Compile Include="HabboHotel\Rooms\Chat\Commands\User\DisableMentionCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\StackCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\FindFurniCommand.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\User\ConvertDucketsCommand.cs" />
@@ -1298,6 +1295,7 @@
     <Compile Include="HabboHotel\Users\Effects\AvatarEffect.cs" />
     <Compile Include="HabboHotel\Users\Effects\AvatarEffectFactory.cs" />
     <Compile Include="HabboHotel\Users\Effects\EffectsComponent.cs" />
+    <Compile Include="HabboHotel\Users\Ignores\IgnoresComponent.cs" />
     <Compile Include="HabboHotel\Users\Inventory\Bots\Bot.cs" />
     <Compile Include="HabboHotel\Users\Inventory\Bots\BotLoader.cs" />
     <Compile Include="HabboHotel\Users\Inventory\Pets\PetLoader.cs" />
@@ -1427,6 +1425,7 @@
     <Compile Include="Communication\Encryption\KeyExchange\DiffieHellman.cs" />
     <Compile Include="Communication\Encryption\Keys\RSAKeys.cs" />
     <Compile Include="Utilities\Converter.cs" />
+    <Compile Include="Utilities\Enclosure\Algorithm\FieldUpdate.cs" />
     <Compile Include="Utilities\HabboEncoding.cs" />
     <Compile Include="Utilities\Randomizer.cs" />
     <Compile Include="Utilities\Enclosure\Algorithm\GametileUpdate.cs" />

@@ -92,110 +92,110 @@ namespace StarBlue.HabboHotel.Catalog
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         public int ParentId
         {
-            get { return _parentId; }
-            set { _parentId = value; }
+            get => _parentId;
+            set => _parentId = value;
         }
 
         public bool Enabled
         {
-            get { return _enabled; }
-            set { _enabled = value; }
+            get => _enabled;
+            set => _enabled = value;
         }
 
         public string Caption
         {
-            get { return _caption; }
-            set { _caption = value; }
+            get => _caption;
+            set => _caption = value;
         }
 
         public string PageLink
         {
-            get { return _pageLink; }
-            set { _pageLink = value; }
+            get => _pageLink;
+            set => _pageLink = value;
         }
 
         public int Icon
         {
-            get { return _icon; }
-            set { _icon = value; }
+            get => _icon;
+            set => _icon = value;
         }
 
         public int MinimumRank
         {
-            get { return _minRank; }
-            set { _minRank = value; }
+            get => _minRank;
+            set => _minRank = value;
         }
 
         public int MinimumVIP
         {
-            get { return _minVIP; }
-            set { _minVIP = value; }
+            get => _minVIP;
+            set => _minVIP = value;
         }
 
         public bool Visible
         {
-            get { return _visible; }
-            set { _visible = value; }
+            get => _visible;
+            set => _visible = value;
         }
 
         public string Template
         {
-            get { return _template; }
-            set { _template = value; }
+            get => _template;
+            set => _template = value;
         }
 
         public List<string> PageStrings1
         {
-            get { return _pageStrings1; }
-            private set { _pageStrings1 = value; }
+            get => _pageStrings1;
+            private set => _pageStrings1 = value;
         }
 
         public List<string> PageStrings2
         {
-            get { return _pageStrings2; }
-            private set { _pageStrings2 = value; }
+            get => _pageStrings2;
+            private set => _pageStrings2 = value;
         }
 
         public Dictionary<int, CatalogItem> Items
         {
-            get { return _items; }
-            private set { _items = value; }
+            get => _items;
+            private set => _items = value;
         }
 
         public Dictionary<int, CatalogDeal> Deals
         {
-            get { return _deals; }
-            private set { _deals = value; }
+            get => _deals;
+            private set => _deals = value;
         }
 
         public PredesignedContent PredesignedItems
         {
-            get { return _predesignedItems; }
-            private set { _predesignedItems = value; }
+            get => _predesignedItems;
+            private set => _predesignedItems = value;
         }
 
         public Dictionary<int, CatalogItem> ItemOffers
         {
-            get { return _itemOffers; }
-            private set { _itemOffers = value; }
+            get => _itemOffers;
+            private set => _itemOffers = value;
         }
 
         public Dictionary<int, CatalogItem> LastItemOffers
         {
-            get { return _lastItemOffers; }
-            set { _lastItemOffers = value; }
+            get => _lastItemOffers;
+            set => _lastItemOffers = value;
         }
 
         public Dictionary<int, CatalogDeal> DealOffers
         {
-            get { return _dealOffers; }
-            private set { _dealOffers = value; }
+            get => _dealOffers;
+            private set => _dealOffers = value;
         }
 
         public CatalogItem GetItem(int pId)

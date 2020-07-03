@@ -5,20 +5,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
     class SetMaxCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
+        public string PermissionRequired => "user_normal";
 
-        public string Parameters
-        {
-            get { return "[NUMERO]"; }
-        }
+        public string Parameters => "[NUMERO]";
 
-        public string Description
-        {
-            get { return "Aumenta ou reduz o numero maximo em seu quarto."; }
-        }
+        public string Description => "Aumenta ou reduz o numero maximo em seu quarto.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {

@@ -190,10 +190,7 @@ namespace StarBlue.HabboHotel.Rooms.AI
             }
         }
 
-        public bool IsInRoom
-        {
-            get { return (RoomId > 0); }
-        }
+        public bool IsInRoom => (RoomId > 0);
 
         public int Level
         {
@@ -210,44 +207,21 @@ namespace StarBlue.HabboHotel.Rooms.AI
             }
         }
 
-        public static int MaxLevel
-        {
-            get { return 20; }
-        }
+        public static int MaxLevel => 20;
 
-        public int experienceGoal
-        {
-            get
-            {
+        public int experienceGoal =>
                 //will error index out of range (need to look into this sometime)
-                return experienceLevels[Level - 1];
-            }
-        }
+                experienceLevels[Level - 1];
 
-        public static int MaxEnergy
-        {
-            get { return 100; }
-        }
+        public static int MaxEnergy => 100;
 
-        public static int MaxNutrition
-        {
-            get { return 150; }
-        }
+        public static int MaxNutrition => 150;
 
-        public int Age
-        {
-            get { return Convert.ToInt32(Math.Floor((StarBlueServer.GetUnixTimestamp() - CreationStamp) / 86400)); }
-        }
+        public int Age => Convert.ToInt32(Math.Floor((StarBlueServer.GetUnixTimestamp() - CreationStamp) / 86400));
 
-        public string Look
-        {
-            get { return Type + " " + Race + " " + Color + " " + GnomeClothing; }
-        }
+        public string Look => Type + " " + Race + " " + Color + " " + GnomeClothing;
 
-        public string OwnerName
-        {
-            get { return StarBlueServer.GetGame().GetClientManager().GetNameById(OwnerId); }
-        }
+        public string OwnerName => StarBlueServer.GetGame().GetClientManager().GetNameById(OwnerId);
     }
 
     public enum DatabaseUpdateState

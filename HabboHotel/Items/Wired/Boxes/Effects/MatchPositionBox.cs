@@ -14,7 +14,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public Item Item { get; set; }
 
-        public WiredBoxType Type { get { return WiredBoxType.EffectMatchPosition; } }
+        public WiredBoxType Type => WiredBoxType.EffectMatchPosition;
 
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
 
@@ -22,7 +22,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public bool BoolData { get; set; }
 
-        public int Delay { get { return _delay; } set { _delay = value; TickCount = value + 1; } }
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
 
         public int TickCount { get; set; }
 

@@ -10,11 +10,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type { get { return WiredBoxType.TriggerAtGivenTime; } }
+        public WiredBoxType Type => WiredBoxType.TriggerAtGivenTime;
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }
-        public int Delay { get { return _delay; } set { _delay = value; TickCount = value; } }
+        public int Delay { get => _delay; set { _delay = value; TickCount = value; } }
         public int TickCount { get; set; }
         public string ItemsData { get; set; }
 

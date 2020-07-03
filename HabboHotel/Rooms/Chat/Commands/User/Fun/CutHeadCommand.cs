@@ -7,18 +7,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
     class CutHeadCommand : IChatCommand
     {
-        public string PermissionRequired
-        {
-            get { return "user_normal"; }
-        }
-        public string Parameters
-        {
-            get { return "[USUARIO]"; }
-        }
-        public string Description
-        {
-            get { return "Cortar a cabeça de um usuário."; }
-        }
+        public string PermissionRequired => "user_normal";
+        public string Parameters => "[USUARIO]";
+        public string Description => "Cortar a cabeça de um usuário.";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             if (Params.Length == 1)
