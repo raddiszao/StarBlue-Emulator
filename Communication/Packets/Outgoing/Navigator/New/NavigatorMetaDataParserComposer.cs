@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class NavigatorMetaDataParserComposer : ServerPacket
+    internal class NavigatorMetaDataParserComposer : ServerPacket
     {
         public NavigatorMetaDataParserComposer(ICollection<TopLevelItem> TopLevelItems)
             : base(ServerPacketHeader.NavigatorMetaDataParserMessageComposer)

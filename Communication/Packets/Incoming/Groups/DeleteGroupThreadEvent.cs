@@ -4,15 +4,15 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class DeleteGroupThreadEvent : IPacketEvent
+    internal class DeleteGroupThreadEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var int1 = Packet.PopInt();
-            var int2 = Packet.PopInt();
-            var int3 = Packet.PopInt();
+            int int1 = Packet.PopInt();
+            int int2 = Packet.PopInt();
+            int int3 = Packet.PopInt();
 
-            var forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(int1);
+            HabboHotel.Groups.Forums.GroupForum forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(int1);
 
             if (forum == null)
             {
@@ -26,7 +26,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 return;
             }
 
-            var thread = forum.GetThread(int2);
+            HabboHotel.Groups.Forums.GroupForumThread thread = forum.GetThread(int2);
             if (thread == null)
             {
                 Session.SendNotification(("forums.thread.delete.error.threadnotfound"));

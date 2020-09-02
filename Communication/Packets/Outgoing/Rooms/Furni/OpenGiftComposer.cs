@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    class OpenGiftComposer : ServerPacket
+    internal class OpenGiftComposer : ServerPacket
     {
         public OpenGiftComposer(ItemData Data, string Text, Item Item, bool ItemIsInRoom)
             : base(ServerPacketHeader.OpenGiftMessageComposer)

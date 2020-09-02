@@ -3,12 +3,12 @@ using StarBlue.HabboHotel.Helpers;
 
 namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
-    class AcceptHelperSessionEvent : IPacketEvent
+    internal class AcceptHelperSessionEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var Accepted = Packet.PopBoolean();
-            var Helper = HelperToolsManager.GetHelper(Session);
+            bool Accepted = Packet.PopBoolean();
+            HabboHelper Helper = HelperToolsManager.GetHelper(Session);
 
             if (Helper == null)
             {

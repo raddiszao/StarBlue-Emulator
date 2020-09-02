@@ -1,11 +1,10 @@
 ﻿using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
-using System;
 using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
 {
-    class WiredConditionConfigComposer : ServerPacket
+    internal class WiredConditionConfigComposer : ServerPacket
     {
         public WiredConditionConfigComposer(IWiredItem Box)
             : base(ServerPacketHeader.WiredConditionConfigMessageComposer)
@@ -29,7 +28,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
 
             if (Box.Type == WiredBoxType.ConditionDateRangeActive)
             {
-                if (String.IsNullOrEmpty(Box.StringData))
+                if (string.IsNullOrEmpty(Box.StringData))
                 {
                     Box.StringData = "0;0";
                 }
@@ -42,7 +41,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
 
             if (Box.Type == WiredBoxType.ConditionMatchStateAndPosition || Box.Type == WiredBoxType.ConditionDontMatchStateAndPosition)
             {
-                if (String.IsNullOrEmpty(Box.StringData))
+                if (string.IsNullOrEmpty(Box.StringData))
                 {
                     Box.StringData = "0;0;0";
                 }
@@ -54,7 +53,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
             }
             else if (Box.Type == WiredBoxType.ConditionUserCountInRoom || Box.Type == WiredBoxType.ConditionUserCountDoesntInRoom)
             {
-                if (String.IsNullOrEmpty(Box.StringData))
+                if (string.IsNullOrEmpty(Box.StringData))
                 {
                     Box.StringData = "0;0";
                 }

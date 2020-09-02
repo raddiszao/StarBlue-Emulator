@@ -99,7 +99,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                 return;
             }
 
-            StarBlueServer.GetGame().GetChatManager().GetLogs().StoreChatlog(new StarBlue.HabboHotel.Rooms.Chat.Logs.ChatlogEntry(Session.GetHabbo().Id, Room.Id, Message, UnixTimestamp.GetNow(), Session.GetHabbo(), Room));
+            StarBlueServer.GetGame().GetChatManager().GetLogs().StoreChatlog(new StarBlue.HabboHotel.Rooms.Chat.Logs.ChatlogEntry(Session.GetHabbo().Id, Room.Id, Message, UnixTimestamp.GetNow(), Session.GetHabbo(), Room.RoomData));
 
             if (!Session.GetHabbo().GetPermissions().HasRight("word_filter_override") &&
                 StarBlueServer.GetGame().GetChatManager().GetFilter().IsUnnaceptableWord(Message, out string word))

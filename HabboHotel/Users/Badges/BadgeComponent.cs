@@ -1,9 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Badges;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Badges;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Users.UserDataManagement;
-using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -103,7 +102,7 @@ namespace StarBlue.HabboHotel.Users.Badges
             return true;
         }
 
-        public void GiveBadge(string Badge, Boolean InDatabase, GameClient Session)
+        public void GiveBadge(string Badge, bool InDatabase, GameClient Session)
         {
             if (HasBadge(Badge))
             {
@@ -154,6 +153,11 @@ namespace StarBlue.HabboHotel.Users.Badges
             if (_badges.ContainsKey(Badge))
             {
                 _badges.Remove(Badge);
+            }
+
+            if (Session != null)
+            {
+                Session.SendMessage(new BadgesComposer(Session));
             }
         }
 

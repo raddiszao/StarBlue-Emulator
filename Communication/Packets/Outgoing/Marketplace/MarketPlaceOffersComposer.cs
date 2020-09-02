@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Marketplace
 {
-    class MarketPlaceOffersComposer : ServerPacket
+    internal class MarketPlaceOffersComposer : ServerPacket
     {
         public MarketPlaceOffersComposer(int MinCost, int MaxCost, Dictionary<int, MarketOffer> dictionary, Dictionary<int, int> dictionary2)
             : base(ServerPacketHeader.MarketPlaceOffersMessageComposer)

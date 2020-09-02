@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class HabboGroupBadgesComposer : ServerPacket
+    internal class HabboGroupBadgesComposer : ServerPacket
     {
         public HabboGroupBadgesComposer(Dictionary<int, string> Badges)
             : base(ServerPacketHeader.HabboGroupBadgesMessageComposer)

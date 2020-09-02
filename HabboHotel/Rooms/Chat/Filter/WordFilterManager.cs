@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StarBlue.Database.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Filter
             }
 
             DataTable Data = null;
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT word FROM `wordfilter`");
                 Data = dbClient.GetTable();
@@ -50,7 +51,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Filter
             }
 
             DataTable Data = null;
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT * FROM `wordfilter_characters`");
                 Data = dbClient.GetTable();
@@ -68,7 +69,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Filter
         public bool IsUnnaceptableWord(string str, out string output)
         {
             str = str.ToLower();
-            foreach (var replacement in _filterReplacements.Select(word => word).Where(word => str.Contains(word.Character)))
+            foreach (WordFilterReplacements replacement in _filterReplacements.Select(word => word).Where(word => str.Contains(word.Character)))
             {
                 str = str.Replace(replacement.Character, replacement.Replacement);
             }

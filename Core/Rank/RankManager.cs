@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
+using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;

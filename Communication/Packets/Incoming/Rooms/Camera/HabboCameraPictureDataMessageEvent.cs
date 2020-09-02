@@ -14,9 +14,11 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
         {
             Session.SendMessage(new SetCameraPicturePriceMessageComposer(100, 10, 10));
             string str = Camera.Decompiler(packet.ReadBytes(packet.PopInt()));
+            string JsonData = URLPost.GetDataFromJSON(str, "timestamp");
+            if (!double.TryParse(JsonData, out double timestamp))
+                return;
 
             string roomIdJSON = URLPost.GetDataFromJSON(str, "roomid");
-            double timestamp = double.Parse(URLPost.GetDataFromJSON(str, "timestamp"));
             string timestampJSON = (timestamp - (timestamp % 100)).ToString();
 
             Session.GetHabbo().lastPhotoPreview = roomIdJSON + "-" + timestampJSON;
@@ -25,7 +27,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
         }
     }
 
-    class Camera
+    internal class Camera
     {
         internal static string Decompiler(byte[] input)
         {
@@ -35,16 +37,16 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
 
         private static string DecompressBytes(byte[] bytes)
         {
-            using (var stream = new MemoryStream(bytes, 2, bytes.Length - 2))
-            using (var inflater = new DeflateStream(stream, CompressionMode.Decompress))
-            using (var streamReader = new StreamReader(inflater))
+            using (MemoryStream stream = new MemoryStream(bytes, 2, bytes.Length - 2))
+            using (DeflateStream inflater = new DeflateStream(stream, CompressionMode.Decompress))
+            using (StreamReader streamReader = new StreamReader(inflater))
             {
                 return streamReader.ReadToEnd();
             }
         }
     }
 
-    class URLPost
+    internal class URLPost
     {
         internal static void Web_POST_JSON(string URL, string JSON)
         {
@@ -52,7 +54,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
             httpWebRequest.ContentType = "text/json";
             httpWebRequest.Method = "POST";
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
                 streamWriter.Write(JSON);
                 streamWriter.Flush();

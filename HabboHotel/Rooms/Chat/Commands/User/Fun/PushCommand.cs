@@ -1,10 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.HabboHotel.GameClients;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class PushCommand : IChatCommand
+    internal class PushCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -14,19 +16,27 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (Params.Length == 1)
+            if (!Room.RoomData.PushEnabled && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
             {
-                Session.SendWhisper("Digite o nome do usuário que você deseja empurrar", 34);
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
                 return;
             }
 
-            //if (!Room.PushEnabled && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
-            //{
-            //    Session.SendWhisper("Oops,  aparentemente, o dono da sala desativou a capacidade de usar o comando Empurrar");
-            //    return;
-            //}
+            GameClient TargetClient = null;
+            if (Params.Length == 1)
+            {
+                Point UserInFront = Session.GetRoomUser().SquareInFront;
+                List<RoomUser> UsersInSquare = Room.GetGameMap().GetRoomUsers(UserInFront);
+                if (UsersInSquare.Count > 0)
+                {
+                    TargetClient = UsersInSquare[0].GetClient();
+                }
+            }
+            else
+            {
+                TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
+            }
 
-            GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
             if (TargetClient == null)
             {
                 Session.SendWhisper("Houve um problema, aparentemente o usuário não está online ou você não escreveu o nome corretamente", 34);
@@ -60,13 +70,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (!((Math.Abs(TargetUser.X - ThisUser.X) >= 2) || (Math.Abs(TargetUser.Y - ThisUser.Y) >= 2)))
             {
-                if (TargetUser.SetX - 1 == Room.GetGameMap().Model.DoorX)
-                {
-                    Session.SendWhisper("Por favor, não empurre - o para a saída: (!", 34);
-                    return;
-                }
-
-                if (TargetUser.RotBody == 4)
+                if (ThisUser.RotBody == 4)
                 {
                     TargetUser.MoveTo(TargetUser.X, TargetUser.Y + 1);
                 }
@@ -110,11 +114,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                     TargetUser.MoveTo(TargetUser.X, TargetUser.Y + 1);
                 }
 
-                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Eu empurrei " + Params[1] + " * ", 0, ThisUser.LastBubble));
+                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Eu empurrei " + TargetUser.GetClient().GetHabbo().Username + "* ", 0, 31));
             }
             else
             {
-                Session.SendWhisper("Oops, " + Params[1] + " não está perto o suficiente!");
+                Session.SendWhisper("Oops, " + TargetUser.GetClient().GetHabbo().Username + " não está perto o suficiente!");
             }
         }
     }

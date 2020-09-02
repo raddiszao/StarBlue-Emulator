@@ -19,7 +19,7 @@ namespace StarBlue.Communication.Packets.Incoming.Handshake
             }
             else
             {
-                Session.SendNotification("Se ha producido un error, por favor inicie sesion nuevamente!");
+                Session.SendNotification("Ocorreu um erro, inicie a sessão novamente.");
                 return;
             }
         }

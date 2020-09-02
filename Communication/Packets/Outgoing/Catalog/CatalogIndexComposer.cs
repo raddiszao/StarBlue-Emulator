@@ -12,7 +12,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
             WriteRootIndex(Session, Pages);
             foreach (CatalogPage Parent in Pages)
             {
-                if (Parent.ParentId != -1 || Parent.MinimumRank > Session.GetHabbo().Rank || (Parent.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+                if (Parent.ParentId != -1 || (Parent.MinimumRank > Session.GetHabbo().Rank && Parent.MinimumVIP == 0) || (Parent.MinimumVIP > 0 && Parent.MinimumVIP > Session.GetHabbo().VIPRank && Parent.MinimumRank > Session.GetHabbo().Rank))
                 {
                     continue;
                 }
@@ -20,7 +20,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
                 WritePage(Session, Parent, CalcTreeSize(Session, Pages, Parent.Id));
                 foreach (CatalogPage child in Pages)
                 {
-                    if (child.ParentId != Parent.Id || child.MinimumRank > Session.GetHabbo().Rank || (child.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+                    if (child.ParentId != Parent.Id || (child.MinimumRank > Session.GetHabbo().Rank && child.MinimumVIP == 0) || (child.MinimumVIP > 0 && child.MinimumVIP > Session.GetHabbo().VIPRank && child.MinimumRank > Session.GetHabbo().Rank))
                     {
                         continue;
                     }
@@ -36,7 +36,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
 
                     foreach (CatalogPage SubChild in Pages)
                     {
-                        if (SubChild.ParentId != child.Id || SubChild.MinimumRank > Session.GetHabbo().Rank)
+                        if (SubChild.ParentId != child.Id || (SubChild.MinimumRank > Session.GetHabbo().Rank && SubChild.MinimumVIP == 0) || (SubChild.MinimumVIP > 0 && SubChild.MinimumVIP > Session.GetHabbo().VIPRank && SubChild.MinimumRank > Session.GetHabbo().Rank))
                         {
                             continue;
                         }
@@ -52,7 +52,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
 
                         foreach (CatalogPage SubSChild in Pages)
                         {
-                            if (SubSChild.ParentId != SubChild.Id || SubSChild.MinimumRank > Session.GetHabbo().Rank)
+                            if (SubSChild.ParentId != SubChild.Id || (SubSChild.MinimumRank > Session.GetHabbo().Rank && SubSChild.MinimumVIP == 0) || (SubSChild.MinimumVIP > 0 && SubSChild.MinimumVIP > Session.GetHabbo().VIPRank && !(SubSChild.MinimumRank > Session.GetHabbo().Rank)))
                             {
                                 continue;
                             }
@@ -73,7 +73,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
             WriteRootIndex(Session, Pages);
             foreach (BCCatalogPage Parent in Pages)
             {
-                if (Parent.ParentId != -1 || Parent.MinimumRank > Session.GetHabbo().Rank || (Parent.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+                if (Parent.ParentId != -1 || Parent.MinimumRank > Session.GetHabbo().Rank || (Parent.MinimumVIP < Session.GetHabbo().VIPRank))
                 {
                     continue;
                 }
@@ -81,7 +81,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
                 WritePage(Parent, CalcTreeSize(Session, Pages, Parent.Id));
                 foreach (BCCatalogPage child in Pages)
                 {
-                    if (child.ParentId != Parent.Id || child.MinimumRank > Session.GetHabbo().Rank || (child.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+                    if (child.ParentId != Parent.Id || child.MinimumRank > Session.GetHabbo().Rank || (child.MinimumVIP < Session.GetHabbo().VIPRank))
                     {
                         continue;
                     }
@@ -161,7 +161,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
             int i = 0;
             foreach (CatalogPage Page in Pages)
             {
-                if (Page.MinimumRank > Session.GetHabbo().Rank || (Page.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2) || Page.ParentId != ParentId)
+                if (Page.ParentId != ParentId || (Page.MinimumRank > Session.GetHabbo().Rank && Page.MinimumVIP == 0) || (Page.MinimumVIP > 0 && Page.MinimumVIP > Session.GetHabbo().VIPRank && Page.MinimumRank > Session.GetHabbo().Rank))
                 {
                     continue;
                 }
@@ -212,7 +212,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
             int i = 0;
             foreach (BCCatalogPage Page in Pages)
             {
-                if (Page.MinimumRank > Session.GetHabbo().Rank || (Page.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2) || Page.ParentId != ParentId)
+                if (Page.MinimumRank > Session.GetHabbo().Rank || (Page.MinimumVIP < Session.GetHabbo().VIPRank) || Page.ParentId != ParentId)
                 {
                     continue;
                 }

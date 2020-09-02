@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Trading;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Trading;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Trading
 {
-    class InitTradeEvent : IPacketEvent
+    internal class InitTradeEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -22,6 +22,7 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Trading
 
             if (!Room.CanTradeInRoom || StarBlueServer.GoingIsToBeClose)
             {
+                Session.SendNotification("Essa função foi desativada até o servidor for reinicializado.");
                 return;
             }
 
@@ -65,12 +66,12 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Trading
 
             if (!Session.GetHabbo().GetPermissions().HasRight("room_trade_override"))
             {
-                if (Room.TradeSettings == 1 && Room.OwnerId != Session.GetHabbo().Id)//Owner only.
+                if (Room.RoomData.TradeSettings == 1 && Room.RoomData.OwnerId != Session.GetHabbo().Id)//Owner only.
                 {
                     Session.SendMessage(new TradingErrorComposer(6, TargetUser.GetUsername()));
                     return;
                 }
-                else if (Room.TradeSettings == 0 && Room.OwnerId != Session.GetHabbo().Id)//Trading is disabled.
+                else if (Room.RoomData.TradeSettings == 0 && Room.RoomData.OwnerId != Session.GetHabbo().Id)//Trading is disabled.
                 {
                     Session.SendMessage(new TradingErrorComposer(6, TargetUser.GetUsername()));
                     return;

@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Moderation;
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class PickTicketEvent : IPacketEvent
+    internal class PickTicketEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

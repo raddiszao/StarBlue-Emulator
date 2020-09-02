@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class CarryCommand : IChatCommand
+    internal class CarryCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -12,8 +12,14 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 
         public void Execute(GameClients.GameClient Session, Room Room, string[] Params)
         {
-            if (Params.Length == 0)
+            if (Params.Length == 1)
             {
+                return;
+            }
+
+            if (!Room.RoomData.HandItemEnabled && !Room.CheckRights(Session, true) && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
+            {
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
                 return;
             }
 

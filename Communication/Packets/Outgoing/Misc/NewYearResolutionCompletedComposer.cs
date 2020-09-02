@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    class NewYearResolutionCompletedComposer : ServerPacket
+    internal class NewYearResolutionCompletedComposer : ServerPacket
     {
         public NewYearResolutionCompletedComposer(string badge)
             : base(ServerPacketHeader.NewYearResolutionCompletedComposer)

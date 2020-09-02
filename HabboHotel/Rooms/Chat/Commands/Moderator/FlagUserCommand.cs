@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Handshake;
+﻿using StarBlue.Communication.Packets.Outgoing.Handshake;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class FlagUserCommand : IChatCommand
+    internal class FlagUserCommand : IChatCommand
     {
-        public string PermissionRequired => "user_12";
+        public string PermissionRequired => "user_15";
         public string Parameters => "[USUARIO]";
         public string Description => "Renomear um usuário.";
 

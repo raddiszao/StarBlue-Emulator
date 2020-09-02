@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    class GameAccountStatusComposer : ServerPacket
+    internal class GameAccountStatusComposer : ServerPacket
     {
         public GameAccountStatusComposer(int GameID)
             : base(ServerPacketHeader.GameAccountStatusMessageComposer)

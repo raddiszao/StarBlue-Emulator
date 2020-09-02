@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.Utilities;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ namespace StarBlue.HabboHotel.Catalog.FurniMatic
         public List<FurniMaticRewards> GetRewards() { return Rewards; }
         public List<FurniMaticRewards> GetRewardsByLevel(int level)
         {
-            var rewards = new List<FurniMaticRewards>();
-            foreach (var reward in Rewards.Where(furni => furni.Level == level))
+            List<FurniMaticRewards> rewards = new List<FurniMaticRewards>();
+            foreach (FurniMaticRewards reward in Rewards.Where(furni => furni.Level == level))
             {
                 rewards.Add(reward);
             }
@@ -24,13 +24,13 @@ namespace StarBlue.HabboHotel.Catalog.FurniMatic
 
         public FurniMaticRewards GetRandomReward()
         {
-            var level = 0;
-            var rand5 = RandomNumber.GenerateRandom(1, 2000);
+            int level = 0;
+            int rand5 = RandomNumber.GenerateRandom(1, 2000);
             if (rand5 == 1999)
             {
                 level = 5;
-                var Reward = GetRewardsByLevel(level);
-                var prize5 = RandomNumber.GenerateRandom(1, 2);
+                List<FurniMaticRewards> Reward = GetRewardsByLevel(level);
+                int prize5 = RandomNumber.GenerateRandom(1, 2);
                 if (prize5 == 1) { return Reward[0]; }
                 else
                 {
@@ -38,12 +38,12 @@ namespace StarBlue.HabboHotel.Catalog.FurniMatic
                 }
             }
 
-            var rand4 = RandomNumber.GenerateRandom(1, 250);
+            int rand4 = RandomNumber.GenerateRandom(1, 250);
             if (rand4 == 199)
             {
                 level = 4;
-                var Reward = GetRewardsByLevel(level);
-                var prize4 = RandomNumber.GenerateRandom(1, 2);
+                List<FurniMaticRewards> Reward = GetRewardsByLevel(level);
+                int prize4 = RandomNumber.GenerateRandom(1, 2);
                 if (prize4 == 1) { return Reward[0]; }
                 else
                 {
@@ -51,24 +51,24 @@ namespace StarBlue.HabboHotel.Catalog.FurniMatic
                 }
             }
 
-            var rand3 = RandomNumber.GenerateRandom(1, 100);
+            int rand3 = RandomNumber.GenerateRandom(1, 100);
             if (rand3 == 80)
             {
                 level = 3;
-                var Reward = GetRewardsByLevel(level);
-                var prize3 = RandomNumber.GenerateRandom(1, 4);
+                List<FurniMaticRewards> Reward = GetRewardsByLevel(level);
+                int prize3 = RandomNumber.GenerateRandom(1, 4);
                 if (prize3 == 1) { return Reward[0]; }
                 if (prize3 == 2) { return Reward[1]; }
                 if (prize3 == 3) { return Reward[2]; }
                 if (prize3 == 4) { return Reward[3]; }
             }
 
-            var rand2 = RandomNumber.GenerateRandom(1, 25);
+            int rand2 = RandomNumber.GenerateRandom(1, 25);
             if (rand2 == 20)
             {
                 level = 2;
-                var Reward = GetRewardsByLevel(level);
-                var prize2 = RandomNumber.GenerateRandom(1, 3);
+                List<FurniMaticRewards> Reward = GetRewardsByLevel(level);
+                int prize2 = RandomNumber.GenerateRandom(1, 3);
                 if (prize2 == 1) { return Reward[0]; }
                 if (prize2 == 2) { return Reward[1]; }
                 if (prize2 == 3) { return Reward[2]; }
@@ -79,7 +79,7 @@ namespace StarBlue.HabboHotel.Catalog.FurniMatic
                 level = 1;
             }
 
-            var possibleRewards = GetRewardsByLevel(level);
+            List<FurniMaticRewards> possibleRewards = GetRewardsByLevel(level);
             if (possibleRewards != null && possibleRewards.Count >= 1)
             {
                 return possibleRewards[new Random().Next(0, (possibleRewards.Count - 1))];
@@ -94,7 +94,7 @@ namespace StarBlue.HabboHotel.Catalog.FurniMatic
         {
             Rewards = new List<FurniMaticRewards>();
             dbClient.SetQuery("SELECT display_id, item_id, reward_level FROM ecotron_rewards");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
             if (table == null)
             {
                 return;

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    class HelperSessionVisiteRoomComposer : ServerPacket
+    internal class HelperSessionVisiteRoomComposer : ServerPacket
     {
         public HelperSessionVisiteRoomComposer(int roomId)
             : base(ServerPacketHeader.HelperSessionVisiteRoomMessageComposer)

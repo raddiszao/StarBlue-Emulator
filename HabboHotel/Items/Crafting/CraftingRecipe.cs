@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Items.Crafting
 {
-    class CraftingRecipe
+    internal class CraftingRecipe
     {
         internal string Id;
         internal Dictionary<string, int> ItemsNeeded;
@@ -13,10 +13,10 @@ namespace StarBlue.HabboHotel.Items.Crafting
         {
             Id = id;
             ItemsNeeded = new Dictionary<string, int>();
-            var splitted = itemsNeeded.Split(';');
-            foreach (var split in splitted)
+            string[] splitted = itemsNeeded.Split(';');
+            foreach (string split in splitted)
             {
-                var item = split.Split(':');
+                string[] item = split.Split(':');
                 if (item.Length != 2)
                 {
                     continue;

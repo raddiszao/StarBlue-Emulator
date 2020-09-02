@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Add_ons
 {
-    class AddonRandomEffectBox : IWiredItem
+    internal class AddonRandomEffectBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }

@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class SuperPullCommand : IChatCommand
+    internal class SuperPullCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
 
@@ -19,11 +19,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
                 return;
             }
 
-            //if (!Room.SPullEnabled && !Room.CheckRights(Session, true) && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
-            //{
-            //    Session.SendWhisper("Oops, al parecer el dueño de la sala ha prohibido hacer los super pull en su sala.");
-            //    return;
-            //}
+            if (!Room.RoomData.SPullEnabled && !Room.CheckRights(Session, true) && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
+            {
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
+                return;
+            }
 
             GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
             if (TargetClient == null)
@@ -57,12 +57,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
                 return;
             }
 
-            if (ThisUser.SetX - 1 == Room.GetGameMap().Model.DoorX)
-            {
-                Session.SendWhisper("Por favor, não jogue esse usuário fora do quarto :c ", 34);
-                return;
-            }
-
             if (ThisUser.RotBody % 2 != 0)
             {
                 ThisUser.RotBody--;
@@ -85,7 +79,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
                 TargetUser.MoveTo(ThisUser.X - 1, ThisUser.Y);
             }
 
-            Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Superpuxar para " + Params[1] + " * ", 0, ThisUser.LastBubble));
+            Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Superpuxar para " + Params[1] + "*", 0, 31));
             return;
         }
     }

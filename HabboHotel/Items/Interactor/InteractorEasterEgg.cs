@@ -1,14 +1,14 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.Utilities;
-using System;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorEasterEgg : IFurniInteractor
+    internal class InteractorEasterEgg : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {
@@ -54,7 +54,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 Item.FoundBy = Session.GetHabbo().Username;
             }
 
-            var tick = int.Parse(Item.ExtraData);
+            int tick = int.Parse(Item.ExtraData);
 
             if (tick < 19)
             {
@@ -64,10 +64,10 @@ namespace StarBlue.HabboHotel.Items.Interactor
                     Item.ExtraData = tick.ToString();
                     Item.UpdateState(true, true);
                     int X = Item.GetX, Y = Item.GetY, Rot = Item.Rotation;
-                    Double Z = Item.GetZ;
+                    double Z = Item.GetZ;
                     if (tick == 19)
                     {
-                        using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
                             Room.GetRoomItemHandler().RemoveFurniture(Session, Item.Id);
                             dbClient.RunFastQuery("DELETE FROM items WHERE id = " + Item.Id);

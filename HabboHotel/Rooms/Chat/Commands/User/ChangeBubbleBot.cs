@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class BubbleBotCommand : IChatCommand
+    internal class BubbleBotCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
         public string Parameters => "[BOTNOME] [BOLHAID]";
@@ -67,7 +67,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     dbClient.RunFastQuery("UPDATE `bots` SET `chat_bubble` =  '" + BubbleID + "' WHERE `name` =  '" + Bot.BotData.Name + "' AND  `room_id` =  '" + Session.GetHabbo().CurrentRoomId + "'");
-                    Bot.Chat("Você colocou uma bolha " + BubbleID + ".", true, BubbleID);
+                    Bot.Chat("Você colocou uma bolha " + BubbleID + " no BOT.", true, BubbleID);
                     Bot.BotData.ChatBubble = BubbleID;
                 }
             }

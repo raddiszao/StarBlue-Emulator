@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class NameChangeUpdateComposer : ServerPacket
+    internal class NameChangeUpdateComposer : ServerPacket
     {
         public NameChangeUpdateComposer(string Name, int Error, ICollection<string> Tags)
             : base(ServerPacketHeader.NameChangeUpdateMessageComposer)

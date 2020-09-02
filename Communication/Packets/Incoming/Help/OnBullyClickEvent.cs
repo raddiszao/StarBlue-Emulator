@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Incoming.Help
 {
-    class OnBullyClickEvent : IPacketEvent
+    internal class OnBullyClickEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

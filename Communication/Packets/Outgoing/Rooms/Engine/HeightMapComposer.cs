@@ -1,45 +1,59 @@
-﻿using System;
+﻿using StarBlue.HabboHotel.Items;
+using StarBlue.HabboHotel.Rooms;
+using StarBlue.HabboHotel.Rooms.PathFinding;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class HeightMapComposer : ServerPacket
+    internal class HeightMapComposer : ServerPacket
     {
-        public HeightMapComposer(string Map)
+        public HeightMapComposer(Room Room)
             : base(ServerPacketHeader.HeightMapMessageComposer)
         {
-            Map = Map.Replace("\n", "");
-            string[] Split = Map.Split('\r');
-            base.WriteInteger(Split[0].Length);
-            base.WriteInteger((Split.Length - 1) * Split[0].Length);
-            int x = 0;
-            int y = 0;
-            for (y = 0; y < Split.Length - 1; y++)
+            var map = Room.GetGameMap();
+            base.WriteInteger(map.Model.MapSizeX);
+            base.WriteInteger(map.Model.MapSizeX * map.Model.MapSizeY);
+            for (var y = 0; y < map.Model.MapSizeY; y++)
             {
-                for (x = 0; x < Split[0].Length; x++)
+                for (var x = 0; x < map.Model.MapSizeX; x++)
                 {
-                    char pos;
-
-                    try
-                    {
-                        pos = Split[y][x];
-                    }
-                    catch { pos = 'x'; }
-
-                    if (pos == 'x')
-                    {
-                        base.WriteShort(-1);
-                    }
+                    if (map.Model.SqState[x, y] == SquareState.BLOCKED)
+                        WriteShort(16384);
                     else
                     {
-                        if (int.TryParse(pos.ToString(), out int Height))
+                        List<Item> items = map.GetCoordinatedItems(new Point(x, y));
+                        Item item = null;
+                        bool itemOnMagicTile = false;
+                        if (items.Any())
+                            item = items.OrderByDescending(value => value.TotalHeight).FirstOrDefault();
+
+                        if (item != null)
                         {
-                            Height = Height * 256;
+                            foreach (ThreeDCoord Point in item.GetAffectedTiles.Values.ToList())
+                            {
+                                if (map.HasStackTool(Point.X, Point.Y) && item.Data.InteractionType != InteractionType.STACKTOOL)
+                                {
+                                    base.WriteShort(0);
+                                    itemOnMagicTile = true;
+                                    break;
+                                }
+                            }
                         }
-                        else
+
+                        if (!itemOnMagicTile)
                         {
-                            Height = ((Convert.ToInt32(pos) - 87) * 256);
+                            try
+                            {
+                                ushort Height = (ushort)(map.SqAbsoluteHeight(x, y) * 256);
+                                base.WriteUnsignedShort((ushort)(Height > ushort.MaxValue ? ushort.MaxValue : Height));
+                            }
+                            catch
+                            {
+                                base.WriteShort(0);
+                            }
                         }
-                        base.WriteShort(Height);
                     }
                 }
             }

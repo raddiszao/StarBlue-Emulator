@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorCannon : IFurniInteractor
+    internal class InteractorCannon : IFurniInteractor
     {
         public void OnPlace(GameClients.GameClient Session, Item Item)
         {

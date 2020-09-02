@@ -6,13 +6,12 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections.Concurrent;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveRewardBox : IWiredItem
+    internal class GiveRewardBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -69,7 +68,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             Room Room = Player.CurrentRoom;
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }
@@ -130,7 +129,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
                 totalpercentage = percentage5 + percentage4 + percentage3 + percentage2 + percentage1;
 
-                var random = StarBlueServer.GetRandomNumber(0, 100);
+                int random = StarBlueServer.GetRandomNumber(0, 100);
 
                 if (random > totalpercentage)
                 {
@@ -162,11 +161,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
                 Player.GetClient().SendWhisper(random + " | " + SplitNumber + " | " + totalpercentage);
 
-                var dataArray = ((StringData.Split('-')[0]).Split(';')[SplitNumber]).Split(',');
+                string[] dataArray = ((StringData.Split('-')[0]).Split(';')[SplitNumber]).Split(',');
 
-                var isbadge = dataArray[0] == "0";
-                var code = dataArray[1];
-                var percentage = int.Parse(dataArray[2]);
+                bool isbadge = dataArray[0] == "0";
+                string code = dataArray[1];
+                int percentage = int.Parse(dataArray[2]);
 
                 premied = true;
 
@@ -174,10 +173,10 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 {
                     if (code.StartsWith("diamonds:"))
                     {
-                        foreach (var reward in code.Split('-'))
+                        foreach (string reward in code.Split('-'))
                         {
-                            var dataArray2 = code.Split(':');
-                            var diamonds = int.Parse(dataArray2[1]);
+                            string[] dataArray2 = code.Split(':');
+                            int diamonds = int.Parse(dataArray2[1]);
                             if (diamonds > 100)
                             {
                                 Player.GetClient().SendMessage(new RoomCustomizedAlertComposer("Ocorreu um erro, avise a equipe staff."));
@@ -225,15 +224,15 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
             else
             {
-                foreach (var dataStr in (StringData.Split('-')[0]).Split(';'))
+                foreach (string dataStr in (StringData.Split('-')[0]).Split(';'))
                 {
-                    var dataArray = dataStr.Split(',');
+                    string[] dataArray = dataStr.Split(',');
 
-                    var isbadge = dataArray[0] == "0";
-                    var code = dataArray[1];
-                    var percentage = int.Parse(dataArray[2]);
+                    bool isbadge = dataArray[0] == "0";
+                    string code = dataArray[1];
+                    int percentage = int.Parse(dataArray[2]);
 
-                    var random = StarBlueServer.GetRandomNumber(0, 100);
+                    int random = StarBlueServer.GetRandomNumber(0, 100);
 
                     premied = true;
 
@@ -241,10 +240,10 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                     {
                         if (code.StartsWith("diamonds:"))
                         {
-                            foreach (var reward in code.Split('-'))
+                            foreach (string reward in code.Split('-'))
                             {
-                                var dataArray2 = code.Split(':');
-                                var diamonds = int.Parse(dataArray2[1]);
+                                string[] dataArray2 = code.Split(':');
+                                int diamonds = int.Parse(dataArray2[1]);
                                 if (diamonds > 100)
                                 {
                                     Player.GetClient().SendMessage(new RoomCustomizedAlertComposer("Ocorreu um erro, avise a equipe staff."));

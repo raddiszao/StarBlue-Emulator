@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
-    class AvatarEffectsComposer : ServerPacket
+    internal class AvatarEffectsComposer : ServerPacket
     {
         public AvatarEffectsComposer(ICollection<AvatarEffect> Effects)
             : base(ServerPacketHeader.AvatarEffectsMessageComposer)

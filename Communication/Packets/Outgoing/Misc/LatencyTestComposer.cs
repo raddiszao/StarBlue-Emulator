@@ -1,11 +1,11 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Misc
 {
-    class LatencyTestComposer : ServerPacket
+    internal class LatencyTestComposer : ServerPacket
     {
-        public LatencyTestComposer(int testResponce)
+        public LatencyTestComposer(int response)
             : base(ServerPacketHeader.LatencyResponseMessageComposer)
         {
-            base.WriteInteger(testResponce);
+            base.WriteInteger(response);
         }
     }
 }

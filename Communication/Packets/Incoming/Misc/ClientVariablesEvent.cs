@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Incoming.Misc
 {
-    class ClientVariablesEvent : IPacketEvent
+    internal class ClientVariablesEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

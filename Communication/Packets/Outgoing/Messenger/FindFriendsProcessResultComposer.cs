@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    class FindFriendsProcessResultComposer : ServerPacket
+    internal class FindFriendsProcessResultComposer : ServerPacket
     {
         public FindFriendsProcessResultComposer(bool Found)
             : base(ServerPacketHeader.FindFriendsProcessResultMessageComposer)

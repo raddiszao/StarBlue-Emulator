@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.Rooms;
 using System;
@@ -6,7 +6,7 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class ModeratorUserChatlogComposer : ServerPacket
+    internal class ModeratorUserChatlogComposer : ServerPacket
     {
         public ModeratorUserChatlogComposer(int UserId)
             : base(ServerPacketHeader.ModeratorUserChatlogMessageComposer)
@@ -29,7 +29,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
 
                         if (Room != null)
                         {
-                            RoomName = Room.Name;
+                            RoomName = Room.RoomData.Name;
                         }
 
                         base.WriteByte(1);
@@ -42,12 +42,12 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
                         base.WriteInteger(Convert.ToInt32(Visit["room_id"]));
 
                         DataTable Chatlogs = null;
-                        if ((Double)Visit["exit_timestamp"] <= 0)
+                        if ((double)Visit["exit_timestamp"] <= 0)
                         {
                             Visit["exit_timestamp"] = StarBlueServer.GetUnixTimestamp();
                         }
 
-                        dbClient.SetQuery("SELECT user_id,timestamp,message FROM `chatlogs` WHERE room_id = " + Convert.ToInt32(Visit["room_id"]) + " AND timestamp > " + (Double)Visit["entry_timestamp"] + " AND timestamp < " + (Double)Visit["exit_timestamp"] + " ORDER BY timestamp DESC LIMIT 150");
+                        dbClient.SetQuery("SELECT user_id,timestamp,message FROM `chatlogs` WHERE room_id = " + Convert.ToInt32(Visit["room_id"]) + " AND timestamp > " + (double)Visit["entry_timestamp"] + " AND timestamp < " + (double)Visit["exit_timestamp"] + " ORDER BY timestamp DESC LIMIT 150");
                         Chatlogs = dbClient.GetTable();
 
                         if (Chatlogs != null)

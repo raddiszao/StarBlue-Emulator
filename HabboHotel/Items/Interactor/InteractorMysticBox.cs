@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorMysticBox : IFurniInteractor
+    internal class InteractorMysticBox : IFurniInteractor
     {
         private string eColor;
 

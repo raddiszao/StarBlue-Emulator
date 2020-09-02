@@ -199,7 +199,7 @@
         public const int GetGuestRoomMessageEvent = 1334;
         public const int SetMannequinFigureMessageEvent = 1250;
         public const int DisconnectionMessageEvent = 29;
-        public const int GetIgnoredUsersMessageEvent = 3010;
+        public const int GetIgnoredUsersMessageEvent = 2828;
         public const int AssignRightsMessageEvent = 128;
         public const int GetClubOffersMessageEvent = 2454;
         public const int GetYouTubeTelevisionMessageEvent = 1894;

@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Quests
 {
-    class GetDailyQuestEvent : IPacketEvent
+    internal class GetDailyQuestEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

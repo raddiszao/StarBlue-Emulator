@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class UpdateUsernameComposer : ServerPacket
+    internal class UpdateUsernameComposer : ServerPacket
     {
         public UpdateUsernameComposer(string User)
             : base(ServerPacketHeader.UpdateUsernameMessageComposer)

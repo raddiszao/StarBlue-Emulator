@@ -1,4 +1,5 @@
-﻿using StarBlue.HabboHotel.Users.Clothing.Parts;
+﻿using StarBlue.Database.Interfaces;
+using StarBlue.HabboHotel.Users.Clothing.Parts;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace StarBlue.HabboHotel.Users.Clothing
             }
 
             DataTable GetClothing = null;
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT `id`,`part_id`,`part` FROM `user_clothing` WHERE `user_id` = @id;");
                 dbClient.AddParameter("id", Habbo.Id);
@@ -53,7 +54,7 @@ namespace StarBlue.HabboHotel.Users.Clothing
                 if (!_allClothing.ContainsKey(PartId))
                 {
                     int NewId = 0;
-                    using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         dbClient.SetQuery("INSERT INTO `user_clothing` (`user_id`,`part_id`,`part`) VALUES (@UserId, @PartId, @Part)");
                         dbClient.AddParameter("UserId", _habbo.Id);

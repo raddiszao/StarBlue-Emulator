@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Avatar
 {
-    class DanceEvent : IPacketEvent
+    internal class DanceEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

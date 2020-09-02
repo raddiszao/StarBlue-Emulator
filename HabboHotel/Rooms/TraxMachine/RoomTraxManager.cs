@@ -1,4 +1,5 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Sound;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using System.Collections.Generic;
 using System.Data;
@@ -18,13 +19,10 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
         public TraxMusicData AnteriorMusic { get; private set; }
         public Item AnteriorItem { get; private set; }
 
-
-
-        DataTable dataTable;
+        private DataTable dataTable;
         public RoomTraxManager(Room room)
         {
             Room = room;
-            room.OnFurnisLoad += Room_OnFurnisLoad;
 
             IsPlaying = false;
 
@@ -33,7 +31,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
             Playlist = new List<Item>();
 
             SelectedDiscItem = null;
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.RunFastQuery("SELECT * FROM room_jukebox_songs WHERE room_id = '" + Room.Id + "'");
                 dataTable = adap.GetTable();
@@ -44,8 +42,8 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
         {
             foreach (DataRow row in dataTable.Rows)
             {
-                var itemid = int.Parse(row["item_id"].ToString());
-                var item = Room.GetRoomItemHandler().GetItem(itemid);
+                int itemid = int.Parse(row["item_id"].ToString());
+                Item item = Room.GetRoomItemHandler().GetItem(itemid);
                 if (item == null)
                 {
                     continue;
@@ -92,9 +90,9 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
             get
             {
                 int e = 0;
-                foreach (var item in Playlist)
+                foreach (Item item in Playlist)
                 {
-                    var music = TraxSoundManager.GetMusic(item.ExtradataInt);
+                    TraxMusicData music = TraxSoundManager.GetMusic(item.ExtradataInt);
                     if (music == null)
                     {
                         continue;
@@ -110,14 +108,14 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
         {
             get
             {
-                var line = GetPlayLine().Reverse();
-                var now = TimestampSinceStarted;
+                IEnumerable<KeyValuePair<int, Item>> line = GetPlayLine().Reverse();
+                int now = TimestampSinceStarted;
                 if (now > TotalPlayListLength)
                 {
                     return null;
                 }
 
-                foreach (var item in line)
+                foreach (KeyValuePair<int, Item> item in line)
                 {
                     if (item.Key <= now)
                     {
@@ -134,9 +132,9 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
         {
             get
             {
-                var line = GetPlayLine();
+                Dictionary<int, Item> line = GetPlayLine();
                 int indextime = 0;
-                foreach (var music in line)
+                foreach (KeyValuePair<int, Item> music in line)
                 {
                     if (music.Value == ActualSongData)
                     {
@@ -149,11 +147,11 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
 
         public Dictionary<int, Item> GetPlayLine()
         {
-            var i = 0;
-            var e = new Dictionary<int, Item>();
-            foreach (var item in Playlist)
+            int i = 0;
+            Dictionary<int, Item> e = new Dictionary<int, Item>();
+            foreach (Item item in Playlist)
             {
-                var music = GetMusicByItem(item);
+                TraxMusicData music = GetMusicByItem(item);
                 if (music == null)
                 {
                     continue;
@@ -172,7 +170,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
 
         public int GetMusicIndex(Item item)
         {
-            for (var i = 0; i < Playlist.Count; i++)
+            for (int i = 0; i < Playlist.Count; i++)
             {
                 if (Playlist[i] == item)
                 {
@@ -220,7 +218,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
 
         public void SetJukeboxesState()
         {
-            foreach (var item in Room.GetRoomItemHandler().GetFloor)
+            foreach (Item item in Room.GetRoomItemHandler().GetFloor)
             {
                 if (item.GetBaseItem().InteractionType == InteractionType.JUKEBOX)
                 {
@@ -242,7 +240,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
                 return false;
             }
 
-            var music = TraxSoundManager.GetMusic(musicId);
+            TraxMusicData music = TraxSoundManager.GetMusic(musicId);
 
             if (music == null)
             {
@@ -259,7 +257,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
                 return false;
             }
 
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("INSERT INTO room_jukebox_songs (room_id, item_id) VALUES (@room, @item)");
                 adap.AddParameter("room", Room.Id);
@@ -275,7 +273,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
 
         public bool RemoveDisc(int id)
         {
-            var item = GetDiscItem(id);
+            Item item = GetDiscItem(id);
             if (item == null)
             {
                 return false;
@@ -286,7 +284,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
                 return false;
             }
 
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.RunFastQuery("DELETE FROM room_jukebox_songs WHERE item_id = '" + item.Id + "'");
             }
@@ -310,7 +308,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
 
         public Item GetDiscItem(int id)
         {
-            foreach (var item in Playlist)
+            foreach (Item item in Playlist)
             {
                 if (item.Id == id)
                 {

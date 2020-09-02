@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorJukebox : IFurniInteractor
+    internal class InteractorJukebox : IFurniInteractor
     {
         public Room Room
         {

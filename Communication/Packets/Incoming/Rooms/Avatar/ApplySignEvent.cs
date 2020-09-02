@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Avatar
 {
-    class ApplySignEvent : IPacketEvent
+    internal class ApplySignEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

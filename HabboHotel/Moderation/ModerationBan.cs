@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarBlue.HabboHotel.Moderation
+﻿namespace StarBlue.HabboHotel.Moderation
 {
 
     public class ModerationBan
@@ -10,7 +8,7 @@ namespace StarBlue.HabboHotel.Moderation
         public string Reason;
         public ModerationBanType Type;
 
-        public ModerationBan(ModerationBanType Type, string Value, string Reason, Double Expire)
+        public ModerationBan(ModerationBanType Type, string Value, string Reason, double Expire)
         {
             this.Type = Type;
             this.Value = Value;

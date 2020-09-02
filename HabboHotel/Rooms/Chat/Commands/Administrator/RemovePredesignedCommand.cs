@@ -1,6 +1,8 @@
-﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
+﻿using StarBlue.Database.Interfaces;
+
+namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class RemovePredesignedCommand : IChatCommand
+    internal class RemovePredesignedCommand : IChatCommand
     {
         public string PermissionRequired => "user_17";
         public string Parameters => "";
@@ -18,8 +20,8 @@
             //    return;
             //}
 
-            var predesignedId = 0U;
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            uint predesignedId = 0U;
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT id FROM catalog_predesigned_rooms WHERE room_id = " + Room.Id + ";");
                 predesignedId = (uint)dbClient.GetInteger();

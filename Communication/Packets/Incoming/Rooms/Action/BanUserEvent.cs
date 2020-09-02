@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class BanUserEvent : IPacketEvent
+    internal class BanUserEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -13,7 +13,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
                 return;
             }
 
-            if (((Room.WhoCanBan == 0 && !Room.CheckRights(Session, true) && Room.Group == null) || (Room.WhoCanBan == 1 && !Room.CheckRights(Session)) && Room.Group == null) || (Room.Group != null && !Room.CheckRights(Session, false, true)))
+            if (((Room.RoomData.WhoCanBan == 0 && !Room.CheckRights(Session, true) && Room.RoomData.Group == null) || (Room.RoomData.WhoCanBan == 1 && !Room.CheckRights(Session)) && Room.RoomData.Group == null) || (Room.RoomData.Group != null && !Room.CheckRights(Session, false, true)))
             {
                 return;
             }
@@ -28,7 +28,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
                 return;
             }
 
-            if (Room.OwnerId == UserId)
+            if (Room.RoomData.OwnerId == UserId)
             {
                 return;
             }

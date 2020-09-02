@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Rooms.AI.Types
 {
-    class CasinoRoullete : BotAI
+    internal class CasinoRoullete : BotAI
     {
         private int VirtualId;
-        int GameLength = 100;
-        bool BetsOpen = false;
-        int Bets;
+        private int GameLength = 100;
+        private bool BetsOpen = false;
+        private int Bets;
         private double offerMultiplier;
 
         private Dictionary<int, CasinoDataLocura> Data1;

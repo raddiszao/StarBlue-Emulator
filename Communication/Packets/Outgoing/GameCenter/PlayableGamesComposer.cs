@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    class PlayableGamesComposer : ServerPacket
+    internal class PlayableGamesComposer : ServerPacket
     {
         public PlayableGamesComposer(int GameID)
             : base(ServerPacketHeader.PlayableGamesMessageComposer)

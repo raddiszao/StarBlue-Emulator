@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Pets
 {
-    class GetPetInventoryEvent : IPacketEvent
+    internal class GetPetInventoryEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

@@ -1,13 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Moderation;
 using StarBlue.HabboHotel.Users;
-using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class MIPCommand : IChatCommand
+    internal class MIPCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "[USUARIO]";
@@ -35,8 +33,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 return;
             }
 
-            String IPAddress = String.Empty;
-            Double Expire = StarBlueServer.GetUnixTimestamp() + 78892200;
+            string IPAddress = string.Empty;
+            double Expire = StarBlueServer.GetUnixTimestamp() + 78892200;
             string Username = Habbo.Username;
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
@@ -75,10 +73,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 TargetClient.Disconnect();
             }
 
-            for (int i = 0; i < 100; i++)
-            {
-                Room.SendMessage(new ChatComposer(Session.GetHabbo().Id, " ", 0, 1), false);
-            }
             Session.SendWhisper("O usuário foi banido com sucesso '" + Username + "' pelo seguinte motivo: '" + Reason + "'!", 34);
 
         }

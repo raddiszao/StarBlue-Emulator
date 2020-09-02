@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups.Forums
 {
-    class GetForumUserProfileEvent : IPacketEvent
+    internal class GetForumUserProfileEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

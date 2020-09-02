@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class SelfieCommand : IChatCommand
+    internal class SelfieCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

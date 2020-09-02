@@ -1,11 +1,9 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
-using StarBlue.HabboHotel.GameClients;
+﻿using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Users;
-using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class MultiwhisperModeCommand : IChatCommand
+    internal class MultiwhisperModeCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -33,7 +31,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
             {
                 Session.SendWhisper("Usuário não se encontra no quarto.", 34);
                 return;
-            } else if (User.CurrentRoomId != Session.GetHabbo().CurrentRoomId)
+            }
+            else if (User.CurrentRoomId != Session.GetHabbo().CurrentRoomId)
             {
                 Session.SendWhisper("O usuário precisa estar no mesmo quarto que você.", 34);
                 return;
@@ -48,18 +47,23 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 }
 
                 if (!Room.MultiWhispers.Contains(Session.GetRoomUser()))
+                {
                     Room.MultiWhispers.Add(Session.GetRoomUser());
+                }
 
                 Room.MultiWhispers.Add(RoomUser);
                 foreach (RoomUser User2 in Room.MultiWhispers)
                 {
                     if (User2 == null || User2.GetClient() == null)
+                    {
                         return;
+                    }
 
-                    User2.GetClient().SendWhisper("O usuário " + User.Username + " foi adicionado ao grupo de sussurro por " + Session.GetHabbo().Username + ". Para sussurrar no grupo use: Sussurrar group", 34);
+                    User2.GetClient().SendWhisper("O usuário " + User.Username + " foi adicionado ao grupo de sussurro por " + Session.GetHabbo().Username + ". Para sussurrar no grupo use: Sussurrar group_whisper", 34);
                 }
-                User.GetClient().SendWhisper(Session.GetHabbo().Username + " te adicionou ao sussurro em grupo do quarto. Use: Sussurrar group para falar.", 34);
-            } else
+                User.GetClient().SendWhisper(Session.GetHabbo().Username + " te adicionou ao sussurro em grupo do quarto. Use: Sussurrar group_whisper para falar.", 34);
+            }
+            else
             {
                 Session.SendWhisper("Este usuário já faz parte do grupo de sussurro.", 34);
             }

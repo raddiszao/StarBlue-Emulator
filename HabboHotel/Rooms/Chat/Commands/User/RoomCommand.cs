@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using System.Text;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class RoomCommand : IChatCommand
+    internal class RoomCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -32,35 +32,64 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 case "list":
                     {
                         StringBuilder List = new StringBuilder("");
-                        List.AppendLine("Lista de comando em salas");
+                        List.AppendLine("Lista de comando de quartos:");
                         List.AppendLine("-------------------------");
-                        List.AppendLine("Pet Morphs: " + (Room.PetMorphsAllowed == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Pull: " + (Room.PullEnabled == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Push: " + (Room.PushEnabled == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Golpes: " + (Room.GolpeEnabled == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Super Pull: " + (Room.SPullEnabled == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Super Push: " + (Room.SPushEnabled == true ? "Habilitado" : "Desabilitado"));
-                        List.AppendLine("Respect: " + (Room.RespectNotificationsEnabled == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Enables: " + (Room.EnablesEnabled == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Besos: " + (Room.BesosEnabled == true ? "Habilitado" : "Desabilitado"));
-                        //List.AppendLine("Quemar: " + (Room.QuemarEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Pet Morphs: " + (Room.RoomData.PetMorphsAllowed == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Pull: " + (Room.RoomData.PullEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Push: " + (Room.RoomData.PushEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Golpes: " + (Room.RoomData.GolpeEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Super Pull: " + (Room.RoomData.SPullEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Super Push: " + (Room.RoomData.SPushEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Notificação de Respeito: " + (Room.RoomData.RespectNotificationsEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Enables: " + (Room.RoomData.EnablesEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Fastwalk: " + (Room.RoomData.FastWalkEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Handitem: " + (Room.RoomData.HandItemEnabled == true ? "Habilitado" : "Desabilitado"));
+                        List.AppendLine("Sexo: " + (Room.RoomData.SexEnabled == true ? "Habilitado" : "Desabilitado"));
                         Session.SendNotification(List.ToString());
                         break;
                     }
 
-                //case "golpe":
-                //{
-                //    Room.GolpeEnabled = !Room.GolpeEnabled;
-                //    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                //    {
-                //        dbClient.SetQuery("UPDATE `rooms` SET `golpe_enabled` = @GolpeEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
-                //        dbClient.AddParameter("GolpeEnabled", StarBlueServer.BoolToEnum(Room.GolpeEnabled));
-                //        dbClient.RunQuery();
-                //    }
+                case "sexo":
+                    {
+                        Room.RoomData.SexEnabled = !Room.RoomData.SexEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `sex_enabled` = @SexoEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("SexoEnabled", StarBlueServer.BoolToEnum(Room.RoomData.SexEnabled));
+                            dbClient.RunQuery();
+                        }
 
-                //    Session.SendWhisper("Los golpes en esta sala estan " + (Room.GolpeEnabled == true ? "Habilitado!" : "Deshabilitado!"));
-                //    break;
-                //}
+                        Session.SendWhisper("O sexo neste quarto estão " + (Room.RoomData.SexEnabled == true ? "Habilitado!" : "Desabilitado!"));
+                        break;
+                    }
+
+                case "golpe":
+                    {
+                        Room.RoomData.GolpeEnabled = !Room.RoomData.GolpeEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `golpe_enabled` = @GolpeEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("GolpeEnabled", StarBlueServer.BoolToEnum(Room.RoomData.GolpeEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("OS golpes/socos neste quarto estão " + (Room.RoomData.GolpeEnabled == true ? "Habilitado!" : "Desabilitado!"));
+                        break;
+                    }
+
+                case "handitem":
+                    {
+                        Room.RoomData.HandItemEnabled = !Room.RoomData.HandItemEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `handitem_enabled` = @HanditemEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("HanditemEnabled", StarBlueServer.BoolToEnum(Room.RoomData.HandItemEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("O handitems neste quarto estão " + (Room.RoomData.HandItemEnabled == true ? "Habilitados!" : "Desabilitados!"));
+                        break;
+                    }
 
                 //case "quemar":
                 //    {
@@ -72,7 +101,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 //            dbClient.RunQuery();
                 //        }
 
-                //        Session.SendWhisper("¡El poder de quemar en esta sala está " + (Room.QuemarEnabled == true ? "habilitado!" : "deshabilitado!"));
+                //        Session.SendWhisper("¡El poder de quemar en esta sala está " + (Room.QuemarEnabled == true ? "habilitado!" : "Desabilitado!"));
                 //        break;
                 //    }
 
@@ -86,109 +115,123 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 //            dbClient.RunQuery();
                 //        }
 
-                //        Session.SendWhisper("¡El poder de besar en esta sala está " + (Room.QuemarEnabled == true ? "habilitado!" : "deshabilitado!"));
+                //        Session.SendWhisper("¡El poder de besar en esta sala está " + (Room.QuemarEnabled == true ? "habilitado!" : "Desabilitado!"));
                 //        break;
                 //    }
 
-                //case "push":
-                //    {
-                //        Room.PushEnabled = !Room.PushEnabled;
-                //        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                //        {
-                //            dbClient.SetQuery("UPDATE `rooms` SET `push_enabled` = @PushEnabled WHERE `id` = '" + Room.Id +"' LIMIT 1");
-                //            dbClient.AddParameter("PushEnabled", StarBlueServer.BoolToEnum(Room.PushEnabled));
-                //            dbClient.RunQuery();
-                //        }
-
-                //        Session.SendWhisper("Modo Push ahora esta " + (Room.PushEnabled == true ? "Habilitado!" : "Deshabilitado!"));
-                //        break;
-                //    }
-
-                //case "spush":
-                //    {
-                //        Room.SPushEnabled = !Room.SPushEnabled;
-                //        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                //        {
-                //            dbClient.SetQuery("UPDATE `rooms` SET `spush_enabled` = @PushEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
-                //            dbClient.AddParameter("PushEnabled", StarBlueServer.BoolToEnum(Room.SPushEnabled));
-                //            dbClient.RunQuery();
-                //        }
-
-                //        Session.SendWhisper("Modo Super Push ahora esta " + (Room.SPushEnabled == true ? "Habilitado!" : "Deshabilitado!"));
-                //        break;
-                //    }
-
-                //case "spull":
-                //    {
-                //        Room.SPullEnabled = !Room.SPullEnabled;
-                //        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                //        {
-                //            dbClient.SetQuery("UPDATE `rooms` SET `spull_enabled` = @PullEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
-                //            dbClient.AddParameter("PullEnabled", StarBlueServer.BoolToEnum(Room.SPullEnabled));
-                //            dbClient.RunQuery();
-                //        }
-
-                //        Session.SendWhisper("Modo Super Pull ahora esta  " + (Room.SPullEnabled == true ? "Habilitado!" : "Deshabilitado!"));
-                //        break;
-                //    }
-
-                //case "pull":
-                //    {
-                //        Room.PullEnabled = !Room.PullEnabled;
-                //        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                //        {
-                //            dbClient.SetQuery("UPDATE `rooms` SET `pull_enabled` = @PullEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
-                //            dbClient.AddParameter("PullEnabled", StarBlueServer.BoolToEnum(Room.PullEnabled));
-                //            dbClient.RunQuery();
-                //        }
-
-                //        Session.SendWhisper("Modo Pull ahora esta " + (Room.PullEnabled == true ? "Habilitado!" : "Deshabilitado!"));
-                //        break;
-                //    }
-
-                //case "enable":
-                //case "enables":
-                //    {
-                //        Room.EnablesEnabled = !Room.EnablesEnabled;
-                //        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                //        {
-                //            dbClient.SetQuery("UPDATE `rooms` SET `enables_enabled` = @EnablesEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
-                //            dbClient.AddParameter("EnablesEnabled", StarBlueServer.BoolToEnum(Room.EnablesEnabled));
-                //            dbClient.RunQuery();
-                //        }
-
-                //        Session.SendWhisper("Los efectos en esta sala estan " + (Room.EnablesEnabled == true ? "Habilitados!" : "Deshabilitados!"));
-                //        break;
-                //    }
-
-                case "respect":
+                case "push":
                     {
-                        Room.RespectNotificationsEnabled = !Room.RespectNotificationsEnabled;
+                        Room.RoomData.PushEnabled = !Room.RoomData.PushEnabled;
                         using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
-                            dbClient.SetQuery("UPDATE `rooms` SET `respect_notifications_enabled` = @RespectNotificationsEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
-                            dbClient.AddParameter("RespectNotificationsEnabled", StarBlueServer.BoolToEnum(Room.RespectNotificationsEnabled));
+                            dbClient.SetQuery("UPDATE `rooms` SET `push_enabled` = @PushEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("PushEnabled", StarBlueServer.BoolToEnum(Room.RoomData.PushEnabled));
                             dbClient.RunQuery();
                         }
 
-                        Session.SendWhisper("As notificações de respeito essão " + (Room.RespectNotificationsEnabled == true ? "ativadas!" : "desativadas!"));
+                        Session.SendWhisper("Push agora está " + (Room.RoomData.PushEnabled == true ? "Habilitado!" : "Desabilitado!"));
+                        break;
+                    }
+
+                case "fastwalk":
+                    {
+                        Room.RoomData.FastWalkEnabled = !Room.RoomData.FastWalkEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `fastwalk_enabled` = @FastWalk WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("FastWalk", StarBlueServer.BoolToEnum(Room.RoomData.FastWalkEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("Fastwalk agora está " + (Room.RoomData.FastWalkEnabled == true ? "Habilitado!" : "Desabilitado!"));
+                        break;
+                    }
+
+                case "spush":
+                    {
+                        Room.RoomData.SPushEnabled = !Room.RoomData.SPushEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `spush_enabled` = @PushEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("PushEnabled", StarBlueServer.BoolToEnum(Room.RoomData.SPushEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("Super Push está " + (Room.RoomData.SPushEnabled == true ? "Habilitado!" : "Desabilitado!"));
+                        break;
+                    }
+
+                case "spull":
+                    {
+                        Room.RoomData.SPullEnabled = !Room.RoomData.SPullEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `spull_enabled` = @PullEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("PullEnabled", StarBlueServer.BoolToEnum(Room.RoomData.SPullEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("Super Pull está  " + (Room.RoomData.SPullEnabled == true ? "Habilitado!" : "Desabilitado!"));
+                        break;
+                    }
+
+                case "pull":
+                    {
+                        Room.RoomData.PullEnabled = !Room.RoomData.PullEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `pull_enabled` = @PullEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("PullEnabled", StarBlueServer.BoolToEnum(Room.RoomData.PullEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("Pull está " + (Room.RoomData.PullEnabled == true ? "Habilitado!" : "Desabilitado!"));
+                        break;
+                    }
+
+                case "enable":
+                case "enables":
+                    {
+                        Room.RoomData.EnablesEnabled = !Room.RoomData.EnablesEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `enables_enabled` = @EnablesEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("EnablesEnabled", StarBlueServer.BoolToEnum(Room.RoomData.EnablesEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("Os enables do quarto foram " + (Room.RoomData.EnablesEnabled == true ? "Habilitados!" : "Desabilitados!"));
+                        break;
+                    }
+
+                case "respect":
+                    {
+                        Room.RoomData.RespectNotificationsEnabled = !Room.RoomData.RespectNotificationsEnabled;
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        {
+                            dbClient.SetQuery("UPDATE `rooms` SET `respect_notifications_enabled` = @RespectNotificationsEnabled WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                            dbClient.AddParameter("RespectNotificationsEnabled", StarBlueServer.BoolToEnum(Room.RoomData.RespectNotificationsEnabled));
+                            dbClient.RunQuery();
+                        }
+
+                        Session.SendWhisper("As notificações de respeito estão " + (Room.RoomData.RespectNotificationsEnabled == true ? "ativadas!" : "desativadas!"));
                         break;
                     }
 
                 case "pets":
                 case "morphs":
                     {
-                        Room.PetMorphsAllowed = !Room.PetMorphsAllowed;
+                        Room.RoomData.PetMorphsAllowed = !Room.RoomData.PetMorphsAllowed;
                         using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
                             dbClient.SetQuery("UPDATE `rooms` SET `pet_morphs_allowed` = @PetMorphsAllowed WHERE `id` = '" + Room.Id + "' LIMIT 1");
-                            dbClient.AddParameter("PetMorphsAllowed", StarBlueServer.BoolToEnum(Room.PetMorphsAllowed));
+                            dbClient.AddParameter("PetMorphsAllowed", StarBlueServer.BoolToEnum(Room.RoomData.PetMorphsAllowed));
                             dbClient.RunQuery();
                         }
 
-                        Session.SendWhisper("Que se torna animais de estimação isso " + (Room.PetMorphsAllowed == true ? "Habilitado!" : "Desabilitado!"));
+                        Session.SendWhisper("Se tornar pet está " + (Room.RoomData.PetMorphsAllowed == true ? "Habilitado!" : "Desabilitado!"));
 
-                        if (!Room.PetMorphsAllowed)
+                        if (!Room.RoomData.PetMorphsAllowed)
                         {
                             foreach (RoomUser User in Room.GetRoomUserManager().GetRoomUsers())
                             {
@@ -197,12 +240,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                                     continue;
                                 }
 
-                                User.GetClient().SendWhisper("El propietario de la sala ha deshabilitado la opcion de convertirse en mascota.");
+                                User.GetClient().SendWhisper("O proprietário do quarto desabilitou esta função.");
                                 if (User.GetClient().GetHabbo().PetId > 0)
                                 {
-                                    //Tell the user what is going on.
-                                    User.GetClient().SendWhisper("Oops, el dueño de la sala solo permite Usuarios normales, no mascotas..");
-
                                     //Change the users Pet Id.
                                     User.GetClient().GetHabbo().PetId = 0;
 

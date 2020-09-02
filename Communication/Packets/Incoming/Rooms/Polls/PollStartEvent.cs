@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms.Polls;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Polls
 {
-    class PollStartEvent : IPacketEvent
+    internal class PollStartEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient session, ClientPacket packet)
         {

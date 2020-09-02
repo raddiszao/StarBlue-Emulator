@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.RentableSpaces
 {
-    class BuyRentableSpaceEvent : IPacketEvent
+    internal class BuyRentableSpaceEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

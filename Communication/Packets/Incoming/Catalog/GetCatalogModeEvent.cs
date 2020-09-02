@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
-    class GetCatalogModeEvent : IPacketEvent
+    internal class GetCatalogModeEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

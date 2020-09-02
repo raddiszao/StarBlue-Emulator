@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Catalog.Utilities;
 using StarBlue.HabboHotel.GameClients;
@@ -45,7 +45,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 return;
             }
 
-            if (!Page.Enabled || !Page.Visible || Page.MinimumRank > Session.GetHabbo().Rank || (Page.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+            if (!Page.Enabled || !Page.Visible || (Page.MinimumRank > Session.GetHabbo().Rank && Page.MinimumVIP == 0) || (Page.MinimumVIP > 0 && Page.MinimumVIP > Session.GetHabbo().VIPRank && Page.MinimumRank > Session.GetHabbo().Rank))
             {
                 return;
             }
@@ -97,7 +97,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
             if (!Habbo.AllowGifts)
             {
-                Session.SendNotification("Oops, este usuario no permite recibir regalos!");
+                Session.SendNotification("Oops, este usuário não permite receber presentes!");
                 return;
             }
 
@@ -105,7 +105,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
             {
                 if ((DateTime.Now - Session.GetHabbo().LastGiftPurchaseTime).TotalSeconds <= 15.0)
                 {
-                    Session.SendNotification("Estas enviando regalos muy rapido, espere un minimo de 15 segundos para enviar el siguiente!");
+                    Session.SendNotification("Você está enviando presentes muito rápido, aguarde 15 segundos para enviar novamente!");
 
                     Session.GetHabbo().GiftPurchasingWarnings += 1;
                     if (Session.GetHabbo().GiftPurchasingWarnings >= 25)
@@ -183,7 +183,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     case InteractionType.WALLPAPER:
                     case InteractionType.LANDSCAPE:
 
-                        Double Number = 0;
+                        double Number = 0;
                         try
                         {
                             if (string.IsNullOrEmpty(Data))
@@ -192,7 +192,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                             }
                             else
                             {
-                                Number = Double.Parse(Data, StarBlueServer.CultureInfo);
+                                Number = double.Parse(Data, StarBlueServer.CultureInfo);
                             }
                         }
                         catch
@@ -269,7 +269,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_GiftGiver", 1);
                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Receiver, "ACH_GiftReceiver", 1);
                 StarBlueServer.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.GIFT_OTHERS);
-                Session.SendNotification("Ha enviado correctamente un regalo");
+                Session.SendNotification("Você enviou o presente corretamente.");
 
             }
 

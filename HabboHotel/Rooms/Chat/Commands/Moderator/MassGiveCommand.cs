@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class MassGiveCommand : IChatCommand
+    internal class MassGiveCommand : IChatCommand
     {
         public string PermissionRequired => "user_17";
         public string Parameters => "[MOEDA] [QUANTIDADE]";

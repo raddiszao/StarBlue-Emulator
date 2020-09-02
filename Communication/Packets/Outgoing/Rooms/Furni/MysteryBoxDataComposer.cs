@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    class MysteryBoxDataComposer : ServerPacket
+    internal class MysteryBoxDataComposer : ServerPacket
     {
         public MysteryBoxDataComposer(GameClient Session)
             : base(ServerPacketHeader.MysteryBoxDataComposer)

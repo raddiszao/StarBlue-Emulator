@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class ControlCommand : IChatCommand
+    internal class ControlCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
 

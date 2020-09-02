@@ -1,11 +1,11 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
+﻿using Enclosure;
+using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.PathFinding;
-using StarBlue.Utilities.Enclosure;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -20,6 +20,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
         private byte[,] floorMap;
         private double timestarted;
         private bool banzaiStarted;
+        private int _counterTimer;
         private GameField field;
         private ConcurrentDictionary<int, Item> _pucks;
         private ConcurrentDictionary<int, Item> _banzaiTiles;
@@ -31,6 +32,12 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
             timestarted = 0;
             _pucks = new ConcurrentDictionary<int, Item>();
             _banzaiTiles = new ConcurrentDictionary<int, Item>();
+        }
+
+        public int CounterTimer
+        {
+            get { return _counterTimer; }
+            set { _counterTimer = value; }
         }
 
         public bool isBanzaiActive => banzaiStarted;
@@ -292,6 +299,8 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                         {
                             StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_BattleBallTilesLocked", User.LockedTilesCount);
                             StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_BattleBallPlayer", 1);
+                            StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_GamePlayerExperience", 1);
+                            StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(StarBlueServer.GetGame().GetClientManager().GetClientByUserID(_room.RoomData.OwnerId), "ACH_GameAuthorExperience", 1);
                         }
                     }
                     if (winners == TEAM.BLUE)
@@ -301,6 +310,8 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                             if (StarBlueServer.GetUnixTimestamp() - timestarted > 5)
                             {
                                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_BattleBallWinner", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_GamePlayerExperience", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(StarBlueServer.GetGame().GetClientManager().GetClientByUserID(_room.RoomData.OwnerId), "ACH_GameAuthorExperience", 1);
                             }
 
                             _room.SendMessage(new ActionComposer(User.VirtualId, 1));
@@ -313,6 +324,8 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                             if (StarBlueServer.GetUnixTimestamp() - timestarted > 5)
                             {
                                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_BattleBallWinner", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_GamePlayerExperience", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(StarBlueServer.GetGame().GetClientManager().GetClientByUserID(_room.RoomData.OwnerId), "ACH_GameAuthorExperience", 1);
                             }
 
                             _room.SendMessage(new ActionComposer(User.VirtualId, 1));
@@ -325,6 +338,8 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                             if (StarBlueServer.GetUnixTimestamp() - timestarted > 5)
                             {
                                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_BattleBallWinner", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_GamePlayerExperience", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(StarBlueServer.GetGame().GetClientManager().GetClientByUserID(_room.RoomData.OwnerId), "ACH_GameAuthorExperience", 1);
                             }
 
                             _room.SendMessage(new ActionComposer(User.VirtualId, 1));
@@ -337,6 +352,8 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                             if (StarBlueServer.GetUnixTimestamp() - timestarted > 5)
                             {
                                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_BattleBallWinner", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_GamePlayerExperience", 1);
+                                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(StarBlueServer.GetGame().GetClientManager().GetClientByUserID(_room.RoomData.OwnerId), "ACH_GameAuthorExperience", 1);
                             }
 
                             _room.SendMessage(new ActionComposer(User.VirtualId, 1));
@@ -345,7 +362,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                 }
                 if (field != null)
                 {
-                    field.Dispose();
+                    field.destroy();
                 }
             }
         }
@@ -369,7 +386,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
             item.UpdateNeeded = true;
             item.UpdateState();
 
-            Double NewZ = _room.GetGameMap().Model.SqFloorHeight[newX, newY];
+            double NewZ = _room.GetGameMap().Model.SqFloorHeight[newX, newY];
 
             _room.SendMessage(new SlideObjectBundleComposer(item.GetX, item.GetY, item.GetZ, newX, newY, NewZ, 0, 0, item.Id));
 
@@ -399,16 +416,16 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                     {
                         user.LockedTilesCount++;
                         _room.GetGameManager().AddPointToTeam(item.team, 1);
-                        field.UpdateLocation(item.GetX, item.GetY, (byte)team);
-                        List<PointField> gfield = field.DoUpdate();
+                        field.updateLocation(item.GetX, item.GetY, (byte)team);
+                        List<PointField> gfield = field.doUpdate();
                         TEAM t;
                         foreach (PointField gameField in gfield)
                         {
-                            t = (TEAM)gameField.ForValue;
-                            foreach (Point p in gameField.GetPoints())
+                            t = (TEAM)gameField.forValue;
+                            foreach (Point p in gameField.getPoints())
                             {
                                 HandleMaxBanzaiTiles(new Point(p.X, p.Y), t);
-                                floorMap[p.Y, p.X] = gameField.ForValue;
+                                floorMap[p.Y, p.X] = gameField.forValue;
                             }
                         }
                     }
@@ -534,7 +551,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
 
             if (field != null)
             {
-                field.Dispose();
+                field.destroy();
             }
 
             _room = null;

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    class TradingAcceptComposer : ServerPacket
+    internal class TradingAcceptComposer : ServerPacket
     {
         public TradingAcceptComposer(int UserId, bool Accept)
             : base(ServerPacketHeader.TradingAcceptMessageComposer)

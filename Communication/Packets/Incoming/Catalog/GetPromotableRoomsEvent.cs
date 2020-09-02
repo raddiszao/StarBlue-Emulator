@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
-    class GetPromotableRoomsEvent : IPacketEvent
+    internal class GetPromotableRoomsEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

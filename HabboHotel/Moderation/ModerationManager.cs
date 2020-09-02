@@ -1,11 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
+using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Moderation
 {
@@ -252,7 +251,7 @@ namespace StarBlue.HabboHotel.Moderation
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("REPLACE INTO `bans` (`bantype`, `value`, `reason`, `expire`, `added_by`,`added_date`) VALUES ('" + BanType + "', '" + BanValue + "', @reason, " + ExpireTimestamp + ", '" + Mod + "', '" + StarBlueServer.GetUnixTimestamp() + "');");
-                dbClient.AddParameter("reason", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Reason)));
+                dbClient.AddParameter("reason", Reason);
                 dbClient.RunQuery();
             }
 

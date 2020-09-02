@@ -1,4 +1,5 @@
 ﻿using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.HabboHotel.Groups.Forums
@@ -41,8 +42,8 @@ namespace StarBlue.HabboHotel.Groups.Forums
         public void SerializeData(ServerPacket Packet)
         {
 
-            var User = GetAuthor();
-            var oculterData = GetDeleter();
+            Habbo User = GetAuthor();
+            Habbo oculterData = GetDeleter();
             Packet.WriteInteger(Id); //Post Id
             Packet.WriteInteger(ParentThread.Posts.IndexOf(this)); //Post Index
 
@@ -61,7 +62,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         internal void Save()
         {
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("UPDATE group_forums_threads SET deleted_level = @dl, deleter_user_id = @duid WHERE id = @id");
                 adap.AddParameter("dl", DeletedLevel);

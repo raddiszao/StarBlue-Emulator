@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms.PathFinding;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Avatar
 {
-    class LookToEvent : IPacketEvent
+    internal class LookToEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

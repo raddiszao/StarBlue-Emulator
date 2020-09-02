@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Users.Relationships;
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class GetRelationshipsComposer : ServerPacket
+    internal class GetRelationshipsComposer : ServerPacket
     {
         public GetRelationshipsComposer(Habbo Habbo, int Loves, int Likes, int Hates)
             : base(ServerPacketHeader.GetRelationshipsMessageComposer)

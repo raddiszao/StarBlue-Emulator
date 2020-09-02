@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Stickys
 {
-    class GetStickyNoteEvent : IPacketEvent
+    internal class GetStickyNoteEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

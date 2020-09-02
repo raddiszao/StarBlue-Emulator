@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class DisableNotificationEventCommand : IChatCommand
+    internal class DisableNotificationEventCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -18,7 +18,7 @@
             }
             else
             {
-                Session.SendWhisper("Você desativou os alertas de eventos.", 34);
+                Session.SendWhisper("Você desativou os alertas de eventos, para ativar novamente use este mesmo comandos.", 34);
             }
         }
     }

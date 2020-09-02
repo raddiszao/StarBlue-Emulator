@@ -1,2 +1,2 @@
-bug delay wireds
-bug conquistas
+alterar pasta da swf
+ajeitar pisos bugados

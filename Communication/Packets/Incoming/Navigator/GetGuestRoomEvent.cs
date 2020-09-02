@@ -1,10 +1,9 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Navigator;
 using StarBlue.HabboHotel.Rooms;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class GetGuestRoomEvent : IPacketEvent
+    internal class GetGuestRoomEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -16,8 +15,8 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
                 return;
             }
 
-            Boolean isLoading = Packet.PopInt() == 1;
-            Boolean checkEntry = Packet.PopInt() == 1;
+            bool isLoading = Packet.PopInt() == 1;
+            bool checkEntry = Packet.PopInt() == 1;
 
             Session.SendMessage(new GetGuestRoomResultComposer(Session, roomData, isLoading, checkEntry));
         }

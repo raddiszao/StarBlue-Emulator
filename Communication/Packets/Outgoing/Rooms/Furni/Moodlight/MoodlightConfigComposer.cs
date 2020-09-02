@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Items.Data.Moodlight;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Moodlight
 {
-    class MoodlightConfigComposer : ServerPacket
+    internal class MoodlightConfigComposer : ServerPacket
     {
         public MoodlightConfigComposer(MoodlightData MoodlightData)
             : base(ServerPacketHeader.MoodlightConfigMessageComposer)

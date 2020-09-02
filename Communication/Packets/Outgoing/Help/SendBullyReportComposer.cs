@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help
 {
-    class SendBullyReportComposer : ServerPacket
+    internal class SendBullyReportComposer : ServerPacket
     {
         public SendBullyReportComposer()
             : base(ServerPacketHeader.SendBullyReportMessageComposer)

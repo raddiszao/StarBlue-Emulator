@@ -72,7 +72,7 @@ namespace StarBlue.HabboHotel.Items
                     }
                 }
             }
-            else if (!String.IsNullOrEmpty(VendingIds) && (int.Parse(VendingIds)) > 0)
+            else if (!string.IsNullOrEmpty(VendingIds) && (int.Parse(VendingIds)) > 0)
             {
                 this.VendingIds.Add(int.Parse(VendingIds));
             }
@@ -85,7 +85,7 @@ namespace StarBlue.HabboHotel.Items
                     this.AdjustableHeights.Add(double.Parse(H));
                 }
             }
-            else if (!String.IsNullOrEmpty(AdjustableHeights) && (double.Parse(AdjustableHeights)) > 0)
+            else if (!string.IsNullOrEmpty(AdjustableHeights) && (double.Parse(AdjustableHeights)) > 0)
             {
                 this.AdjustableHeights.Add(double.Parse(AdjustableHeights));
             }

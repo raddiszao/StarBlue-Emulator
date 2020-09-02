@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Permissions;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Permissions;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Settings;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class AssignRightsEvent : IPacketEvent
+    internal class AssignRightsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -37,7 +37,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.RunFastQuery("INSERT INTO `room_rights` (`room_id`,`user_id`) VALUES ('" + Room.RoomId + "','" + UserId + "')");
+                dbClient.RunFastQuery("INSERT INTO `room_rights` (`room_id`,`user_id`) VALUES ('" + Room.Id + "','" + UserId + "')");
             }
 
             RoomUser RoomUser = Room.GetRoomUserManager().GetRoomUserByHabbo(UserId);
@@ -50,14 +50,14 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
                     RoomUser.GetClient().SendMessage(new YouAreControllerComposer(1));
                 }
 
-                Session.SendMessage(new FlatControllerAddedComposer(Room.RoomId, RoomUser.GetClient().GetHabbo().Id, RoomUser.GetClient().GetHabbo().Username));
+                Session.SendMessage(new FlatControllerAddedComposer(Room.Id, RoomUser.GetClient().GetHabbo().Id, RoomUser.GetClient().GetHabbo().Username));
             }
             else
             {
                 UserCache User = StarBlueServer.GetGame().GetCacheManager().GenerateUser(UserId);
                 if (User != null)
                 {
-                    Session.SendMessage(new FlatControllerAddedComposer(Room.RoomId, User.Id, User.Username));
+                    Session.SendMessage(new FlatControllerAddedComposer(Room.Id, User.Id, User.Username));
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class CatalogUpdatedComposer : ServerPacket
+    internal class CatalogUpdatedComposer : ServerPacket
     {
         public CatalogUpdatedComposer()
             : base(ServerPacketHeader.CatalogUpdatedMessageComposer)

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class RoomPropertyComposer : ServerPacket
+    internal class RoomPropertyComposer : ServerPacket
     {
         public RoomPropertyComposer(string name, string val)
             : base(ServerPacketHeader.RoomPropertyMessageComposer)

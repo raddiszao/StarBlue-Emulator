@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Users;
+﻿using StarBlue.Communication.Packets.Outgoing.Users;
+using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class CheckValidNameEvent : IPacketEvent
+    internal class CheckValidNameEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

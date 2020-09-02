@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class RandomizeCommand : IChatCommand
+    internal class RandomizeCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
 

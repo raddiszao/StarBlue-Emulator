@@ -1,7 +1,7 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Navigator;
+﻿using StarBlue.Communication.Packets.Outgoing.Navigator;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Settings;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Navigator;
 using StarBlue.HabboHotel.Rooms;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 {
-    class SaveRoomSettingsEvent : IPacketEvent
+    internal class SaveRoomSettingsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -109,7 +109,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
                 WhoMute = 0;
             }
 
-            if (WhoKick < 0 || WhoKick > 1)
+            if (WhoKick < 0 || WhoKick > 2)
             {
                 WhoKick = 0;
             }
@@ -159,7 +159,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
                 CategoryId = 36;
             }
 
-            if (SearchResultList.CategoryType != NavigatorCategoryType.CATEGORY || SearchResultList.RequiredRank > Session.GetHabbo().Rank || (Session.GetHabbo().Id != Room.OwnerId && Session.GetHabbo().Rank >= SearchResultList.RequiredRank))
+            if (SearchResultList.CategoryType != NavigatorCategoryType.CATEGORY || SearchResultList.RequiredRank > Session.GetHabbo().Rank || (Session.GetHabbo().Id != Room.RoomData.OwnerId && Session.GetHabbo().Rank >= SearchResultList.RequiredRank))
             {
                 CategoryId = 36;
             }
@@ -169,21 +169,10 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
                 return;
             }
 
-            Room.AllowPets = AllowPets;
-            Room.AllowPetsEating = AllowPetsEat;
-            Room.RoomBlockingEnabled = RoomBlockingEnabled;
-            Room.Hidewall = Hidewall;
-
             Room.RoomData.AllowPets = AllowPets;
             Room.RoomData.AllowPetsEating = AllowPetsEat;
             Room.RoomData.RoomBlockingEnabled = RoomBlockingEnabled;
             Room.RoomData.Hidewall = Hidewall;
-
-            Room.Name = Name;
-            Room.Access = Access;
-            Room.Description = Description;
-            Room.Category = CategoryId;
-            Room.Password = Password;
 
             Room.RoomData.Name = Name;
             Room.RoomData.Access = Access;
@@ -191,33 +180,19 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
             Room.RoomData.Category = CategoryId;
             Room.RoomData.Password = Password;
 
-            Room.WhoCanBan = WhoBan;
-            Room.WhoCanKick = WhoKick;
-            Room.WhoCanMute = WhoMute;
             Room.RoomData.WhoCanBan = WhoBan;
             Room.RoomData.WhoCanKick = WhoKick;
             Room.RoomData.WhoCanMute = WhoMute;
 
             Room.ClearTags();
             Room.AddTagRange(Tags);
-            Room.UsersMax = MaxUsers;
 
             Room.RoomData.Tags.Clear();
             Room.RoomData.Tags.AddRange(Tags);
             Room.RoomData.UsersMax = MaxUsers;
 
-            Room.WallThickness = WallThickness;
-            Room.FloorThickness = FloorThickness;
             Room.RoomData.WallThickness = WallThickness;
             Room.RoomData.FloorThickness = FloorThickness;
-
-            Room.chatMode = chatMode;
-            Room.chatSize = chatSize;
-            Room.chatSpeed = chatSpeed;
-            Room.chatDistance = chatDistance;
-            Room.extraFlood = extraFlood;
-
-            Room.TradeSettings = TradeSettings;
 
             Room.RoomData.chatMode = chatMode;
             Room.RoomData.chatSize = chatSize;
@@ -250,15 +225,10 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("UPDATE rooms SET caption = @caption, description = @description, password = @password, category = " +
-                    CategoryId + ", state = '" + AccessStr + "', tags = @tags, users_max = " + MaxUsers +
-                    ", allow_pets = '" + AllowPets + "', allow_pets_eat = '" + AllowPetsEat + "', room_blocking_disabled = '" +
-                    RoomBlockingEnabled + "', allow_hidewall = '" + Room.Hidewall + "', floorthick = " +
-                    Room.FloorThickness + ", wallthick = " + Room.WallThickness + ", mute_settings='" + Room.WhoCanMute +
-                    "', kick_settings='" + Room.WhoCanKick + "',ban_settings='" + Room.WhoCanBan + "', `chat_mode` = '" + Room.chatMode + "', `chat_size` = '" + Room.chatSize + "', `chat_speed` = '" + Room.chatSpeed + "', `chat_extra_flood` = '" + Room.extraFlood + "', `chat_hearing_distance` = '" + Room.chatDistance + "', `trade_settings` = '" + Room.TradeSettings + "' WHERE `id` = '" + Room.RoomId + "' LIMIT 1");
-                dbClient.AddParameter("caption", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Room.Name)));
-                dbClient.AddParameter("description", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Room.Description)));
-                dbClient.AddParameter("password", Room.Password);
+                dbClient.SetQuery("UPDATE rooms SET caption = @caption, description = @description, password = @password, category = " + CategoryId + ", state = '" + AccessStr + "', tags = @tags, users_max = " + MaxUsers + ", allow_pets = '" + AllowPets + "', allow_pets_eat = '" + AllowPetsEat + "', room_blocking_disabled = '" + RoomBlockingEnabled + "', allow_hidewall = '" + Room.RoomData.Hidewall + "', floorthick = " + Room.RoomData.FloorThickness + ", wallthick = " + Room.RoomData.WallThickness + ", mute_settings='" + Room.RoomData.WhoCanMute + "', kick_settings='" + Room.RoomData.WhoCanKick + "', ban_settings='" + Room.RoomData.WhoCanBan + "', `chat_mode` = '" + Room.RoomData.chatMode + "', `chat_size` = '" + Room.RoomData.chatSize + "', `chat_speed` = '" + Room.RoomData.chatSpeed + "', `chat_extra_flood` = '" + Room.RoomData.extraFlood + "', `chat_hearing_distance` = '" + Room.RoomData.chatDistance + "', `trade_settings` = '" + Room.RoomData.TradeSettings + "' WHERE `id` = '" + Room.Id + "' LIMIT 1");
+                dbClient.AddParameter("caption", Room.RoomData.Name);
+                dbClient.AddParameter("description", Room.RoomData.Description);
+                dbClient.AddParameter("password", Room.RoomData.Password);
                 dbClient.AddParameter("tags", formattedTags.ToString());
                 dbClient.RunQuery();
             }
@@ -267,15 +237,15 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 
             if (Session.GetHabbo().CurrentRoom == null)
             {
-                Session.SendMessage(new RoomSettingsSavedComposer(Room.RoomId));
-                Session.SendMessage(new RoomInfoUpdatedComposer(Room.RoomId));
-                Session.SendMessage(new RoomVisualizationSettingsComposer(Room.WallThickness, Room.FloorThickness, StarBlueServer.EnumToBool(Room.Hidewall.ToString())));
+                Session.SendMessage(new RoomSettingsSavedComposer(Room.Id));
+                Session.SendMessage(new RoomInfoUpdatedComposer(Room.Id));
+                Session.SendMessage(new RoomVisualizationSettingsComposer(Room.RoomData.WallThickness, Room.RoomData.FloorThickness, StarBlueServer.EnumToBool(Room.RoomData.Hidewall.ToString())));
             }
             else
             {
-                Room.SendMessage(new RoomSettingsSavedComposer(Room.RoomId));
-                Room.SendMessage(new RoomInfoUpdatedComposer(Room.RoomId));
-                Room.SendMessage(new RoomVisualizationSettingsComposer(Room.WallThickness, Room.FloorThickness, StarBlueServer.EnumToBool(Room.Hidewall.ToString())));
+                Room.SendMessage(new RoomSettingsSavedComposer(Room.Id));
+                Room.SendMessage(new RoomInfoUpdatedComposer(Room.Id));
+                Room.SendMessage(new RoomVisualizationSettingsComposer(Room.RoomData.WallThickness, Room.RoomData.FloorThickness, StarBlueServer.EnumToBool(Room.RoomData.Hidewall.ToString())));
             }
 
             StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_SelfModDoorModeSeen", 1);

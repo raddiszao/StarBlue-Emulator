@@ -1,5 +1,5 @@
 ﻿//using StarBlue.HabboHotel.GameClients;
-//using Database_Manager.Database.Session_Details.Interfaces;
+//using StarBlue.Database.Interfaces;
 //using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 //using StarBlue.Utilities;
 //using System.Threading.Tasks;

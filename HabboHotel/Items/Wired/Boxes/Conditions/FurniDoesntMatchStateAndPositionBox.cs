@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class FurniDoesntMatchStateAndPositionBox : IWiredItem
+    internal class FurniDoesntMatchStateAndPositionBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -62,7 +62,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData) || StringData == "0;0;0" || SetItems.Count == 0)
+            if (string.IsNullOrEmpty(StringData) || StringData == "0;0;0" || SetItems.Count == 0)
             {
                 return false;
             }
@@ -74,9 +74,9 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                     continue;
                 }
 
-                foreach (String I in ItemsData.Split(';'))
+                foreach (string I in ItemsData.Split(';'))
                 {
-                    if (String.IsNullOrEmpty(I))
+                    if (string.IsNullOrEmpty(I))
                     {
                         continue;
                     }

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class UnknownGroupComposer : ServerPacket
+    internal class UnknownGroupComposer : ServerPacket
     {
         public UnknownGroupComposer(int GroupId, int HabboId)
             : base(ServerPacketHeader.UnknownGroupMessageComposer)

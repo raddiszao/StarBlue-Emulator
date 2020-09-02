@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    class DynamicPollLandingComposer : ServerPacket
+    internal class DynamicPollLandingComposer : ServerPacket
     {
         public DynamicPollLandingComposer(bool HasDone)
             : base(ServerPacketHeader.DynamicPollLandingComposer)

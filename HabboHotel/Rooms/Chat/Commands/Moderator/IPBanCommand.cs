@@ -1,12 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Moderation;
 using StarBlue.HabboHotel.Users;
-using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class IPBanCommand : IChatCommand
+    internal class IPBanCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "[USUARIO]";
@@ -33,8 +32,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 return;
             }
 
-            String IPAddress = String.Empty;
-            Double Expire = StarBlueServer.GetUnixTimestamp() + 78892200;
+            string IPAddress = string.Empty;
+            double Expire = StarBlueServer.GetUnixTimestamp() + 78892200;
             string Username = Habbo.Username;
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {

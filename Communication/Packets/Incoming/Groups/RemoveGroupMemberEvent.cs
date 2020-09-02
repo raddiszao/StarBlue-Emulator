@@ -1,8 +1,7 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using Plus.HabboHotel.Groups;
-using StarBlue.Communication.Packets.Outgoing.Groups;
+﻿using StarBlue.Communication.Packets.Outgoing.Groups;
 using StarBlue.Communication.Packets.Outgoing.Messenger;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Permissions;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Rooms;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class RemoveGroupMemberEvent : IPacketEvent
+    internal class RemoveGroupMemberEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -109,7 +108,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 }
                 if (Group.HasChat)
                 {
-                    var Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
+                    HabboHotel.GameClients.GameClient Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
                     if (Client != null)
                     {
                         Client.SendMessage(new FriendListUpdateComposer(Group, -1));
@@ -166,7 +165,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                     Session.SendMessage(new GroupMembersComposer(Group, Members.Take(FinishIndex).ToList(), MembersCount, 1, (Group.CreatorId == Session.GetHabbo().Id || Group.IsAdmin(Session.GetHabbo().Id)), 0, ""));
                     if (Group.HasChat)
                     {
-                        var Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
+                        HabboHotel.GameClients.GameClient Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
                         if (Client != null)
                         {
                             Client.SendMessage(new FriendListUpdateComposer(Group, -1));

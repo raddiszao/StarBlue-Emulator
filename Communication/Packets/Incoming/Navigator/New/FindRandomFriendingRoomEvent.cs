@@ -5,11 +5,11 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class FindRandomFriendingRoomEvent : IPacketEvent
+    internal class FindRandomFriendingRoomEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
-            var type = Packet.PopString();
+            string type = Packet.PopString();
             if (type == "predefined_noob_lobby")
             {
                 Session.SendMessage(new NuxAlertComposer("nux/lobbyoffer/hide"));
@@ -17,7 +17,7 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
                 return;
             }
 
-            Room Instance = StarBlueServer.GetGame().GetRoomManager().TryGetRandomLoadedRoom();
+            Room Instance = StarBlueServer.GetGame().GetRoomManager().TryGetRandomLoadedRoom(Session);
             if (Instance != null)
             {
                 Session.SendMessage(new RoomForwardComposer(Instance.Id));

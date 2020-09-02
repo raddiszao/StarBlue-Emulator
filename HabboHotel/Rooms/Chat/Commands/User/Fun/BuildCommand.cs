@@ -15,7 +15,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fan
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             string height = Params[1];
-            if (Session.GetHabbo().Id == Room.OwnerId)
+            if (Session.GetHabbo().Id == Room.RoomData.OwnerId)
             {
                 if (!Room.CheckRights(Session, true))
                 {

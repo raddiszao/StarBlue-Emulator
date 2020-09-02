@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.LandingView
 {
-    class GiveConcurrentUsersReward : IPacketEvent
+    internal class GiveConcurrentUsersReward : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

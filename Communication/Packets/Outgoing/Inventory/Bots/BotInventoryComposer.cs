@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Bots
 {
-    class BotInventoryComposer : ServerPacket
+    internal class BotInventoryComposer : ServerPacket
     {
         public BotInventoryComposer(ICollection<Bot> Bots)
             : base(ServerPacketHeader.BotInventoryMessageComposer)

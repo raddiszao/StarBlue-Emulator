@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Rooms.PathFinding
 {
@@ -8,26 +7,26 @@ namespace StarBlue.HabboHotel.Rooms.PathFinding
         public static Vector2D[] DiagMovePoints = new[]
             {
                 new Vector2D(-1, -1),
-                new Vector2D(0, -1),
-                new Vector2D(1, -1),
-                new Vector2D(1, 0),
-                new Vector2D(1, 1),
-                new Vector2D(0, 1),
                 new Vector2D(-1, 1),
-                new Vector2D(-1, 0)
+                new Vector2D(1, 1),
+                new Vector2D(1, -1),
+                new Vector2D(0, -1),
+                new Vector2D(-1, 0),
+                new Vector2D(0, 1),
+                new Vector2D(1, 0)
             };
 
         public static Vector2D[] NoDiagMovePoints = new[]
             {
                 new Vector2D(0, -1),
-                new Vector2D(1, 0),
+                new Vector2D(-1, 0),
                 new Vector2D(0, 1),
-                new Vector2D(-1, 0)
+                new Vector2D(1, 0)
             };
 
         public static List<Vector2D> FindPath(RoomUser User, bool Diag, Gamemap Map, Vector2D Start, Vector2D End)
         {
-            var Path = new List<Vector2D>();
+            List<Vector2D> Path = new List<Vector2D>();
 
             PathFinderNode Nodes = FindPathReversed(User, Diag, Map, Start, End);
 
@@ -48,16 +47,19 @@ namespace StarBlue.HabboHotel.Rooms.PathFinding
         public static PathFinderNode FindPathReversed(RoomUser User, bool Diag, Gamemap Map, Vector2D Start, Vector2D End)
         {
             var OpenList = new MinHeap<PathFinderNode>(256);
+
             var PfMap = new PathFinderNode[Map.Model.MapSizeX, Map.Model.MapSizeY];
             PathFinderNode Node;
             Vector2D Tmp;
-            Int64 Cost;
-            Int64 Diff;
-            var Current = new PathFinderNode(Start) { Cost = 0 };
+            int Cost;
+            int Diff;
+
+            var Current = new PathFinderNode(Start);
+            Current.Cost = 0;
+
             var Finish = new PathFinderNode(End);
             PfMap[Current.Position.X, Current.Position.Y] = Current;
             OpenList.Add(Current);
-
             while (OpenList.Count > 0)
             {
                 Current = OpenList.ExtractFirst();
@@ -69,7 +71,7 @@ namespace StarBlue.HabboHotel.Rooms.PathFinding
                     bool IsFinalMove = (Tmp.X == End.X && Tmp.Y == End.Y);
                     bool DiagMovement = (i == 0 || i == 2 || i == 4 || i == 6);
 
-                    if (Map.IsValidStep(new Vector2D(Current.Position.X, Current.Position.Y), Tmp, IsFinalMove, User.AllowOverride, Diag, DiagMovement))
+                    if (Map.IsValidStep(User, new Vector2D(Current.Position.X, Current.Position.Y), Tmp, IsFinalMove, User.AllowOverride, Diag, DiagMovement))
                     {
                         if (PfMap[Tmp.X, Tmp.Y] == null)
                         {
@@ -95,7 +97,14 @@ namespace StarBlue.HabboHotel.Rooms.PathFinding
                                 Diff += 1;
                             }
 
-                            Cost = Current.Cost + Diff + Node.Position.GetDistanceSquared(End);
+                            try
+                            {
+                                Cost = Current.Cost + Diff + Node.Position.GetDistanceSquared(End);
+                            }
+                            catch
+                            {
+                                return null;
+                            }
 
                             if (Cost < Node.Cost)
                             {

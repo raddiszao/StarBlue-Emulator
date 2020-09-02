@@ -1,9 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication;
+﻿using StarBlue.Communication;
 using StarBlue.Communication.ConnectionManager;
 using StarBlue.Communication.Encryption.Crypto.Prng;
-using StarBlue.Communication.Interfaces;
 using StarBlue.Communication.Packets.Incoming;
+using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.BuildersClub;
 using StarBlue.Communication.Packets.Outgoing.Handshake;
 using StarBlue.Communication.Packets.Outgoing.Help.Helpers;
@@ -11,13 +10,15 @@ using StarBlue.Communication.Packets.Outgoing.Inventory.Achievements;
 using StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
 using StarBlue.Communication.Packets.Outgoing.Navigator;
-using StarBlue.Communication.Packets.Outgoing.Nux;
+using StarBlue.Communication.Packets.Outgoing.Rooms.Camera;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Sound;
 using StarBlue.Communication.Packets.Outgoing.Users;
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
 using StarBlue.Core;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Helpers;
 using StarBlue.HabboHotel.Moderation;
@@ -26,7 +27,9 @@ using StarBlue.HabboHotel.Subscriptions;
 using StarBlue.HabboHotel.Users;
 using StarBlue.HabboHotel.Users.Messenger.FriendBar;
 using StarBlue.HabboHotel.Users.UserDataManagement;
+using StarBlue.Messages;
 using StarBlue.Utilities;
+using StarBlueServer.Communication;
 using System;
 using System.Threading;
 using static StarBlue.Core.Rank.RankManager;
@@ -40,7 +43,6 @@ namespace StarBlue.HabboHotel.GameClients
         public string MachineId;
         private bool _disconnected;
         public string ssoTicket;
-        public bool LoggingOut = false;
         public ARC4 RC4Client = null;
         private GamePacketParser _packetParser;
         private ConnectionInformation _connection;
@@ -56,12 +58,12 @@ namespace StarBlue.HabboHotel.GameClients
 
         private void SwitchParserRequest()
         {
-            _packetParser.SetConnection(_connection);
-            _packetParser.onNewPacket += parser_onNewPacket;
-            byte[] data = (_connection.Parser as InitialPacketParser).currentData;
-            _connection.Parser.Dispose();
-            _connection.Parser = _packetParser;
-            _connection.Parser.HandlePacketData(data);
+            this._packetParser.OnNewPacket += new GamePacketParser.HandlePacket(this.parser_onNewPacket);
+
+            byte[] packet = (this._connection.parser as InitialPacketParser).currentData;
+            this._connection.parser.Dispose();
+            this._connection.parser = (IDataParser)this._packetParser;
+            this._connection.parser.handlePacketData(packet);
         }
 
         private void parser_onNewPacket(ClientPacket Message)
@@ -76,34 +78,16 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        internal string SendNotification(string v1, string v2)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void PolicyRequest()
-        {
-            _connection.SendData(StarBlueServer.GetDefaultEncoding().GetBytes("<?xml version=\"1.0\"?>\r\n" +
-                   "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n" +
-                   "<cross-domain-policy>\r\n" +
-                   "<allow-access-from domain=\"*\" to-ports=\"1-31111\" />\r\n" +
-                   "</cross-domain-policy>\x0"));
-        }
-
-
         public void StartConnection()
         {
-            if (_connection == null)
-            {
+            if (this._connection == null)
                 return;
-            }
 
-            PingCount = 0;
+            (this._connection.parser as InitialPacketParser).SwitchParserRequest += new InitialPacketParser.NoParamDelegate(this.SwitchParserRequest);
 
-            (_connection.Parser as InitialPacketParser).PolicyRequest += PolicyRequest;
-            (_connection.Parser as InitialPacketParser).SwitchParserRequest += SwitchParserRequest;
-            _connection.StartPacketProcessing();
+            this._connection.startPacketProcessing();
         }
+
 
         public bool TryAuthenticate(string AuthTicket)
         {
@@ -155,19 +139,22 @@ namespace StarBlue.HabboHotel.GameClients
                     ssoTicket = AuthTicket;
                     userData.user.Init(this, userData);
 
-                    SendMessage(new AuthenticationOKComposer());
-                    SendMessage(new AvatarEffectsComposer(_habbo.Effects().GetAllEffects));
-                    SendMessage(new NavigatorSettingsComposer(_habbo.HomeRoom));
-                    SendMessage(new FavouritesComposer(userData.user.FavoriteRooms));
-                    SendMessage(new FigureSetIdsComposer(_habbo.GetClothing().GetClothingParts));
-                    SendMessage(new UserRightsComposer(_habbo));
-                    SendMessage(new AvailabilityStatusComposer());
-                    SendMessage(new AchievementScoreComposer(_habbo.GetStats().AchievementPoints));
-                    SendMessage(new HabboClubSubscriptionComposer());
-                    SendMessage(new BuildersClubMembershipComposer());
-                    SendMessage(new CfhTopicsInitComposer());
-                    SendMessage(new BadgeDefinitionsComposer(StarBlueServer.GetGame().GetAchievementManager()._achievements));
-                    SendMessage(new SoundSettingsComposer(_habbo.ClientVolume, _habbo.ChatPreference, _habbo.AllowMessengerInvites, _habbo.FocusPreference, FriendBarStateUtility.GetInt(_habbo.FriendbarState)));
+                    QueuedServerMessage message = new QueuedServerMessage(GetConnection());
+                    message.appendResponse(new AuthenticationOKComposer());
+                    message.appendResponse(new AvatarEffectsComposer(_habbo.Effects().GetAllEffects));
+                    message.appendResponse(new NavigatorSettingsComposer(_habbo.HomeRoom));
+                    message.appendResponse(new FavouritesComposer(userData.user.FavoriteRooms));
+                    message.appendResponse(new FigureSetIdsComposer(_habbo.GetClothing().GetClothingParts));
+                    message.appendResponse(new UserRightsComposer(_habbo));
+                    message.appendResponse(new AvailabilityStatusComposer());
+                    message.appendResponse(new AchievementScoreComposer(_habbo.GetStats().AchievementPoints));
+                    message.appendResponse(new HabboClubSubscriptionComposer());
+                    message.appendResponse(new BuildersClubMembershipComposer());
+                    message.appendResponse(new CfhTopicsInitComposer());
+                    message.appendResponse(new BadgeDefinitionsComposer(StarBlueServer.GetGame().GetAchievementManager()._achievements));
+                    message.appendResponse(new SoundSettingsComposer(_habbo.ClientVolume, _habbo.ChatPreference, _habbo.AllowMessengerInvites, _habbo.FocusPreference, FriendBarStateUtility.GetInt(_habbo.FriendbarState)));
+                    message.appendResponse(new SetCameraPicturePriceMessageComposer(100, 10, 0));
+
                     //SendMessage(new TalentTrackLevelComposer());
 
                     if (GetHabbo().GetMessenger() != null)
@@ -198,18 +185,19 @@ namespace StarBlue.HabboHotel.GameClients
 
                             if (!_habbo.GetBadgeComponent().HasBadge("DVIP"))
                             {
-                                _habbo.GetClient().GetHabbo().GetBadgeComponent().RemoveBadge("DVIP");
+                                GetHabbo().GetBadgeComponent().RemoveBadge("DVIP");
                             }
 
-                            _habbo.GetClient().GetHabbo().GetClubManager().ReloadSubscription(_habbo.GetClient());
-                            _habbo.GetClient().SendMessage(new ScrSendUserInfoComposer(_habbo));
-                            SendMessage(new SendHotelAlertLinkEventComposer("Infelizmente o seu VIP acabou, esperamos que tenha aproveitado bastante!"));
+                            GetHabbo().GetClubManager().ReloadSubscription(_habbo.GetClient());
+                            message.appendResponse(new ScrSendUserInfoComposer(_habbo));
+                            message.appendResponse(new SendHotelAlertLinkEventComposer("Infelizmente o seu VIP acabou, esperamos que tenha aproveitado bastante!"));
                         }
                     }
 
                     if (_habbo.Rank < 2 && !Convert.ToBoolean(StarBlueServer.GetConfig().data["hotel.open.for.users"]))
                     {
-                        SendMessage(new SendHotelAlertLinkEventComposer("Atualmente somente a staff pode entrar no hotel, estamos testando tudo para você."));
+                        message.appendResponse(new SendHotelAlertLinkEventComposer("Atualmente somente a staff pode entrar no hotel, estamos testando tudo para você."));
+                        message.sendResponse();
                         Thread.Sleep(10000);
                         Disconnect();
                         return false;
@@ -234,7 +222,7 @@ namespace StarBlue.HabboHotel.GameClients
                     if (StarBlueServer.GetGame().GetSubscriptionManager().TryGetSubscriptionData(_habbo.VIPRank, out SubscriptionData SubData))
                     {
 
-                        if (!String.IsNullOrEmpty(SubData.Badge))
+                        if (!string.IsNullOrEmpty(SubData.Badge))
                         {
                             if (!_habbo.GetBadgeComponent().HasBadge(SubData.Badge))
                             {
@@ -259,7 +247,7 @@ namespace StarBlue.HabboHotel.GameClients
                     {
                         if (GetHabbo().GetPermissions().HasRight("mod_tickets"))
                         {
-                            SendMessage(new ModeratorInitComposer(
+                            message.appendResponse(new ModeratorInitComposer(
                             StarBlueServer.GetGame().GetModerationManager().UserMessagePresets,
                             StarBlueServer.GetGame().GetModerationManager().RoomMessagePresets,
                             StarBlueServer.GetGame().GetModerationManager().GetTickets));
@@ -281,7 +269,7 @@ namespace StarBlue.HabboHotel.GameClients
                                 if (!GetHabbo().GetBadgeComponent().HasBadge(Rank.Badge))
                                 {
                                     GetHabbo().GetBadgeComponent().GiveBadge(Rank.Badge, true, GetHabbo().GetClient());
-                                    SendMessage(RoomNotificationComposer.SendBubble("heibbostaff", "Você recebeu o emblema " + Rank.Badge + "!", "/inventory/open/badge"));
+                                    message.appendResponse(RoomNotificationComposer.SendBubble("heibbostaff", "Você recebeu o emblema " + Rank.Badge + "!", "/inventory/open/badge"));
                                 }
                             }
                         }
@@ -290,7 +278,7 @@ namespace StarBlue.HabboHotel.GameClients
                     if ((GetHabbo().Rank > 2 && GetHabbo().Rank < 14) || GetHabbo()._guidelevel > 0)
                     {
                         HelperToolsManager.AddHelper(_habbo.GetClient(), false, true, true);
-                        SendMessage(new HandleHelperToolComposer(true));
+                        message.appendResponse(new HandleHelperToolComposer(true));
                     }
 
                     /*if (GetHabbo()._NuxRoom)
@@ -369,7 +357,7 @@ namespace StarBlue.HabboHotel.GameClients
                             if (TargetedOffer.Limit != GetHabbo()._TargetedBuy)
                             {
 
-                                SendMessage(StarBlueServer.GetGame().GetTargetedOffersManager().TargetedOffer.Serialize());
+                                message.appendResponse(StarBlueServer.GetGame().GetTargetedOffersManager().TargetedOffer.Serialize());
                             }
                         }
                         else if (TargetedOffer.Expire == -1)
@@ -378,26 +366,21 @@ namespace StarBlue.HabboHotel.GameClients
                             if (TargetedOffer.Limit != GetHabbo()._TargetedBuy)
                             {
 
-                                SendMessage(StarBlueServer.GetGame().GetTargetedOffersManager().TargetedOffer.Serialize());
+                                message.appendResponse(StarBlueServer.GetGame().GetTargetedOffersManager().TargetedOffer.Serialize());
                             }
                         }
                         else
                         {
-                            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                dbClient.RunFastQuery("UPDATE targeted_offers SET active = 'false'");
-                            }
-
-                            using (var dbClient2 = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                            {
-                                dbClient2.RunFastQuery("UPDATE users SET targeted_buy = '0' WHERE targeted_buy > 0");
+                                dbClient.RunFastQuery("UPDATE targeted_offers SET active = 'false';UPDATE users SET targeted_buy = '0' WHERE targeted_buy > 0");
                             }
                         }
                     }
 
                     if (_habbo.MysticBoxes.Count == 0 && _habbo.MysticKeys.Count == 0)
                     {
-                        var box = RandomNumber.GenerateRandom(1, 8);
+                        int box = RandomNumber.GenerateRandom(1, 8);
                         string boxcolor = "";
                         switch (box)
                         {
@@ -427,7 +410,7 @@ namespace StarBlue.HabboHotel.GameClients
                                 break;
                         }
 
-                        var key = RandomNumber.GenerateRandom(1, 8);
+                        int key = RandomNumber.GenerateRandom(1, 8);
                         string keycolor = "";
                         switch (key)
                         {
@@ -460,26 +443,25 @@ namespace StarBlue.HabboHotel.GameClients
                         _habbo.MysticKeys.Add(keycolor);
                         _habbo.MysticBoxes.Add(boxcolor);
 
-                        using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
                             dbClient.RunFastQuery("INSERT INTO user_mystic_data (user_id, mystic_keys, mystic_boxes) VALUES(" + GetHabbo().Id + ", '" + keycolor + "', '" + boxcolor + "');");
                         }
                     }
 
-                    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                    {
-                        dbClient.RunFastQuery("UPDATE users set auth_ticket = '' where id = '" + GetHabbo().Id + "'");
-                    }
+                    message.appendResponse(new MysteryBoxDataComposer(_habbo.GetClient()));
 
-                    SendMessage(new MysteryBoxDataComposer(_habbo.GetClient()));
+                    //message.appendResponse(new NuxAlertComposer("habbopages/welcome.txt?" + RandomNumber.GenerateRandom(0, 999999)));
+                    message.sendResponse();
 
-                    //SendMessage(new HCGiftsAlertComposer());
-                    SendMessage(new NuxAlertComposer("habbopages/welcome.txt?" + RandomNumber.GenerateRandom(0, 999999)));
+                    //SendNotification("Bem-vindo ao <b><font color='#FF4500'>" + StarBlueServer.HotelName + " Hotel</font></b>, " + GetHabbo().Username + ".\n\nEstamos felizes por você estar aqui. |\n\n<b>PREMIAÇÕES EM EVENTOS:</b>\nNível 1 ao 50: <b>5 diamantes, 1 honra.</b>\nNível 50 ao 100: <b>10 diamantes, 2 honras.</b>\nNível 100+: <b>20 diamantes, 2 honras.</b>\nParticipe e acumule prêmios!\n\nFique online e receba diamantes e honras!\nConfira também nossas promoções ativas e ganhe prêmios exclusivos!\n\nDivulgue o hotel e chame seus amigos!\n\n<b>Atenciosamente, Equipe " + StarBlueServer.HotelName + "</b>.");
 
                     StarBlueServer.GetGame().GetRewardManager().CheckRewards(this);
                     StarBlueServer.GetGame().GetAchievementManager().TryProgressHabboClubAchievements(this);
                     StarBlueServer.GetGame().GetAchievementManager().TryProgressRegistrationAchievements(this);
                     StarBlueServer.GetGame().GetAchievementManager().TryProgressLoginAchievements(this);
+
+                    _habbo.SendWebPacket(new ChangeEmojiStateComposer(_habbo.FriendbarState == FriendBarState.CLOSED ? "close" : "open"));
 
                     return true;
                 }
@@ -490,7 +472,6 @@ namespace StarBlue.HabboHotel.GameClients
             }
             return false;
         }
-
         public void SendWhisper(string Message, int Colour = 0)
         {
             if (this == null || GetHabbo() == null || GetHabbo().CurrentRoom == null)

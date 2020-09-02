@@ -1,11 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
-
+using StarBlue.HabboHotel.Users;
+using StarBlue.HabboHotel.Users.Messenger;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class MimicCommand : IChatCommand
+    internal class MimicCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -30,7 +31,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (!TargetClient.GetHabbo().AllowMimic)
             {
-                Session.SendWhisper(Params[1] + " você desativou a opção de ter sua aparência copiada.", 34);
+                Session.SendWhisper(Params[1] + " desativou a opção de ter sua aparência copiada.", 34);
                 return;
             }
 
@@ -59,6 +60,24 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                 Session.SendMessage(new AvatarAspectUpdateMessageComposer(Session.GetHabbo().Look, Session.GetHabbo().Gender));
                 Session.SendMessage(new UserChangeComposer(User, true));
                 Room.SendMessage(new UserChangeComposer(User, false));
+            }
+
+            foreach (HabboHotel.Users.Messenger.MessengerBuddy buddy in Session.GetHabbo().GetMessenger().GetFriends())
+            {
+                if (buddy.client == null)
+                {
+                    continue;
+                }
+
+                Habbo _habbo = StarBlueServer.GetHabboById(buddy.UserId);
+                if (_habbo != null && _habbo.GetMessenger() != null)
+                {
+                    if (_habbo.GetMessenger().GetFriendsIds().TryGetValue(Session.GetHabbo().Id, out MessengerBuddy value))
+                    {
+                        value.mLook = Session.GetHabbo().Look;
+                        _habbo.GetMessenger().UpdateFriend(Session.GetHabbo().Id, Session, true);
+                    }
+                }
             }
         }
     }

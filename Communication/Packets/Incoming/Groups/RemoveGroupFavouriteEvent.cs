@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class RemoveGroupFavouriteEvent : IPacketEvent
+    internal class RemoveGroupFavouriteEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

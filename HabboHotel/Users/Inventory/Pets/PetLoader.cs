@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms.AI;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Data;
 
 namespace StarBlue.HabboHotel.Users.Inventory.Pets
 {
-    static class PetLoader
+    internal static class PetLoader
     {
         public static List<Pet> GetPetsForUser(int UserId)
         {

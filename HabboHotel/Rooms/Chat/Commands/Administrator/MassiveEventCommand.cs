@@ -2,9 +2,9 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class MassiveEventCommand : IChatCommand
+    internal class MassiveEventCommand : IChatCommand
     {
-        public string PermissionRequired => "user_13";
+        public string PermissionRequired => "user_15";
 
         public string Parameters => "[EVENTO]";
 

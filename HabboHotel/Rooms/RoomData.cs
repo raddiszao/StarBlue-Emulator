@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 using System;
 using System.Collections.Generic;
@@ -56,14 +56,20 @@ namespace StarBlue.HabboHotel.Rooms
 
         public RoomPromotion _promotion;
 
+        public bool GolpeEnabled;
+        public bool SexEnabled;
+        public bool FastWalkEnabled;
         public bool PushEnabled;
         public bool PullEnabled;
         public bool SPushEnabled;
         public bool SPullEnabled;
         public bool EnablesEnabled;
         public bool HideWired;
+        public bool DiagonalEnabled;
+        public bool HandItemEnabled;
         public bool RespectNotificationsEnabled;
         public bool PetMorphsAllowed;
+        public bool RoomMuted;
         public int Shoot;
 
         public void Fill(DataRow Row)
@@ -80,7 +86,7 @@ namespace StarBlue.HabboHotel.Rooms
                 dbClient.SetQuery("SELECT `username` FROM `users` WHERE `id` = @owner LIMIT 1");
                 dbClient.AddParameter("owner", OwnerId);
                 string result = dbClient.GetString();
-                if (!String.IsNullOrEmpty(result))
+                if (!string.IsNullOrEmpty(result))
                 {
                     OwnerName = result;
                 }
@@ -120,6 +126,7 @@ namespace StarBlue.HabboHotel.Rooms
             chatSize = Convert.ToInt32(Row["chat_size"]);
             TradeSettings = Convert.ToInt32(Row["trade_settings"]);
             RollerSpeed = Convert.ToInt32(Row["roller_speed"]);
+            RoomMuted = false;
 
             if (StarBlueServer.GetGame().GetGroupManager().TryGetGroup(Convert.ToInt32(Row["group_id"]), out Group G))
             {
@@ -138,11 +145,16 @@ namespace StarBlue.HabboHotel.Rooms
             mModel = StarBlueServer.GetGame().GetRoomManager().GetModel(ModelName);
 
             PushEnabled = StarBlueServer.EnumToBool(Row["push_enabled"].ToString());
+            FastWalkEnabled = StarBlueServer.EnumToBool(Row["fastwalk_enabled"].ToString());
+            GolpeEnabled = StarBlueServer.EnumToBool(Row["golpe_enabled"].ToString());
+            SexEnabled = StarBlueServer.EnumToBool(Row["sex_enabled"].ToString());
             PullEnabled = StarBlueServer.EnumToBool(Row["pull_enabled"].ToString());
             SPushEnabled = StarBlueServer.EnumToBool(Row["spush_enabled"].ToString());
             SPullEnabled = StarBlueServer.EnumToBool(Row["spull_enabled"].ToString());
             EnablesEnabled = StarBlueServer.EnumToBool(Row["enables_enabled"].ToString());
             HideWired = StarBlueServer.EnumToBool(Row["hide_wired"].ToString());
+            DiagonalEnabled = StarBlueServer.EnumToBool(Row["diagonal_enabled"].ToString());
+            HandItemEnabled = StarBlueServer.EnumToBool(Row["handitem_enabled"].ToString());
             RespectNotificationsEnabled = StarBlueServer.EnumToBool(Row["respect_notifications_enabled"].ToString());
             PetMorphsAllowed = StarBlueServer.EnumToBool(Row["pet_morphs_allowed"].ToString());
             Shoot = Convert.ToInt32(Row["shoot"]);

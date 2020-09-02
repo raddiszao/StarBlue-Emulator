@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +15,7 @@ namespace StarBlue.HabboHotel.Catalog.PredesignedRooms
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT * FROM catalog_predesigned_rooms;");
-                var table = dbClient.GetTable();
+                DataTable table = dbClient.GetTable();
                 foreach (DataRow row in table.Rows)
                 {
                     predesignedRoom.Add(Convert.ToUInt32(row["id"]), new PredesignedRooms(Convert.ToUInt32(row["id"]),

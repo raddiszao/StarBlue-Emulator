@@ -1,9 +1,9 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class HideWiredCommand : IChatCommand
+    internal class HideWiredCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -14,7 +14,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
 
-            if (!Room.CheckRights(Session, false, false))
+            if (!Room.CheckRights(Session, false, true))
             {
                 Session.SendWhisper("Não tens permissões nesta sala.", 34);
                 return;

@@ -1,54 +1,53 @@
 ﻿using StarBlue.Core;
+using StarBlueServer.Communication;
 using System;
 
 namespace StarBlue.Communication.ConnectionManager
 {
     public class ConnectionHandling
     {
-        private readonly SocketManager _manager;
+        public GameSocketManager manager;
 
-        public ConnectionHandling(int port, int maxConnections, int connectionsPerIp, bool enabeNagles)
+        public ConnectionHandling(int port, int connectionsPerIP)
         {
-            _manager = new SocketManager();
-            _manager.Init(port, maxConnections, connectionsPerIp, new InitialPacketParser(), !enabeNagles);
+            this.manager = new GameSocketManager();
+            this.manager.init(port, connectionsPerIP, new InitialPacketParser());
+
+            this.manager.connectionEvent += new GameSocketManager.ConnectionEvent(this.ConnectionEvent);
         }
 
-        public void Init()
+        private void ConnectionEvent(ConnectionInformation connection)
         {
-            _manager.OnConnectionEvent += OnConnectionEvent;
-            _manager.InitializeConnectionRequests();
+            connection.connectionClose += new ConnectionInformation.ConnectionChange(this.ConnectionChanged);
+
+            StarBlueServer.GetGame().GetClientManager().CreateAndStartClient(connection.getConnectionID(), connection);
         }
 
-        private void OnConnectionEvent(ConnectionInformation connection)
+        private void ConnectionChanged(ConnectionInformation information)
         {
-            connection.ConnectionChanged += OnConnectionChanged;
-            StarBlueServer.GetGame().GetClientManager().CreateAndStartClient(Convert.ToInt32(connection.GetConnectionId()), connection);
+            this.CloseConnection(information);
+
+            information.connectionClose -= new ConnectionInformation.ConnectionChange(this.ConnectionChanged);
         }
 
-        private void OnConnectionChanged(ConnectionInformation information, ConnectionState state)
-        {
-            if (state == ConnectionState.Closed)
-            {
-                CloseConnection(information);
-            }
-        }
-
-        private void CloseConnection(ConnectionInformation connection)
+        public void CloseConnection(ConnectionInformation Connection)
         {
             try
             {
-                connection.Dispose();
-                StarBlueServer.GetGame().GetClientManager().DisposeConnection(Convert.ToInt32(connection.GetConnectionId()));
+                StarBlueServer.GetGame().GetClientManager().DisposeConnection(Connection.getConnectionID());
+
+                Connection.Dispose();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Logging.LogException(e.ToString());
+                Logging.LogException((ex).ToString());
             }
         }
 
+
         public void Destroy()
         {
-            _manager.Destroy();
+            this.manager.Destroy();
         }
     }
 }

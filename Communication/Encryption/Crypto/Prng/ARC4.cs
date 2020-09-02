@@ -16,55 +16,55 @@
         public ARC4(byte[] key)
         {
             bytes = new byte[POOLSIZE];
-            Initialize(key);
+            this.Initialize(key);
         }
 
         public void Initialize(byte[] key)
         {
-            i = 0;
-            j = 0;
+            this.i = 0;
+            this.j = 0;
 
             for (i = 0; i < POOLSIZE; ++i)
             {
-                bytes[i] = (byte)i;
+                this.bytes[i] = (byte)i;
             }
 
             for (i = 0; i < POOLSIZE; ++i)
             {
                 j = (j + bytes[i] + key[i % key.Length]) & (POOLSIZE - 1);
-                Swap(i, j);
+                this.Swap(i, j);
             }
 
-            i = 0;
-            j = 0;
+            this.i = 0;
+            this.j = 0;
         }
 
         private void Swap(int a, int b)
         {
-            byte t = bytes[a];
-            bytes[a] = bytes[b];
-            bytes[b] = t;
+            byte t = this.bytes[a];
+            this.bytes[a] = this.bytes[b];
+            this.bytes[b] = t;
         }
 
         public byte Next()
         {
-            i = ++i & (POOLSIZE - 1);
-            j = (j + bytes[i]) & (POOLSIZE - 1);
-            Swap(i, j);
-            return bytes[(bytes[i] + bytes[j]) & 255];
+            this.i = ++this.i & (POOLSIZE - 1);
+            this.j = (this.j + this.bytes[i]) & (POOLSIZE - 1);
+            this.Swap(i, j);
+            return this.bytes[(this.bytes[i] + this.bytes[j]) & 255];
         }
 
         public void Encrypt(ref byte[] src)
         {
             for (int k = 0; k < src.Length; k++)
             {
-                src[k] ^= Next();
+                src[k] ^= this.Next();
             }
         }
 
         public void Decrypt(ref byte[] src)
         {
-            Encrypt(ref src);
+            this.Encrypt(ref src);
         }
     }
 }

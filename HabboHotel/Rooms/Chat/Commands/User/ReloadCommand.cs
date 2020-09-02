@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class ReloadCommand : IChatCommand
+    internal class ReloadCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -15,7 +15,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (Session.GetHabbo().Id != Room.OwnerId && !Session.GetHabbo().GetPermissions().HasRight("room_any_owner"))
+            if (Session.GetHabbo().Id != Room.RoomData.OwnerId && !Session.GetHabbo().GetPermissions().HasRight("room_any_owner"))
             {
                 Session.SendWhisper("Lamentamos, este comando só está disponivel para o dono da sala");
                 return;

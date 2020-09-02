@@ -1,13 +1,12 @@
 ﻿using StarBlue.HabboHotel.Items;
-using System;
 
 namespace StarBlue.HabboHotel.Catalog.FurniMatic
 {
     public class FurniMaticRewards
     {
-        public Int32 DisplayId;
-        public Int32 BaseId;
-        public Int32 Level;
+        public int DisplayId;
+        public int BaseId;
+        public int Level;
 
         public FurniMaticRewards(int displayId, int baseId, int level)
         {

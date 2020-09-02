@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class CanCreateRoomComposer : ServerPacket
+    internal class CanCreateRoomComposer : ServerPacket
     {
         public CanCreateRoomComposer(bool Error, int MaxRoomsPerUser)
             : base(ServerPacketHeader.CanCreateRoomMessageComposer)

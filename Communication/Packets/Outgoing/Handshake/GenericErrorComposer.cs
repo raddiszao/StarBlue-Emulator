@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    class GenericErrorComposer : ServerPacket
+    internal class GenericErrorComposer : ServerPacket
     {
         public GenericErrorComposer(int errorId)
             : base(ServerPacketHeader.GenericErrorMessageComposer)

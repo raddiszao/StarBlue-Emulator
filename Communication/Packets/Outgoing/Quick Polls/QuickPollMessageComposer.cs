@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace StarBlue.Communication.Packets.Outgoing.Rooms.Poll
+﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Poll
 {
-    class QuickPollMessageComposer : ServerPacket
+    internal class QuickPollMessageComposer : ServerPacket
     {
-        public QuickPollMessageComposer(String question)
+        public QuickPollMessageComposer(string question)
             : base(ServerPacketHeader.QuickPollMessageComposer)
         {
             base.WriteString("");

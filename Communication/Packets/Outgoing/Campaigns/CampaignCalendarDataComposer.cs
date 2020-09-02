@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Campaigns
 {
-    class CampaignCalendarDataComposer : ServerPacket
+    internal class CampaignCalendarDataComposer : ServerPacket
     {
         public CampaignCalendarDataComposer(bool[] OpenedBoxes)
             : base(ServerPacketHeader.CampaignCalendarDataMessageComposer)

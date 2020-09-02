@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    class FriendListUpdateComposer : ServerPacket
+    internal class FriendListUpdateComposer : ServerPacket
     {
         public FriendListUpdateComposer(int FriendId)
             : base(ServerPacketHeader.FriendListUpdateMessageComposer)

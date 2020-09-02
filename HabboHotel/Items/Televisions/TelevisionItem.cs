@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarBlue.HabboHotel.Items.Televisions
+﻿namespace StarBlue.HabboHotel.Items.Televisions
 {
     public class TelevisionItem
     {
@@ -8,9 +6,9 @@ namespace StarBlue.HabboHotel.Items.Televisions
         private string _youtubeId;
         private string _title;
         private string _description;
-        private Boolean _enabled;
+        private bool _enabled;
 
-        public TelevisionItem(int Id, string YouTubeId, string Title, string Description, Boolean Enabled)
+        public TelevisionItem(int Id, string YouTubeId, string Title, string Description, bool Enabled)
         {
             _id = Id;
             _youtubeId = YouTubeId;

@@ -3,11 +3,11 @@ using StarBlue.HabboHotel.Helpers;
 
 namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
-    class CloseHelperChatSessionEvent : IPacketEvent
+    internal class CloseHelperChatSessionEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var Element = HelperToolsManager.GetElement(Session);
+            IHelperElement Element = HelperToolsManager.GetElement(Session);
 
             if (Element != null)
             {

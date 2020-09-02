@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Avatar
 {
-    class DanceComposer : ServerPacket
+    internal class DanceComposer : ServerPacket
     {
         public DanceComposer(RoomUser Avatar, int Dance)
             : base(ServerPacketHeader.DanceMessageComposer)

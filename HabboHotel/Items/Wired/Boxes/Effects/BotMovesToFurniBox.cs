@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class BotMovesToFurniBox : IWiredItem
+    internal class BotMovesToFurniBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -17,6 +17,14 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public string StringData { get; set; }
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
+
+        public int Delay { get; set; } = 0 * 500;
+
+        public int TickCount { get; set; }
+
+        private long _next;
+        private int counter = 0;
+        private bool Requested = false;
 
         public BotMovesToFurniBox(Room Instance, Item Item)
         {
@@ -45,73 +53,103 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 }
             }
 
+            Delay = Packet.PopInt() * 500;
+            counter = 0;
+            TickCount = 0;
+
             StringData = BotName;
         }
 
         public bool Execute(params object[] Params)
         {
-            if (Params == null || Params.Length == 0 || String.IsNullOrEmpty(StringData))
+            if (_next == 0 || _next < StarBlueServer.Now())
             {
-                return false;
+                _next = StarBlueServer.Now() + Delay;
             }
 
+            if (!Requested)
+            {
+                counter = 0;
+                Requested = true;
+            }
+
+            return true;
+        }
+
+        public bool OnCycle()
+        {
             RoomUser User = Instance.GetRoomUserManager().GetBotByName(StringData);
             if (User == null)
             {
                 return false;
             }
 
-            Random rand = new Random();
-            List<Item> Items = SetItems.Values.ToList();
-            Items = Items.OrderBy(x => rand.Next()).ToList();
-
-            if (Items.Count == 0)
+            if (Instance == null || !Requested || _next == 0)
             {
                 return false;
             }
 
-            Item Item = Items.First();
-            if (Item == null)
+            counter += 500;
+            if (counter > Delay)
             {
-                return false;
-            }
+                counter = 0;
 
-            if (!Instance.GetRoomItemHandler().GetFloor.Contains(Item))
-            {
-                SetItems.TryRemove(Item.Id, out Item);
+                Random rand = new Random();
+                List<Item> Items = SetItems.Values.ToList();
+                Items = Items.OrderBy(x => rand.Next()).ToList();
 
-                if (Items.Contains(Item))
-                {
-                    Items.Remove(Item);
-                }
-
-                if (SetItems.Count == 0 || Items.Count == 0)
+                if (Items.Count == 0)
                 {
                     return false;
                 }
 
-                Item = Items.First();
+                Item Item = Items.First();
                 if (Item == null)
                 {
                     return false;
                 }
+
+                if (!Instance.GetRoomItemHandler().GetFloor.Contains(Item))
+                {
+                    SetItems.TryRemove(Item.Id, out Item);
+
+                    if (Items.Contains(Item))
+                    {
+                        Items.Remove(Item);
+                    }
+
+                    if (SetItems.Count == 0 || Items.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Item = Items.First();
+                    if (Item == null)
+                    {
+                        return false;
+                    }
+                }
+
+                if (Instance.GetGameMap() == null)
+                {
+                    return false;
+                }
+
+                if (User.IsWalking)
+                {
+                    User.ClearMovement(true);
+                }
+
+                User.BotData.ForcedMovement = true;
+                User.BotData.TargetCoordinate = new Point(Item.GetX, Item.GetY);
+                User.MoveTo(Item.GetX, Item.GetY);
+
+                Requested = false;
+                _next = 0;
+                return true;
             }
 
-            if (Instance.GetGameMap() == null)
-            {
-                return false;
-            }
-
-            if (User.IsWalking)
-            {
-                User.ClearMovement(true);
-            }
-
-            User.BotData.ForcedMovement = true;
-            User.BotData.TargetCoordinate = new Point(Item.GetX, Item.GetY);
-            User.MoveTo(Item.GetX, Item.GetY);
-
-            return true;
+            return false;
         }
     }
 }

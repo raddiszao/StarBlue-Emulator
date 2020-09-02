@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class GroupCreationWindowComposer : ServerPacket
+    internal class GroupCreationWindowComposer : ServerPacket
     {
         public GroupCreationWindowComposer(ICollection<RoomData> Rooms)
             : base(ServerPacketHeader.GroupCreationWindowMessageComposer)

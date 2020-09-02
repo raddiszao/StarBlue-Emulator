@@ -4,6 +4,6 @@ namespace StarBlue.Communication.ConnectionManager
 {
     public interface IDataParser : IDisposable, ICloneable
     {
-        void HandlePacketData(byte[] packet);
+        void handlePacketData(byte[] packet, bool _deciphered = false);
     }
 }

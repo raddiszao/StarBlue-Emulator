@@ -1,8 +1,8 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class CoordsCommand : IChatCommand
+    internal class CoordsCommand : IChatCommand
     {
-        public string PermissionRequired => "user_7";
+        public string PermissionRequired => "user_normal";
         public string Parameters => "";
         public string Description => "Obter Coordenadas de sua posição.";
 

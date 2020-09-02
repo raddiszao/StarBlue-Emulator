@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing;
+﻿using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Messenger;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Quests;
@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Users.Messenger
 {
@@ -44,6 +43,11 @@ namespace StarBlue.HabboHotel.Users.Messenger
         public bool TryGetFriend(int UserId, out MessengerBuddy Buddy)
         {
             return _friends.TryGetValue(UserId, out Buddy);
+        }
+
+        public bool RemoveFriend(int UserId)
+        {
+            return _friends.Remove(UserId);
         }
 
         public void ProcessOfflineMessages()
@@ -398,13 +402,17 @@ namespace StarBlue.HabboHotel.Users.Messenger
             }
 
             #region Custom Chats
-            var Group = StarBlueServer.GetGame().GetGroupManager().GetGroupsForUser(GetClient().GetHabbo().Id).Where(c => c.HasChat).ToList();
-            foreach (var gp in Group)
+            List<Groups.Group> Group = StarBlueServer.GetGame().GetGroupManager().GetGroupsForUser(GetClient().GetHabbo().Id).Where(c => c.HasChat).ToList();
+            foreach (Groups.Group gp in Group)
             {
                 if (ToId == int.MinValue + gp.Id) // int.MaxValue
                 {
-                    //StarBlueServer.GetGame().GetClientManager().SendMessaget(new FuckingConsoleMessageComposer(ToId, Message, GetClient().GetHabbo().Username + "/" + GetClient().GetHabbo().Look + "/" + GetClient().GetHabbo().Id), GetClient().GetHabbo().Id);
                     StarBlueServer.GetGame().GetClientManager().GroupChatAlert(new FuckingConsoleMessageComposer(int.MinValue + gp.Id, Message, GetClient().GetHabbo().Username + "/" + GetClient().GetHabbo().Look + "/" + GetClient().GetHabbo().Id), gp, GetClient().GetHabbo().Id);
+                    return;
+                }
+                else if (ToId == gp.Id - gp.Id - gp.Id)
+                {
+                    StarBlueServer.GetGame().GetClientManager().GroupChatAlert(new FuckingConsoleMessageComposer(gp.Id - gp.Id - gp.Id, Message, GetClient().GetHabbo().Username + "/" + GetClient().GetHabbo().Look + "/" + GetClient().GetHabbo().Id), gp, GetClient().GetHabbo().Id);
                     return;
                 }
 
@@ -427,7 +435,7 @@ namespace StarBlue.HabboHotel.Users.Messenger
                 return;
             }
 
-            if (GetClient().GetHabbo().MessengerSpamCount >= 12)
+            if (GetClient().GetHabbo().MessengerSpamCount >= 20)
             {
                 GetClient().GetHabbo().MessengerSpamTime = StarBlueServer.GetUnixTimestamp() + 60;
                 GetClient().GetHabbo().MessengerSpamCount = 0;
@@ -475,7 +483,7 @@ namespace StarBlue.HabboHotel.Users.Messenger
                 GetClient().SendMessage(new InstantMessageErrorComposer(MessengerMessageErrors.FRIEND_MUTED, ToId));
             }
 
-            if (String.IsNullOrEmpty(Message))
+            if (string.IsNullOrEmpty(Message))
             {
                 return;
             }
@@ -491,7 +499,7 @@ namespace StarBlue.HabboHotel.Users.Messenger
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("INSERT INTO chatlogs_console VALUES (NULL, " + From_Id + ", " + ToId + ", @message, UNIX_TIMESTAMP())");
-                dbClient.AddParameter("message", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Message)));
+                dbClient.AddParameter("message", Message);
                 dbClient.RunQuery();
             }
         }
@@ -541,6 +549,11 @@ namespace StarBlue.HabboHotel.Users.Messenger
         public ICollection<MessengerBuddy> GetFriends()
         {
             return _friends.Values;
+        }
+
+        public Dictionary<int, MessengerBuddy> GetFriendsIds()
+        {
+            return _friends;
         }
     }
 }

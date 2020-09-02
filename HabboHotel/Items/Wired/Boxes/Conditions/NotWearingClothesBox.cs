@@ -1,12 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class NotWearingClothesBox : IWiredItem
+    internal class NotWearingClothesBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -44,7 +43,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }

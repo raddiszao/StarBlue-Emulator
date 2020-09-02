@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 {
-    class GetRoomFilterListEvent : IPacketEvent
+    internal class GetRoomFilterListEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

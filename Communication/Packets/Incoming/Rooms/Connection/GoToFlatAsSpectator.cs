@@ -1,9 +1,8 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
-using StarBlue.HabboHotel.GameClients;
+﻿using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Connection
 {
-    class GoToFlatAsSpectatorEvent : IPacketEvent
+    internal class GoToFlatAsSpectatorEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -30,10 +29,10 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Connection
             //    }
             //}
 
-            if (!Session.GetHabbo().EnterRoom(Session.GetHabbo().CurrentRoom))
-            {
-                Session.SendMessage(new CloseConnectionComposer());
-            }
+            //if (!Session.GetHabbo().EnterRoom(Session.GetHabbo().CurrentRoom))
+            // {
+            //    Session.SendMessage(new CloseConnectionComposer());
+            // }
         }
     }
 }

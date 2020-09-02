@@ -1,15 +1,14 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
-using System;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class SetChatPreferenceEvent : IPacketEvent
+    internal class SetChatPreferenceEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            Boolean ChatPreference = Packet.PopBoolean();
+            bool ChatPreference = Packet.PopBoolean();
 
             Session.GetHabbo().ChatPreference = ChatPreference;
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())

@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Help
 {
-    class SubmitBullyReportEvent : IPacketEvent
+    internal class SubmitBullyReportEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

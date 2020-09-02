@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    class HelperSessionInvinteRoomComposer : ServerPacket
+    internal class HelperSessionInvinteRoomComposer : ServerPacket
     {
         public HelperSessionInvinteRoomComposer(int int1, string str)
             : base(ServerPacketHeader.HelperSessionInvinteRoomMessageComposer)

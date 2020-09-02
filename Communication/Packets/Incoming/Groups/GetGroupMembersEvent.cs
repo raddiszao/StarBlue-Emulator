@@ -1,5 +1,4 @@
-﻿using Plus.HabboHotel.Groups;
-using StarBlue.Communication.Packets.Outgoing.Groups;
+﻿using StarBlue.Communication.Packets.Outgoing.Groups;
 using StarBlue.HabboHotel.Groups;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class GetGroupMembersEvent : IPacketEvent
+    internal class GetGroupMembersEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

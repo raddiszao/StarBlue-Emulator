@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class YoutubeCommand : IChatCommand
+    internal class YoutubeCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -12,7 +13,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (!Room.CheckRights(Session, true))
+            if (!Room.CheckRights(Session, false, true))
             {
                 Session.SendWhisper("Oops, somente o dono da sala pode usar este comando.", 34);
                 return;
@@ -24,24 +25,35 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 return;
             }
 
-            string Link = Params[1];
+            string Url = Params[1];
 
-            if (!Link.Contains("https://www.youtube.com/watch?v="))
+            if (string.IsNullOrEmpty(Url) || (!Url.Contains("?v=") && !Url.Contains("youtu.be/"))) //https://youtu.be/_mNig3ZxYbM
             {
-                Session.SendWhisper("Link do youtube inválido.", 34);
                 return;
             }
 
-            string YoutubeVideoId = Link.Split('=')[1].Split('&')[0];
+            string Split = "";
+
+            if (Url.Contains("?v="))
+            {
+                Split = Url.Split(new string[] { "?v=" }, StringSplitOptions.None)[1];
+            }
+            else if (Url.Contains("youtu.be/"))
+            {
+                Split = Url.Split(new string[] { "youtu.be/" }, StringSplitOptions.None)[1];
+            }
+
+            if (Split.Length < 11)
+            {
+                return;
+            }
+            string YoutubeVideoId = Split.Substring(0, 11);
+
             foreach (RoomUser User in Room.GetRoomUserManager().GetRoomUsers())
             {
                 if (!YoutubeVideoId.Equals(""))
                 {
-                    JObject WebEventData = new JObject(new JProperty("type", "youtube"), new JProperty("data", new JObject(
-                        new JProperty("video_id", YoutubeVideoId),
-                        new JProperty("by", Session.GetHabbo().Username)
-                    )));
-                    StarBlueServer.GetGame().GetWebEventManager().SendDataDirect(User.GetClient(), WebEventData.ToString());
+                    User.GetClient().GetHabbo().SendWebPacket(new YoutubeVideoComposer(YoutubeVideoId, Session.GetHabbo().Username));
                 }
                 else
                 {

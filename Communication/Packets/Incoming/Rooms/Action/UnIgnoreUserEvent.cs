@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Action;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Action;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class UnIgnoreUserEvent : IPacketEvent
+    internal class UnIgnoreUserEvent : IPacketEvent
     {
         public void Parse(GameClient session, ClientPacket packet)
         {

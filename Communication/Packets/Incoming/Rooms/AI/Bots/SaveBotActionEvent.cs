@@ -1,7 +1,7 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing;
+﻿using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.AI;
 using StarBlue.HabboHotel.Rooms.AI.Speech;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
 {
-    class SaveBotActionEvent : IPacketEvent
+    internal class SaveBotActionEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -92,10 +92,17 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
                             '\r',
                             '\n'
                         }, StringSplitOptions.RemoveEmptyEntries);
+
+                        if (ConfigData.Length < 2)
+                        {
+                            Session.SendNotification("Ocorreu um erro ao salvar as configurações do bot, tente novamente.");
+                            return;
+                        }
+
                         string AutomaticChat = Convert.ToString(ConfigData[1]);
                         string SpeakingInterval = Convert.ToString(ConfigData[2]);
                         string MixChat = Convert.ToString(ConfigData[3]);
-                        if (String.IsNullOrEmpty(SpeakingInterval) || Convert.ToInt32(SpeakingInterval) <= 0 || Convert.ToInt32(SpeakingInterval) < 7)
+                        if (string.IsNullOrEmpty(SpeakingInterval) || Convert.ToInt32(SpeakingInterval) <= 0 || Convert.ToInt32(SpeakingInterval) < 7)
                         {
                             SpeakingInterval = "7";
                         }
@@ -162,12 +169,12 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
                         if (Bot.BotData.DanceId > 0)
                         {
                             Bot.BotData.DanceId = 0;
-                            Bot.ApplyEffect(187);
+                            //Bot.ApplyEffect(187);
                         }
                         else
                         {
                             Random RandomDance = new Random();
-                            Bot.BotData.DanceId = RandomDance.Next(1, 4);
+                            Bot.BotData.DanceId = RandomDance.Next(1, 5);
                         }
 
                         Room.SendMessage(new DanceComposer(Bot, Bot.BotData.DanceId));

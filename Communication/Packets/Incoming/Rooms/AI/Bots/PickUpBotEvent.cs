@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Bots;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Bots;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users.Inventory.Bots;
 using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
 {
-    class PickUpBotEvent : IPacketEvent
+    internal class PickUpBotEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

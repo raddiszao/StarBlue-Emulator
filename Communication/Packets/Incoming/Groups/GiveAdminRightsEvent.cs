@@ -9,7 +9,7 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class GiveAdminRightsEvent : IPacketEvent
+    internal class GiveAdminRightsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

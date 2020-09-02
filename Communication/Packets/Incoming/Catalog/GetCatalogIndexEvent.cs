@@ -2,6 +2,7 @@
 using StarBlue.Communication.Packets.Outgoing.BuildersClub;
 using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.HabboHotel.GameClients;
+using StarBlue.Messages;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
@@ -9,12 +10,13 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
+            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
+            message.appendResponse(new CatalogIndexComposer(Session, StarBlueServer.GetGame().GetCatalog().GetPages(), "NORMAL"));
+            //message.appendResponse(new CatalogIndexComposer(Session, StarBlueServer.GetGame().GetCatalog().GetBCPages(), "BUILDERS_CLUB"));
 
-            Session.SendMessage(new CatalogIndexComposer(Session, StarBlueServer.GetGame().GetCatalog().GetPages(), "NORMAL"));
-            Session.SendMessage(new CatalogIndexComposer(Session, StarBlueServer.GetGame().GetCatalog().GetBCPages(), "BUILDERS_CLUB"));
-
-            Session.SendMessage(new CatalogItemDiscountComposer());
-            Session.SendMessage(new BCBorrowedItemsComposer());
+            message.appendResponse(new CatalogItemDiscountComposer());
+            message.appendResponse(new BCBorrowedItemsComposer());
+            message.sendResponse();
         }
     }
 }

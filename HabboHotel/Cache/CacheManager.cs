@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Cache.Process;
 using StarBlue.HabboHotel.GameClients;
 using System.Collections.Concurrent;
@@ -81,6 +81,12 @@ namespace StarBlue.HabboHotel.Cache
         public ICollection<UserCache> GetUserCache()
         {
             return _usersCached.Values;
+        }
+
+        public void Dispose()
+        {
+            _usersCached.Clear();
+            _process.Dispose();
         }
     }
 }

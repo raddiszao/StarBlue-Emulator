@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorCrafting : IFurniInteractor
+    internal class InteractorCrafting : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {

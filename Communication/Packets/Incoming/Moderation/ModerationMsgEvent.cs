@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class ModerationMsgEvent : IPacketEvent
+    internal class ModerationMsgEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    class FurniListAddComposer : ServerPacket
+    internal class FurniListAddComposer : ServerPacket
     {
         public FurniListAddComposer(Item Item)
             : base(ServerPacketHeader.FurniListAddMessageComposer)

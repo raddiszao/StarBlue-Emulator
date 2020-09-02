@@ -1,7 +1,7 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Marketplace;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog.Marketplace;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
@@ -13,7 +13,7 @@ using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
-    class BuyOfferEvent : IPacketEvent
+    internal class BuyOfferEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -35,21 +35,21 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
 
             if (Convert.ToString(Row["state"]) == "2")
             {
-                Session.SendNotification("Oops, esta oferta ya no esta disponible.");
+                Session.SendNotification("Oops, essa oferta não está disponível.");
                 ReloadOffers(Session);
                 return;
             }
 
             if (StarBlueServer.GetGame().GetCatalog().GetMarketplace().FormatTimestamp() > (Convert.ToDouble(Row["timestamp"])))
             {
-                Session.SendNotification("Oops, esta oferta ha expirado..");
+                Session.SendNotification("Oops, esta oferta expirou..");
                 ReloadOffers(Session);
                 return;
             }
 
             if (!StarBlueServer.GetGame().GetItemManager().GetItem(Convert.ToInt32(Row["item_id"]), out ItemData Item))
             {
-                Session.SendNotification("Este furni ya no esta disponible");
+                Session.SendNotification("Ocorreu um erro.");
                 ReloadOffers(Session);
                 return;
             }
@@ -57,19 +57,18 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
             {
                 if (Convert.ToInt32(Row["user_id"]) == Session.GetHabbo().Id)
                 {
-                    Session.SendNotification("Para evitar médias falsas, é proibido comprar seu próprio mobiliário");
+                    Session.SendNotification("Para evitar médias falsas, é proibido comprar seu próprio mobiliári.o");
                     return;
                 }
 
-                if (Convert.ToInt32(Row["total_price"]) > Session.GetHabbo().Duckets)
+                if (Convert.ToInt32(Row["total_price"]) > Session.GetHabbo().Diamonds)
                 {
-                    Session.SendNotification("Ops, você não tem Duckets suficientes para comprar esta oferta");
+                    Session.SendNotification("Ops, você não tem Diamantes suficientes para comprar esta oferta.");
                     return;
                 }
 
-                Session.GetHabbo().Duckets -= Convert.ToInt32(Row["total_price"]);
-                Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, Convert.ToInt32(Row["total_price"])));
-
+                Session.GetHabbo().Diamonds -= Convert.ToInt32(Row["total_price"]);
+                Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Diamonds, Convert.ToInt32(Row["total_price"]), 5));
 
                 Item GiveItem = ItemFactory.CreateSingleItem(Item, Session.GetHabbo(), Convert.ToString(Row["extra_data"]), Convert.ToString(Row["extra_data"]), Convert.ToInt32(Row["furni_id"]), Convert.ToInt32(Row["limited_number"]), Convert.ToInt32(Row["limited_stack"]));
                 if (GiveItem != null)
@@ -81,7 +80,6 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
                     Session.SendMessage(new FurniListAddComposer(GiveItem));
                     Session.SendMessage(new FurniListUpdateComposer());
                 }
-
 
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {

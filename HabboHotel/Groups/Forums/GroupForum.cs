@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StarBlue.Database.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
         private void LoadThreads()
         {
             DataTable table;
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("SELECT * FROM group_forums_threads WHERE forum_id = @id ORDER BY id DESC");
                 adap.AddParameter("id", Id);
@@ -58,7 +59,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         public GroupForumThreadPost GetLastPost()
         {
-            var Posts = Threads.SelectMany(c => c.Posts);
+            IEnumerable<GroupForumThreadPost> Posts = Threads.SelectMany(c => c.Posts);
             return Posts.OrderByDescending(c => c.Timestamp).FirstOrDefault();
         }
 
@@ -69,10 +70,10 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         public GroupForumThread CreateThread(int Creator, string Caption)
         {
-            var timestamp = (int)StarBlueServer.GetUnixTimestamp();
-            var Thread = new GroupForumThread(this, 0, Creator, timestamp, Caption, false, false, 0, 0);
+            int timestamp = (int)StarBlueServer.GetUnixTimestamp();
+            GroupForumThread Thread = new GroupForumThread(this, 0, Creator, timestamp, Caption, false, false, 0, 0);
 
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("INSERT INTO group_forums_threads (forum_id, user_id, caption, timestamp) VALUES (@a, @b, @c, @d)");
                 adap.AddParameter("a", Id);

@@ -1,9 +1,9 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class SetMaxCommand : IChatCommand
+    internal class SetMaxCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -38,7 +38,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 }
                 else
                 {
-                    Room.UsersMax = MaxAmount;
+                    Room.RoomData.UsersMax = MaxAmount;
                 }
 
                 Room.RoomData.UsersMax = MaxAmount;

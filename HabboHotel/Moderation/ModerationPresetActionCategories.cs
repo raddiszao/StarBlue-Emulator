@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Moderation
 {
-    class ModerationPresetActionCategories
+    internal class ModerationPresetActionCategories
     {
         public int Id { get; set; }
         public string Caption { get; set; }

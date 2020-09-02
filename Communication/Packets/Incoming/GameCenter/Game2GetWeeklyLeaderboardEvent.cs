@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
-    class Game2GetWeeklyLeaderboardEvent : IPacketEvent
+    internal class Game2GetWeeklyLeaderboardEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

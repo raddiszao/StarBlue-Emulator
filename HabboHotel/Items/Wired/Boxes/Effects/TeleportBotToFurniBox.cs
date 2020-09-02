@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class TeleportBotToFurniBox : IWiredItem
+    internal class TeleportBotToFurniBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -16,6 +16,13 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public string StringData { get; set; }
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
+        public int Delay { get; set; } = 0 * 500;
+
+        public int TickCount { get; set; }
+
+        private long _next;
+        private int counter = 0;
+        private bool Requested = false;
 
         public TeleportBotToFurniBox(Room Instance, Item Item)
         {
@@ -44,68 +51,96 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 }
             }
 
+            Delay = Packet.PopInt() * 500;
+            counter = 0;
+            TickCount = 0;
+
             StringData = BotName;
         }
 
         public bool Execute(params object[] Params)
         {
-            if (String.IsNullOrEmpty(StringData))
+            if (_next == 0 || _next < StarBlueServer.Now())
+            {
+                _next = StarBlueServer.Now() + Delay;
+            }
+
+            if (!Requested)
+            {
+                counter = Delay;
+                Requested = true;
+            }
+
+            return true;
+        }
+
+        public bool OnCycle()
+        {
+            if (string.IsNullOrEmpty(StringData) || Instance == null || !Requested || _next == 0)
             {
                 return false;
             }
 
-            RoomUser User = Instance.GetRoomUserManager().GetBotByName(StringData);
-            if (User == null)
+            counter += 500;
+            if (counter >= Delay)
             {
-                return false;
-            }
+                counter = 0;
 
-            Random rand = new Random();
-            List<Item> Items = SetItems.Values.ToList();
-            Items = Items.OrderBy(x => rand.Next()).ToList();
-
-            if (Items.Count == 0)
-            {
-                return false;
-            }
-
-            Item Item = Items.First();
-            if (Item == null)
-            {
-                return false;
-            }
-
-            if (!Instance.GetRoomItemHandler().GetFloor.Contains(Item))
-            {
-                SetItems.TryRemove(Item.Id, out Item);
-
-                if (Items.Contains(Item))
-                {
-                    Items.Remove(Item);
-                }
-
-                if (SetItems.Count == 0 || Items.Count == 0)
+                RoomUser User = Instance.GetRoomUserManager().GetBotByName(StringData);
+                if (User == null)
                 {
                     return false;
                 }
 
-                Item = Items.First();
+                Random rand = new Random();
+                List<Item> Items = SetItems.Values.ToList();
+                Items = Items.OrderBy(x => rand.Next()).ToList();
+
+                if (Items.Count == 0)
+                {
+                    return false;
+                }
+
+                Item Item = Items.First();
                 if (Item == null)
                 {
                     return false;
                 }
+
+                if (!Instance.GetRoomItemHandler().GetFloor.Contains(Item))
+                {
+                    SetItems.TryRemove(Item.Id, out Item);
+
+                    if (Items.Contains(Item))
+                    {
+                        Items.Remove(Item);
+                    }
+
+                    if (SetItems.Count == 0 || Items.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Item = Items.First();
+                    if (Item == null)
+                    {
+                        return false;
+                    }
+                }
+
+                if (Instance.GetGameMap() == null)
+                {
+                    return false;
+                }
+
+                Instance.GetGameMap().TeleportToItem(User, Item);
+                Instance.GetRoomUserManager().UpdateUserStatusses();
+
+                Requested = false;
+                _next = 0;
+                return true;
             }
-
-            if (Instance.GetGameMap() == null)
-            {
-                return false;
-            }
-
-            Instance.GetGameMap().TeleportToItem(User, Item);
-            Instance.GetRoomUserManager().UpdateUserStatusses();
-
-
-            return true;
+            return false;
         }
     }
 }

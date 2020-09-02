@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.BuildersClub
 {
-    class BuildersClubMembershipComposer : ServerPacket
+    internal class BuildersClubMembershipComposer : ServerPacket
     {
         public BuildersClubMembershipComposer()
             : base(ServerPacketHeader.BuildersClubMembershipMessageComposer)

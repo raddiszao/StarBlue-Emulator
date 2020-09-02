@@ -1,6 +1,6 @@
 ﻿
 
-using Database_Manager.Database.Session_Details.Interfaces;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 
@@ -39,7 +39,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
             Item.GetRoom().GetRoomItemHandler().HopperCount--;
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("DELETE FROM items_hopper WHERE item_id=@hid OR room_id=" + Item.GetRoom().RoomId +
+                dbClient.SetQuery("DELETE FROM items_hopper WHERE item_id=@hid OR room_id=" + Item.GetRoom().Id +
                                   " LIMIT 1");
                 dbClient.AddParameter("hid", Item.Id);
                 dbClient.RunQuery();

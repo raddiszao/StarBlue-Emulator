@@ -11,7 +11,7 @@ namespace StarBlue.HabboHotel.Helpers
         public HelpCaseType Type;
         public string Message;
         public HabboHelper Helper;
-        int Expire;
+        private int Expire;
 
 
         public IHelperElement OtherElement => Helper;
@@ -33,7 +33,7 @@ namespace StarBlue.HabboHotel.Helpers
         {
             DeclinedHelpers.Add(Helper);
 
-            var newhelper = HelperToolsManager.GetHelpersToCase(this).FirstOrDefault();
+            HabboHelper newhelper = HelperToolsManager.GetHelpersToCase(this).FirstOrDefault();
             if (newhelper != null)
             {
                 HelperToolsManager.InvinteHelpCall(newhelper, this);

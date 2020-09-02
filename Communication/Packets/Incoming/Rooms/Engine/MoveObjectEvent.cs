@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class MoveObjectEvent : IPacketEvent
+    internal class MoveObjectEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -16,6 +16,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             if (Session.GetHabbo().Rank > 3 && !Session.GetHabbo().StaffOk || StarBlueServer.GoingIsToBeClose)
             {
+                Session.SendNotification("Essa função foi desativada até o servidor for reinicializado.");
                 return;
             }
 
@@ -32,7 +33,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             }
 
             Item Item;
-            if (Room.Group != null)
+            if (Room.RoomData.Group != null)
             {
                 if (!Room.CheckRights(Session, false, true))
                 {
@@ -42,7 +43,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                         return;
                     }
 
-                    Session.SendMessage(new ObjectUpdateComposer(Item, Room.OwnerId));
+                    Session.SendMessage(new ObjectUpdateComposer(Item, Room.RoomData.OwnerId));
                     return;
                 }
             }
@@ -77,7 +78,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             if (!Room.GetRoomItemHandler().SetFloorItem(Session, Item, x, y, Rotation, false, false, true))
             {
-                Room.SendMessage(new ObjectUpdateComposer(Item, Room.OwnerId));
+                Room.SendMessage(new ObjectUpdateComposer(Item, Room.RoomData.OwnerId));
                 return;
             }
 

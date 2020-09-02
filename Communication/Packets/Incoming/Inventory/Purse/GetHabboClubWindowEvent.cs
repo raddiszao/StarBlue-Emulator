@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Catalog;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Purse
 {
-    class GetHabboClubWindowEvent : IPacketEvent
+    internal class GetHabboClubWindowEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

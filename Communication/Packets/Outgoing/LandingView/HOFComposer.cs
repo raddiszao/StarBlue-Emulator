@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    class HOFComposer : ServerPacket
+    internal class HOFComposer : ServerPacket
     {
         public HOFComposer()
             : base(ServerPacketHeader.HOFComposer)

@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using System;
 using System.Collections.Concurrent;

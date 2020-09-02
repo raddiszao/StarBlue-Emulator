@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class PrefixNameCommand : IChatCommand
+    internal class PrefixNameCommand : IChatCommand
     {
 
         public string PermissionRequired => "user_1";

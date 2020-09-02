@@ -21,6 +21,7 @@
         EffectShowMessageNux,
         EffectShowMessageCustom,
         EffectTeleportToFurni,
+        EffectGiveScoreTeam,
         EffectToggleNegativeFurniState,
         EffectToggleFurniState,
         EffectKickUser,
@@ -35,11 +36,11 @@
         EffectAddScore2,
         EffectAddRewardPoints,
         EffectApplyClothes,
-        EffectMoveUser,
         EffectTimerReset,
         EffectMoveToDir,
         EffectProgressUserAchievement,
         EffectSendYouTubeVideo,
+        EffectMoveFurniToAwayUser,
 
         EffectTeleportBotToFurniBox,
         EffectBotChangesClothesBox,
@@ -94,6 +95,7 @@
         TotalUsersCoincidence,
 
         AddonRandomEffect,
+        AddonUnseen,
 
         // CUSTOM WIREDS
         EffectLowerFurni,
@@ -109,6 +111,13 @@
         TriggerLeaveRoom,
         EffectTeleportAll,
         TriggerUserAfk,
-        EffectMoveUserTiles
+        EffectMoveUserTiles,
+        ConditionActorNotAfk,
+        ConditionActorIsAfk,
+        ConditionActorNotDancing,
+        ConditionActorIsDancing,
+        EffectActionDimmer,
+        EffectCloseDices,
+        AddonAnyConditionValid
     }
 }

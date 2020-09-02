@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class ModeratorUserRoomVisitsComposer : ServerPacket
+    internal class ModeratorUserRoomVisitsComposer : ServerPacket
     {
         public ModeratorUserRoomVisitsComposer(Habbo Data, Dictionary<double, RoomData> Visits)
             : base(ServerPacketHeader.ModeratorUserRoomVisitsMessageComposer)

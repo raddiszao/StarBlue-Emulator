@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class UserMessageCommand : IChatCommand
+    internal class UserMessageCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "[USUARIO] [MENSAGEM]";

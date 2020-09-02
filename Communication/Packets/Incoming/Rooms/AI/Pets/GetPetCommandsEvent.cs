@@ -6,7 +6,7 @@ using StarBlue.HabboHotel.Rooms.AI;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
 {
-    class GetPetCommandsEvent : IPacketEvent
+    internal class GetPetCommandsEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

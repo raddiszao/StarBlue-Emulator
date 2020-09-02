@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class UserRemoveComposer : ServerPacket
+    internal class UserRemoveComposer : ServerPacket
     {
         public UserRemoveComposer(int Id)
             : base(ServerPacketHeader.UserRemoveMessageComposer)

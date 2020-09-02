@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 {
-    class RoomNotificationComposer : ServerPacket
+    internal class RoomNotificationComposer : ServerPacket
     {
         public RoomNotificationComposer(string Type)
             : base(ServerPacketHeader.RoomNotificationMessageComposer)
@@ -80,7 +80,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 
         public static ServerPacket SendBubble(string image, string message, string linkUrl = "")
         {
-            var bubbleNotification = new ServerPacket(ServerPacketHeader.RoomNotificationMessageComposer);
+            ServerPacket bubbleNotification = new ServerPacket(ServerPacketHeader.RoomNotificationMessageComposer);
             bubbleNotification.WriteString(image);
             bubbleNotification.WriteInteger(string.IsNullOrEmpty(linkUrl) ? 2 : 3);
             bubbleNotification.WriteString("display");
@@ -99,7 +99,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 
         public static ServerPacket SendCustom(string Message)
         {
-            var cuz = new ServerPacket(ServerPacketHeader.RoomNotificationMessageComposer);
+            ServerPacket cuz = new ServerPacket(ServerPacketHeader.RoomNotificationMessageComposer);
 
             cuz.WriteInteger(1);
             cuz.WriteString(Message);

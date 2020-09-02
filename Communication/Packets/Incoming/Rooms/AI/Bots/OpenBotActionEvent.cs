@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
 {
-    class OpenBotActionEvent : IPacketEvent
+    internal class OpenBotActionEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

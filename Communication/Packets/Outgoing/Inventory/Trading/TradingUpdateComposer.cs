@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    class TradingUpdateComposer : ServerPacket
+    internal class TradingUpdateComposer : ServerPacket
     {
         public TradingUpdateComposer(Trade Trade)
             : base(ServerPacketHeader.TradingUpdateMessageComposer)

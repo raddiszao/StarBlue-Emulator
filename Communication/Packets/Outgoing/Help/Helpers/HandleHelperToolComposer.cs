@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    class HandleHelperToolComposer : ServerPacket
+    internal class HandleHelperToolComposer : ServerPacket
     {
         public HandleHelperToolComposer(bool onDuty, int helperAmount, int guideAmount, int guardianAmount)
             : base(ServerPacketHeader.HandleHelperToolMessageComposer)

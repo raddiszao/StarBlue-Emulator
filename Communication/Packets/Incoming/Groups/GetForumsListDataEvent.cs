@@ -1,4 +1,5 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Groups;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Groups.Forums;
 using System;
@@ -7,12 +8,12 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class GetForumsListDataEvent : IPacketEvent
+    internal class GetForumsListDataEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var int1 = Packet.PopInt(); // View Order ID
-            var int2 = Packet.PopInt(); // Forum List Index
+            int int1 = Packet.PopInt(); // View Order ID
+            int int2 = Packet.PopInt(); // Forum List Index
             int int3 = Packet.PopInt(); //Forum List Length
 
             /*
@@ -21,13 +22,13 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
              * Most views = 1
              */
 
-            var forums = new List<GroupForum>();
+            List<GroupForum> forums = new List<GroupForum>();
             DataTable table;
 
             switch (int1)
             {
                 case 2:
-                    var Forums = StarBlueServer.GetGame().GetGroupForumManager().GetForumsByUserId(Session.GetHabbo().Id);
+                    List<GroupForum> Forums = StarBlueServer.GetGame().GetGroupForumManager().GetForumsByUserId(Session.GetHabbo().Id);
 
                     if (Forums.Count - 1 >= int2)
                     {
@@ -39,7 +40,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 case 0:
 
 
-                    using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         adap.SetQuery("SELECT g.id FROM groups as g INNER JOIN group_forums_thread_posts as posts, group_forums_threads as threads WHERE posts.thread_id = threads.id AND @now - posts.`timestamp`<= @sdays AND threads.forum_id = g.id GROUP BY g.id ORDER BY posts.`timestamp` DESC LIMIT @index, @limit");
                         adap.AddParameter("limit", int3);
@@ -61,7 +62,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                     break;
 
                 case 1:
-                    using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         adap.SetQuery("SELECT g.id FROM groups as g INNER JOIN group_forums_thread_views as v, group_forums_threads as threads WHERE v.thread_id = threads.id AND threads.forum_id = g.id AND  @now - v.`timestamp` <= @sdays GROUP BY g.id ORDER BY v.`timestamp` DESC LIMIT @index, @limit");
                         adap.AddParameter("limit", int3);

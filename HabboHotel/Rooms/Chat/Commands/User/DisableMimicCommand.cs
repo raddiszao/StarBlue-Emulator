@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 
 
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class DisableMimicCommand : IChatCommand
+    internal class DisableMimicCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -15,7 +15,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             Session.GetHabbo().AllowMimic = !Session.GetHabbo().AllowMimic;
-            Session.SendWhisper("Você " + (Session.GetHabbo().AllowMimic == true ? "agora" : "agora não") + " protege seu visual.", 34);
+            Session.SendWhisper("Você " + (Session.GetHabbo().AllowMimic == true ? "agora não" : "agora") + " protege seu visual.", 34);
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {

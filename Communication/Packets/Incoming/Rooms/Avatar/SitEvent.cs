@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Avatar
 {
-    class SitEvent : IPacketEvent
+    internal class SitEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

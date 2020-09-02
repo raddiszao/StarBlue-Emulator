@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Users;
 using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class TradeBanCommand : IChatCommand
+    internal class TradeBanCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "[USUARIO] [TEMPO]";
@@ -12,7 +12,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (Params.Length == 1)
+            if (Params.Length == 1 || Params.Length == 2)
             {
                 Session.SendWhisper("Digite o nome do usuário e a hora em dias (min 1 dia, max 365 dias).", 34);
                 return;
@@ -35,10 +35,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 if (Habbo.GetClient() != null)
                 {
                     Habbo.TradingLockExpiry = 0;
-                    Habbo.GetClient().SendNotification("Sua tradeo já foi desbloqueada, você pode continuar a negociar com outros usuários.");
+                    Habbo.GetClient().SendNotification("Sua trocas foram desbloqueadas, você pode continuar a negociar com outros usuários.");
                 }
 
-                Session.SendWhisper("Você desbloqueou " + Habbo.Username + " da sua trade Ban.", 34);
+                Session.SendWhisper("Você desbloqueou " + Habbo.Username + " da lista de trocas banidas.", 34);
                 return;
             }
 
@@ -63,10 +63,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 if (Habbo.GetClient() != null)
                 {
                     Habbo.TradingLockExpiry = Length;
-                    Habbo.GetClient().SendNotification("Você tem um bloqueio  de trocas por " + Days + " dia(s).");
+                    Habbo.GetClient().SendNotification("Você tem um bloqueio de trocas por " + Days + " dia(s).");
                 }
 
-                Session.SendWhisper("Você bloqueou as trocas  " + Habbo.Username + " por " + Days + " dia(s).", 34);
+                Session.SendWhisper("Você bloqueou as trocas de " + Habbo.Username + " por " + Days + " dia(s).", 34);
             }
             else
             {

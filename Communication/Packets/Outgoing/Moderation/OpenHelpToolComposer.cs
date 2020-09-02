@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class OpenHelpToolComposer : ServerPacket
+    internal class OpenHelpToolComposer : ServerPacket
     {
         public OpenHelpToolComposer()
             : base(ServerPacketHeader.OpenHelpToolMessageComposer)

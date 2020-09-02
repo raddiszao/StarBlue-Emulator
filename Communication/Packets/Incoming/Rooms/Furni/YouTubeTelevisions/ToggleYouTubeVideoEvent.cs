@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class ToggleYouTubeVideoEvent : IPacketEvent
+    internal class ToggleYouTubeVideoEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

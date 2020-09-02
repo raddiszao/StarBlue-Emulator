@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
-    class MessengerInitEvent : IPacketEvent
+    internal class MessengerInitEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -30,14 +30,10 @@ namespace StarBlue.Communication.Packets.Incoming.Messenger
             Session.SendMessage(new MessengerInitComposer(Session.GetHabbo().Rank));
             Session.SendMessage(new BuddyListComposer(Friends, Session.GetHabbo()));
 
-            try
+            if (Session.GetHabbo().GetMessenger() != null)
             {
-                if (Session.GetHabbo().GetMessenger() != null)
-                {
-                    Session.GetHabbo().GetMessenger().OnStatusChanged(true);
-                }
+                Session.GetHabbo().GetMessenger().OnStatusChanged(true);
             }
-            catch { }
 
             Session.GetHabbo().GetMessenger().ProcessOfflineMessages();
         }

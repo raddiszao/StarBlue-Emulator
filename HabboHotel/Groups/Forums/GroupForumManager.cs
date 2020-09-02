@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using StarBlue.Database.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Groups.Forums
 {
     public class GroupForumManager
     {
-        List<GroupForum> Forums;
+        private List<GroupForum> Forums;
 
         public GroupForumManager()
         {
@@ -25,7 +26,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
                 return GF;
             }
 
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("REPLACE INTO group_forums_settings (group_id) VALUES (@gp)");
                 adap.AddParameter("gp", Gp.Id);
@@ -71,7 +72,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         public void RemoveGroup(Group Group)
         {
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.RunFastQuery("DELETE FROM `group_forums_settings` WHERE `group_id` = '" + Group.Id + "'");
 

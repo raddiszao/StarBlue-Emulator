@@ -1,11 +1,8 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
-using StarBlue.HabboHotel.GameClients;
-using StarBlue.HabboHotel.Rooms;
+﻿using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Misc
 {
-    class EventTrackerEvent : IPacketEvent
+    internal class EventTrackerEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

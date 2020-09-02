@@ -1,14 +1,16 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Moderation;
+﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
+using StarBlue.HabboHotel.Users;
+using StarBlue.HabboHotel.Users.Messenger;
 using System;
 using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class UpdateFigureDataEvent : IPacketEvent
+    internal class UpdateFigureDataEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -64,7 +66,7 @@ namespace StarBlue.Communication.Packets.Incoming.Users
             }
 
             StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_AvatarLooks", 1);
-            Session.SendMessage(new AvatarAspectUpdateMessageComposer(Look, Gender)); //esto
+            Session.SendMessage(new AvatarAspectUpdateMessageComposer(Look, Gender));
             if (Session.GetHabbo().Look.Contains("ha-1006"))
             {
                 StarBlueServer.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.WEAR_HAT);
@@ -80,14 +82,22 @@ namespace StarBlue.Communication.Packets.Incoming.Users
                 }
             }
 
-            foreach (var buddy in Session.GetHabbo().GetMessenger().GetFriends())
+            foreach (HabboHotel.Users.Messenger.MessengerBuddy buddy in Session.GetHabbo().GetMessenger().GetFriends())
             {
                 if (buddy.client == null)
                 {
                     continue;
                 }
 
-                buddy.client.GetHabbo().GetMessenger().UpdateFriend(Session.GetHabbo().Id, Session, true);
+                Habbo _habbo = StarBlueServer.GetHabboById(buddy.UserId);
+                if (_habbo != null && _habbo.GetMessenger() != null)
+                {
+                    if (_habbo.GetMessenger().GetFriendsIds().TryGetValue(Session.GetHabbo().Id, out MessengerBuddy value))
+                    {
+                        value.mLook = Look;
+                        _habbo.GetMessenger().UpdateFriend(Session.GetHabbo().Id, Session, true);
+                    }
+                }
             }
         }
     }

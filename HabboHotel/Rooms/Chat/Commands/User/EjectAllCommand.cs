@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class EjectAllCommand : IChatCommand
+    internal class EjectAllCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -15,10 +15,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (Session.GetHabbo().Id == Room.OwnerId)
+            if (Session.GetHabbo().Id == Room.RoomData.OwnerId)
             {
                 //Let us check anyway.
-                if (!Room.CheckRights(Session))
+                if (!Room.CheckRights(Session, true))
                 {
                     return;
                 }

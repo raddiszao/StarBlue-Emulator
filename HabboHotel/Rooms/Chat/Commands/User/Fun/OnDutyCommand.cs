@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Notifications;
+using StarBlue.Database.Interfaces;
 using System.Data;
 using System.Text;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class OnDutyCommand : IChatCommand
+    internal class OnDutyCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
         public string Parameters => "";

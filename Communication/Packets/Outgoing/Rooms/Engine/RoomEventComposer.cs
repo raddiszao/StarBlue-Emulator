@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class RoomEventComposer : ServerPacket
+    internal class RoomEventComposer : ServerPacket
     {
         public RoomEventComposer(RoomData Data, RoomPromotion Promotion)
             : base(ServerPacketHeader.RoomEventMessageComposer)

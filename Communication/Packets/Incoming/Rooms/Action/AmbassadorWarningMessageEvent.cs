@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class AmbassadorWarningMessageEvent : IPacketEvent
+    internal class AmbassadorWarningMessageEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

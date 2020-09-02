@@ -1,14 +1,17 @@
-﻿using Database_Manager.Database;
-using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
+using MySql.Data.MySqlClient;
 using StarBlue.Communication.ConnectionManager;
 using StarBlue.Communication.Encryption;
 using StarBlue.Communication.Encryption.Keys;
+using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Communication.Packets.Outgoing.Moderation;
 using StarBlue.Core;
 using StarBlue.Core.FigureData;
 using StarBlue.Core.Language;
 using StarBlue.Core.Rank;
 using StarBlue.Core.Settings;
+using StarBlue.Database;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel;
 using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.GameClients;
@@ -42,8 +45,9 @@ namespace StarBlue
         private static Game _game;
         private static FigureDataManager _figureManager;
         private static LanguageManager _languageManager;
-        private static DatabaseManager _manager;
+        private static DatabaseManager _datebasemanager;
         private static SettingsManager _settingsManager;
+        private static WebSocketManager _webSocketManager;
         private static RankManager _rankManager;
         public static CultureInfo CultureInfo;
 
@@ -63,7 +67,7 @@ namespace StarBlue
         private static ConcurrentDictionary<int, Habbo> _usersCached = new ConcurrentDictionary<int, Habbo>();
 
 
-        public static string SWFRevision = "";
+        public static string SWFRevision = "PRODUCTION-201609061203-935497134";
 
         public static void Initialize()
         {
@@ -76,13 +80,10 @@ namespace StarBlue
             HotelName = Convert.ToString(GetConfig().data["hotel.name"]);
 
             ServerStarted = DateTime.Now;
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine();
-            Console.WriteLine(" _____ _____ _____ _____ _____ __    _____ _____   _____ _____ _____ _____ _____ _____ ");
-            Console.WriteLine("|   __|_   _|  _  | __  | __  |  |  |  |  |   __| |   __|   __| __  |  |  |   __| __  |");
-            Console.WriteLine("|__   | | | |     |    -| __ -|  |__|  |  |   __| |__   |   __|    -|  |  |   __|    -|");
-            Console.WriteLine("|_____| |_| |__|__|__|__|_____|_____|_____|_____| |_____|_____|__|__|\\___/|_____|__|__| ~ " + PrettyBuild + ".");
-            Console.WriteLine(@"  © 2020 - Server of " + HotelName + " Hotel.");
+            Console.WriteLine("StarBlue Server ~ " + PrettyBuild + ".");
+            Console.WriteLine(@"© 2020 - Server of " + HotelName + " Hotel.");
             Console.WriteLine();
             Console.WriteLine(@"_________________________________________________________________________________________________");
             Console.WriteLine();
@@ -93,14 +94,22 @@ namespace StarBlue
 
             try
             {
-                _manager = new DatabaseManager(uint.Parse(GetConfig().data["db.pool.maxsize"]), int.Parse(GetConfig().data["db.pool.minsize"]));
-                _manager.setServerDetails(
-                    GetConfig().data["db.hostname"],
-                    uint.Parse(GetConfig().data["db.port"]),
-                    GetConfig().data["db.username"],
-                    GetConfig().data["db.password"],
-                    GetConfig().data["db.name"]);
-                _manager.init();
+                _datebasemanager = new DatabaseManager(uint.Parse(GetConfig().data["db.pool.maxsize"]), uint.Parse(GetConfig().data["db.pool.minsize"]), GetConfig().data["db.hostname"], uint.Parse(GetConfig().data["db.port"]), GetConfig().data["db.username"], GetConfig().data["db.password"], GetConfig().data["db.name"]);
+
+                int TryCount = 0;
+                while (!_datebasemanager.IsConnected())
+                {
+                    TryCount++;
+                    Thread.Sleep(5000);
+
+                    if (TryCount > 10)
+                    {
+                        Logging.WriteLine("Failed to connect to the specified MySQL server.");
+                        Console.ReadKey(true);
+                        Environment.Exit(1);
+                        return;
+                    }
+                }
 
                 Console.WriteLine("");
 
@@ -127,9 +136,10 @@ namespace StarBlue
                 _rankManager = new RankManager();
                 _rankManager.Init();
 
+                _webSocketManager = new WebSocketManager(527, int.Parse(GetConfig().data["game.tcp.conlimit"]));
+
                 //Accept connections.
-                _connectionManager = new ConnectionHandling(int.Parse(GetConfig().data["game.tcp.port"]), int.Parse(GetConfig().data["game.tcp.conlimit"]), int.Parse(GetConfig().data["game.tcp.conperip"]), GetConfig().data["game.tcp.enablenagles"].ToLower() == "true");
-                _connectionManager.Init();
+                _connectionManager = new ConnectionHandling(int.Parse(GetConfig().data["game.tcp.port"]), int.Parse(GetConfig().data["game.tcp.conperip"]));
 
                 _game = new Game();
                 _game.StartGameLoop();
@@ -364,10 +374,9 @@ namespace StarBlue
                 {
                     dbClient.SetQuery("SELECT `id` FROM `users` WHERE `username` = @user LIMIT 1");
                     dbClient.AddParameter("user", UserName);
-                    if (dbClient.FindsResult())
-                    {
-                        return GetHabboById(Convert.ToInt32(dbClient.GetInteger()));
-                    }
+                    int id = dbClient.GetInteger();
+                    if (id > 0)
+                        return GetHabboById(Convert.ToInt32(id));
                 }
 
                 return null;
@@ -388,22 +397,20 @@ namespace StarBlue
             Console.Clear();
             log.Info("StarBlue EMULATOR --> CLOSING");
             Console.Title = "StarBlue EMULATOR: SHUTTING DOWN!";
-
+            GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer("<b><font color=\"#ba3733\" size=\"14\">HOTEL SERÁ REINICIADO!</font></b><br><br>O hotel será reiniciado nesse instante para aplicarmos atualizações, voltaremos em minutos!"));
+            GetGame().StopGameLoop();
             Thread.Sleep(2500);
-            if (GetGame() != null)
-            {
-                GetGame().StopGameLoop();
-            }
 
             GetConnectionManager().Destroy();//Stop listening.
             GetGame().GetPacketManager().UnregisterAll();//Unregister the packets.
             GetGame().GetPacketManager().WaitForAllToComplete();
             GetGame().GetClientManager().CloseAll();//Close all connections
             GetGame().GetRoomManager().Dispose();//Stop the game loop.
-            GetGame().GetWebEventManager().Dispose();
-            GetDatabaseManager().destroy();
+            GetGame().GetWebClientManager().CloseAll();
+            _webSocketManager.destroy();
+            GetGame().GetCacheManager().Dispose();
 
-            using (IQueryAdapter dbClient = _manager.GetQueryReactor())
+            using (IQueryAdapter dbClient = _datebasemanager.GetQueryReactor())
             {
                 dbClient.RunFastQuery("TRUNCATE `catalog_marketplace_data`");
                 dbClient.RunFastQuery("UPDATE `users` SET online = '0'");
@@ -454,7 +461,7 @@ namespace StarBlue
 
         public static DatabaseManager GetDatabaseManager()
         {
-            return _manager;
+            return _datebasemanager;
         }
 
         public static FigureDataManager GetFigureManager()

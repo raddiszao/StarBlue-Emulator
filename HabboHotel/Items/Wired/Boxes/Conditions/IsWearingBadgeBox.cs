@@ -2,13 +2,12 @@
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
 using StarBlue.HabboHotel.Users.Badges;
-using System;
 using System.Collections.Concurrent;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class IsWearingBadgeBox : IWiredItem
+    internal class IsWearingBadgeBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -40,7 +39,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }

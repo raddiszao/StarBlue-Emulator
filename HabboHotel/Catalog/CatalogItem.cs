@@ -161,15 +161,15 @@ namespace StarBlue.HabboHotel.Catalog
             DateTime future = DateTime.Now;
             if (PageID == 699 && Session.GetHabbo().GetClubManager().HasSubscription("habbo_vip"))
             {
-                Double Expire = Session.GetHabbo().GetClubManager().GetSubscription("habbo_vip").ExpireTime;
-                Double TimeLeft = Expire - StarBlueServer.GetUnixTimestamp();
+                double Expire = Session.GetHabbo().GetClubManager().GetSubscription("habbo_vip").ExpireTime;
+                double TimeLeft = Expire - StarBlueServer.GetUnixTimestamp();
                 int TotalDaysLeft = (int)Math.Ceiling(TimeLeft / 86400);
                 future = DateTime.Now.AddDays(TotalDaysLeft);
             }
             else if (Session.GetHabbo().GetClubManager().HasSubscription("club_vip"))
             {
-                Double Expire = Session.GetHabbo().GetClubManager().GetSubscription("club_vip").ExpireTime;
-                Double TimeLeft = Expire - StarBlueServer.GetUnixTimestamp();
+                double Expire = Session.GetHabbo().GetClubManager().GetSubscription("club_vip").ExpireTime;
+                double TimeLeft = Expire - StarBlueServer.GetUnixTimestamp();
                 int TotalDaysLeft = (int)Math.Ceiling(TimeLeft / 86400);
                 future = DateTime.Now.AddDays(TotalDaysLeft);
             }

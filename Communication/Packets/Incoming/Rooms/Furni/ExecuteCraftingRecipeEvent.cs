@@ -1,13 +1,14 @@
 ﻿
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Crafting;
 using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class ExecuteCraftingRecipeEvent : IPacketEvent
+    internal class ExecuteCraftingRecipeEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -28,9 +29,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             }
 
             bool success = true;
-            foreach (var need in recipe.ItemsNeeded)
+            foreach (System.Collections.Generic.KeyValuePair<string, int> need in recipe.ItemsNeeded)
             {
-                for (var i = 1; i <= need.Value; i++)
+                for (int i = 1; i <= need.Value; i++)
                 {
                     ItemData item = StarBlueServer.GetGame().GetItemManager().GetItemByName(need.Key);
                     if (item == null)
@@ -39,14 +40,14 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
                         continue;
                     }
 
-                    var inv = Session.GetHabbo().GetInventoryComponent().GetFirstItemByBaseId(item.Id);
+                    Item inv = Session.GetHabbo().GetInventoryComponent().GetFirstItemByBaseId(item.Id);
                     if (inv == null)
                     {
                         success = false;
                         continue;
                     }
 
-                    using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         dbClient.RunFastQuery("DELETE FROM `items` WHERE `id` = '" + inv.Id + "' AND `user_id` = '" + Session.GetHabbo().Id + "' LIMIT 1");
                     }

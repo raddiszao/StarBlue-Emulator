@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.FloorPlan
 {
-    class FloorPlanEditorRoomPropertiesEvent : IPacketEvent
+    internal class FloorPlanEditorRoomPropertiesEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -31,7 +31,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.FloorPlan
 
             Session.SendMessage(new FloorPlanFloorMapComposer(FloorItems));
             Session.SendMessage(new FloorPlanSendDoorComposer(Model.DoorX, Model.DoorY, Model.DoorOrientation));
-            Session.SendMessage(new RoomVisualizationSettingsComposer(Room.WallThickness, Room.FloorThickness, StarBlueServer.EnumToBool(Room.Hidewall.ToString())));
+            Session.SendMessage(new RoomVisualizationSettingsComposer(Room.RoomData.WallThickness, Room.RoomData.FloorThickness, StarBlueServer.EnumToBool(Room.RoomData.Hidewall.ToString())));
         }
     }
 }

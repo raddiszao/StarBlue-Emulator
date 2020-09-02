@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Surveys
 {
-    class Question
+    internal class Question
     {
         public int Id { get; private set; }
         public double LastRan { get; set; }

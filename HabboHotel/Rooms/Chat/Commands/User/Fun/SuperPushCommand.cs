@@ -1,10 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.HabboHotel.GameClients;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class SuperPushCommand : IChatCommand
+    internal class SuperPushCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
 
@@ -14,19 +16,30 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (Params.Length == 1)
+            if (!Room.RoomData.SPushEnabled && !Room.CheckRights(Session, true) && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
             {
-                Session.SendWhisper("Por favor, digite o nome de usuário que você quer empurrar.", 34);
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
                 return;
             }
 
-            //if (!Room.SPushEnabled && !Room.CheckRights(Session, true) && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
-            //{
-            //    Session.SendWhisper("Oops, it appears that the room owner has disabled the ability to use the push command in here.", 34);
-            //    return;
-            //}
-
-            GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
+            GameClient TargetClient = null;
+            if (Params.Length == 1)
+            {
+                Point UserInFront = Session.GetRoomUser().SquareInFront;
+                List<RoomUser> UsersInSquare = Room.GetGameMap().GetRoomUsers(UserInFront);
+                if (UsersInSquare.Count > 0)
+                {
+                    TargetClient = UsersInSquare[0].GetClient();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
+            }
             if (TargetClient == null)
             {
                 Session.SendWhisper("Ocorreu um erro ao encontrar esse usuário, talvez não esteja online.", 34);
@@ -60,25 +73,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (!((Math.Abs(TargetUser.X - ThisUser.X) >= 2) || (Math.Abs(TargetUser.Y - ThisUser.Y) >= 2)))
             {
-                if (TargetUser.SetX - 1 == Room.GetGameMap().Model.DoorX || TargetUser.SetY - 1 == Room.GetGameMap().Model.DoorY)
-                {
-                    Session.SendWhisper("Por favor, não empurre esse usuário para fora da sala :(!", 34);
-                    return;
-                }
-
-                if (TargetUser.SetX - 2 == Room.GetGameMap().Model.DoorX || TargetUser.SetY - 2 == Room.GetGameMap().Model.DoorY)
-                {
-                    Session.SendWhisper("Por favor, não empurre esse usuário para fora da sala :(!", 34);
-                    return;
-                }
-
-                if (TargetUser.SetX - 3 == Room.GetGameMap().Model.DoorX || TargetUser.SetY - 3 == Room.GetGameMap().Model.DoorY)
-                {
-                    Session.SendWhisper("Por favor, não empurre esse usuário para fora da sala :(!", 34);
-                    return;
-                }
-
-                if (TargetUser.RotBody == 4)
+                if (ThisUser.RotBody == 4)
                 {
                     TargetUser.MoveTo(TargetUser.X, TargetUser.Y + 3);
                 }
@@ -122,7 +117,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                     TargetUser.MoveTo(TargetUser.X, TargetUser.Y + 3);
                 }
 
-                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Superempurrar para " + Params[1] + "*", 0, ThisUser.LastBubble));
+                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Superempurrar para " + Params[1] + "*", 0, 31));
             }
             else
             {

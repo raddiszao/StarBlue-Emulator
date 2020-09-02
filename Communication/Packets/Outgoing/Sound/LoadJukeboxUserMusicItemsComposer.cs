@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Sound
 {
-    class LoadJukeboxUserMusicItemsComposer : ServerPacket
+    internal class LoadJukeboxUserMusicItemsComposer : ServerPacket
     {
         public LoadJukeboxUserMusicItemsComposer(Room room)
             : base(ServerPacketHeader.LoadJukeboxUserMusicItemsMessageComposer)
         {
-            var songs = room.GetTraxManager().GetAvaliableSongs();
+            List<Item> songs = room.GetTraxManager().GetAvaliableSongs();
 
             base.WriteInteger(songs.Count);//while
-            foreach (var item in songs)
+            foreach (Item item in songs)
             {
                 base.WriteInteger(item.Id);//item id
                 base.WriteInteger(item.ExtradataInt);//Song id
@@ -24,7 +24,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Sound
         {
 
             base.WriteInteger(Items.Count);//while
-            foreach (var item in Items)
+            foreach (Item item in Items)
             {
                 base.WriteInteger(item.Id);//item id
                 base.WriteInteger(item.ExtradataInt);//Song id

@@ -1,10 +1,9 @@
 ﻿using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class DiceOffEvent : IPacketEvent
+    internal class DiceOffEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -20,7 +19,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
                 return;
             }
 
-            Boolean hasRights = false;
+            bool hasRights = false;
             if (Room.CheckRights(Session))
             {
                 hasRights = true;

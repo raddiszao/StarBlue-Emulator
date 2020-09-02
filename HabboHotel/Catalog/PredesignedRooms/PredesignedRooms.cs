@@ -21,9 +21,9 @@ namespace StarBlue.HabboHotel.Catalog.PredesignedRooms
             if (FloorItems != null)
             {
                 FloorItemData = new List<PredesignedFloorItems>();
-                foreach (var item in FloorItems)
+                foreach (string item in FloorItems)
                 {
-                    var itemsData = item.Split(new string[] { "$$$$" }, StringSplitOptions.None);
+                    string[] itemsData = item.Split(new string[] { "$$$$" }, StringSplitOptions.None);
                     FloorItemData.Add(new PredesignedFloorItems(Convert.ToUInt32(itemsData[0]),
                         Convert.ToInt32(itemsData[1]), Convert.ToInt32(itemsData[2]),
                         Convert.ToInt32(itemsData[4]), Convert.ToDouble(itemsData[3]), itemsData[5]));
@@ -34,9 +34,9 @@ namespace StarBlue.HabboHotel.Catalog.PredesignedRooms
             if (WallItems != null)
             {
                 WallItemData = new List<PredesignedWallItems>();
-                foreach (var item in WallItems)
+                foreach (string item in WallItems)
                 {
-                    var itemsData = item.Split(new string[] { "$$$$" }, StringSplitOptions.None);
+                    string[] itemsData = item.Split(new string[] { "$$$$" }, StringSplitOptions.None);
                     WallItemData.Add(new PredesignedWallItems(Convert.ToUInt32(itemsData[0]), itemsData[1], itemsData[2]));
                 }
             }

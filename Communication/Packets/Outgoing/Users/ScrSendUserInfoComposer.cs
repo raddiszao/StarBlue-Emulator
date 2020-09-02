@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class ScrSendUserInfoComposer : ServerPacket
+    internal class ScrSendUserInfoComposer : ServerPacket
     {
         public ScrSendUserInfoComposer(Habbo habbo)
             : base(ServerPacketHeader.ScrSendUserInfoMessageComposer)
@@ -13,8 +13,8 @@ namespace StarBlue.Communication.Packets.Outgoing.Users
             if (habbo.GetClubManager().HasSubscription("habbo_vip"))
             {
 
-                Double Expire = habbo.GetClubManager().GetSubscription("habbo_vip").ExpireTime;
-                Double TimeLeft = Expire - StarBlueServer.GetUnixTimestamp();
+                double Expire = habbo.GetClubManager().GetSubscription("habbo_vip").ExpireTime;
+                double TimeLeft = Expire - StarBlueServer.GetUnixTimestamp();
                 int TotalDaysLeft = (int)Math.Ceiling(TimeLeft / 86400);
                 int MonthsLeft = TotalDaysLeft / 31;
 

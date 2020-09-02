@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class DisableMentionCommand : IChatCommand
+    internal class DisableMentionCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

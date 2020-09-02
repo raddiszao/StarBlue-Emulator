@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Polls
 {
-    class PollRejectEvent : IPacketEvent
+    internal class PollRejectEvent : IPacketEvent
     {
         public void Parse(GameClient session, ClientPacket packet)
         {

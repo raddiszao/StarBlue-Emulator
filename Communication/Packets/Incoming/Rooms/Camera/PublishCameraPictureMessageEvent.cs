@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Camera;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Camera;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 
@@ -31,7 +31,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("INSERT INTO camera_photos VALUES (@id, '" + Session.GetHabbo().Id + "',@creator_name, '" + Session.GetRoomUser().RoomId + "','" + StarBlueServer.GetUnixTimestamp() + "')");
+                dbClient.SetQuery("INSERT IGNORE INTO camera_photos VALUES (@id, '" + Session.GetHabbo().Id + "', @creator_name, '" + Session.GetRoomUser().RoomId + "','" + StarBlueServer.GetUnixTimestamp() + "')");
                 dbClient.AddParameter("id", URLPost.GetMD5(Session.GetHabbo().lastPhotoPreview));
                 dbClient.AddParameter("creator_name", Session.GetHabbo().Username);
                 dbClient.RunQuery();

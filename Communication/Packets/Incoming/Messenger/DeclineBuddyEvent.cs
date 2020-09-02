@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
-    class DeclineBuddyEvent : IPacketEvent
+    internal class DeclineBuddyEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

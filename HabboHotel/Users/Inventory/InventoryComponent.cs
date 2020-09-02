@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms.AI;
@@ -449,7 +449,9 @@ namespace StarBlue.HabboHotel.Users.Inventory
         public bool TryAddItem(Item item)
         {
             if (item.GetBaseItem() == null)
+            {
                 return false;
+            }
 
             if (item.Data.Type.ToString().ToLower() == "s")// ItemType.FLOOR)
             {

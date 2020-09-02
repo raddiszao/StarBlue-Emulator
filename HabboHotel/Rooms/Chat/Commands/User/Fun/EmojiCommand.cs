@@ -4,7 +4,7 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class EmojiCommand : IChatCommand
+    internal class EmojiCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
         public string Parameters => "Número do 1 ao 189.";

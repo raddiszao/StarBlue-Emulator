@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Purse
 {
-    class CreditBalanceComposer : ServerPacket
+    internal class CreditBalanceComposer : ServerPacket
     {
         public CreditBalanceComposer(int creditsBalance)
             : base(ServerPacketHeader.CreditBalanceMessageComposer)

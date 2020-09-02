@@ -12,7 +12,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Quests
             base.WriteInteger(UserQuests.Count);
 
             // Active ones first
-            foreach (var UserQuest in UserQuests)
+            foreach (KeyValuePair<string, Quest> UserQuest in UserQuests)
             {
                 if (UserQuest.Value == null)
                 {
@@ -23,7 +23,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Quests
             }
 
             // Dead ones last
-            foreach (var UserQuest in UserQuests)
+            foreach (KeyValuePair<string, Quest> UserQuest in UserQuests)
             {
                 if (UserQuest.Value != null)
                 {

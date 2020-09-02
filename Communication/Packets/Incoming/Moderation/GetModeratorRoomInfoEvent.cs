@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class GetModeratorRoomInfoEvent : IPacketEvent
+    internal class GetModeratorRoomInfoEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

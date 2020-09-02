@@ -1,14 +1,13 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class PickupObjectEvent : IPacketEvent
+    internal class PickupObjectEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -50,12 +49,12 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 return;
             }
 
-            Boolean ItemRights = false;
+            bool ItemRights = false;
             if (Item.UserID == Session.GetHabbo().Id || Room.CheckRights(Session, false))
             {
                 ItemRights = true;
             }
-            else if (Room.Group != null && Room.CheckRights(Session, false, true))//Room has a group, this user has group rights.
+            else if (Room.RoomData.Group != null && Room.CheckRights(Session, false, true))//Room has a group, this user has group rights.
             {
                 ItemRights = true;
             }
@@ -108,7 +107,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 else//Item is being ejected.
                 {
                     GameClient targetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(Item.UserID);
-                    if (targetClient != null && targetClient.GetHabbo() != null)//Again, do we have an active client?
+                    if (targetClient != null && targetClient.GetHabbo() != null && Item != null)//Again, do we have an active client?
                     {
                         Room.GetRoomItemHandler().RemoveFurniture(targetClient, Item.Id);
                         targetClient.GetHabbo().GetInventoryComponent().AddNewItem(Item.Id, Item.BaseItem, Item.ExtraData, Item.GroupId, true, true, Item.LimitedNo, Item.LimitedTot);

@@ -1,101 +1,82 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
-using StarBlue.HabboHotel.Users;
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    internal class EffectTimerResetBox : IWiredItem, IWiredCycle
+    class EffectTimerResetBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type => WiredBoxType.EffectTimerReset;
+        public WiredBoxType Type { get { return WiredBoxType.EffectTimerReset; } }
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }
-        public string ItemsData { get; set; }
-        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
+        public int Delay { get; set; } = 0 * 500;
         public int TickCount { get; set; }
-        private int _delay = 0;
-        private Queue _queue;
+        public string ItemsData { get; set; }
+        private bool Requested = false;
+        private int counter = 0;
+        private long _next;
 
         public EffectTimerResetBox(Room Instance, Item Item)
         {
             this.Instance = Instance;
             this.Item = Item;
-            SetItems = new ConcurrentDictionary<int, Item>();
-            TickCount = Delay;
-            _queue = new Queue();
+            this.SetItems = new ConcurrentDictionary<int, Item>();
         }
 
         public void HandleSave(ClientPacket Packet)
         {
             int Unknown = Packet.PopInt();
-            string Mode = Packet.PopString();
-            int Unused = Packet.PopInt();
-            Delay = Packet.PopInt();
-
-            StringData = Mode;
+            int score = Packet.PopInt();
+            int times = Packet.PopInt();
+            int team = Packet.PopInt();
+            string Unknown3 = Packet.PopString();
+            int Unknown4 = Packet.PopInt();
+            int Delay = Packet.PopInt();
+            this.counter = 0;
+            this.TickCount = 0;
+            this.Delay = Delay * 500;
+            this.StringData = Convert.ToString(score + ";" + times + ";" + team);
         }
 
         public bool OnCycle()
         {
-            if (_queue.Count == 0)
+            if (Instance == null || !Requested || _next == 0)
             {
-                _queue.Clear();
-                TickCount = Delay;
+                return false;
+            }
+
+            counter += 500;
+            if (counter > Delay)
+            {
+                counter = 0;
+
+                Instance.lastTimerReset = DateTime.Now;
+
+                Requested = false;
+                _next = 0;
                 return true;
             }
-
-            while (_queue.Count > 0)
-            {
-                Habbo Player = (Habbo)_queue.Dequeue();
-                if (Player == null || Player.CurrentRoom != Instance)
-                {
-                    continue;
-                }
-
-                //this.SendFreezeToUser(Player);
-            }
-
-            TickCount = Delay;
-            return true;
+            return false;
         }
 
         public bool Execute(params object[] Params)
         {
-            if (Params == null || Params.Length == 0)
+            if (_next == 0 || _next < StarBlueServer.Now())
             {
-                return false;
+                _next = StarBlueServer.Now() + Delay;
             }
 
-            Instance.GetWired().TriggerEvent(WiredBoxType.TriggerAtGivenTime, true);
-
-            Habbo Player = (Habbo)Params[0];
-            if (Player == null || Player.GetClient() == null)
+            if (!Requested)
             {
-                return false;
+                counter = 0;
+                Requested = true;
             }
-
-            if (String.IsNullOrEmpty(StringData))
-            {
-                return false;
-            }
-
-            _queue.Enqueue(Player);
 
             return true;
-        }
-
-        private void SendMessageToUser(Habbo Player)
-        {
-            RoomUser User = Player.CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Player.Username);
-            if (User == null)
-            {
-                return;
-            }
         }
     }
 }

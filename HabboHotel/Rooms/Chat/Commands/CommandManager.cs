@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator;
@@ -55,8 +55,14 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
         /// <returns>True if parsed or false if not.</returns>
         public bool Parse(GameClient Session, string Message)
         {
-            if (Session == null || Session.GetHabbo() == null || Session.GetHabbo().CurrentRoom == null || StarBlueServer.GoingIsToBeClose)
+            if (Session == null || Session.GetHabbo() == null || Session.GetHabbo().CurrentRoom == null)
             {
+                return false;
+            }
+
+            if (StarBlueServer.GoingIsToBeClose && Session.GetHabbo().Rank < 5)
+            {
+                Session.SendNotification("Essa função foi desativada até o servidor for reinicializado.");
                 return false;
             }
 
@@ -81,7 +87,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
                 Commands = StarBlueServer.GetGame().GetPermissionManager().GetCommandsForID(1);
                 foreach (string Command in Commands)
                 {
-                    foreach (var CmdList in _commands.ToList())
+                    foreach (KeyValuePair<string, IChatCommand> CmdList in _commands.ToList())
                     {
                         if (CmdList.Value.PermissionRequired == Command)
                         {
@@ -104,7 +110,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
                         foreach (string Command in Commands)
                         {
-                            foreach (var CmdList in _commands.ToList())
+                            foreach (KeyValuePair<string, IChatCommand> CmdList in _commands.ToList())
                             {
 
                                 if (CmdList.Value.PermissionRequired == Command)
@@ -153,6 +159,31 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
                 Cmd.Execute(Session, Session.GetHabbo().CurrentRoom, Split);
                 return true;
             }
+            else
+            {
+                string CommandSay = Split[0].ToLower().Trim();
+                if (CommandSay.Length > 1)
+                {
+                    foreach (KeyValuePair<string, IChatCommand> _command in _commands)
+                    {
+                        string Command = _command.Key;
+                        IChatCommand Element = _command.Value;
+                        if (!string.IsNullOrEmpty(Element.PermissionRequired))
+                        {
+                            if (!Session.GetHabbo().GetPermissions().HasCommand(Element.PermissionRequired))
+                            {
+                                continue;
+                            }
+                        }
+
+                        if ((Command.StartsWith(CommandSay) || CommandSay.StartsWith(Command) || Command.Contains(CommandSay) || CommandSay.Contains(Command)) && !String.IsNullOrEmpty(CommandSay))
+                        {
+                            Session.SendWhisper("Comando não encontrado, talvez você queira ter dito :" + Command + "?", 34);
+                            break;
+                        }
+                    }
+                }
+            }
 
             return false;
         }
@@ -173,7 +204,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
             Register("nometamanho", new ChatHTMLSizeCommand());
 
-            Register("emoji", new EmojiCommand());
+            //Register("emoji", new EmojiCommand());
 
             Register("chatalerta", new ChatAlertCommand());
 
@@ -215,9 +246,14 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
         private void RegisterUser()
         {
+            Register("room", new RoomCommand());
+
+            Register("pay", new PayCommand());
+            Register("pagar", new PayCommand());
+
             Register("tag", new PrefixNameCommand());
 
-            Register("allfloorroom", new AllRoomFloorCommand());
+            Register("allroomfloor", new AllRoomFloorCommand());
 
             Register("chatdegrupo", new GroupChatCommand());
 
@@ -242,6 +278,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("youtube", new YoutubeCommand());
 
             Register("casino", new CasinoCommand());
+            //Register("link", new LinkCommand());
 
             Register("fq", new CloseRoomCommand());
 
@@ -251,6 +288,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("eventosoff", new DisableNotificationEventCommand());
 
             Register("disablementions", new DisableMentionCommand());
+            Register("mencoes", new DisableMentionCommand());
 
             Register("copiar", new MimicCommand());
             Register("copy", new MimicCommand());
@@ -303,6 +341,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
             Register("sentar", new SitCommand());
             Register("sit", new SitCommand());
+
+            Register("hug", new HugCommand());
+            Register("abracar", new HugCommand());
+
+            Register("kikar", new KikarCommand());
+
+            Register("sarrar", new SarrarCommand());
 
             Register("levantar", new StandCommand());
 
@@ -404,6 +449,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("roomkick", new RoomKickCommand());
             Register("kickartodos", new RoomKickCommand());
 
+            Register("kickpets", new KickPetsCommand());
+            Register("expulsarpets", new KickPetsCommand());
+
+            Register("kickbots", new KickBotsCommand());
+            Register("expulsarbots", new KickBotsCommand());
+
             Register("mutar", new MuteCommand());
             Register("mute", new MuteCommand());
 
@@ -433,6 +484,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
             Register("ha", new HotelAlertCommand());
             Register("hotelalert", new HotelAlertCommand());
+            Register("hab", new PromotionAlertCommand());
 
             Register("lastmsg", new LastMessagesCommand());
             Register("verhistorico", new LastMessagesCommand());
@@ -505,8 +557,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
             Register("ca", new CustomizedHotelAlert());
 
-            Register("summonall", new SummonAll());
-            Register("trazertodos", new SummonAll());
+            Register("summonall", new SummonAllCommand());
+            Register("trazertodos", new SummonAllCommand());
 
             Register("givespecial", new GiveSpecialReward());
 
@@ -525,6 +577,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
             Register("limparinventariode", new EmptyUserCommand());
 
             Register("darvip", new SetVipCommand());
+            Register("removevip", new RemoveVipCommand());
+            Register("removervip", new RemoveVipCommand());
             Register("setvip", new SetVipCommand());
 
             Register("alerttype", new AlertSwapCommand());
@@ -559,7 +613,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
             Register("dice", new ForceDiceCommand());
 
-            Register("link", new LinkStaffCommand());
+            //Register("link", new LinkStaffCommand());
         }
 
         private void Register(string v)
@@ -574,7 +628,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands
 
         public static string MergeParams(string[] Params, int Start)
         {
-            var Merged = new StringBuilder();
+            StringBuilder Merged = new StringBuilder();
             for (int i = Start; i < Params.Length; i++)
             {
                 if (i > Start)

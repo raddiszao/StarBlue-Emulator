@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class DoorbellComposer : ServerPacket
+    internal class DoorbellComposer : ServerPacket
     {
         public DoorbellComposer(string Username)
             : base(ServerPacketHeader.DoorbellMessageComposer)

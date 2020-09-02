@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.YouTubeTelevisions
 {
-    class GetYouTubeVideoComposer : ServerPacket
+    internal class GetYouTubeVideoComposer : ServerPacket
     {
         public GetYouTubeVideoComposer(int ItemId, string YouTubeVideo)
             : base(ServerPacketHeader.GetYouTubeVideoMessageComposer)

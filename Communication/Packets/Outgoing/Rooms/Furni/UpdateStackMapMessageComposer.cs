@@ -1,11 +1,10 @@
 ﻿using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.PathFinding;
-using System;
 using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    class UpdateStackMapMessageComposer : ServerPacket
+    internal class UpdateStackMapMessageComposer : ServerPacket
     {
         public UpdateStackMapMessageComposer(Room Room, Dictionary<int, ThreeDCoord> Tiles, bool HeightIsZero = false)
             : base(ServerPacketHeader.UpdateStackMapMessageComposer)
@@ -18,13 +17,15 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
                     Tiles.TryGetValue(i, out ThreeDCoord Tile);
                     base.WriteByte(Tile.X);
                     base.WriteByte(Tile.Y);
-                    int Height = (int)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
-                    if (Height > UInt16.MaxValue)
+                    try
                     {
-                        Height = UInt16.MaxValue;
+                        short Height = (short)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
+                        base.WriteShort((short)(HeightIsZero ? 0 : (Height > short.MaxValue ? short.MaxValue : Height)));
                     }
-
-                    base.WriteUnsignedShort((UInt16)(HeightIsZero ? 0 : Height));
+                    catch
+                    {
+                        base.WriteShort(0);
+                    }
                 }
             }
             else
@@ -34,13 +35,15 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
                 {
                     base.WriteByte(Tile.X);
                     base.WriteByte(Tile.Y);
-                    int Height = (int)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
-                    if (Height > UInt16.MaxValue)
+                    try
                     {
-                        Height = UInt16.MaxValue;
+                        ushort Height = (ushort)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
+                        base.WriteUnsignedShort((ushort)(Height > ushort.MaxValue ? ushort.MaxValue : Height));
                     }
-
-                    base.WriteUnsignedShort((UInt16)(HeightIsZero ? 0 : Height));
+                    catch
+                    {
+                        base.WriteShort(0);
+                    }
                 }
             }
         }

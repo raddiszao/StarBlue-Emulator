@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Talents
 {
-    class CheckQuizType : IPacketEvent
+    internal class CheckQuizType : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -18,7 +18,7 @@ namespace StarBlue.Communication.Packets.Incoming.Talents
             {
                 Session.GetHabbo()._HabboQuizQuestions = new List<int>(5);
 
-                var quiz = new ServerPacket(ServerPacketHeader.QuizDataMessageComposer);
+                ServerPacket quiz = new ServerPacket(ServerPacketHeader.QuizDataMessageComposer);
                 quiz.WriteString(HabboType);
                 quiz.WriteInteger(5); // longitud.                
                 for (int i = 0; i < 5; i++)

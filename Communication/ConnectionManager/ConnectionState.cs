@@ -2,8 +2,8 @@
 {
     public enum ConnectionState
     {
-        Open = 0,
-        Closed = 1,
-        MalfunctioningPacket = 2
+        OPEN = 0,
+        CLOSED = 1,
+        MALFUNCTIONING_PACKET = 2
     }
 }

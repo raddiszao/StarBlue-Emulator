@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Outgoing.Pets
 {
-    class RespectPetNotificationMessageComposer : ServerPacket
+    internal class RespectPetNotificationMessageComposer : ServerPacket
     {
         public RespectPetNotificationMessageComposer(Pet Pet)
             : base(ServerPacketHeader.RespectPetNotificationMessageComposer)

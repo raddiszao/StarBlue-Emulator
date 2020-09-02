@@ -1,15 +1,14 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.FloorPlan
 {
-    class SaveFloorPlanModelEvent : IPacketEvent
+    internal class SaveFloorPlanModelEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -38,20 +37,20 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.FloorPlan
                 return;
             }
 
-            if (Map.Any(letter => !validLetters.Contains(letter)) || String.IsNullOrEmpty(Map))
+            if (Map.Any(letter => !validLetters.Contains(letter)) || string.IsNullOrEmpty(Map))
             {
                 Session.SendMessage(new RoomNotificationComposer("floorplan_editor.error", "errors", "Oops, it appears that you have entered an invalid floor map!"));
                 return;
             }
 
-            var modelData = Map.Split('\r');
+            string[] modelData = Map.Split('\r');
 
             int SizeY = modelData.Length;
             int SizeX = modelData[0].Length;
 
             if (SizeY > 128 || SizeX > 128)
             {
-                Session.SendMessage(new RoomNotificationComposer("floorplan_editor.error", "errors", "The maximum height and width of a model is 64x64!"));
+                Session.SendMessage(new RoomNotificationComposer("floorplan_editor.error", "errors", "The maximum height and width of a model is 128x128!"));
                 return;
             }
 
@@ -173,7 +172,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.FloorPlan
 
             StarBlueServer.GetGame().GetRoomManager().ReloadModel(ModelName);
             StarBlueServer.GetGame().GetRoomManager().UnloadRoom(Room.Id, true);
-
+            StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomDecoHoleFurniCount", 1);
 
             foreach (RoomUser User in UsersToReturn)
             {

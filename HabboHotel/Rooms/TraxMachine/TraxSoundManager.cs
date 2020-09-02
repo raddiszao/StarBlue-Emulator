@@ -1,4 +1,5 @@
 ﻿using log4net;
+using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 
@@ -14,7 +15,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
             Songs.Clear();
 
             DataTable table;
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.RunFastQuery("SELECT * FROM jukebox_songs_data");
                 table = adap.GetTable();
@@ -30,7 +31,7 @@ namespace StarBlue.HabboHotel.Rooms.TraxMachine
 
         public static TraxMusicData GetMusic(int id)
         {
-            foreach (var item in Songs)
+            foreach (TraxMusicData item in Songs)
             {
                 if (item.Id == id)
                 {

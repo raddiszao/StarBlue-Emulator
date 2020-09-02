@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Groups;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class DeclineGroupMembershipEvent : IPacketEvent
+    internal class DeclineGroupMembershipEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

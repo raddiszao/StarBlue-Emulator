@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class
+    internal class
         CutCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
@@ -40,7 +40,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
             }
             if (TargetClient.GetHabbo().Username == "Raddis")
             {
-                Session.SendWhisper("Ele é seu dono!", 34);
+                Session.SendWhisper("Você não pode fazer isso neste usuário!", 34);
                 return;
             }
             RoomUser ThisUser = Room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
@@ -51,8 +51,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (Math.Abs(User.X - ThisUser.X) < 2 && Math.Abs(User.Y - ThisUser.Y) < 2)
             {
-                Room.SendMessage(new ShoutComposer(ThisUser.VirtualId, "*Atirar na cabeça de " + TargetClient.GetHabbo().Username + "*", 0, ThisUser.LastBubble));
-                Room.SendMessage(new ChatComposer(User.VirtualId, "*Morrendo*", 0, User.LastBubble));
+                Room.SendMessage(new ShoutComposer(ThisUser.VirtualId, "*Atirar na cabeça de " + TargetClient.GetHabbo().Username + "*", 0, 32));
+                Room.SendMessage(new ChatComposer(User.VirtualId, "*Morrendo*", 0, 32));
 
                 User.GetClient().SendWhisper("Ele morre em 3 segundos!");
                 ThisUser.ApplyEffect(539);

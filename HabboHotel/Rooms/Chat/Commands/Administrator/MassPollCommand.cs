@@ -3,9 +3,9 @@ using StarBlue.HabboHotel.Rooms.Polls;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class MassPollCommand : IChatCommand
+    internal class MassPollCommand : IChatCommand
     {
-        public string PermissionRequired => "user_13";
+        public string PermissionRequired => "user_15";
 
         public string Parameters => "[ID]";
 

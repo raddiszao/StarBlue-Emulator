@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Availability
 {
-    class MaintenanceStatusComposer : ServerPacket
+    internal class MaintenanceStatusComposer : ServerPacket
     {
         public MaintenanceStatusComposer(int Minutes, int Duration)
             : base(ServerPacketHeader.MaintenanceStatusMessageComposer)

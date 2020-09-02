@@ -1,4 +1,5 @@
 ﻿using StarBlue.HabboHotel.GameClients;
+using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Rooms.AI.Speech;
 using System;
 using System.Drawing;
@@ -109,7 +110,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
                             }
                             else
                             {
-                                var Sq = new Point(Target.X, Target.Y);
+                                Point Sq = new Point(Target.X, Target.Y);
 
                                 if (Target.RotBody == 0)
                                 {
@@ -128,11 +129,11 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
                                     Sq.X--;
                                 }
 
-                                //if (Gamemap.TileDistance(Sq.X, Sq.Y, Target.X, Target.Y) <= 1)
-                                //{
-                                //    Room Room = GetRoom();
-                                //    Room.GetWired().TriggerEvent(WiredBoxType.TriggerBotReachedAvatar, true);
-                                //}
+                                if (Gamemap.TileDistance(Sq.X, Sq.Y, Target.X, Target.Y) <= 1)
+                                {
+                                    Room Room = GetRoom();
+                                    Room.GetWired().TriggerEvent(WiredBoxType.TriggerBotReachedAvatar, true);
+                                }
 
                                 GetRoomUser().MoveTo(Sq);
                             }

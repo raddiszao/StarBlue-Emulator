@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    class HabboSearchResultComposer : ServerPacket
+    internal class HabboSearchResultComposer : ServerPacket
     {
         public HabboSearchResultComposer(List<SearchResult> Friends, List<SearchResult> OtherUsers)
             : base(ServerPacketHeader.HabboSearchResultMessageComposer)

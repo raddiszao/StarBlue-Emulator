@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 
 
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class EnableFriendsCommand : IChatCommand
+    internal class EnableFriendsCommand : IChatCommand
     {
         public string PermissionRequired => "command_enable_friends";
 

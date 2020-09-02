@@ -1,4 +1,5 @@
 ﻿using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Users;
 using System;
@@ -49,7 +50,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
             DeletedTimestamp = (int)StarBlueServer.GetUnixTimestamp();
 
             DataTable table;
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("SELECT * FROM group_forums_thread_posts WHERE thread_id = @id");
                 adap.AddParameter("id", Id);
@@ -63,7 +64,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
 
             //DataTable table;
-            using (var Adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter Adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 Adap.SetQuery("SELECT * FROM group_forums_thread_views WHERE thread_id = @id");
                 Adap.AddParameter("id", Id);
@@ -93,7 +94,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
             if ((v = GetView(userid)) != null)
             {
                 v.Count = count >= 0 ? count : Posts.Count;
-                using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     adap.SetQuery("UPDATE group_forums_thread_views SET count = @c WHERE thread_id = @p AND user_id = @u");
                     adap.AddParameter("c", v.Count);
@@ -105,7 +106,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
             else
             {
                 v = new GroupForumThreadPostView(0, userid, Posts.Count);
-                using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     adap.SetQuery("INSERT INTO group_forums_thread_views (thread_id, user_id, count) VALUES (@t, @u, @c)");
                     adap.AddParameter("t", Id);
@@ -145,10 +146,10 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         public GroupForumThreadPost CreatePost(int userid, string message)
         {
-            var now = (int)StarBlueServer.GetUnixTimestamp();
-            var Post = new GroupForumThreadPost(this, 0, userid, now, message, 0, 0);
+            int now = (int)StarBlueServer.GetUnixTimestamp();
+            GroupForumThreadPost Post = new GroupForumThreadPost(this, 0, userid, now, message, 0, 0);
 
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("INSERT INTO group_forums_thread_posts (thread_id, user_id, message, timestamp) VALUES (@a, @b, @c, @d)");
                 adap.AddParameter("a", Id);
@@ -183,8 +184,8 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         public void SerializeData(GameClient Session, ServerPacket Packet)
         {
-            var lastpost = GetLastMessage();
-            var isn = lastpost == null;
+            GroupForumThreadPost lastpost = GetLastMessage();
+            bool isn = lastpost == null;
             Packet.WriteInteger(Id); //Thread ID
             Packet.WriteInteger(GetAuthor().Id);
             Packet.WriteString(GetAuthor().Username); //Thread Author
@@ -202,7 +203,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
             Packet.WriteByte(DeletedLevel * 10); //thread Deleted Level
 
-            var deleter = GetDeleter();
+            Habbo deleter = GetDeleter();
             if (deleter != null)
             {
                 Packet.WriteInteger(deleter.Id);// deleter user id
@@ -225,7 +226,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         public void Save()
         {
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("UPDATE group_forums_threads SET pinned = @pinned, locked = @locked, deleted_level = @dl, deleter_user_id = @duid WHERE id = @id");
                 adap.AddParameter("pinned", Pinned ? 1 : 0);

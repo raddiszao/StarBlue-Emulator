@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class UnmuteCommand : IChatCommand
+    internal class UnmuteCommand : IChatCommand
     {
         public string PermissionRequired => "user_7";
         public string Parameters => "[USUARIO]";

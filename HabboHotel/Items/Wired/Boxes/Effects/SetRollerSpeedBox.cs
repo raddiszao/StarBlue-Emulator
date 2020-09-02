@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 using System.Collections.Concurrent;
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class SetRollerSpeedBox : IWiredItem
+    internal class SetRollerSpeedBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -12,6 +12,14 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public string StringData { get; set; }
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
+
+        public int Delay { get; set; } = 0 * 500;
+
+        public int TickCount { get; set; }
+
+        private long _next;
+        private int counter = 0;
+        private bool Requested = false;
 
         public SetRollerSpeedBox(Room Instance, Item Item)
         {
@@ -34,6 +42,10 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             int Unknown = Packet.PopInt();
             string Message = Packet.PopString();
+            int Unknown2 = Packet.PopInt();
+            Delay = Packet.PopInt() * 500;
+            counter = 0;
+            TickCount = 0;
 
             StringData = Message;
 
@@ -45,11 +57,41 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public bool Execute(params object[] Params)
         {
-            if (int.TryParse(StringData, out int Speed))
+            if (_next == 0 || _next < StarBlueServer.Now())
             {
-                Instance.GetRoomItemHandler().SetSpeed(Speed);
+                _next = StarBlueServer.Now() + Delay;
             }
+
+            if (!Requested)
+            {
+                counter = 0;
+                Requested = true;
+            }
+
             return true;
+        }
+
+        public bool OnCycle()
+        {
+            if (Instance == null || !Requested || _next == 0)
+            {
+                return false;
+            }
+
+            counter += 500;
+            if (counter > Delay)
+            {
+                counter = 0;
+                if (int.TryParse(StringData, out int Speed))
+                {
+                    Instance.GetRoomItemHandler().SetSpeed(Speed);
+                }
+
+                Requested = false;
+                _next = 0;
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -4,11 +4,11 @@ using StarBlue.HabboHotel.Groups.Forums;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class GetForumStatsEvent : IPacketEvent
+    internal class GetForumStatsEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var GroupForumId = Packet.PopInt();
+            int GroupForumId = Packet.PopInt();
 
             if (!StarBlueServer.GetGame().GetGroupForumManager().TryGetForum(GroupForumId, out GroupForum Forum))
             {

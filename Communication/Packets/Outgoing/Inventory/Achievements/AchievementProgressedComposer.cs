@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Achievements;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Achievements
 {
-    class AchievementProgressedComposer : ServerPacket
+    internal class AchievementProgressedComposer : ServerPacket
     {
         public AchievementProgressedComposer(Achievement Achievement, int TargetLevel, AchievementLevel TargetLevelData, int TotalLevels, UserAchievement UserData)
             : base(ServerPacketHeader.AchievementProgressedMessageComposer)

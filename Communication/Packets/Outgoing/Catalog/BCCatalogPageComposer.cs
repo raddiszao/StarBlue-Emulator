@@ -30,7 +30,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
             {
 
                 base.WriteInteger(Page.Items.Count);
-                foreach (var Item in Page.Items.Values)
+                foreach (BCCatalogItem Item in Page.Items.Values)
                 {
                     base.WriteInteger(Item.Id);
                     base.WriteString(Item.Name);
@@ -78,7 +78,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
                         if (Item.PredesignedId > 0)
                         {
                             base.WriteInteger(Page.PredesignedItems.Items.Count);
-                            foreach (var predesigned in Page.PredesignedItems.Items.ToList())
+                            foreach (KeyValuePair<int, int> predesigned in Page.PredesignedItems.Items.ToList())
                             {
                                 if (StarBlueServer.GetGame().GetItemManager().GetItem(predesigned.Key, out ItemData Data)) { }
                                 base.WriteString(Data.Type.ToString());

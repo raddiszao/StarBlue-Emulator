@@ -5,16 +5,16 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Sound
 {
-    class GetJukeboxDiscsDataEvent : IPacketEvent
+    internal class GetJukeboxDiscsDataEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var songslen = Packet.PopInt();
-            var Songs = new List<TraxMusicData>();
+            int songslen = Packet.PopInt();
+            List<TraxMusicData> Songs = new List<TraxMusicData>();
             while (songslen-- > 0)
             {
-                var id = Packet.PopInt();
-                var music = TraxSoundManager.GetMusic(id);
+                int id = Packet.PopInt();
+                TraxMusicData music = TraxSoundManager.GetMusic(id);
                 if (music != null)
                 {
                     Songs.Add(music);

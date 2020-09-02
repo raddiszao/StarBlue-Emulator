@@ -1,13 +1,14 @@
 ﻿
 using StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog.Clothing;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class UseSellableClothingEvent : IPacketEvent
+    internal class UseSellableClothingEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -59,7 +60,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             }
 
             //Quickly delete it from the database.
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("DELETE FROM `items` WHERE `id` = @ItemId LIMIT 1");
                 dbClient.AddParameter("ItemId", Item.Id);

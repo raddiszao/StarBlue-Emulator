@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
+﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class ChatHTMLSizeCommand : IChatCommand
+    internal class ChatHTMLSizeCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
         public string Parameters => "Número do 1 ao 20. Para voltar ao normal coloque o numéro 12";
@@ -19,7 +17,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
             bool isNumeric = int.TryParse(chatColour, out int chatsize);
             if (isNumeric)
             {
-                if (Session.GetHabbo().chatHTMLColour == null || Session.GetHabbo().chatHTMLColour == String.Empty)
+                if (Session.GetHabbo().chatHTMLColour == null || Session.GetHabbo().chatHTMLColour == string.Empty)
                 {
                     Session.GetHabbo().chatHTMLColour = "000000";
                 }

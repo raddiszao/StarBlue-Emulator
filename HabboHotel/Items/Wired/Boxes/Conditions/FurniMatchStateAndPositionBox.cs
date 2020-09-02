@@ -62,7 +62,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData) || StringData == "0;0;0" || SetItems.Count == 0)
+            if (string.IsNullOrEmpty(StringData) || StringData == "0;0;0" || SetItems.Count == 0)
             {
                 return false;
             }
@@ -79,9 +79,9 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                     continue;
                 }
 
-                foreach (String I in ItemsData.Split(';'))
+                foreach (string I in ItemsData.Split(';'))
                 {
-                    if (String.IsNullOrEmpty(I))
+                    if (string.IsNullOrEmpty(I))
                     {
                         continue;
                     }
@@ -123,8 +123,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                     {
                         try
                         {
-                            if (II.GetX != Convert.ToInt32(part[0]) || II.GetY != Convert.ToInt32(part[1]) ||
-                                II.GetZ != Convert.ToDouble(part[2]))
+                            if (II.GetX != Convert.ToInt32(part[0]) || II.GetY != Convert.ToInt32(part[1]) || II.GetZ != Convert.ToDouble(part[2]))
                             {
                                 return false;
                             }

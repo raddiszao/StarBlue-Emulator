@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    class FurniListComposer : ServerPacket
+    internal class FurniListComposer : ServerPacket
     {
         public FurniListComposer(ICollection<Item> Items, int pages, int page)
             : base(ServerPacketHeader.FurniListMessageComposer)
@@ -22,7 +22,9 @@ namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
         private void WriteItem(Item Item)
         {
             if (Item.GetBaseItem() == null)
+            {
                 return;
+            }
 
             WriteInteger(Item.Id);
             WriteString(Item.GetBaseItem().Type.ToString().ToUpper());

@@ -4,9 +4,9 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class SendImageToUserCommand : IChatCommand
+    internal class SendImageToUserCommand : IChatCommand
     {
-        public string PermissionRequired => "user_13";
+        public string PermissionRequired => "user_15";
 
         public string Parameters => "[USUARIO] [IMAGEM]";
 

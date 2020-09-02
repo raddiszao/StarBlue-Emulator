@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Text;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class UserInfoCommand : IChatCommand
+    internal class UserInfoCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "[USUÁRIO]";
@@ -79,7 +79,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             HabboInfo.Append("<font size='10'>Bans: " + Convert.ToInt32(UserInfo["bans"]) + "\r");
             HabboInfo.Append("Reportes Enviados: " + Convert.ToInt32(UserInfo["cfhs"]) + "\r");
             HabboInfo.Append("Abuso: " + Convert.ToInt32(UserInfo["cfhs_abusive"]) + "\r");
-            HabboInfo.Append("Trocas bloqueadas: " + (Convert.ToInt32(UserInfo["trading_locked"]) == 0 ? "Nenhum." : "Expira: " + (origin.ToString("dd/MM/yyyy")) + "") + "\r");
+            HabboInfo.Append("Trocas bloqueadas: " + (Convert.ToInt64(UserInfo["trading_locked"]) == 0 ? "Nenhum." : "Expira: " + (origin.ToString("dd/MM/yyyy")) + "") + "\r");
             HabboInfo.Append("Total trocas bloqueios: " + Convert.ToInt32(UserInfo["trading_locks_count"]) + "</font>\r\r");
 
             if (TargetClient != null)
@@ -91,9 +91,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 }
                 else
                 {
-                    HabboInfo.Append("<font size='10'>Quarto: " + TargetClient.GetHabbo().CurrentRoom.Name + " (" + TargetClient.GetHabbo().CurrentRoom.RoomId + ")\r");
-                    HabboInfo.Append("Dono: " + TargetClient.GetHabbo().CurrentRoom.OwnerName + "\r");
-                    HabboInfo.Append("Visitantes: " + TargetClient.GetHabbo().CurrentRoom.UserCount + " de " + TargetClient.GetHabbo().CurrentRoom.UsersMax);
+                    HabboInfo.Append("<font size='10'>Quarto: " + TargetClient.GetHabbo().CurrentRoom.RoomData.Name + " (" + TargetClient.GetHabbo().CurrentRoom.Id + ")\r");
+                    HabboInfo.Append("Dono: " + TargetClient.GetHabbo().CurrentRoom.RoomData.OwnerName + "\r");
+                    HabboInfo.Append("Visitantes: " + TargetClient.GetHabbo().CurrentRoom.UserCount + " de " + TargetClient.GetHabbo().CurrentRoom.RoomData.UsersMax);
                 }
             }
             Session.SendMessage(new RoomNotificationComposer("Informação de " + Username + ":", (HabboInfo.ToString()), "usr/body/" + Username + "", "", ""));

@@ -1,12 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveUserFastwalkBox : IWiredItem
+    internal class GiveUserFastwalkBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -33,8 +32,6 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         {
             int Unknown = Packet.PopInt();
             string Badge = Packet.PopString();
-
-            StringData = Badge;
         }
 
         public bool Execute(params object[] Params)
@@ -52,11 +49,6 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             RoomUser User = Player.CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Player.Username);
             if (User == null)
-            {
-                return false;
-            }
-
-            if (String.IsNullOrEmpty(StringData))
             {
                 return false;
             }

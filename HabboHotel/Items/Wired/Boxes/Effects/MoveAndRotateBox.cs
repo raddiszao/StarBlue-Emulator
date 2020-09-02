@@ -81,7 +81,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             if (!Requested)
             {
-                counter = Delay;
+                counter = 0;
                 Requested = true;
             }
 
@@ -96,10 +96,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
 
             counter += 500;
-            if (counter >= Delay)
+            if (counter > Delay)
             {
                 counter = 0;
                 _next = 0;
+                Requested = false;
                 foreach (Item Item in SetItems.Values.ToList())
                 {
                     if (Item == null)
@@ -130,8 +131,8 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
                     if (Instance.GetGameMap().CanRollItemHere(Point.X, Point.Y) && !Instance.GetGameMap().SquareHasUsers(Point.X, Point.Y))
                     {
-                        Double NewZ = Instance.GetGameMap().GetHeightForSquareFromData(Point);
-                        Boolean CanBePlaced = true;
+                        double NewZ = Instance.GetGameMap().GetHeightForSquareFromData(Point);
+                        bool CanBePlaced = true;
 
                         List<Item> Items = Instance.GetGameMap().GetCoordinatedItems(Point);
                         foreach (Item IItem in Items.ToList())

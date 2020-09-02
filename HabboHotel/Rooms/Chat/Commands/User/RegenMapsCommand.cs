@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class RegenMapsCommand : IChatCommand
+    internal class RegenMapsCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

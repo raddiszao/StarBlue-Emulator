@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    class GetRoomBannedUsersComposer : ServerPacket
+    internal class GetRoomBannedUsersComposer : ServerPacket
     {
         public GetRoomBannedUsersComposer(Room Instance)
             : base(ServerPacketHeader.GetRoomBannedUsersMessageComposer)

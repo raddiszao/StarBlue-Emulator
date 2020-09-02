@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    class CommunityGoalComposer : ServerPacket
+    internal class CommunityGoalComposer : ServerPacket
     {
         public CommunityGoalComposer()
             : base(ServerPacketHeader.CommunityGoalComposer)

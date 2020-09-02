@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
-    class GetGameListingEvent : IPacketEvent
+    internal class GetGameListingEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

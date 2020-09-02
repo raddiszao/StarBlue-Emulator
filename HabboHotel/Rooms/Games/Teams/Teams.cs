@@ -16,7 +16,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Teams
 
         public static TeamManager createTeamforGame(string Game)
         {
-            var t = new TeamManager
+            TeamManager t = new TeamManager
             {
                 Game = Game,
                 BlueTeam = new List<RoomUser>(),

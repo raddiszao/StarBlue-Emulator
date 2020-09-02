@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class RoomVisualizationSettingsComposer : ServerPacket
+    internal class RoomVisualizationSettingsComposer : ServerPacket
     {
         public RoomVisualizationSettingsComposer(int Walls, int Floor, bool HideWalls)
             : base(ServerPacketHeader.RoomVisualizationSettingsMessageComposer)

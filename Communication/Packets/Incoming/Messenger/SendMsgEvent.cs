@@ -3,7 +3,7 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 
 namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
-    class SendMsgEvent : IPacketEvent
+    internal class SendMsgEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -49,7 +49,7 @@ namespace StarBlue.Communication.Packets.Incoming.Messenger
                 Session.GetHabbo().BannedPhraseCount++;
                 if (Session.GetHabbo().BannedPhraseCount >= 1)
                 {
-                    Session.GetHabbo().TimeMuted = 15;
+                    Session.GetHabbo().TimeMuted = 1;
                     Session.SendNotification("Acabou de mencionar uma palavra proibida no filtro " + StarBlueServer.HotelName + ", pode ser um erro, ou não, aviso " + Session.GetHabbo().BannedPhraseCount + " / 10");
                     StarBlueServer.GetGame().GetClientManager().StaffAlert1(new RoomInviteComposer(int.MinValue, "Spammer: " + Session.GetHabbo().Username + " / Frase: " + message + " / Palavra: " + word.ToUpper() + " / Aviso: " + Session.GetHabbo().BannedPhraseCount + " / 10."));
                     StarBlueServer.GetGame().GetClientManager().StaffAlert2(new RoomNotificationComposer("Alerta de publicista:",

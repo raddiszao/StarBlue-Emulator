@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Sound
 {
-    class LoadJukeboxDiscsEvent : IPacketEvent
+    internal class LoadJukeboxDiscsEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

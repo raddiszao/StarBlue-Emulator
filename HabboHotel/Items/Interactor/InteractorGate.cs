@@ -1,6 +1,6 @@
 ﻿using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items.Wired;
-
+using System;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
@@ -27,9 +27,10 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 Item.UpdateState(false, true);
             }
 
+            int CurrentMode = 0;
             int NewMode = 0;
 
-            if (!int.TryParse(Item.ExtraData, out int CurrentMode))
+            if (!int.TryParse(Item.ExtraData, out CurrentMode))
             {
             }
 
@@ -46,14 +47,6 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 NewMode = CurrentMode + 1;
             }
 
-            if (NewMode == 0)
-            {
-                if (!Item.GetRoom().GetGameMap().itemCanBePlacedHere(Item.GetX, Item.GetY))
-                {
-                    return;
-                }
-            }
-
             if (Item.GetRoom() == null || Item.GetRoom().GetGameMap() == null || Item.GetRoom().GetGameMap().SquareHasUsers(Item.GetX, Item.GetY))
             {
                 return;
@@ -62,11 +55,10 @@ namespace StarBlue.HabboHotel.Items.Interactor
             Item.ExtraData = NewMode.ToString();
             Item.UpdateState();
 
-            Item.RegenerateBlock(NewMode.ToString(), Item.GetRoom().GetGameMap());
+            //Item.RegenerateBlock(NewMode, Item.GetRoom().GetGameMap());
 
             Item.GetRoom().GetGameMap().updateMapForItem(Item);
             Item.GetRoom().GetWired().TriggerEvent(WiredBoxType.TriggerStateChanges, Session.GetHabbo(), Item);
-            //Item.GetRoom().GenerateMaps();
         }
 
         public void OnWiredTrigger(Item Item)
@@ -78,9 +70,10 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 Item.UpdateState(false, true);
             }
 
+            int CurrentMode = 0;
             int NewMode = 0;
 
-            if (!int.TryParse(Item.ExtraData, out int CurrentMode))
+            if (!int.TryParse(Item.ExtraData, out CurrentMode))
             {
             }
 
@@ -97,24 +90,15 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 NewMode = CurrentMode + 1;
             }
 
-            if (NewMode == 0)
-            {
-                if (!Item.GetRoom().GetGameMap().itemCanBePlacedHere(Item.GetX, Item.GetY))
-                {
-                    return;
-                }
-            }
-
             if (Item.GetRoom() == null || Item.GetRoom().GetGameMap() == null || Item.GetRoom().GetGameMap().SquareHasUsers(Item.GetX, Item.GetY))
-            {
                 return;
-            }
 
             Item.ExtraData = NewMode.ToString();
             Item.UpdateState();
 
+            //Item.RegenerateBlock(NewMode, Item.GetRoom().GetGameMap());
+
             Item.GetRoom().GetGameMap().updateMapForItem(Item);
-            //Item.GetRoom().GenerateMaps();
         }
     }
 }

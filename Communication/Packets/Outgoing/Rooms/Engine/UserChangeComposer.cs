@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class UserChangeComposer : ServerPacket
+    internal class UserChangeComposer : ServerPacket
     {
         public UserChangeComposer(RoomUser User, bool Self)
             : base(ServerPacketHeader.UserChangeMessageComposer)

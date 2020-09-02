@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class BuilderCommand : IChatCommand
+    internal class BuilderCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -12,7 +12,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (!Room.CheckRights(Session, true))
+            if (!Room.CheckRights(Session, false, true))
             {
                 return;
             }

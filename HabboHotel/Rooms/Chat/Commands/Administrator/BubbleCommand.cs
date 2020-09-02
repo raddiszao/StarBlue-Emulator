@@ -1,9 +1,9 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms.Chat.Styles;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class BubbleCommand : IChatCommand
+    internal class BubbleCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
 

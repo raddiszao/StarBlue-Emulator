@@ -1,11 +1,10 @@
 ﻿using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.Utilities;
-using System;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class ObjectAddComposer : ServerPacket
+    internal class ObjectAddComposer : ServerPacket
     {
         public ObjectAddComposer(Item Item, Room Room)
             : base(ServerPacketHeader.ObjectAddMessageComposer)
@@ -15,8 +14,8 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
             base.WriteInteger(Item.GetX);
             base.WriteInteger(Item.GetY);
             base.WriteInteger(Item.Rotation);
-            base.WriteString(String.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
-            base.WriteString(String.Empty);
+            base.WriteString(string.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
+            base.WriteString(string.Empty);
 
             if (Item.LimitedNo > 0)
             {

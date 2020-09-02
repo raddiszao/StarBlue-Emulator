@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class MatchPositionBox : IWiredItem, IWiredCycle
+    internal class MatchPositionBox : IWiredItem, IWiredCycle
     {
         private int _delay = 0;
         public Room Instance { get; set; }
@@ -85,7 +85,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public bool OnCycle()
         {
-            if (!Requested || String.IsNullOrEmpty(StringData) || StringData == "0;0;0" || SetItems.Count == 0)
+            if (!Requested || string.IsNullOrEmpty(StringData) || StringData == "0;0;0" || SetItems.Count == 0)
             {
                 return false;
             }
@@ -154,11 +154,12 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 {
                     if (int.Parse(StringData.Split(';')[2]) == 1)//Position
                     {
-                        SetPosition(II, Convert.ToInt32(part[0].ToString()), Convert.ToInt32(part[1].ToString()), Convert.ToDouble(part[2].ToString()));
+                        this.SetPosition(II, Convert.ToInt32(part[0].ToString()), Convert.ToInt32(part[1].ToString()), Convert.ToDouble(part[2].ToString()));
                     }
                 }
                 catch (Exception) { }
             }
+
             Requested = false;
             return true;
         }
@@ -192,10 +193,8 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         private void SetPosition(Item Item, int CoordX, int CoordY, double CoordZ)
         {
-            if (Item.GetX == CoordX && Item.GetY == CoordY && Item.GetZ == CoordZ)
-            {
+            if (Item.GetX == CoordX && Item.GetY == CoordY)
                 return;
-            }
 
             Instance.SendMessage(new SlideObjectBundleComposer(Item.GetX, Item.GetY, Item.GetZ, CoordX, CoordY, CoordZ, 0, 0, Item.Id));
             Instance.GetRoomItemHandler().SetFloorItem(Item, CoordX, CoordY, CoordZ);

@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using System;
 using System.Collections.Generic;
@@ -12,20 +12,20 @@ namespace StarBlue.HabboHotel.Items
 {
     internal class CrackableItem
     {
-        internal UInt32 ItemId;
+        internal uint ItemId;
         internal List<CrackableRewards> Rewards;
 
         internal CrackableItem(DataRow dRow)
         {
             ItemId = Convert.ToUInt32(dRow["item_baseid"]);
-            var rewardsString = (string)dRow["rewards"];
+            string rewardsString = (string)dRow["rewards"];
 
             Rewards = new List<CrackableRewards>();
-            foreach (var reward in rewardsString.Split(';'))
+            foreach (string reward in rewardsString.Split(';'))
             {
-                var rewardType = reward.Split(',')[0];
-                var rewardItem = reward.Split(',')[1];
-                var rewardLevel = uint.Parse(reward.Split(',')[2]);
+                string rewardType = reward.Split(',')[0];
+                string rewardItem = reward.Split(',')[1];
+                uint rewardLevel = uint.Parse(reward.Split(',')[2]);
                 Rewards.Add(new CrackableRewards(ItemId, rewardType, rewardItem, rewardLevel));
             }
         }
@@ -33,8 +33,8 @@ namespace StarBlue.HabboHotel.Items
 
     internal class CrackableRewards
     {
-        internal UInt32 CrackableId, CrackableLevel;
-        internal String CrackableRewardType, CrackableReward;
+        internal uint CrackableId, CrackableLevel;
+        internal string CrackableRewardType, CrackableReward;
 
         internal CrackableRewards(uint crackableId, string crackableRewardType, string crackableReward, uint crackableLevel)
         {
@@ -47,13 +47,13 @@ namespace StarBlue.HabboHotel.Items
 
     internal class CrackableManager
     {
-        internal Dictionary<Int32, CrackableItem> Crackable;
+        internal Dictionary<int, CrackableItem> Crackable;
 
         internal void Initialize(IQueryAdapter dbClient)
         {
-            Crackable = new Dictionary<Int32, CrackableItem>();
+            Crackable = new Dictionary<int, CrackableItem>();
             dbClient.SetQuery("SELECT * FROM crackable_rewards");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
             foreach (DataRow dRow in table.Rows)
             {
                 if (Crackable.ContainsKey(Convert.ToInt32(dRow["item_baseid"])))
@@ -68,8 +68,8 @@ namespace StarBlue.HabboHotel.Items
 
         private List<CrackableRewards> GetRewardsByLevel(int itemId, int level)
         {
-            var rewards = new List<CrackableRewards>();
-            foreach (var reward in Crackable[itemId].Rewards.Where(furni => furni.CrackableLevel == level))
+            List<CrackableRewards> rewards = new List<CrackableRewards>();
+            foreach (CrackableRewards reward in Crackable[itemId].Rewards.Where(furni => furni.CrackableLevel == level))
             {
                 rewards.Add(reward);
             }
@@ -103,8 +103,8 @@ namespace StarBlue.HabboHotel.Items
 
             int x = item.GetX, y = item.GetY;
             room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
-            var level = 0;
-            var rand = new Random().Next(0, 100);
+            int level = 0;
+            int rand = new Random().Next(0, 100);
             if (rand >= 95)
             {
                 level = 5;                   // 005% de probabilidad de que salga nivel 5
@@ -127,12 +127,12 @@ namespace StarBlue.HabboHotel.Items
             }
             // 100%
 
-            var possibleRewards = GetRewardsByLevel((int)crackable.ItemId, level);
-            var reward = possibleRewards[new Random().Next(0, (possibleRewards.Count - 1))];
+            List<CrackableRewards> possibleRewards = GetRewardsByLevel((int)crackable.ItemId, level);
+            CrackableRewards reward = possibleRewards[new Random().Next(0, (possibleRewards.Count - 1))];
 
             Task.Run(() =>
             {
-                using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
 
                     #region REWARD TYPES

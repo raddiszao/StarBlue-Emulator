@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -110,7 +110,7 @@ namespace StarBlue.HabboHotel.Items.Data.Moodlight
 
         public static MoodlightPreset GeneratePreset(string Data)
         {
-            String[] Bits = Data.Split(',');
+            string[] Bits = Data.Split(',');
 
             if (!IsValidColor(Bits[0]))
             {
@@ -165,7 +165,7 @@ namespace StarBlue.HabboHotel.Items.Data.Moodlight
         public string GenerateExtraData()
         {
             MoodlightPreset Preset = GetPreset(CurrentPreset);
-            var SB = new StringBuilder();
+            StringBuilder SB = new StringBuilder();
 
             SB.Append(Enabled == true ? 2 : 1);
 

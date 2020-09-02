@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class GiveHandItemEvent : IPacketEvent
+    internal class GiveHandItemEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

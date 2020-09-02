@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
-    class UnknownGameCenterEvent4 : IPacketEvent
+    internal class UnknownGameCenterEvent4 : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

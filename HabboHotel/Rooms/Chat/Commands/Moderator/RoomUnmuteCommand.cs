@@ -2,21 +2,21 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class RoomUnmuteCommand : IChatCommand
+    internal class RoomUnmuteCommand : IChatCommand
     {
-        public string PermissionRequired => "user_12";
+        public string PermissionRequired => "user_7";
         public string Parameters => "";
         public string Description => "Desmutar quarto.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (!Room.RoomMuted)
+            if (!Room.RoomData.RoomMuted)
             {
                 Session.SendWhisper("Este quarto não está mudo.", 34);
                 return;
             }
 
-            Room.RoomMuted = false;
+            Room.RoomData.RoomMuted = false;
 
             List<RoomUser> RoomUsers = Room.GetRoomUserManager().GetRoomUsers();
             if (RoomUsers.Count > 0)

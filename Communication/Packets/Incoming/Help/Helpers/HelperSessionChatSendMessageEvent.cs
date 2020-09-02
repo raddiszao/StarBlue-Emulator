@@ -1,18 +1,17 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Help.Helpers;
+﻿using StarBlue.Communication.Packets.Outgoing.Help.Helpers;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Helpers;
 using System;
-using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
-    class HelperSessionChatSendMessageEvent : IPacketEvent
+    internal class HelperSessionChatSendMessageEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var Element = HelperToolsManager.GetElement(Session);
-            var message = Packet.PopString();
+            IHelperElement Element = HelperToolsManager.GetElement(Session);
+            string message = Packet.PopString();
             if (Element.OtherElement != null)
             {
                 Session.SendMessage(new HelperSessionSendChatComposer(Session.GetHabbo().Id, message));
@@ -31,7 +30,7 @@ namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("INSERT INTO chatlogs_helper VALUES (NULL, " + From_Id + ", " + ToId + ", @message, UNIX_TIMESTAMP())");
-                dbClient.AddParameter("message", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Message)));
+                dbClient.AddParameter("message", Message);
                 dbClient.RunQuery();
             }
         }

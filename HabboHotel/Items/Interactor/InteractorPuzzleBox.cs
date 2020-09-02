@@ -39,7 +39,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
                     return;
                 }
                 Room Room = Item.GetRoom();
-                var NewPoint = new Point(0, 0);
+                Point NewPoint = new Point(0, 0);
                 if (User.RotBody == 4)
                 {
                     NewPoint = new Point(Item.GetX, Item.GetY + 1);
@@ -64,7 +64,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
                     Room.GetGameMap().itemCanBePlacedHere(NewPoint.X, NewPoint.Y) &&
                     Room.GetGameMap().CanRollItemHere(NewPoint.X, NewPoint.Y))
                 {
-                    Double NewZ = Item.GetRoom().GetGameMap().SqAbsoluteHeight(NewPoint.X, NewPoint.Y);
+                    double NewZ = Item.GetRoom().GetGameMap().SqAbsoluteHeight(NewPoint.X, NewPoint.Y);
 
                     /*var mMessage = new ServerMessage();
                     mMessage.Init(Outgoing.ObjectOnRoller); // Cf

@@ -1,13 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
 using StarBlue.Core;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StarBlue.HabboHotel.Rooms
@@ -21,9 +20,9 @@ namespace StarBlue.HabboHotel.Rooms
         private ConcurrentDictionary<int, Room> _rooms;
         private ConcurrentDictionary<int, RoomData> _loadedRoomData;
 
+        private readonly object _roomLoadingSync;
 
         private DateTime _cycleLastExecution;
-        private DateTime _purgeLastExecution;
 
         public RoomManager()
         {
@@ -31,51 +30,42 @@ namespace StarBlue.HabboHotel.Rooms
 
             _rooms = new ConcurrentDictionary<int, Room>();
             _loadedRoomData = new ConcurrentDictionary<int, RoomData>();
+            _roomLoadingSync = new object();
 
             LoadModels();
-
-            _purgeLastExecution = DateTime.Now.AddHours(3);
-
             log.Info(">> Rooms Manager -> READY!");
         }
 
         public void OnCycle()
         {
-            try
+            TimeSpan sinceLastTime = DateTime.Now - _cycleLastExecution;
+            if (sinceLastTime.TotalMilliseconds >= 500)
             {
-                TimeSpan sinceLastTime = DateTime.Now - _cycleLastExecution;
-                if (sinceLastTime.TotalMilliseconds >= 500)
+                _cycleLastExecution = DateTime.Now;
+                foreach (Room Room in _rooms.Values.ToList())
                 {
-                    _cycleLastExecution = DateTime.Now;
-                    foreach (Room Room in _rooms.Values.ToList())
+                    if (Room.isCrashed)
                     {
-                        if (Room.isCrashed)
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        if (Room.ProcessTask == null || Room.ProcessTask.IsCompleted)
+                    if (Room.ProcessTask == null || Room.ProcessTask.IsCompleted)
+                    {
+                        Room.ProcessTask = new Task(Room.ProcessRoom);
+                        Room.ProcessTask.Start();
+                        Room.IsLagging = 0;
+                    }
+                    else
+                    {
+                        Room.IsLagging++;
+                        if (Room.IsLagging >= 40)
                         {
-                            Room.ProcessTask = new Task(Room.ProcessRoom);
-                            Room.ProcessTask.Start();
-                            Room.IsLagging = 0;
-                        }
-                        else
-                        {
-                            Room.IsLagging++;
-                            if (Room.IsLagging >= 30)
-                            {
-                                Room.isCrashed = true;
-                                UnloadRoom(Room.Id);
-                                Logging.WriteLine("[RoomMgr] Room crashed (task didn't complete within 30 seconds): " + Room.RoomId);
-                            }
+                            Room.isCrashed = true;
+                            UnloadRoom(Room.Id);
+                            Logging.WriteLine("[RoomMgr] Room crashed (task didn't complete within 40 seconds): " + Room.Id);
                         }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Logging.LogCriticalException("Issue with the RoomManager: " + e);
             }
         }
 
@@ -92,7 +82,7 @@ namespace StarBlue.HabboHotel.Rooms
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT id,door_x,door_y,door_z,door_dir,heightmap,public_items,club_only,poolmap,`wall_height` FROM `room_models` WHERE `custom` = '0'");
+                dbClient.SetQuery("SELECT id,door_x,door_y,door_z,door_dir,heightmap,public_items,club_only,wall_height FROM `room_models` WHERE `custom` = '0'");
                 DataTable Data = dbClient.GetTable();
 
                 if (Data == null)
@@ -103,10 +93,9 @@ namespace StarBlue.HabboHotel.Rooms
                 foreach (DataRow Row in Data.Rows)
                 {
                     string Modelname = Convert.ToString(Row["id"]);
-                    string staticFurniture = Convert.ToString(Row["public_items"]);
 
                     _roomModels.Add(Modelname, new RoomModel(Convert.ToInt32(Row["door_x"]), Convert.ToInt32(Row["door_y"]), (Double)Row["door_z"], Convert.ToInt32(Row["door_dir"]),
-                        Convert.ToString(Row["heightmap"]), Convert.ToString(Row["public_items"]), StarBlueServer.EnumToBool(Row["club_only"].ToString()), Convert.ToString(Row["poolmap"]), Convert.ToInt32(Row["wall_height"])));
+                        Convert.ToString(Row["heightmap"]), StarBlueServer.EnumToBool(Row["club_only"].ToString()), Convert.ToInt32(Row["wall_height"])));
                 }
             }
         }
@@ -116,7 +105,7 @@ namespace StarBlue.HabboHotel.Rooms
             DataRow Row = null;
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT id,door_x,door_y,door_z,door_dir,heightmap,public_items,club_only,poolmap,`wall_height` FROM `room_models` WHERE `custom` = '1' AND `id` = '" + Id + "' LIMIT 1");
+                dbClient.SetQuery("SELECT id,door_x,door_y,door_z,door_dir,heightmap,public_items,club_only,wall_height FROM `room_models` WHERE `custom` = '1' AND `id` = '" + Id + "' LIMIT 1");
                 Row = dbClient.GetRow();
 
                 if (Row == null)
@@ -125,10 +114,10 @@ namespace StarBlue.HabboHotel.Rooms
                 }
 
                 string Modelname = Convert.ToString(Row["id"]);
-                if (!_roomModels.ContainsKey(Id))
+                if (!this._roomModels.ContainsKey(Id))
                 {
-                    _roomModels.Add(Modelname, new RoomModel(Convert.ToInt32(Row["door_x"]), Convert.ToInt32(Row["door_y"]), Convert.ToDouble(Row["door_z"]), Convert.ToInt32(Row["door_dir"]),
-                      Convert.ToString(Row["heightmap"]), Convert.ToString(Row["public_items"]), StarBlueServer.EnumToBool(Row["club_only"].ToString()), Convert.ToString(Row["poolmap"]), Convert.ToInt32(Row["wall_height"])));
+                    this._roomModels.Add(Modelname, new RoomModel(Convert.ToInt32(Row["door_x"]), Convert.ToInt32(Row["door_y"]), Convert.ToDouble(Row["door_z"]), Convert.ToInt32(Row["door_dir"]),
+                      Convert.ToString(Row["heightmap"]), StarBlueServer.EnumToBool(Row["club_only"].ToString()), Convert.ToInt32(Row["wall_height"])));
                 }
             }
         }
@@ -164,190 +153,64 @@ namespace StarBlue.HabboHotel.Rooms
             //Logging.WriteLine("[RoomMgr] Unloaded room: \"" + Room.Name + "\" (ID: " + Room.RoomId + ")");
         }
 
-        public List<RoomData> SearchGroupRooms(string Query)
+        public List<Room> SearchGroupRooms(GameClient Session, string query)
         {
-            IEnumerable<RoomData> InstanceMatches =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.UsersNow >= 0 &&
-                 RoomInstance.Value.Access != RoomAccess.INVISIBLE &&
-                 RoomInstance.Value.Group != null &&
-                 (RoomInstance.Value.OwnerName.StartsWith(Query) ||
-                 RoomInstance.Value.Tags.Contains(Query) ||
-                 RoomInstance.Value.Name.Contains(Query))
-                 orderby RoomInstance.Value.UsersNow descending
-                 select RoomInstance.Value).Take(50);
-            return InstanceMatches.ToList();
+            return _rooms.Values.Where(x => x.RoomData.Group != null && x.RoomData.Group.Name.ToLower().Contains(query.ToLower()) && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.Group != null && x.RoomData.Group.Name.ToLower().Contains(query.ToLower()) && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).Take(50).ToList();
         }
 
-        public List<RoomData> SearchTaggedRooms(string Query)
+        public List<Room> SearchTaggedRooms(GameClient Session, string query)
         {
-            IEnumerable<RoomData> InstanceMatches =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.UsersNow >= 0 &&
-                 RoomInstance.Value.Access != RoomAccess.INVISIBLE &&
-                 (RoomInstance.Value.Tags.Contains(Query))
-                 orderby RoomInstance.Value.UsersNow descending
-                 select RoomInstance.Value).Take(50);
-            return InstanceMatches.ToList();
+            return _rooms.Values.Where(x => x.RoomData.Tags.Contains(query) && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.Tags.Contains(query) && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).Take(50).ToList();
         }
 
-        public List<RoomData> GetPopularRooms(int category, int Amount = 50)
+        public List<Room> GetPopularRooms(GameClient Session, int category, int Amount = 50)
         {
-            IEnumerable<RoomData> rooms =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.UsersNow > 0 &&
-                 (category == -1 || RoomInstance.Value.Category == category) &&
-                 (RoomInstance.Value.Access != RoomAccess.INVISIBLE)
-                 orderby RoomInstance.Value.Score descending
-                 orderby RoomInstance.Value.UsersNow descending
-                 select RoomInstance.Value).Take(Amount);
-            return rooms.ToList();
+            return _rooms.Values.Where(x => x.RoomData.UsersNow > 0 && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.UsersNow > 0 && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).Take(Amount).ToList();
         }
 
-        public List<RoomData> GetRecommendedRooms(int Amount = 50, int CurrentRoomId = 0)
+        public List<Room> GetRecommendedRooms(GameClient Session, int amount = 50, int CurrentRoomId = 0)
         {
-            IEnumerable<RoomData> Rooms =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.UsersNow >= 0 &&
-                 RoomInstance.Value.Score >= 0 &&
-                 RoomInstance.Value.Access != RoomAccess.INVISIBLE &&
-                 RoomInstance.Value.Id != CurrentRoomId
-                 orderby RoomInstance.Value.Score descending
-                 orderby RoomInstance.Value.UsersNow descending
-                 select RoomInstance.Value).Take(Amount);
-            return Rooms.ToList();
+            return _rooms.Values.Where(x => x.RoomData.Id != CurrentRoomId && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.Id != CurrentRoomId && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).OrderByDescending(x => x.RoomData.Score).Take(amount).ToList();
         }
 
-        public List<RoomData> GetPopularRatedRooms(int Amount = 50)
+        public List<Room> GetPopularRatedRooms(GameClient Session, int amount = 50)
         {
-            IEnumerable<RoomData> rooms =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.Access != RoomAccess.INVISIBLE
-                 orderby RoomInstance.Value.Score descending
-                 select RoomInstance.Value).Take(Amount);
-            return rooms.ToList();
+            return _rooms.Values.Where(x => x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.Score).OrderByDescending(x => x.RoomData.UsersNow).Take(amount).ToList();
         }
 
-        public List<RoomData> GetRoomsByCategory(int Category, int Amount = 50)
+        public List<Room> GetRoomsByCategory(GameClient Session, int category, int amount = 50)
         {
-            IEnumerable<RoomData> rooms =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.Category == Category &&
-                 RoomInstance.Value.UsersNow > 0 &&
-                 RoomInstance.Value.Access != RoomAccess.INVISIBLE
-                 orderby RoomInstance.Value.UsersNow descending
-                 select RoomInstance.Value).Take(Amount);
-            return rooms.ToList();
+            return _rooms.Values.Where(x => x.RoomData.Category == category && x.RoomData.Access != RoomAccess.INVISIBLE && x.RoomData.UsersNow > 0 || (x.RoomData.Category == category && x.RoomData.UsersNow > 0 && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).Take(amount).ToList();
         }
 
-        public List<RoomData> GetOnGoingRoomPromotions(int Mode, int Amount = 50)
+        public List<Room> GetOnGoingRoomPromotions(GameClient Session, int Mode, int Amount = 50)
         {
-            IEnumerable<RoomData> Rooms = null;
-
             if (Mode == 17)
             {
-                Rooms =
-                    (from RoomInstance in _loadedRoomData
-                     where (RoomInstance.Value.HasActivePromotion) &&
-                     RoomInstance.Value.Access != RoomAccess.INVISIBLE
-                     orderby RoomInstance.Value.Promotion.TimestampStarted descending
-                     select RoomInstance.Value).Take(Amount);
-            }
-            else
-            {
-                Rooms =
-                    (from RoomInstance in _loadedRoomData
-                     where (RoomInstance.Value.HasActivePromotion) &&
-                     RoomInstance.Value.Access != RoomAccess.INVISIBLE
-                     orderby RoomInstance.Value.UsersNow descending
-                     select RoomInstance.Value).Take(Amount);
+                return _rooms.Values.Where(x => x.RoomData.HasActivePromotion && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.HasActivePromotion && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.Promotion.TimestampStarted).Take(Amount).ToList();
             }
 
-            return Rooms.ToList();
+            return _rooms.Values.Where(x => x.RoomData.HasActivePromotion && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.HasActivePromotion && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).Take(Amount).ToList();
         }
 
-
-        public List<RoomData> GetPromotedRooms(int CategoryId, int Amount = 50)
+        public List<Room> GetPromotedRooms(GameClient Session, int categoryId, int amount = 50)
         {
-            IEnumerable<RoomData> Rooms = null;
-
-            Rooms =
-                (from RoomInstance in _loadedRoomData
-                 where (RoomInstance.Value.HasActivePromotion) &&
-                 RoomInstance.Value.Promotion.CategoryId == CategoryId &&
-                 RoomInstance.Value.Access != RoomAccess.INVISIBLE
-                 orderby RoomInstance.Value.Promotion.TimestampStarted descending
-                 select RoomInstance.Value).Take(Amount);
-
-            return Rooms.ToList();
+            return _rooms.Values.Where(x => x.RoomData.HasActivePromotion && x.RoomData.Promotion.CategoryId == categoryId && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.HasActivePromotion && x.RoomData.Promotion.CategoryId == categoryId && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.Promotion.TimestampStarted).Take(amount).ToList();
         }
 
-        public List<KeyValuePair<string, int>> GetPopularRoomTags()
+        public List<Room> GetGroupRooms(GameClient Session, int amount = 50)
         {
-            IEnumerable<List<string>> Tags =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.UsersNow >= 0 &&
-                 RoomInstance.Value.Access != RoomAccess.INVISIBLE
-                 orderby RoomInstance.Value.UsersNow descending
-                 orderby RoomInstance.Value.Score descending
-                 select RoomInstance.Value.Tags).Take(50);
-
-            Dictionary<string, int> TagValues = new Dictionary<string, int>();
-
-            foreach (List<string> TagList in Tags)
-            {
-                foreach (string Tag in TagList)
-                {
-                    if (!TagValues.ContainsKey(Tag))
-                    {
-                        TagValues.Add(Tag, 1);
-                    }
-                    else
-                    {
-                        TagValues[Tag]++;
-                    }
-                }
-            }
-
-            List<KeyValuePair<string, int>> SortedTags = new List<KeyValuePair<string, int>>(TagValues);
-            SortedTags.Sort((FirstPair, NextPair) =>
-            {
-                return FirstPair.Value.CompareTo(NextPair.Value);
-            });
-
-            SortedTags.Reverse();
-            return SortedTags;
+            return _rooms.Values.Where(x => x.RoomData.Group != null && x.RoomData.Access != RoomAccess.INVISIBLE || (x.RoomData.Group != null && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.Score).Take(amount).ToList();
         }
 
-        public List<RoomData> GetGroupRooms(int Amount = 50)
+        public List<Room> GetRoomsByIds(GameClient Session, List<int> ids, int amount = 50)
         {
-            IEnumerable<RoomData> rooms =
-                (from RoomInstance in _loadedRoomData
-                 where RoomInstance.Value.Group != null &&
-                 RoomInstance.Value.Access != RoomAccess.INVISIBLE
-                 orderby RoomInstance.Value.Score descending
-                 select RoomInstance.Value).Take(Amount);
-            return rooms.ToList();
+            return _rooms.Values.Where(x => ids.Contains(x.RoomData.Id) && x.RoomData.Access != RoomAccess.INVISIBLE || (ids.Contains(x.RoomData.Id) && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).Take(amount).ToList();
         }
 
-        public Room TryGetRandomLoadedRoom()
+        public Room TryGetRandomLoadedRoom(GameClient Session)
         {
-            IEnumerable<Room> room =
-                (from RoomInstance in _rooms
-                 where (RoomInstance.Value.RoomData.UsersNow > 0 &&
-                 RoomInstance.Value.RoomData.Access == RoomAccess.OPEN &&
-                 RoomInstance.Value.RoomData.UsersNow < RoomInstance.Value.RoomData.UsersMax)
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 select RoomInstance.Value).Take(1);
-
-            if (room.Count() > 0)
-            {
-                return room.First();
-            }
-            else
-            {
-                return null;
-            }
+            return _rooms.Values.Where(x => x.RoomData.UsersNow > 0 && x.RoomData.Access != RoomAccess.INVISIBLE && x.RoomData.UsersNow < x.RoomData.UsersMax || (x.RoomData.UsersNow < x.RoomData.UsersMax && x.RoomData.UsersNow > 0 && x.RoomData.Access == RoomAccess.INVISIBLE && x.CheckRights(Session))).OrderByDescending(x => x.RoomData.UsersNow).FirstOrDefault();
         }
 
         public RoomModel GetModel(string Model)
@@ -360,6 +223,54 @@ namespace StarBlue.HabboHotel.Rooms
             return null;
         }
 
+        public bool TryLoadRoom(int roomId, out Room room)
+        {
+            Room inst = null;
+            if (_rooms.TryGetValue(roomId, out inst))
+            {
+                if (!inst.mDisposed)
+                {
+                    room = inst;
+                    return true;
+                }
+
+                room = null;
+                return false;
+            }
+
+            lock (_roomLoadingSync)
+            {
+                if (_rooms.TryGetValue(roomId, out inst))
+                {
+                    if (!inst.mDisposed)
+                    {
+                        room = inst;
+                        return true;
+                    }
+
+                    room = null;
+                    return false;
+                }
+
+                RoomData data = GenerateRoomData(roomId);
+                if (data == null)
+                {
+                    room = null;
+                    return false;
+                }
+
+                Room myInstance = new Room(data);
+                if (_rooms.TryAdd(roomId, myInstance))
+                {
+                    room = myInstance;
+                    return true;
+                }
+
+                room = null;
+                return false;
+            }
+        }
+
         public RoomData GenerateRoomData(int RoomId)
         {
             if (_loadedRoomData.ContainsKey(RoomId))
@@ -368,7 +279,6 @@ namespace StarBlue.HabboHotel.Rooms
             }
 
             RoomData Data = new RoomData();
-
 
             if (TryGetRoom(RoomId, out Room Room))
             {
@@ -420,7 +330,6 @@ namespace StarBlue.HabboHotel.Rooms
 
         public Room LoadRoom(int Id)
         {
-
             if (TryGetRoom(Id, out Room Room))
             {
                 return Room;
@@ -434,9 +343,9 @@ namespace StarBlue.HabboHotel.Rooms
 
             Room = new Room(Data);
 
-            if (!_rooms.ContainsKey(Room.RoomId))
+            if (!_rooms.ContainsKey(Room.Id))
             {
-                _rooms.TryAdd(Room.RoomId, Room);
+                _rooms.TryAdd(Room.Id, Room);
             }
 
             return Room;
@@ -466,8 +375,8 @@ namespace StarBlue.HabboHotel.Rooms
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("INSERT INTO `rooms` (`roomtype`,`caption`,`description`,`owner`,`model_name`,`category`,`users_max`,`trade_settings`) VALUES ('private',@caption,@description,@UserId,@model,@category,@usersmax,@tradesettings)");
-                dbClient.AddParameter("caption", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Name)));
-                dbClient.AddParameter("description", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Description)));
+                dbClient.AddParameter("caption", Name);
+                dbClient.AddParameter("description", Description);
                 dbClient.AddParameter("UserId", Session.GetHabbo().Id);
                 dbClient.AddParameter("model", Model);
                 dbClient.AddParameter("category", Category);
@@ -500,9 +409,10 @@ namespace StarBlue.HabboHotel.Rooms
 
                 StarBlueServer.GetGame().GetRoomManager().UnloadRoom(room.Id);
                 Console.Clear();
-                log.Info("<<- SERVER SHUTDOWN ->> ROOM ITEM SAVE: " + String.Format("{0:0.##}", ((double)i / length) * 100) + "%");
+                log.Info("<<- SERVER SHUTDOWN ->> ROOM ITEM SAVE: " + string.Format("{0:0.##}", ((double)i / length) * 100) + "%");
                 i++;
             }
+
             log.Info("Done disposing rooms!");
         }
     }

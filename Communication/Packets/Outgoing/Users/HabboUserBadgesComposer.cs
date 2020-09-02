@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class HabboUserBadgesComposer : ServerPacket
+    internal class HabboUserBadgesComposer : ServerPacket
     {
         public HabboUserBadgesComposer(Habbo Habbo, int UserId = 0)
             : base(ServerPacketHeader.HabboUserBadgesMessageComposer)

@@ -2,12 +2,12 @@
 using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
+using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveUserDanceBox : IWiredItem
+    internal class GiveUserDanceBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
 
@@ -23,19 +23,52 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public string ItemsData { get; set; }
 
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
+        public int TickCount { get; set; }
+        private int _delay = 0;
+        private Queue _queue;
+
         public GiveUserDanceBox(Room Instance, Item Item)
         {
             this.Instance = Instance;
             this.Item = Item;
             SetItems = new ConcurrentDictionary<int, Item>();
+            TickCount = Delay;
+            _queue = new Queue();
         }
 
         public void HandleSave(ClientPacket Packet)
         {
             int Unknown = Packet.PopInt();
-            string Badge = Packet.PopString();
+            string DanceId = Packet.PopString();
+            int Unused = Packet.PopInt();
+            Delay = Packet.PopInt();
 
-            StringData = Badge;
+            StringData = DanceId;
+        }
+
+        public bool OnCycle()
+        {
+            if (_queue.Count == 0)
+            {
+                _queue.Clear();
+                TickCount = Delay;
+                return true;
+            }
+
+            while (_queue.Count > 0)
+            {
+                Habbo Player = (Habbo)_queue.Dequeue();
+                if (Player == null || Player.CurrentRoom != Instance)
+                {
+                    continue;
+                }
+
+                SetDanceToUser(Player);
+            }
+
+            TickCount = Delay;
+            return true;
         }
 
         public bool Execute(params object[] Params)
@@ -57,12 +90,35 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }
 
-            var dance = int.Parse(StringData);
+            TickCount = Delay;
+            _queue.Enqueue(Player);
+            return true;
+        }
+
+        public bool SetDanceToUser(Habbo Player)
+        {
+            if (Player == null || Player.GetClient() == null || string.IsNullOrEmpty(StringData))
+            {
+                return false;
+            }
+
+            RoomUser User = Player.CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Player.Username);
+            if (User == null)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(StringData))
+            {
+                return false;
+            }
+
+            int dance = int.Parse(StringData);
             User.GetClient().GetHabbo().CurrentRoom.SendMessage(new DanceComposer(User, dance));
             //User.GetClient().SendMessage(RoomNotificationComposer.SendBubble("wfdance", "" + User.GetClient().GetHabbo().Username + ", acabas de activar el baile " + StringData + " mediante Wired.", ""));
 

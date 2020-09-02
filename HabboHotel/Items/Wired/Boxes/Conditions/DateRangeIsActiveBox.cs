@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class DateRangeIsActiveBox : IWiredItem
+    internal class DateRangeIsActiveBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -39,14 +39,16 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 
         public bool Execute(params object[] Params)
         {
-            if (Params.Length == 0 || Instance == null || String.IsNullOrEmpty(StringData))
+            if (Params.Length == 0 || Instance == null || string.IsNullOrEmpty(StringData))
             {
                 return false;
             }
 
             int TimeStamp = StarBlueServer.GetIUnixTimestamp();
             if (TimeStamp < StartDate || TimeStamp > EndDate)
-            { return false; }
+            {
+                return false;
+            }
             else
             {
                 return true;

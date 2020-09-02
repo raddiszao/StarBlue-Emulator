@@ -1,10 +1,13 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using StarBlue.HabboHotel.GameClients;
+using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class HALCommand : IChatCommand
+    internal class HALCommand : IChatCommand
     {
-        public string PermissionRequired => "user_13";
+        public string PermissionRequired => "user_15";
         public string Parameters => "[URL] [MENSAGEM]";
         public string Description => "Mandar mensagem ao hotel com Link.";
 
@@ -16,9 +19,21 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                 return;
             }
 
-            string URL = Params[1];
+            string URL = Params[1].Replace("https://", "").Replace("http://", "");
             string Message = CommandManager.MergeParams(Params, 2);
-            StarBlueServer.GetGame().GetClientManager().SendMessage(new RoomNotificationComposer("Heibbo Hotel", Message + "\r\n" + "- " + Session.GetHabbo().Username, "", "Clique aqui", "https://" + URL));
+            foreach (GameClient Client in StarBlueServer.GetGame().GetClientManager().GetClients.ToList())
+            {
+                if (Client == null || Client.GetHabbo() == null)
+                {
+                    continue;
+                }
+
+                if (!Client.GetHabbo().SendWebPacket(new HotelAlertComposer(Session.GetHabbo().Username, Session.GetHabbo().Look, Message, URL)))
+                {
+                    Client.SendMessage(new RoomNotificationComposer("Heibbo Hotel", Message + "\r\n" + "- " + Session.GetHabbo().Username, "", "Clique aqui", "https://" + URL));
+                }
+            }
+
             return;
         }
     }

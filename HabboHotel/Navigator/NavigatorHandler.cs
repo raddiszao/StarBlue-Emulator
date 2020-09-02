@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing;
+﻿using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Rooms;
@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Navigator
 {
-    static class NavigatorHandler
+    internal static class NavigatorHandler
     {
         public static void Search(ServerPacket Message, SearchResultList SearchResult, string SearchData, GameClient Session, int FetchLimit)
         {
@@ -34,7 +34,7 @@ namespace StarBlue.HabboHotel.Navigator
                                 {
                                     if (SearchData.ToLower().StartsWith("owner:"))
                                     {
-                                        dbClient.SetQuery("SELECT r.* FROM rooms r, users u WHERE u.username = @username AND r.owner = u.id AND r.state != 'invisible' ORDER BY r.users_now DESC LIMIT 50;");
+                                        dbClient.SetQuery("SELECT r.* FROM rooms r, users u WHERE u.username = @username AND r.owner = u.id ORDER BY r.users_now DESC LIMIT 80;");
                                         dbClient.AddParameter("username", SearchData.Remove(0, 6));
                                         GetRooms = dbClient.GetTable();
                                     }
@@ -48,7 +48,18 @@ namespace StarBlue.HabboHotel.Navigator
                                         RoomData RoomData = StarBlueServer.GetGame().GetRoomManager().FetchRoomData(Convert.ToInt32(Row["id"]), Row);
                                         if (RoomData != null && !Results.Contains(RoomData))
                                         {
-                                            Results.Add(RoomData);
+                                            if (RoomData.Access == RoomAccess.INVISIBLE)
+                                            {
+                                                Room Room = StarBlueServer.GetGame().GetRoomManager().LoadRoom(RoomData.Id);
+                                                if (Room != null && Room.CheckRights(Session, false, true))
+                                                {
+                                                    Results.Add(RoomData);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Results.Add(RoomData);
+                                            }
                                         }
                                     }
                                 }
@@ -63,23 +74,23 @@ namespace StarBlue.HabboHotel.Navigator
                         else if (SearchData.ToLower().StartsWith("tag:"))
                         {
                             SearchData = SearchData.Remove(0, 4);
-                            ICollection<RoomData> TagMatches = StarBlueServer.GetGame().GetRoomManager().SearchTaggedRooms(SearchData);
+                            ICollection<Room> TagMatches = StarBlueServer.GetGame().GetRoomManager().SearchTaggedRooms(Session, SearchData);
 
                             Message.WriteInteger(TagMatches.Count);
-                            foreach (RoomData Data in TagMatches.ToList())
+                            foreach (Room Data in TagMatches.ToList())
                             {
-                                RoomAppender.WriteRoom(Message, Data, Data.Promotion);
+                                RoomAppender.WriteRoom(Message, Data.RoomData, Data.RoomData.Promotion);
                             }
                         }
                         else if (SearchData.ToLower().StartsWith("group:"))
                         {
                             SearchData = SearchData.Remove(0, 6);
-                            ICollection<RoomData> GroupRooms = StarBlueServer.GetGame().GetRoomManager().SearchGroupRooms(SearchData);
+                            ICollection<Room> GroupRooms = StarBlueServer.GetGame().GetRoomManager().SearchGroupRooms(Session, SearchData);
 
                             Message.WriteInteger(GroupRooms.Count);
-                            foreach (RoomData Data in GroupRooms.ToList())
+                            foreach (Room Data in GroupRooms.ToList())
                             {
-                                RoomAppender.WriteRoom(Message, Data, Data.Promotion);
+                                RoomAppender.WriteRoom(Message, Data.RoomData, Data.RoomData.Promotion);
                             }
                         }
                         else
@@ -106,12 +117,16 @@ namespace StarBlue.HabboHotel.Navigator
                                 {
                                     foreach (DataRow Row in Table.Rows)
                                     {
+                                        RoomData RData = StarBlueServer.GetGame().GetRoomManager().FetchRoomData(Convert.ToInt32(Row["id"]), Row);
                                         if (Convert.ToString(Row["state"]) == "invisible")
                                         {
-                                            continue;
+                                            Room Room = StarBlueServer.GetGame().GetRoomManager().LoadRoom(RData.Id);
+                                            if (Room != null && !Room.CheckRights(Session))
+                                            {
+                                                continue;
+                                            }
                                         }
 
-                                        RoomData RData = StarBlueServer.GetGame().GetRoomManager().FetchRoomData(Convert.ToInt32(Row["id"]), Row);
                                         if (RData != null && !Results.Contains(RData))
                                         {
                                             Results.Add(RData);
@@ -229,36 +244,38 @@ namespace StarBlue.HabboHotel.Navigator
 
                 case NavigatorCategoryType.POPULAR:
                     {
-                        List<RoomData> PopularRooms = StarBlueServer.GetGame().GetRoomManager().GetPopularRooms(-1, FetchLimit);
+                        List<Room> PopularRooms = StarBlueServer.GetGame().GetRoomManager().GetPopularRooms(Session, -1, FetchLimit);
 
                         Message.WriteInteger(PopularRooms.Count);
-                        foreach (RoomData Data in PopularRooms.ToList())
+                        foreach (Room Data in PopularRooms.ToList())
                         {
-                            RoomAppender.WriteRoom(Message, Data, Data.Promotion);
+                            RoomAppender.WriteRoom(Message, Data.RoomData, Data.RoomData.Promotion);
                         }
+
+                        PopularRooms = null;
                         break;
                     }
 
                 case NavigatorCategoryType.RECOMMENDED:
                     {
-                        List<RoomData> RecommendedRooms = StarBlueServer.GetGame().GetRoomManager().GetRecommendedRooms(FetchLimit);
+                        List<Room> RecommendedRooms = StarBlueServer.GetGame().GetRoomManager().GetRecommendedRooms(Session, FetchLimit);
 
                         Message.WriteInteger(RecommendedRooms.Count);
-                        foreach (RoomData Data in RecommendedRooms.ToList())
+                        foreach (Room Data in RecommendedRooms.ToList())
                         {
-                            RoomAppender.WriteRoom(Message, Data, Data.Promotion);
+                            RoomAppender.WriteRoom(Message, Data.RoomData, Data.RoomData.Promotion);
                         }
                         break;
                     }
 
                 case NavigatorCategoryType.CATEGORY:
                     {
-                        List<RoomData> GetRoomsByCategory = StarBlueServer.GetGame().GetRoomManager().GetRoomsByCategory(SearchResult.Id, FetchLimit);
+                        List<Room> GetRoomsByCategory = StarBlueServer.GetGame().GetRoomManager().GetRoomsByCategory(Session, SearchResult.Id, FetchLimit);
 
                         Message.WriteInteger(GetRoomsByCategory.Count);
-                        foreach (RoomData Data in GetRoomsByCategory.ToList())
+                        foreach (Room Data in GetRoomsByCategory.ToList())
                         {
-                            RoomAppender.WriteRoom(Message, Data, Data.Promotion);
+                            RoomAppender.WriteRoom(Message, Data.RoomData, Data.RoomData.Promotion);
                         }
                         break;
                     }
@@ -417,24 +434,24 @@ namespace StarBlue.HabboHotel.Navigator
 
                 case NavigatorCategoryType.TOP_PROMOTIONS:
                     {
-                        List<RoomData> GetPopularPromotions = StarBlueServer.GetGame().GetRoomManager().GetOnGoingRoomPromotions(16, FetchLimit);
+                        List<Room> GetPopularPromotions = StarBlueServer.GetGame().GetRoomManager().GetOnGoingRoomPromotions(Session, 16, FetchLimit);
 
                         Message.WriteInteger(GetPopularPromotions.Count);
-                        foreach (RoomData Data in GetPopularPromotions.ToList())
+                        foreach (Room Data in GetPopularPromotions.ToList())
                         {
-                            RoomAppender.WriteRoom(Message, Data, Data.Promotion);
+                            RoomAppender.WriteRoom(Message, Data.RoomData, Data.RoomData.Promotion);
                         }
                         break;
                     }
 
                 case NavigatorCategoryType.PROMOTION_CATEGORY:
                     {
-                        List<RoomData> GetPromotedRooms = StarBlueServer.GetGame().GetRoomManager().GetPromotedRooms(SearchResult.Id, FetchLimit);
+                        List<Room> GetPromotedRooms = StarBlueServer.GetGame().GetRoomManager().GetPromotedRooms(Session, SearchResult.Id, FetchLimit);
 
                         Message.WriteInteger(GetPromotedRooms.Count);
-                        foreach (RoomData Data in GetPromotedRooms.ToList())
+                        foreach (Room Data in GetPromotedRooms.ToList())
                         {
-                            RoomAppender.WriteRoom(Message, Data, Data.Promotion);
+                            RoomAppender.WriteRoom(Message, Data.RoomData, Data.RoomData.Promotion);
                         }
                         break;
                     }

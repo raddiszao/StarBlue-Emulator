@@ -1,122 +1,124 @@
-﻿using log4net;
-using StarBlue.Communication.ConnectionManager;
+﻿using StarBlue.Communication.ConnectionManager;
 using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.Utilities;
 using System;
 using System.IO;
+using System.Text;
 
 namespace StarBlue.Communication
 {
-    public class GamePacketParser : IDataParser
+    public class GamePacketParser : IDataParser, IDisposable, ICloneable
     {
-        private static readonly ILog log = LogManager.GetLogger("StarBlue.Net.GamePacketParser");
+        private GameClient currentClient;
 
-        private static readonly ILog Log = LogManager.GetLogger("Plus.Communication.GamePacketParser");
+        public event HandlePacket OnNewPacket;
 
-        public delegate void HandlePacket(ClientPacket message);
+        private bool _halfDataRecieved = false;
+        private byte[] _halfData = null;
 
-        private readonly GameClient _client;
-
-        private bool _halfDataRecieved;
-        private byte[] _halfData;
-        private bool _deciphered;
-
-        public GamePacketParser(GameClient client)
+        public GamePacketParser(GameClient me)
         {
-            _client = client;
+            this.currentClient = me;
+            this.OnNewPacket = (HandlePacket)null;
         }
 
-        public void HandlePacketData(byte[] data)
+        public void handlePacketData(byte[] Data, bool deciphered = false)
         {
             try
             {
-                if (_client.RC4Client != null && !_deciphered)
+                if (this.OnNewPacket == null) return;
+
+                if (Data.Length == 23)
                 {
-                    _client.RC4Client.Decrypt(ref data);
-                    _deciphered = true;
+                    if (Data[0] == 60 && Data[1] == 112)
+                    {
+                        this.currentClient.GetConnection().SendData(Encoding.Default.GetBytes(GetXmlPolicy()));
+
+                        return;
+                    }
                 }
 
-                if (_halfDataRecieved)
+                if (currentClient != null && currentClient.RC4Client != null && !deciphered)
                 {
-                    byte[] fullDataRcv = new byte[_halfData.Length + data.Length];
-                    Buffer.BlockCopy(_halfData, 0, fullDataRcv, 0, _halfData.Length);
-                    Buffer.BlockCopy(data, 0, fullDataRcv, _halfData.Length, data.Length);
+                    currentClient.RC4Client.Decrypt(ref Data);
+                }
 
-                    _halfDataRecieved = false; // mark done this round
-                    HandlePacketData(fullDataRcv); // repeat now we have the combined array
+                if (this._halfDataRecieved)
+                {
+                    byte[] FullDataRcv = new byte[this._halfData.Length + Data.Length];
+                    Buffer.BlockCopy(this._halfData, 0, FullDataRcv, 0, this._halfData.Length);
+                    Buffer.BlockCopy(Data, 0, FullDataRcv, this._halfData.Length, Data.Length);
+
+                    this._halfDataRecieved = false; // mark done this round
+                    handlePacketData(FullDataRcv); // repeat now we have the combined array
                     return;
                 }
 
-                using (BinaryReader reader = new BinaryReader(new MemoryStream(data)))
+                using (BinaryReader Reader = new BinaryReader(new MemoryStream(Data)))
                 {
-                    if (data.Length < 4)
+                    if (Data.Length < 4)
+                        return;
+
+                    int MsgLen = HabboEncoding.DecodeInt32(Reader.ReadBytes(4));
+                    if (MsgLen <= 0 || MsgLen > (5120 * 2))
+                        return;
+
+                    if ((Reader.BaseStream.Length - 4) < MsgLen)
                     {
+                        this._halfData = Data;
+                        this._halfDataRecieved = true;
                         return;
                     }
 
-                    int msgLen = HabboEncoding.DecodeInt32(reader.ReadBytes(4));
-                    if ((reader.BaseStream.Length - 4) < msgLen)
+                    byte[] Packet = Reader.ReadBytes(MsgLen);
+
+                    using (BinaryReader R = new BinaryReader(new MemoryStream(Packet)))
                     {
-                        _halfData = data;
-                        _halfDataRecieved = true;
-                        return;
+                        int Header = HabboEncoding.DecodeInt16(R.ReadBytes(2));
+
+                        byte[] Content = new byte[Packet.Length - 2];
+                        Buffer.BlockCopy(Packet, 2, Content, 0, Packet.Length - 2);
+
+                        ClientPacket Message = new ClientPacket(Header, Content);
+                        OnNewPacket.Invoke(Message);
                     }
 
-                    if (msgLen < 0 || msgLen > 5120)//TODO: Const somewhere.
+                    if (Reader.BaseStream.Length - 4 > MsgLen)
                     {
-                        return;
-                    }
+                        byte[] Extra = new byte[Reader.BaseStream.Length - Reader.BaseStream.Position];
+                        Buffer.BlockCopy(Data, (int)Reader.BaseStream.Position, Extra, 0, ((int)Reader.BaseStream.Length - (int)Reader.BaseStream.Position));
 
-                    byte[] packet = reader.ReadBytes(msgLen);
-
-                    using (BinaryReader r = new BinaryReader(new MemoryStream(packet)))
-                    {
-                        int header = HabboEncoding.DecodeInt16(r.ReadBytes(2));
-
-                        byte[] content = new byte[packet.Length - 2];
-                        Buffer.BlockCopy(packet, 2, content, 0, packet.Length - 2);
-
-                        ClientPacket message = new ClientPacket(header, content);
-                        onNewPacket.Invoke(message);
-
-                        _deciphered = false;
-                    }
-
-                    if (reader.BaseStream.Length - 4 > msgLen)
-                    {
-                        byte[] extra = new byte[reader.BaseStream.Length - reader.BaseStream.Position];
-                        Buffer.BlockCopy(data, (int)reader.BaseStream.Position, extra, 0, (int)(reader.BaseStream.Length - reader.BaseStream.Position));
-
-                        _deciphered = true;
-                        HandlePacketData(extra);
+                        handlePacketData(Extra, true);
                     }
                 }
             }
-#pragma warning disable CS0168 // The variable 'e' is declared but never used
             catch (Exception e)
-#pragma warning restore CS0168 // The variable 'e' is declared but never used
             {
-                //log.Error("Packet Error!", e);
+                Console.WriteLine("Packet Error! " + e);
             }
+        }
+
+        private static string GetXmlPolicy()
+        {
+            return "<?xml version=\"1.0\"?>\r\n" +
+                          "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n" +
+                          "<cross-domain-policy>\r\n" +
+                          "<allow-access-from domain=\"*\" to-ports=\"1-31111\" />\r\n" +
+                          "</cross-domain-policy>\x0";
         }
 
         public void Dispose()
         {
-            onNewPacket = null;
+            this.OnNewPacket = null;
             GC.SuppressFinalize(this);
         }
 
         public object Clone()
         {
-            return new GamePacketParser(_client);
+            return new GamePacketParser(this.currentClient);
         }
 
-        public event HandlePacket onNewPacket;
-
-        public void SetConnection(ConnectionInformation con)
-        {
-            onNewPacket = null;
-        }
+        public delegate void HandlePacket(ClientPacket message);
     }
 }

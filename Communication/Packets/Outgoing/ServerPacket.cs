@@ -1,97 +1,91 @@
-﻿using StarBlue.Communication.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 
 namespace StarBlue.Communication.Packets.Outgoing
 {
     public class ServerPacket : IServerPacket
     {
-        private readonly Encoding _encoding = Encoding.Default;
+        private readonly Encoding Encoding = Encoding.GetEncoding("Windows-1252");
+        private readonly List<byte> Body = new List<byte>();
 
-        private readonly List<byte> _body = new List<byte>();
-
-        public ServerPacket(int id)
+        public ServerPacket(int Header)
         {
-            Id = id;
-            WriteShort(id);
+            this.Id = Header;
+            this.Body = new List<byte>();
+            this.WriteShort(Header);
         }
 
         public int Id { get; }
 
-        public byte[] GetBytes()
-        {
-            var final = new List<byte>();
-            final.AddRange(BitConverter.GetBytes(_body.Count)); // packet len
-            final.Reverse();
-            final.AddRange(_body); // Add Packet
-            return final.ToArray();
-        }
-
         public void WriteByte(byte b)
         {
-            _body.Add(b);
+            this.WriteByte(new byte[] { b }, false);
         }
 
         public void WriteByte(int b)
         {
-            _body.Add((byte)b);
+            this.WriteByte(new byte[] { (byte)b }, false);
         }
 
-        public void WriteBytes(byte[] b, bool isInt) // d
+        public void WriteShort(int i)
         {
-            if (isInt)
+            this.WriteByte(BitConverter.GetBytes((short)i), true);
+        }
+
+        public void WriteUnsignedShort(int i)
+        {
+            this.WriteByte(BitConverter.GetBytes((ushort)i), true);
+        }
+
+        public void WriteInteger(int i)
+        {
+            this.WriteByte(BitConverter.GetBytes(i), true);
+        }
+
+        public void WriteBoolean(bool b)
+        {
+            this.WriteByte(new byte[1] { b ? (byte)1 : (byte)0 }, false);
+        }
+
+        public void WriteString(string s)
+        {
+            this.WriteShort(s.Length);
+            this.WriteByte(Encoding.GetBytes(s), false);
+        }
+
+        public void WriteByte(byte[] b, bool IsInt)
+        {
+            if (IsInt)
             {
-                for (int i = (b.Length - 1); i > -1; i--)
+                for (int i = b.Length - 1; i > -1; --i)
                 {
-                    _body.Add(b[i]);
+                    this.Body.Add(b[i]);
                 }
             }
             else
-            {
-                _body.AddRange(b);
-            }
+                this.Body.AddRange(b);
         }
 
         public void WriteDouble(double d) // d
         {
-            string raw = Math.Round(d, 1).ToString(CultureInfo.CurrentCulture);
+            string Raw = Math.Round(d, 1).ToString();
 
-            if (raw.Length == 1)
+            if (Raw.Length == 1)
             {
-                raw += ".0";
+                Raw += ".0";
             }
 
-            WriteString(raw.Replace(',', '.'));
+            WriteString(Raw.Replace(',', '.'));
         }
 
-        public void WriteString(string s) // d
+        public byte[] GetBytes()
         {
-            WriteShort(s.Length);
-            WriteBytes(_encoding.GetBytes(s), false);
-        }
-
-        public void WriteShort(int s) // d
-        {
-            var i = (Int16)s;
-            WriteBytes(BitConverter.GetBytes(i), true);
-        }
-
-        public void WriteUnsignedShort(UInt16 s) // d
-        {
-            var i = s;
-            WriteBytes(BitConverter.GetBytes(i), true);
-        }
-
-        public void WriteInteger(int i) // d
-        {
-            WriteBytes(BitConverter.GetBytes(i), true);
-        }
-
-        public void WriteBoolean(bool b) // d
-        {
-            WriteBytes(new[] { (byte)(b ? 1 : 0) }, false);
+            List<byte> Final = new List<byte>();
+            Final.AddRange(BitConverter.GetBytes(this.Body.Count));
+            Final.Reverse();
+            Final.AddRange(this.Body);
+            return Final.ToArray();
         }
     }
 }

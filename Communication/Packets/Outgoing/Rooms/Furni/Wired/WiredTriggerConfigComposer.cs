@@ -11,7 +11,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
             : base(ServerPacketHeader.WiredTriggerConfigMessageComposer)
         {
             base.WriteBoolean(false);
-            base.WriteInteger(15);
+            base.WriteInteger(20);
 
             base.WriteInteger(Box.SetItems.Count);
             foreach (Item Item in Box.SetItems.Values.ToList())

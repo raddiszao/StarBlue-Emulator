@@ -16,6 +16,7 @@
         idol_counter,
         vikingtent,
         TROPHY,
+        EXCHANGE,
         wired_score_board,
         wired_casino,
         EffectAddScore,
@@ -148,11 +149,9 @@
         TRAX,
         DA_PROVIDER,
         HI_PROVIDER,
-        HCGATE,
         MUTESIGNAL,
         club_vip,
         club_vip2,
-        VIPGATE,
         CRAFTING,
         tag,
         tagcolor,
@@ -238,6 +237,8 @@
                     return InteractionType.chesschair;
                 case "roller":
                     return InteractionType.ROLLER;
+                case "exchange":
+                    return InteractionType.EXCHANGE;
                 case "reward_box":
                     return InteractionType.reward_box;
                 case "reward_box2":
@@ -467,12 +468,8 @@
                     return InteractionType.INFO_TERMINAL;
                 case "pinatayihadista":
                     return InteractionType.PINATATRIGGERED;
-                case "hcgate":
-                    return InteractionType.HCGATE;
                 case "mutesignal":
                     return InteractionType.MUTESIGNAL;
-                case "vipgate":
-                    return InteractionType.VIPGATE;
                 case "tag":
                     return InteractionType.tag;
                 case "tagcolor":

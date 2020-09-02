@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Users.Effects;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
-    class AvatarEffectActivatedComposer : ServerPacket
+    internal class AvatarEffectActivatedComposer : ServerPacket
     {
         public AvatarEffectActivatedComposer(AvatarEffect Effect)
             : base(ServerPacketHeader.AvatarEffectActivatedMessageComposer)

@@ -57,7 +57,7 @@ namespace StarBlue
         {
             var e = (Exception)args.ExceptionObject;
             //Logger.LogCriticalException("SYSTEM CRITICAL EXCEPTION: " + e);
-            StarBlueServer.PerformShutDown();
+            StarBlueServer.PerformShutDown(true);
         }
 
         private enum CtrlType

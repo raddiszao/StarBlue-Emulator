@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Notifications
 {
-    class MOTDNotificationComposer : ServerPacket
+    internal class MOTDNotificationComposer : ServerPacket
     {
         public MOTDNotificationComposer(string Message)
             : base(ServerPacketHeader.MOTDNotificationMessageComposer)

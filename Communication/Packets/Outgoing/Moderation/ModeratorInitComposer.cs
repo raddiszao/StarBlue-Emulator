@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class ModeratorInitComposer : ServerPacket
+    internal class ModeratorInitComposer : ServerPacket
     {
         public ModeratorInitComposer(ICollection<string> UserPresets, ICollection<string> RoomPresets, ICollection<ModerationTicket> Tickets)
             : base(ServerPacketHeader.ModeratorInitMessageComposer)

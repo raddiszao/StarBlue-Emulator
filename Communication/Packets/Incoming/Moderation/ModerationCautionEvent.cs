@@ -1,11 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
-using System;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class ModerationCautionEvent : IPacketEvent
+    internal class ModerationCautionEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -15,7 +14,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
             }
 
             int UserId = Packet.PopInt();
-            String Message = Packet.PopString();
+            string Message = Packet.PopString();
 
             GameClient Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
             if (Client == null || Client.GetHabbo() == null)

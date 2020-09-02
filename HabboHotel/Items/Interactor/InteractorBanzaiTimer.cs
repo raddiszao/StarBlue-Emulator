@@ -19,7 +19,6 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 return;
             }
 
-
             if (!int.TryParse(Item.ExtraData, out int oldValue))
             {
                 Item.ExtraData = "0";
@@ -103,25 +102,22 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 }
             }
 
-
+            Item.GetRoom().GetBanzai().CounterTimer = oldValue;
             Item.ExtraData = Convert.ToString(oldValue);
             Item.UpdateState();
         }
 
         public void OnWiredTrigger(Item Item)
         {
-            if (Item.GetRoom().GetBanzai().isBanzaiActive)
-            {
-                Item.GetRoom().GetBanzai().BanzaiEnd(true);
-            }
-
-            Item.pendingReset = true;
-            Item.UpdateNeeded = true;
-            Item.ExtraData = "30";
-            Item.UpdateState();
-
             if (!Item.GetRoom().GetBanzai().isBanzaiActive)
             {
+                Item.pendingReset = true;
+                Item.UpdateNeeded = true;
+                if (Item.GetRoom().GetBanzai().CounterTimer > 0)
+                    Item.ExtraData = Convert.ToString(Item.GetRoom().GetBanzai().CounterTimer);
+                else
+                    Item.ExtraData = "30";
+                Item.UpdateState();
                 Item.GetRoom().GetBanzai().BanzaiStart();
             }
         }

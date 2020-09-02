@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class CheckGnomeNameComposer : ServerPacket
+    internal class CheckGnomeNameComposer : ServerPacket
     {
         public CheckGnomeNameComposer(string PetName, int ErrorId)
             : base(ServerPacketHeader.CheckGnomeNameMessageComposer)

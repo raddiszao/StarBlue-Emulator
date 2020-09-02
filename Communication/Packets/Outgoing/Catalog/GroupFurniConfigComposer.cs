@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class GroupFurniConfigComposer : ServerPacket
+    internal class GroupFurniConfigComposer : ServerPacket
     {
         public GroupFurniConfigComposer(ICollection<Group> Groups)
             : base(ServerPacketHeader.GroupFurniConfigMessageComposer)

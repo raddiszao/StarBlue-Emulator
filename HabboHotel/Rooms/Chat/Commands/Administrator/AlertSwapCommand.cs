@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class AlertSwapCommand : IChatCommand
+    internal class AlertSwapCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
 

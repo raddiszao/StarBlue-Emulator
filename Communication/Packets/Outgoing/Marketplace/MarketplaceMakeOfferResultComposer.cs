@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Marketplace
 {
-    class MarketplaceMakeOfferResultComposer : ServerPacket
+    internal class MarketplaceMakeOfferResultComposer : ServerPacket
     {
         public MarketplaceMakeOfferResultComposer(int Success)
             : base(ServerPacketHeader.MarketplaceMakeOfferResultMessageComposer)

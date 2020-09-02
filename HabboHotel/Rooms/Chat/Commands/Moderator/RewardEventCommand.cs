@@ -1,15 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
 using StarBlue.HabboHotel.GameClients;
 using System;
-using System.Text;
+using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class RewardEventCommand : IChatCommand
+    internal class RewardEventCommand : IChatCommand
     {
-        public string PermissionRequired => "user_12";
+        public string PermissionRequired => "user_7";
 
         public string Parameters => "[USUARIO]";
 
@@ -38,6 +38,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
             if (Target.GetRoomUser() != null)
             {
+                int LastUserPoints = Target.GetHabbo().UserPoints;
                 Target.GetHabbo().UserPoints = Target.GetHabbo().UserPoints + 1;
                 int Diamonds = Convert.ToInt32(StarBlueServer.GetConfig().data["event.diamonds"]);
                 int Gotw = Convert.ToInt32(StarBlueServer.GetConfig().data["event.gotw"]);
@@ -46,11 +47,17 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 if (Target.GetHabbo().UserPoints > 50)
                 {
                     if (Target.GetHabbo().UserPoints > 100)
+                    {
                         Diamonds = 20;
+                    }
                     else
-                        Diamonds = Diamonds *= 2;
-                    Credits = Credits *= 2;
-                    Duckets = Duckets *= 2;
+                    {
+                        Diamonds *= 2;
+                    }
+
+                    Credits *= 2;
+                    Duckets *= 2;
+                    Gotw *= 2;
                 }
 
                 Target.GetHabbo().Diamonds += Diamonds;
@@ -63,10 +70,16 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
                 int UserPoints = Target.GetHabbo().UserPoints;
                 string Badge = Convert.ToString(StarBlueServer.GetConfig().data["event.badge"]) + UserPoints;
+                string LastBadge = Convert.ToString(StarBlueServer.GetConfig().data["event.badge"]) + LastUserPoints;
 
                 if (!Target.GetHabbo().GetBadgeComponent().HasBadge(Badge) && UserPoints <= 100)
                 {
                     Target.GetHabbo().GetBadgeComponent().GiveBadge(Badge, true, Target);
+                }
+
+                if (LastUserPoints > 0 && LastUserPoints < 100 && Target.GetHabbo().GetBadgeComponent().HasBadge(LastBadge))
+                {
+                    Target.GetHabbo().GetBadgeComponent().RemoveBadge(LastBadge, Target);
                 }
 
                 if (!StarBlueServer.GetGame().GetRoomManager().TryGetRoom(Target.GetHabbo().CurrentRoomId, out Room TargetRoom))
@@ -79,14 +92,22 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                     TargetRoom.GetRoomUserManager().RemoveUserFromRoom(Target, true, false);
                 }
 
-                Target.SendMessage(RoomNotificationComposer.SendBubble("ganador", "Você ganhou o evento e ganhou 1 ponto, 1 emblema, " + Credits + " moedas, " + Duckets + " duckets, " + Diamonds + " diamantes e " + Gotw + " " + Convert.ToString(StarBlueServer.GetConfig().data["seasonal.currency.name"]) + ", parabéns!"));
+                Target.GetHabbo().SaveKey("puntos_eventos", Convert.ToString(Target.GetHabbo().UserPoints));
+                Target.SendMessage(RoomNotificationComposer.SendBubble("ganador", "Você ganhou o evento e recebeu 1 ponto (" + Target.GetHabbo().UserPoints + " eventos), 1 emblema, " + Credits + " moedas, " + Duckets + " duckets, " + Diamonds + " diamantes e " + Gotw + " " + Convert.ToString(StarBlueServer.GetConfig().data["seasonal.currency.name"]) + ", parabéns!"));
                 Session.SendWhisper("Você premiou com sucesso o usuário " + Target.GetHabbo().Username + ".");
-                JObject WebEventData =
-                new JObject(new JProperty("type", "eventwinner"), new JProperty("data", new JObject(
-                    new JProperty("event", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Room.Name))),
-                    new JProperty("winner", Target.GetHabbo().Username + ";" + Target.GetHabbo().Look)
-                )));
-                StarBlueServer.GetGame().GetWebEventManager().BroadCastWebData(WebEventData.ToString());
+
+                foreach (GameClient Client in StarBlueServer.GetGame().GetClientManager().GetClients.ToList())
+                {
+                    if (Client == null || Client.GetHabbo() == null)
+                    {
+                        continue;
+                    }
+
+                    if (!Client.GetHabbo().SendWebPacket(new EventWinnerComposer(Room.RoomData.Name, Target.GetHabbo().Username + ";" + Target.GetHabbo().Look)))
+                    {
+                        Client.SendMessage(RoomNotificationComposer.SendBubble("eventb", "O usuário " + Target.GetHabbo().Username + " ganhou o evento " + Room.RoomData.Name + "!"));
+                    }
+                }
             }
         }
     }

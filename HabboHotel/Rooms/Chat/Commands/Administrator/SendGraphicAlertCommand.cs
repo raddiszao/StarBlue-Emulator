@@ -3,9 +3,9 @@ using StarBlue.Communication.Packets.Outgoing.Notifications;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class SendGraphicAlertCommand : IChatCommand
+    internal class SendGraphicAlertCommand : IChatCommand
     {
-        public string PermissionRequired => "user_13";
+        public string PermissionRequired => "user_15";
 
         public string Parameters => "[IMAGEM]";
 

@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class RoomAlertCommand : IChatCommand
+    internal class RoomAlertCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "[MENSAGEM]";
@@ -16,7 +16,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 return;
             }
 
-            if (!Session.GetHabbo().GetPermissions().HasRight("mod_alert") && Room.OwnerId != Session.GetHabbo().Id)
+            if (!Session.GetHabbo().GetPermissions().HasRight("mod_alert") && Room.RoomData.OwnerId != Session.GetHabbo().Id)
             {
                 Session.SendWhisper("Você só pode fazer isso no seu próprio quarto..", 34);
                 return;

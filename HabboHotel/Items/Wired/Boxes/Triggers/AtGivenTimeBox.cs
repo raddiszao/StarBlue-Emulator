@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 {
-    class AtGivenTimeBox : IWiredItem, IWiredCycle
+    internal class AtGivenTimeBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -47,31 +47,34 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
             ICollection<RoomUser> Avatars = Instance.GetRoomUserManager().GetRoomUsers().ToList();
             ICollection<IWiredItem> Effects = Instance.GetWired().GetEffects(this);
             ICollection<IWiredItem> Conditions = Instance.GetWired().GetConditions(this);
+            bool HasAnyConditionValid = Effects.Where(x => x.Type == WiredBoxType.AddonAnyConditionValid).ToList().Count() > 0;
 
             foreach (IWiredItem Condition in Conditions.ToList())
             {
                 foreach (RoomUser Avatar in Avatars.ToList())
                 {
                     if (Avatar == null || Avatar.GetClient() == null || Avatar.GetClient().GetHabbo() == null)
-                    {
                         continue;
-                    }
 
                     if (!Condition.Execute(Avatar.GetClient().GetHabbo()))
-                    {
                         continue;
-                    }
 
                     Success = true;
                 }
 
-                if (!Success)
-                {
+                if (!Success && !HasAnyConditionValid)
                     return false;
-                }
 
-                Success = false;
-                Instance.GetWired().OnEvent(Condition.Item);
+                if (!HasAnyConditionValid)
+                    Success = false;
+
+                if (Instance != null)
+                    Instance.GetWired().OnEvent(Condition.Item);
+            }
+
+            if (!Success && Conditions.Count > 0 && HasAnyConditionValid)
+            {
+                return false;
             }
 
             //Check the ICollection to find the random addon effect.
@@ -87,7 +90,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 
                 //Success! Let's get our selected box and continue.
                 IWiredItem SelectedBox = Instance.GetWired().GetRandomEffect(Effects.ToList());
-                if (!SelectedBox.Execute())
+                if (SelectedBox != null && !SelectedBox.Execute())
                 {
                     return false;
                 }

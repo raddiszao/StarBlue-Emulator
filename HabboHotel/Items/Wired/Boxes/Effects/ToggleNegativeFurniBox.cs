@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class ToggleNegativeFurniBox : IWiredItem, IWiredCycle
+    internal class ToggleNegativeFurniBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -71,7 +71,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
 
             counter += 500;
-            if (counter >= Delay)
+            if (counter > Delay)
             {
                 counter = 0;
                 foreach (Item Item in SetItems.Values.ToList())

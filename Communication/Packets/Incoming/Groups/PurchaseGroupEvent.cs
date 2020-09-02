@@ -1,5 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Groups;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
@@ -7,6 +6,7 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Permissions;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Settings;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Rooms;
 using System;
@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class PurchaseGroupEvent : IPacketEvent
+    internal class PurchaseGroupEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient session, ClientPacket packet)
         {

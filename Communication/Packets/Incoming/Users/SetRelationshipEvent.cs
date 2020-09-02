@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Messenger;
+﻿using StarBlue.Communication.Packets.Outgoing.Messenger;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Users;
 using StarBlue.HabboHotel.Users.Messenger;
@@ -9,7 +9,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class SetRelationshipEvent : IPacketEvent
+    internal class SetRelationshipEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

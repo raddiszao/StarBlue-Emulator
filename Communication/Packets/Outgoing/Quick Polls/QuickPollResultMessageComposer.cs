@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace StarBlue.Communication.Packets.Outgoing.Rooms.Poll
+﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Poll
 {
-    class QuickPollResultMessageComposer : ServerPacket
+    internal class QuickPollResultMessageComposer : ServerPacket
     {
-        public QuickPollResultMessageComposer(int UserId, String myVote, int yesVotesCount, int noVotesCount)
+        public QuickPollResultMessageComposer(int UserId, string myVote, int yesVotesCount, int noVotesCount)
             : base(ServerPacketHeader.QuickPollResultMessageComposer)
         {
             base.WriteInteger(UserId);

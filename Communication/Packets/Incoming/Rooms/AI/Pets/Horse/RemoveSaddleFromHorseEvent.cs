@@ -1,10 +1,10 @@
 ﻿
 
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog.Utilities;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
@@ -13,7 +13,7 @@ using System.Drawing;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 {
-    class RemoveSaddleFromHorseEvent : IPacketEvent
+    internal class RemoveSaddleFromHorseEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

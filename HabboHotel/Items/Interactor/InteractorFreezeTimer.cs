@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorFreezeTimer : IFurniInteractor
+    internal class InteractorFreezeTimer : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {
@@ -21,7 +21,6 @@ namespace StarBlue.HabboHotel.Items.Interactor
             {
                 return;
             }
-
 
             if (!int.TryParse(Item.ExtraData, out int oldValue))
             {
@@ -106,23 +105,24 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 }
             }
 
-
+            Item.GetRoom().GetFreeze().CounterTimer = oldValue;
             Item.ExtraData = Convert.ToString(oldValue);
             Item.UpdateState();
         }
 
         public void OnWiredTrigger(Item Item)
         {
-            if (Item.GetRoom().GetFreeze().GameIsStarted)
+            if (!Item.GetRoom().GetFreeze().GameIsStarted)
             {
-                Item.GetRoom().GetFreeze().StopGame(true);
+                Item.pendingReset = true;
+                Item.UpdateNeeded = true;
+                if (Item.GetRoom().GetFreeze().CounterTimer > 0)
+                    Item.ExtraData = Convert.ToString(Item.GetRoom().GetFreeze().CounterTimer);
+                else
+                    Item.ExtraData = "30";
+                Item.UpdateState();
+                Item.GetRoom().GetFreeze().StartGame();
             }
-
-            Item.pendingReset = true;
-            Item.UpdateNeeded = true;
-            Item.UpdateState();
-
-            Item.GetRoom().GetFreeze().StartGame();
         }
     }
 }

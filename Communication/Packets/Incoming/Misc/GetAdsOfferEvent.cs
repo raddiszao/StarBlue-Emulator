@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Misc
 {
-    class GetAdsOfferEvent : IPacketEvent
+    internal class GetAdsOfferEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

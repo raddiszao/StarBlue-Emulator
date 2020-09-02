@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    class InitHelperSessionChatComposer : ServerPacket
+    internal class InitHelperSessionChatComposer : ServerPacket
     {
 
         public InitHelperSessionChatComposer(Habbo Habbo1, Habbo Habbo2)

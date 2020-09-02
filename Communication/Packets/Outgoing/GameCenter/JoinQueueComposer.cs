@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    class JoinQueueComposer : ServerPacket
+    internal class JoinQueueComposer : ServerPacket
     {
         public JoinQueueComposer(int GameId)
             : base(ServerPacketHeader.JoinQueueMessageComposer)

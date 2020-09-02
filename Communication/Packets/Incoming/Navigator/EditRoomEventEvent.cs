@@ -1,12 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using System;
-using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class EditRoomEventEvent : IPacketEvent
+    internal class EditRoomEventEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -36,8 +35,8 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("UPDATE `room_promotions` SET `title` = @title, `description` = @desc WHERE `room_id` = " + RoomId + " LIMIT 1");
-                dbClient.AddParameter("title", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Name)));
-                dbClient.AddParameter("desc", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Desc)));
+                dbClient.AddParameter("title", Name);
+                dbClient.AddParameter("desc", Desc);
                 dbClient.RunQuery();
             }
 

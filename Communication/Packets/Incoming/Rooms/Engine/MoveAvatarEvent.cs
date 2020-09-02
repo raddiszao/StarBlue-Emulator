@@ -1,9 +1,10 @@
 ﻿using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
+using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class MoveAvatarEvent : IPacketEvent
+    internal class MoveAvatarEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -43,18 +44,18 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             if (MoveX == User.X && MoveY == User.Y)
             {
-                User.SeatCount++;
-
-                if (User.SeatCount == 4)
-                {
-                    User.SeatCount = 0;
+                if (User.IsWalking)
+                    User.PathCounter++;
+                else
                     return;
-                }
+
+                if (User.PathCounter == 4)
+                    return;
+
+                User.SamePath = true;
             }
             else
-            {
-                User.SeatCount = 0;
-            }
+                User.SamePath = false;
 
             if (User.RidingHorse)
             {
@@ -74,10 +75,24 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                     Session.GetHabbo().isControlling = false;
                 }
 
-                if (Controlled.CanWalk)
+                if (Controlled != null && Controlled.CanWalk)
                 {
                     Controlled.MoveTo(MoveX, MoveY);
                     return;
+                }
+            }
+
+            if (!(MoveX < 0 || MoveY < 0 || MoveX >= Room.GetGameMap().Model.MapSizeX || MoveY >= Room.GetGameMap().Model.MapSizeY))
+            {
+                User.DistancePath = 0;
+                int a = Math.Abs((MoveX - User.X));
+                int b = Math.Abs((MoveY - User.Y));
+                int c = ((a * a) + (b * b));
+                int distance = Convert.ToInt32(Math.Sqrt(c));
+
+                if (!User.IsWalking)
+                {
+                    User.DistancePath = distance;
                 }
             }
 

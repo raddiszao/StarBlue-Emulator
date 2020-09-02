@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.AI.Bots
 {
-    class OpenBotActionComposer : ServerPacket
+    internal class OpenBotActionComposer : ServerPacket
     {
         public OpenBotActionComposer(RoomUser BotUser, int ActionId, string BotSpeech)
             : base(ServerPacketHeader.OpenBotActionMessageComposer)

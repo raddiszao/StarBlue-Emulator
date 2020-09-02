@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class SetUserFocusPreferenceEvent : IPacketEvent
+    internal class SetUserFocusPreferenceEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

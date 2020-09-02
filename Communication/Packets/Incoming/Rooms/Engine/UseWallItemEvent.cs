@@ -1,5 +1,5 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
@@ -9,7 +9,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class UseWallItemEvent : IPacketEvent
+    internal class UseWallItemEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -39,7 +39,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
                     if (StarBlueServer.GetGame().GetCatalog().TryGetPage(dbClient.GetInteger(), out CatalogPage OutPage))
                     {
-                        Session.SendWhisper("O mobi se encontra na página " + OutPage.Caption, 34);
+                        Session.SendWhisper("O mobi se encontra na página " + OutPage.Caption + ".", 34);
                     }
                     else
                     {

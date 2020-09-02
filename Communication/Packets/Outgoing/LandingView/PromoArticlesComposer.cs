@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    class PromoArticlesComposer : ServerPacket
+    internal class PromoArticlesComposer : ServerPacket
     {
         public PromoArticlesComposer(ICollection<Promotion> LandingPromotions)
             : base(ServerPacketHeader.PromoArticlesMessageComposer)

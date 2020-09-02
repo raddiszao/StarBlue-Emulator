@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    class CraftingResultComposer : ServerPacket
+    internal class CraftingResultComposer : ServerPacket
     {
         public CraftingResultComposer(CraftingRecipe recipe, bool success)
             : base(ServerPacketHeader.CraftingResultMessageComposer)

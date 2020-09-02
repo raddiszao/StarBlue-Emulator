@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 {
-    class ToggleMuteToolEvent : IPacketEvent
+    internal class ToggleMuteToolEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -20,7 +20,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
                 return;
             }
 
-            Room.RoomMuted = !Room.RoomMuted;
+            Room.RoomData.RoomMuted = !Room.RoomData.RoomMuted;
 
             List<RoomUser> roomUsers = Room.GetRoomUserManager().GetRoomUsers();
             foreach (RoomUser roomUser in roomUsers.ToList())
@@ -30,17 +30,17 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
                     continue;
                 }
 
-                if (Room.RoomMuted)
+                if (Room.RoomData.RoomMuted)
                 {
-                    roomUser.GetClient().SendWhisper("Esta sala foi silenciada.");
+                    roomUser.GetClient().SendWhisper("Este quarto foi silenciado.", 34);
                 }
                 else
                 {
-                    roomUser.GetClient().SendWhisper("A sala foi desmutada.");
+                    roomUser.GetClient().SendWhisper("Este quarto foi desmutado.", 34);
                 }
             }
 
-            Room.SendMessage(new RoomMuteSettingsComposer(Room.RoomMuted));
+            Room.SendMessage(new RoomMuteSettingsComposer(Room.RoomData.RoomMuted));
         }
     }
 }

@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Quests;
 
 namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
-    class RequestBuddyEvent : IPacketEvent
+    internal class RequestBuddyEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Notifications
 {
-    class HotelClosedAndOpensComposer : ServerPacket
+    internal class HotelClosedAndOpensComposer : ServerPacket
     {
         public HotelClosedAndOpensComposer(int Hour, int Minute)
             : base(ServerPacketHeader.HotelClosedAndOpensComposer)

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    class RoomInviteComposer : ServerPacket
+    internal class RoomInviteComposer : ServerPacket
     {
         public RoomInviteComposer(int SenderId, string Text)
             : base(ServerPacketHeader.RoomInviteMessageComposer)

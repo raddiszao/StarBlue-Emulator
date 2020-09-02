@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Rooms.Trading;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Trading
 {
-    class TradingRemoveItemEvent : IPacketEvent
+    internal class TradingRemoveItemEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    class MysticBoxRewardComposer : ServerPacket
+    internal class MysticBoxRewardComposer : ServerPacket
     {
         public MysticBoxRewardComposer(string type, int itemID)
             : base(ServerPacketHeader.MysticBoxRewardComposer)

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class DisconnectAllCommand : IChatCommand
+    internal class DisconnectAllCommand : IChatCommand
     {
         public string PermissionRequired => "user_18";
 

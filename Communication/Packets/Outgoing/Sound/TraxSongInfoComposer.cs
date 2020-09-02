@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Sound
 {
-    class TraxSongInfoComposer : ServerPacket
+    internal class TraxSongInfoComposer : ServerPacket
     {
         public TraxSongInfoComposer()
             : base(ServerPacketHeader.TraxSongInfoMessageComposer)

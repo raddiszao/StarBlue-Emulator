@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Moderation;
+﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Moderation;
 using StarBlue.HabboHotel.Users;
 using StarBlue.Utilities;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class SubmitNewTicketEvent : IPacketEvent
+    internal class SubmitNewTicketEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -46,7 +46,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
                 Chats.Add(Packet.PopString());
             }
 
-            ModerationTicket Ticket = new ModerationTicket(1, Type, Category, UnixTimestamp.GetNow(), 1, Session.GetHabbo(), ReportedUser, Message, Session.GetHabbo().CurrentRoom, Chats);
+            ModerationTicket Ticket = new ModerationTicket(1, Type, Category, UnixTimestamp.GetNow(), 1, Session.GetHabbo(), ReportedUser, Message, Session.GetHabbo().CurrentRoom.RoomData, Chats);
             if (!StarBlueServer.GetGame().GetModerationManager().TryAddTicket(Ticket))
             {
                 return;

@@ -1,73 +1,53 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace StarBlue.Utilities.Enclosure
+namespace Enclosure
 {
     public class PointField
     {
-        private static readonly Point BadPoint = new Point(-1, -1);
-        private readonly List<Point> _pointList;
-        private Point _mostDown = BadPoint;
-        private Point _mostLeft = BadPoint;
-        private Point _mostRight = BadPoint;
-        private Point _mostTop = BadPoint;
+        private static readonly Point badPoint = new Point(-1, -1);
+        private Point mostLeft = badPoint;
+        private Point mostTop = badPoint;
+        private Point mostRight = badPoint;
+        private Point mostDown = badPoint;
+        private readonly List<Point> PointList;
+
+        public byte forValue { get; private set; }
+
+        static PointField()
+        {
+        }
 
         public PointField(byte forValue)
         {
-            _pointList = new List<Point>();
-            ForValue = forValue;
+            this.PointList = new List<Point>();
+            this.forValue = forValue;
         }
 
-        public byte ForValue { get; }
-
-        public List<Point> GetPoints()
+        public List<Point> getPoints()
         {
-            return _pointList;
+            return this.PointList;
         }
 
-        public void Add(Point p)
+        public void add(Point p)
         {
-            if (_mostLeft == BadPoint)
-            {
-                _mostLeft = p;
-            }
-
-            if (_mostRight == BadPoint)
-            {
-                _mostRight = p;
-            }
-
-            if (_mostTop == BadPoint)
-            {
-                _mostTop = p;
-            }
-
-            if (_mostDown == BadPoint)
-            {
-                _mostDown = p;
-            }
-
-            if (p.X < _mostLeft.X)
-            {
-                _mostLeft = p;
-            }
-
-            if (p.X > _mostRight.X)
-            {
-                _mostRight = p;
-            }
-
-            if (p.Y > _mostTop.Y)
-            {
-                _mostTop = p;
-            }
-
-            if (p.Y < _mostDown.Y)
-            {
-                _mostDown = p;
-            }
-
-            _pointList.Add(p);
+            if (this.mostLeft == badPoint)
+                this.mostLeft = p;
+            if (this.mostRight == badPoint)
+                this.mostRight = p;
+            if (this.mostTop == badPoint)
+                this.mostTop = p;
+            if (this.mostDown == badPoint)
+                this.mostDown = p;
+            if (p.X < this.mostLeft.X)
+                this.mostLeft = p;
+            if (p.X > this.mostRight.X)
+                this.mostRight = p;
+            if (p.Y > this.mostTop.Y)
+                this.mostTop = p;
+            if (p.Y < this.mostDown.Y)
+                this.mostDown = p;
+            this.PointList.Add(p);
         }
     }
 }

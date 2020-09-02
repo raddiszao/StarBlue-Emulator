@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
-    class ReportBullyUserEvent : IPacketEvent
+    internal class ReportBullyUserEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

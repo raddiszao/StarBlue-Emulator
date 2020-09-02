@@ -1,4 +1,5 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.GameCenter;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Games;
 using System;
@@ -16,20 +17,20 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                 return;
             }
 
-            var GameId = Packet.PopInt();
+            int GameId = Packet.PopInt();
 
             if (GameId == 1)
             {
                 if (StarBlueServer.GetGame().GetGameDataManager().TryGetGame(GameId, out GameData GameData))
                 {
                     Session.SendMessage(new JoinQueueComposer(GameData.GameId));
-                    var HabboID = Session.GetHabbo().Id;
-                    using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    int HabboID = Session.GetHabbo().Id;
+                    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         DataTable data;
                         dbClient.SetQuery("SELECT user_id FROM user_auth_ticket WHERE user_id = '" + HabboID + "'");
                         data = dbClient.GetTable();
-                        var count = 0;
+                        int count = 0;
                         foreach (DataRow row in data.Rows)
                         {
                             if (Convert.ToInt32(row["user_id"]) == HabboID)
@@ -39,7 +40,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                         }
                         if (count == 0)
                         {
-                            var SSOTicket = "Fasfu-" + GenerateSSO(32) + "-" + Session.GetHabbo().Id;
+                            string SSOTicket = "Fasfu-" + GenerateSSO(32) + "-" + Session.GetHabbo().Id;
                             dbClient.RunFastQuery("INSERT INTO user_auth_ticket(user_id, auth_ticket) VALUES ('" + HabboID +
                                               "', '" +
                                               SSOTicket + "')");
@@ -51,7 +52,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                             data = dbClient.GetTable();
                             foreach (DataRow dRow in data.Rows)
                             {
-                                var SSOTicket = dRow["auth_ticket"];
+                                object SSOTicket = dRow["auth_ticket"];
                                 Session.SendMessage(new LoadGameComposer(GameData, (string)SSOTicket, Session));
                             }
                         }
@@ -65,13 +66,13 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                 if (StarBlueServer.GetGame().GetGameDataManager().TryGetGame(GameId, out GameData GameData))
                 {
                     Session.SendMessage(new JoinQueueComposer(GameData.GameId));
-                    var HabboID = Session.GetHabbo().Id;
-                    using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    int HabboID = Session.GetHabbo().Id;
+                    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         DataTable data;
                         dbClient.SetQuery("SELECT user_id FROM user_auth_ticket WHERE user_id = '" + HabboID + "'");
                         data = dbClient.GetTable();
-                        var count = 0;
+                        int count = 0;
                         foreach (DataRow row in data.Rows)
                         {
                             if (Convert.ToInt32(row["user_id"]) == HabboID)
@@ -81,7 +82,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                         }
                         if (count == 0)
                         {
-                            var SSOTicket = "Snow-" + GenerateSSO(32) + "-" + Session.GetHabbo().Id;
+                            string SSOTicket = "Snow-" + GenerateSSO(32) + "-" + Session.GetHabbo().Id;
                             dbClient.RunFastQuery("INSERT INTO user_auth_ticket(user_id, auth_ticket) VALUES ('" + HabboID +
                                               "', '" +
                                               SSOTicket + "')");
@@ -93,7 +94,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                             data = dbClient.GetTable();
                             foreach (DataRow dRow in data.Rows)
                             {
-                                var SSOTicket = dRow["auth_ticket"];
+                                object SSOTicket = dRow["auth_ticket"];
                                 Session.SendMessage(new LoadGameComposer(GameData, (string)SSOTicket, Session));
                             }
                         }
@@ -104,10 +105,10 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
 
         private string GenerateSSO(int length)
         {
-            var random = new Random();
-            var characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            var result = new StringBuilder(length);
-            for (var i = 0; i < length; i++)
+            Random random = new Random();
+            string characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            StringBuilder result = new StringBuilder(length);
+            for (int i = 0; i < length; i++)
             {
                 result.Append(characters[random.Next(characters.Length)]);
             }

@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Moderation;
 using StarBlue.HabboHotel.Users;
@@ -6,7 +6,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class BanCommand : IChatCommand
+    internal class BanCommand : IChatCommand
     {
 
         public string PermissionRequired => "user_12";
@@ -18,6 +18,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             if (Params.Length == 1)
             {
                 Session.SendWhisper("Por favor insira o nome do usuário.", 34);
+                return;
+            }
+
+            if (Params.Length == 2)
+            {
+                Session.SendWhisper("Por favor insira o tempo do banimento.", 34);
                 return;
             }
 
@@ -34,9 +40,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 return;
             }
 
-            Double Expire = 0;
+            double Expire = 0;
             string Hours = Params[2];
-            if (String.IsNullOrEmpty(Hours) || Hours == "perm")
+            if (string.IsNullOrEmpty(Hours) || Hours == "perm")
             {
                 Expire = StarBlueServer.GetUnixTimestamp() + 78892200;
             }
@@ -69,7 +75,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 TargetClient.Disconnect();
             }
 
-            Session.SendWhisper("Excelente,'" + Username + "' foi banido por " + Hours + " hora(s) com a razão '" + Reason + "'!", 34);
+            Session.SendWhisper("Excelente, '" + Username + "' foi banido por " + Hours + " hora(s) com a razão '" + Reason + "'!", 34);
         }
     }
 }

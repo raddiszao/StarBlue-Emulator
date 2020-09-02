@@ -1,8 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using StarBlue.HabboHotel.GameClients;
+using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class HotelAlertCommand : IChatCommand
+    internal class HotelAlertCommand : IChatCommand
     {
         public string PermissionRequired => "user_15";
         public string Parameters => "[MENSAGEM]";
@@ -23,7 +26,19 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 Session.Disconnect();
                 return;
             }
-            StarBlueServer.GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer(Message + "\r\n" + "- " + Session.GetHabbo().Username));
+
+            foreach (GameClient Client in StarBlueServer.GetGame().GetClientManager().GetClients.ToList())
+            {
+                if (Client == null || Client.GetHabbo() == null)
+                {
+                    continue;
+                }
+
+                if (!Client.GetHabbo().SendWebPacket(new HotelAlertComposer(Session.GetHabbo().Username, Session.GetHabbo().Look, Message, "")))
+                {
+                    Client.SendMessage(new BroadcastMessageAlertComposer(Message + "\r\n" + "- " + Session.GetHabbo().Username));
+                }
+            }
 
             return;
         }

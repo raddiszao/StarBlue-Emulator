@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Permissions
 {
-    class PermissionCommand
+    internal class PermissionCommand
     {
         public string Command { get; set; }
         public int GroupId { get; set; }

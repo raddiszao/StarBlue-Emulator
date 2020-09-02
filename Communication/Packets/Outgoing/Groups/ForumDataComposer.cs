@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Groups.Forums;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class GetGroupForumsMessageEvent : ServerPacket
+    internal class GetGroupForumsMessageEvent : ServerPacket
     {
         public GetGroupForumsMessageEvent(GroupForum Forum, GameClient Session)
             : base(ServerPacketHeader.GroupForumDataMessageComposer)

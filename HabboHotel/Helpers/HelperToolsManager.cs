@@ -19,7 +19,7 @@ namespace StarBlue.HabboHotel.Helpers
 
         public static HabboHelper AddHelper(GameClient Session, bool IsHelper, bool IsGard, bool IsGuide)
         {
-            var h = GetHelper(Session);
+            HabboHelper h = GetHelper(Session);
             if (h != null)
             {
                 return h;
@@ -35,13 +35,13 @@ namespace StarBlue.HabboHotel.Helpers
 
         public static HelperCase AddCall(GameClient Session, string message, int category)
         {
-            var c = GetCall(Session);
+            HelperCase c = GetCall(Session);
             if (c != null)
             {
                 return c;
             }
 
-            var hcase = new HelperCase(Session, message, category);
+            HelperCase hcase = new HelperCase(Session, message, category);
             Cases.Add(hcase);
             return hcase;
         }
@@ -64,7 +64,7 @@ namespace StarBlue.HabboHotel.Helpers
 
         public static void RemoveCall(GameClient client)
         {
-            var call = GetCall(client);
+            HelperCase call = GetCall(client);
             if (call != null)
             {
                 RemoveCall(call);
@@ -74,13 +74,13 @@ namespace StarBlue.HabboHotel.Helpers
 
         public static void RemoveHelper(GameClient Session)
         {
-            var h = GetHelper(Session);
+            HabboHelper h = GetHelper(Session);
             if (h != null)
             {
                 RemoveHelper(h);
             }
 
-            foreach (var helper in Helpers)
+            foreach (HabboHelper helper in Helpers)
             {
                 if (helper.Session.GetHabbo() == null)
                 {

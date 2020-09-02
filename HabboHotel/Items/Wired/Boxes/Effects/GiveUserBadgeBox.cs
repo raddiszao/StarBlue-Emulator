@@ -1,12 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveUserBadgeBox : IWiredItem
+    internal class GiveUserBadgeBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -62,7 +61,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }

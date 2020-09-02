@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    class MysticBoxCloseComposer : ServerPacket
+    internal class MysticBoxCloseComposer : ServerPacket
     {
         public MysticBoxCloseComposer()
             : base(ServerPacketHeader.MysticBoxCloseComposer)

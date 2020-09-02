@@ -1,10 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
+using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class MakePrivateCommand : IChatCommand
+    internal class MakePrivateCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "";
@@ -12,26 +13,33 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            var room = Session.GetHabbo().CurrentRoom;
-            using (var queryReactor = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            Room room = Session.GetHabbo().CurrentRoom;
+            if (Session.GetHabbo() == null || room == null)
             {
-                queryReactor.RunFastQuery(string.Format("UPDATE rooms SET roomtype = 'private' WHERE id = {0}",
-                    room.RoomId));
+                return;
             }
 
-            var roomId = Session.GetHabbo().CurrentRoom.RoomId;
-            var users = new List<RoomUser>(Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUsers().ToList());
+            using (IQueryAdapter queryReactor = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            {
+                queryReactor.RunFastQuery(string.Format("UPDATE rooms SET roomtype = 'private' WHERE id = {0}",
+                    room.Id));
+            }
 
-            StarBlueServer.GetGame().GetRoomManager().UnloadRoom(Session.GetHabbo().CurrentRoom.Id);
+            room.RoomData.Type = "private";
+
+            int roomId = room.Id;
+            List<RoomUser> users = new List<RoomUser>(room.GetRoomUserManager().GetRoomUsers().ToList());
+
+            StarBlueServer.GetGame().GetRoomManager().UnloadRoom(room.Id);
 
             RoomData Data = StarBlueServer.GetGame().GetRoomManager().GenerateRoomData(roomId);
-            Session.GetHabbo().PrepareRoom(Session.GetHabbo().CurrentRoom.RoomId, "");
+            Session.GetHabbo().PrepareRoom(room.Id, "");
 
             StarBlueServer.GetGame().GetRoomManager().LoadRoom(roomId);
 
-            var data = new RoomForwardComposer(roomId);
+            RoomForwardComposer data = new RoomForwardComposer(roomId);
 
-            foreach (var user in users.Where(user => user != null && user.GetClient() != null))
+            foreach (RoomUser user in users.Where(user => user != null && user.GetClient() != null))
             {
                 user.GetClient().SendMessage(data);
             }

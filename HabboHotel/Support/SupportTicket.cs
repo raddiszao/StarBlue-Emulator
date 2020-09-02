@@ -1,5 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using System;
+﻿using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Support
@@ -29,7 +28,7 @@ namespace StarBlue.HabboHotel.Support
         public List<string> ReportedChats;
 
 
-        public SupportTicket(int Id, int Score, int Type, int SenderId, int ReportedId, String Message, int RoomId, String RoomName, Double Timestamp, List<string> ReportedChats)
+        public SupportTicket(int Id, int Score, int Type, int SenderId, int ReportedId, string Message, int RoomId, string RoomName, double Timestamp, List<string> ReportedChats)
         {
             this.Id = Id;
             this.Score = Score;
@@ -80,7 +79,7 @@ namespace StarBlue.HabboHotel.Support
 
         public int TicketId => Id;
 
-        public void Pick(int pModeratorId, Boolean UpdateInDb)
+        public void Pick(int pModeratorId, bool UpdateInDb)
         {
             Status = TicketStatus.PICKED;
             ModeratorId = pModeratorId;
@@ -98,7 +97,7 @@ namespace StarBlue.HabboHotel.Support
         {
             Status = NewStatus;
 
-            String dbType = "";
+            string dbType = "";
 
             switch (NewStatus)
             {

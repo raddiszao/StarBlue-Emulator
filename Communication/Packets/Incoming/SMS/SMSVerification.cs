@@ -1,13 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Moderation;
-using StarBlue.Communication.Packets.Outgoing.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.SMS;
+using StarBlue.Database.Interfaces;
 using static StarBlue.Core.Rank.RankManager;
 
 namespace StarBlue.Communication.Packets.Incoming.SMS
 {
-    class SMSVerification : IPacketEvent
+    internal class SMSVerification : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -28,7 +27,7 @@ namespace StarBlue.Communication.Packets.Incoming.SMS
                 StarBlueServer.GetGame().GetClientManager().ManagerAlert(RoomNotificationComposer.SendBubble(RankData.Badge, RankData.Name + " " + Session.GetHabbo().Username + " verificou-se com sucesso!", ""));
                 Session.SendMessage(new SMSErrorComposer());
                 Session.SendMessage(new SMSVerifyComposer(-1, -1));
-                Session.SendMessage(new GraphicAlertComposer("staffok"));
+                Session.SendWhisper("Você se verificou com sucesso.", 34);
                 Session.GetHabbo().StaffOk = true;
                 if (Session.GetHabbo().GetPermissions().HasRight("mod_tickets"))
                 {
@@ -41,8 +40,7 @@ namespace StarBlue.Communication.Packets.Incoming.SMS
             else
             {
                 Session.SendMessage(new SMSVerifyComposer(1, 1));
-                Session.SendMessage(new RoomCustomizedAlertComposer("PIN Incorreto, tente novamente!"));
-                StarBlueServer.GetGame().GetClientManager().ManagerAlert(new SendHotelAlertLinkEventComposer("ATENÇÃO: O Staff " + Session.GetHabbo().Username + " falhou na autenticação do seu PIN."));
+                Session.SendMessage(new RoomCustomizedAlertComposer("PIN incorreto, tente novamente!"));
                 LogCommand(Session.GetHabbo().Id, "PIN Inválido", Session.GetHabbo().MachineId, Session.GetHabbo().Username);
             }
 

@@ -34,11 +34,11 @@ using StarBlue.Communication.Packets.Outgoing;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
-    class FurniMaticRewardsEvent : IPacketEvent
+    internal class FurniMaticRewardsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
-            var response = new ServerPacket(ServerPacketHeader.FurniMaticRewardsComposer);
+            ServerPacket response = new ServerPacket(ServerPacketHeader.FurniMaticRewardsComposer);
             response.WriteInteger(5);
             for (int i = 5; i >= 1; i--)
             {
@@ -64,10 +64,13 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     response.WriteInteger(100);
                 }
 
-                var rewards = StarBlueServer.GetGame().GetFurniMaticRewardsMnager().GetRewardsByLevel(i);
+                System.Collections.Generic.List<HabboHotel.Catalog.FurniMatic.FurniMaticRewards> rewards = StarBlueServer.GetGame().GetFurniMaticRewardsMnager().GetRewardsByLevel(i);
                 response.WriteInteger(rewards.Count);
-                foreach (var reward in rewards)
+                foreach (HabboHotel.Catalog.FurniMatic.FurniMaticRewards reward in rewards)
                 {
+                    if (reward.GetBaseItem() == null)
+                        continue;
+
                     response.WriteString(reward.GetBaseItem().ItemName);
                     response.WriteInteger(reward.DisplayId);
                     response.WriteString(reward.GetBaseItem().Type.ToString().ToLower());

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Talents
 {
-    class TalentTrackComposer : ServerPacket
+    internal class TalentTrackComposer : ServerPacket
     {
         public TalentTrackComposer(GameClient session, string trackType, List<Talent> talents)
             : base(ServerPacketHeader.TalentTrackMessageComposer)
@@ -36,7 +36,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Talents
                     }
 
                     // TODO Refactor What does num mean?!
-                    var num = (failLevel != -1 && failLevel < child.Level)
+                    int num = (failLevel != -1 && failLevel < child.Level)
                        ? 0
                        : (session.GetHabbo().GetAchievementData(child.AchievementGroup) == null)
                            ? 1

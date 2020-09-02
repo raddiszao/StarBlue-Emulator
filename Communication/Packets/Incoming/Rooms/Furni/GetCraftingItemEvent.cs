@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class GetCraftingItemEvent : IPacketEvent
+    internal class GetCraftingItemEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Games;
 
 namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
-    class GetWeeklyLeaderBoardEvent : IPacketEvent // Get2GameWeeklySmallLeaderboardComposer
+    internal class GetWeeklyLeaderBoardEvent : IPacketEvent // Get2GameWeeklySmallLeaderboardComposer
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

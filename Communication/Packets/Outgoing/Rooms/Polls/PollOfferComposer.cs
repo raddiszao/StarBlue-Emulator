@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Polls
 {
-    class PollOfferComposer : ServerPacket
+    internal class PollOfferComposer : ServerPacket
     {
         public PollOfferComposer(RoomPoll poll)
             : base(ServerPacketHeader.PollOfferMessageComposer)

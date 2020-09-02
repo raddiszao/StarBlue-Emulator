@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class GOTOCommand : IChatCommand
+    internal class GOTOCommand : IChatCommand
     {
         public string PermissionRequired => "user_vip";
 

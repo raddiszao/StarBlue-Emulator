@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
-    class CallForHelperEvent : IPacketEvent
+    internal class CallForHelperEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var category = Packet.PopInt();
-            var message = Packet.PopString();
+            int category = Packet.PopInt();
+            string message = Packet.PopString();
 
-            var helper = HelperToolsManager.GetHelper(Session);
+            HabboHotel.Helpers.HabboHelper helper = HelperToolsManager.GetHelper(Session);
             if (helper != null)
             {
                 Session.SendNotification("Pedido de ajuda enviado com sucesso.");
@@ -20,8 +20,8 @@ namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
                 return;
             }
 
-            var call = HelperToolsManager.AddCall(Session, message, category);
-            var helpers = HelperToolsManager.GetHelpersToCase(call).FirstOrDefault();
+            HelperCase call = HelperToolsManager.AddCall(Session, message, category);
+            HabboHotel.Helpers.HabboHelper helpers = HelperToolsManager.GetHelpersToCase(call).FirstOrDefault();
 
             if (helpers != null)
             {

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 {
-    class StateChangesBox : IWiredItem
+    internal class StateChangesBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -67,17 +67,25 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
             ICollection<IWiredItem> Effects = Instance.GetWired().GetEffects(this);
             ICollection<IWiredItem> Conditions = Instance.GetWired().GetConditions(this);
 
-            foreach (IWiredItem Condition in Conditions)
+            bool Success = false;
+            bool HasAnyConditionValid = Effects.Where(x => x.Type == WiredBoxType.AddonAnyConditionValid).ToList().Count() > 0;
+            foreach (IWiredItem Condition in Conditions.ToList())
             {
                 if (!Condition.Execute(Player))
                 {
-                    return false;
+                    if (!HasAnyConditionValid)
+                        return false;
+
+                    continue;
                 }
 
-                if (Instance != null)
-                {
-                    Instance.GetWired().OnEvent(Condition.Item);
-                }
+                Success = true;
+                Instance.GetWired().OnEvent(Condition.Item);
+            }
+
+            if (!Success && Conditions.Count > 0)
+            {
+                return false;
             }
 
             //Check the ICollection to find the random addon effect.
@@ -93,7 +101,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 
                 //Success! Let's get our selected box and continue.
                 IWiredItem SelectedBox = Instance.GetWired().GetRandomEffect(Effects.ToList());
-                if (!SelectedBox.Execute())
+                if (!SelectedBox.Execute(Params))
                 {
                     return false;
                 }

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using StarBlue.Communication.Packets.Outgoing.Messenger;
+﻿using StarBlue.Communication.Packets.Outgoing.Messenger;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
@@ -10,8 +9,6 @@ using StarBlue.HabboHotel.Rooms.Chat.Logs;
 using StarBlue.HabboHotel.Rooms.Chat.Styles;
 using StarBlue.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 {
@@ -49,9 +46,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 
             int Colour = Packet.PopInt();
 
-            if (Message.Contains("&#1Âº;") || Message.Contains("&#1Âº") || Message.Contains("&#"))
-            { Session.SendMessage(new MassEventComposer("habbopages/spammer.txt")); return; }
-
             if (!StarBlueServer.GetGame().GetChatManager().GetChatStyles().TryGetStyle(Colour, out ChatStyle Style) || (Style.RequiredRight.Length > 0 && !Session.GetHabbo().GetPermissions().HasRight(Style.RequiredRight)))
             {
                 Colour = 0;
@@ -72,13 +66,13 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 
             if (!Room.CheckRights(Session, false) && Room.muteSignalEnabled == true)
             {
-                Session.SendWhisper("Esta sala está silenciada.");
+                Session.SendWhisper("Este quarto está mutado.", 34);
                 return;
             }
 
             if (!Session.GetHabbo().GetPermissions().HasRight("room_ignore_mute") && Room.CheckMute(Session))
             {
-                Session.SendWhisper("Oops, você está silenciad@");
+                Session.SendWhisper("Este quarto está mutado.", 34);
                 return;
             }
 
@@ -90,7 +84,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                 }
                 else
                 {
-                    Session.SendWhisper("Oops, você está silenciad@");
+                    Session.SendWhisper("Oops, você está silenciad@!", 34);
                     return;
                 }
             }
@@ -106,7 +100,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                 }
             }
 
-            Room.GetFilter().CheckMessage(Message);
+            Message = Room.GetFilter().CheckMessage(Message);
 
             if (Message.StartsWith(":", StringComparison.CurrentCulture) && StarBlueServer.GetGame().GetChatManager().GetCommands().Parse(Session, Message))
             {
@@ -123,9 +117,8 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
             //      }
             //  }
 
-            StarBlueServer.GetGame().GetChatManager().GetLogs().StoreChatlog(new ChatlogEntry(Session.GetHabbo().Id, Room.Id, Message, UnixTimestamp.GetNow(), Session.GetHabbo(), Room));
-            if (!Session.GetHabbo().GetPermissions().HasRight("word_filter_override") &&
-                StarBlueServer.GetGame().GetChatManager().GetFilter().IsUnnaceptableWord(Message, out string word))
+            StarBlueServer.GetGame().GetChatManager().GetLogs().StoreChatlog(new ChatlogEntry(Session.GetHabbo().Id, Room.Id, Message, UnixTimestamp.GetNow(), Session.GetHabbo(), Room.RoomData));
+            if (!Session.GetHabbo().GetPermissions().HasRight("word_filter_override") && StarBlueServer.GetGame().GetChatManager().GetFilter().IsUnnaceptableWord(Message, out string word))
             {
                 Session.GetHabbo().BannedPhraseCount++;
 
@@ -137,9 +130,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                     dtDateTime = dtDateTime.AddSeconds(StarBlueServer.GetUnixTimestamp()).ToLocalTime();
 
                     StarBlueServer.GetGame().GetClientManager().StaffAlert1(new RoomInviteComposer(int.MinValue, "Spammer: " + Session.GetHabbo().Username + " / Frase: " + Message + " / Palabra: " + word.ToUpper() + " / Fase: " + Session.GetHabbo().BannedPhraseCount + " / 10."));
-                    StarBlueServer.GetGame().GetClientManager().StaffAlert2(new RoomNotificationComposer("Alerta de publicista:",
-                    "<b><font color=\"#B40404\">Por favor, investigue bem antes de punir.</font></b><br><br>Palabra: <b>" + word.ToUpper() + "</b>.<br><br><b>Frase:</b><br><i>" + Message +
-                    "</i>.<br><br><b>Tipo:</b><br>Chat de sala.\r\n" + "<b>Usuario: " + Session.GetHabbo().Username + "</b><br><b>Secuencia:</b> " + Session.GetHabbo().BannedPhraseCount + "/10.", "foto", "Investigar", "event:navigator/goto/" +
+                    StarBlueServer.GetGame().GetClientManager().StaffAlert2(new RoomNotificationComposer("Alerta de divulgador:",
+                    "<b><font color=\"#B40404\">Por favor, investigue bem antes de punir.</font></b><br><br>Palavra: <b>" + word.ToUpper() + "</b>.<br><br><b>Frase:</b><br><i>" + Message +
+                    "</i>.<br><br><b>Tipo:</b><br>Chat de sala.\r\n" + "<b>Usuario: " + Session.GetHabbo().Username + "</b><br><b>Sequência:</b> " + Session.GetHabbo().BannedPhraseCount + "/10.", "foto", "Investigar", "event:navigator/goto/" +
                     Session.GetHabbo().CurrentRoomId));
 
                     if (Session.GetHabbo().BannedPhraseCount >= 10)
@@ -169,48 +162,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
             //    Session.GetHabbo().IsBeingAsked = false;
             //    Session.SendMessage(new WiredSmartAlertComposer("Has dejado el tradeo en modo normal."));
             //}
-
-            if (Message.StartsWith("@") && Message.Split(' ').Length >= 1)
-            {
-                string[] Params = Message.Split(' ');
-                string To = Params[0].Split('@')[1];
-
-                JObject WebEventData = new JObject(new JProperty("type", "mention"), new JProperty("data", new JObject(
-                    new JProperty("roomName", Room.Name),
-                    new JProperty("roomId", Room.Id),
-                    new JProperty("text", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Message))),
-                    new JProperty("userBy", Session.GetHabbo().Username),
-                    new JProperty("userByLook", Session.GetHabbo().Look)
-                )));
-
-                if (Session.GetHabbo().Rank >= 14 && (To == "everyone" || To == "here"))
-                {
-                    StarBlueServer.GetGame().GetWebEventManager().BroadCastWebData(WebEventData.ToString());
-                }
-                else
-                {
-                    var UserHabboMentioned = StarBlueServer.GetHabboByUsername(To);
-                    if (UserHabboMentioned == null)
-                    {
-                        Session.SendWhisper("Não foi possível encontrar este usuário.", 34);
-                    }
-                    else
-                    {
-                        if (UserHabboMentioned.Username == Session.GetHabbo().Username)
-                        {
-                            Session.SendWhisper("Não pode mencionar você mesmo.", 34);
-                        }
-                        else if (UserHabboMentioned.DisabledMentions && Session.GetHabbo().Rank < UserHabboMentioned.Rank)
-                        {
-                            Session.SendWhisper("Este usuário desabilitou as menções.", 34);
-                        } else 
-                        {
-                            StarBlueServer.GetGame().GetWebEventManager().SendDataDirect(UserHabboMentioned.GetClient(), WebEventData.ToString());
-                            Session.SendWhisper("Você mencionou o usuário " + Params[0] + ".", 34);
-                        }
-                    }
-                }
-            }
 
             Session.GetHabbo().LastMessage = Message;
 

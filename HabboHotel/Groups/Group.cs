@@ -1,6 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using Plus.HabboHotel.Groups;
-using StarBlue.Communication.Packets.Outgoing.Messenger;
+﻿using StarBlue.Communication.Packets.Outgoing.Messenger;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.GameClients;
 using System;
@@ -120,7 +119,7 @@ namespace StarBlue.HabboHotel.Groups
 
         public ConcurrentDictionary<int, string> GetAdministrators => _administrators;
 
-        public IEnumerable<KeyValuePair<int, string>> GetAllMembers => _administrators.Concat(_members.OrderBy(x => x.Value)).OrderBy(x => x.Value);
+        public IEnumerable<KeyValuePair<int, string>> GetAllMembers => _administrators.Concat(_members.OrderBy(x => x.Value)).OrderByDescending(x => IsOwner(x.Key));
 
         public int MemberCount => _members.Count + _administrators.Count;
 
@@ -129,6 +128,11 @@ namespace StarBlue.HabboHotel.Groups
         public bool IsMember(int Id)
         {
             return _members.ContainsKey(Id) || _administrators.ContainsKey(Id);
+        }
+
+        public bool IsOwner(int Id)
+        {
+            return IsAdmin(Id) && CreatorId == Id;
         }
 
         public bool IsAdmin(int Id)

@@ -1,13 +1,13 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class SetTonerEvent : IPacketEvent
+    internal class SetTonerEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -58,7 +58,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             Room.TonerData.Lightness = Int3;
             Room.TonerData.Enabled = 1;
 
-            Room.SendMessage(new ObjectUpdateComposer(Item, Room.OwnerId));
+            Room.SendMessage(new ObjectUpdateComposer(Item, Room.RoomData.OwnerId));
             Item.UpdateState();
         }
     }

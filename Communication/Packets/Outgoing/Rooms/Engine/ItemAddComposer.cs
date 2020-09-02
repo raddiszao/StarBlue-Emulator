@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class ItemAddComposer : ServerPacket
+    internal class ItemAddComposer : ServerPacket
     {
         public ItemAddComposer(Item Item)
             : base(ServerPacketHeader.ItemAddMessageComposer)

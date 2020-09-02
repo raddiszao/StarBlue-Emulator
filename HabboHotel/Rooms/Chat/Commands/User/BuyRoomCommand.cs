@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class BuyRoomCommand : IChatCommand
+    internal class BuyRoomCommand : IChatCommand
     {
         public string Description => "Compra um quarto à venda.";
 
@@ -15,12 +15,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
             Room _Room = Session.GetHabbo().CurrentRoom;
-            RoomUser RoomOwner = _Room.GetRoomUserManager().GetRoomUserByHabbo(_Room.OwnerName);
+            RoomUser RoomOwner = _Room.GetRoomUserManager().GetRoomUserByHabbo(_Room.RoomData.OwnerName);
             if (_Room == null)
             {
                 return;
             }
-            if (_Room.OwnerName == Session.GetHabbo().Username)
+            if (_Room.RoomData.OwnerName == Session.GetHabbo().Username)
             {
                 Session.SendWhisper("Você está tentando comprar um quarto que já é seu.", 34);
                 return;
@@ -53,18 +53,14 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
             Session.GetHabbo().Duckets -= _Room.SalePrice;
             Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, _Room.SalePrice));
 
-            _Room.OwnerName = Session.GetHabbo().Username;
-            _Room.OwnerId = Session.GetHabbo().Id;
             _Room.RoomData.OwnerName = Session.GetHabbo().Username;
             _Room.RoomData.OwnerId = Session.GetHabbo().Id;
-            int RoomId = _Room.RoomId;
-
-
+            int RoomId = _Room.Id;
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.RunFastQuery("UPDATE rooms SET owner='" + Session.GetHabbo().Id + "' WHERE id='" + Room.RoomId + "' LIMIT 1");
-                dbClient.RunFastQuery("UPDATE items SET user_id='" + Session.GetHabbo().Id + "' WHERE room_id='" + Room.RoomId + "'");
+                dbClient.RunFastQuery("UPDATE rooms SET owner='" + Session.GetHabbo().Id + "' WHERE id='" + Room.Id + "' LIMIT 1");
+                dbClient.RunFastQuery("UPDATE items SET user_id='" + Session.GetHabbo().Id + "' WHERE room_id='" + Room.Id + "'");
             }
 
             Session.GetHabbo().UsersRooms.Add(_Room.RoomData);

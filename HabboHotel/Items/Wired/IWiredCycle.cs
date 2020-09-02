@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Items.Wired
 {
-    interface IWiredCycle
+    internal interface IWiredCycle
     {
         int Delay { get; set; }
         int TickCount { get; set; }

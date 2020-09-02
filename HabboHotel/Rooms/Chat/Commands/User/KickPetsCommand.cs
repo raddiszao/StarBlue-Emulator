@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Pets;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Pets;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms.AI;
 using System.Drawing;
@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class KickPetsCommand : IChatCommand
+    internal class KickPetsCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -18,9 +18,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (!Room.CheckRights(Session, true))
+            if (!Room.CheckRights(Session, false, true))
             {
-                Session.SendWhisper("Lamento, só o proprietario do quarto pode usar este comando!", 34);
+                Session.SendWhisper("Lamento, somente pessoas com direitos podem usar esse comando!", 34);
                 return;
             }
 

@@ -1,109 +1,111 @@
-﻿using StarBlue.Utilities;
-using System;
+﻿using System;
+using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming
 {
     public class ClientPacket
     {
-        private byte[] _body;
-        private int _pointer;
+        private byte[] Body;
+        private int Pointer;
+        private readonly Encoding Encoding = Encoding.GetEncoding("Windows-1252");
 
-        public ClientPacket(int messageId, byte[] body)
+        public ClientPacket(int messageID, byte[] body)
         {
-            Init(messageId, body);
+            if (body == null)
+                body = new byte[0];
+
+            Id = messageID;
+            Body = body;
+
+            Pointer = 0;
         }
 
         public int Id { get; private set; }
 
-        public int RemainingLength => _body.Length - _pointer;
-
-        public void Init(int messageId, byte[] body)
+        public int RemainingLength
         {
-            if (body == null)
-            {
-                body = new byte[0];
-            }
-
-            Id = messageId;
-            _body = body;
-
-            _pointer = 0;
+            get { return Body.Length - Pointer; }
         }
 
-        public override string ToString()
+        public int Header
         {
-            return "[" + Id + "] BODY: " + (StarBlueServer.GetDefaultEncoding().GetString(_body).Replace(Convert.ToChar(0).ToString(), "[0]"));
+            get { return Id; }
         }
 
-        public void AdvancePointer(int i)
+        public byte[] ReadBytes(int Bytes)
         {
-            _pointer += i * 4;
-        }
+            if (Bytes > RemainingLength || Bytes < 0)
+                Bytes = RemainingLength;
 
-        public byte[] ReadBytes(int bytes)
-        {
-            if (bytes > RemainingLength)
-            {
-                bytes = RemainingLength;
-            }
-
-            var data = new byte[bytes];
-
-            for (int i = 0; i < bytes; i++)
-            {
-                data[i] = _body[_pointer++];
-            }
-
-            return data;
-        }
-
-        public byte[] PlainReadBytes(int bytes)
-        {
-            if (bytes > RemainingLength)
-            {
-                bytes = RemainingLength;
-            }
-
-            var data = new byte[bytes];
-
-            for (int x = 0, y = _pointer; x < bytes; x++, y++)
-            {
-                data[x] = _body[y];
-            }
+            byte[] data = new byte[Bytes];
+            for (int i = 0; i < Bytes; i++)
+                data[i] = Body[Pointer++];
 
             return data;
         }
 
         public byte[] ReadFixedValue()
         {
-            int len = HabboEncoding.DecodeInt16(ReadBytes(2));
+            int len = 0;
+            if (RemainingLength >= 2) len = DecodeInt16(ReadBytes(2));
+
             return ReadBytes(len);
         }
 
         public string PopString()
         {
-            return StarBlueServer.GetDefaultEncoding().GetString(ReadFixedValue());
+            return Encoding.GetString(ReadFixedValue());
         }
 
         public bool PopBoolean()
         {
-            return RemainingLength > 0 && _body[_pointer++] == Convert.ToChar(1);
+            if (RemainingLength > 0 && Body[Pointer++] == Convert.ToChar(1))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public int PopInt()
         {
-            if (RemainingLength < 1)
+            if (RemainingLength < 4)
             {
                 return 0;
             }
 
-            byte[] data = PlainReadBytes(4);
+            byte[] Data = ReadBytes(4);
 
-            int i = HabboEncoding.DecodeInt32(data);
-
-            _pointer += 4;
+            Int32 i = DecodeInt32(Data);
 
             return i;
         }
+
+        public override string ToString()
+        {
+            return "[" + Header + "] BODY: " + (Encoding.GetString(Body).Replace(Convert.ToChar(0).ToString(), "[0]"));
+        }
+
+        public int DecodeInt32(byte[] v)
+        {
+
+            if ((v[0] | v[1] | v[2] | v[3]) < 0)
+            {
+                return 0;
+            }
+            return (v[0] << 24) + (v[1] << 16) + (v[2] << 8) + (v[3]);
+
+        }
+
+        public Int16 DecodeInt16(byte[] v)
+        {
+            if ((v[0] | v[1]) < 0)
+            {
+                return 0;
+            }
+            int result = (v[0] << 8) + (v[1]);
+            return (Int16)result;
+        }
+
     }
 }

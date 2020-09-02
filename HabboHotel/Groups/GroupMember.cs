@@ -1,4 +1,4 @@
-﻿namespace Plus.HabboHotel.Groups
+﻿namespace StarBlue.HabboHotel.Groups
 {
     public class GroupMember
     {

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Poll
 {
-    class QuickPollResultsMessageComposer : ServerPacket
+    internal class QuickPollResultsMessageComposer : ServerPacket
     {
         public QuickPollResultsMessageComposer(int yesVotesCount, int noVotesCount)
             : base(ServerPacketHeader.QuickPollResultsMessageComposer)

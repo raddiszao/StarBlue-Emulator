@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    class GetRoomFilterListComposer : ServerPacket
+    internal class GetRoomFilterListComposer : ServerPacket
     {
         public GetRoomFilterListComposer(Room Instance)
             : base(ServerPacketHeader.GetRoomFilterListMessageComposer)

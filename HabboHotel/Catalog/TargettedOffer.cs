@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing;
+﻿using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Catalog
@@ -13,7 +13,7 @@ namespace StarBlue.HabboHotel.Catalog
             TargetedOffer = null;
 
             dbClient.SetQuery("SELECT * FROM targeted_offers WHERE active = 'true' LIMIT 1;");
-            var row = dbClient.GetRow();
+            System.Data.DataRow row = dbClient.GetRow();
 
             if (row == null)
             {
@@ -54,10 +54,10 @@ namespace StarBlue.HabboHotel.Catalog
             Expire = expire;
 
             Products = new List<TargetedItems>();
-            foreach (var item in Items)
+            foreach (string item in Items)
             {
-                var itemType = item.Split(',')[0];
-                var itemProduct = item.Split(',')[1];
+                string itemType = item.Split(',')[0];
+                string itemProduct = item.Split(',')[1];
                 Products.Add(new TargetedItems(Id, itemType, itemProduct));
             }
         }
@@ -79,7 +79,7 @@ namespace StarBlue.HabboHotel.Catalog
 
         internal ServerPacket Serialize()
         {
-            var message = new ServerPacket(ServerPacketHeader.openBoxTargetedOffert);
+            ServerPacket message = new ServerPacket(ServerPacketHeader.openBoxTargetedOffert);
             message.WriteInteger(Open ? 4 : 1);
             message.WriteInteger(Id);
             message.WriteString(Code);
@@ -95,7 +95,7 @@ namespace StarBlue.HabboHotel.Catalog
             message.WriteString(Icon);
             message.WriteInteger(0);
             message.WriteInteger(Products.Count);
-            foreach (var product in Products)
+            foreach (TargetedItems product in Products)
             {
                 message.WriteString(string.Empty);
             }

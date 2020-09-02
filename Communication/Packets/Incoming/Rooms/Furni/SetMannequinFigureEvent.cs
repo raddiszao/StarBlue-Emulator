@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class SetMannequinFigureEvent : IPacketEvent
+    internal class SetMannequinFigureEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

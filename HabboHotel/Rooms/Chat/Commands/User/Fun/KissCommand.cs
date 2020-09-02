@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class KissCommand : IChatCommand
+    internal class KissCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -60,9 +60,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (!((Math.Abs(TargetUser.X - ThisUser.X) >= 2) || (Math.Abs(TargetUser.Y - ThisUser.Y) >= 2)))
             {
-                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Eu beijei " + Params[1] + "*", 0, ThisUser.LastBubble));
+                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Eu beijei " + Params[1] + "*", 0, 16));
+                Room.SendMessage(new ChatComposer(TargetUser.VirtualId, "Oh wow... me deram um beijo :$", 0, 16));
                 ThisUser.ApplyEffect(9);
-                Room.SendMessage(new ChatComposer(TargetUser.VirtualId, "Oh wow... me deram um beijo :$", 0, ThisUser.LastBubble));
                 TargetUser.ApplyEffect(9);
             }
             else

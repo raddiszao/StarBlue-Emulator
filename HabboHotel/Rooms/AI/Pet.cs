@@ -65,6 +65,9 @@ namespace StarBlue.HabboHotel.Rooms.AI
 
         public void OnRespect()
         {
+            if (Room == null || this == null)
+                return;
+
             Respect++;
             Room.SendMessage(new RespectPetNotificationMessageComposer(this));
 

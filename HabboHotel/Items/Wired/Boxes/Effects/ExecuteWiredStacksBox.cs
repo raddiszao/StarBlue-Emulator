@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class ExecuteWiredStacksBox : IWiredItem, IWiredCycle
+    internal class ExecuteWiredStacksBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -90,6 +90,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                 return false;
             }
 
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
         }

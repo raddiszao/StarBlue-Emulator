@@ -1,5 +1,4 @@
 ﻿using StarBlue.HabboHotel.Items.Utilities;
-using System;
 using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Rooms.AI.Responses
@@ -40,7 +39,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Responses
                     }
                 }
             }
-            else if (!String.IsNullOrEmpty(ResponseBeverages) && (int.Parse(ResponseBeverages)) > 0)
+            else if (!string.IsNullOrEmpty(ResponseBeverages) && (int.Parse(ResponseBeverages)) > 0)
             {
                 BeverageIds.Add(int.Parse(ResponseBeverages));
             }

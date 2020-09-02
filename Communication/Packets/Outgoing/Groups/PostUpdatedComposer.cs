@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Groups.Forums;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class PostUpdatedComposer : ServerPacket
+    internal class PostUpdatedComposer : ServerPacket
     {
         public PostUpdatedComposer(GameClient Session, GroupForumThreadPost Post)
             : base(ServerPacketHeader.PostUpdatedMessageComposer)

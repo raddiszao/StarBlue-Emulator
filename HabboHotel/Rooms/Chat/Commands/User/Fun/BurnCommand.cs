@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class BurnCommand : IChatCommand
+    internal class BurnCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -42,7 +42,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (TargetClient.GetHabbo().Username == "Raddis")
             {
-                Session.SendWhisper("Ele é seu dono!", 34);
+                Session.SendWhisper("Você não pode fazer isso neste usuário!", 34);
                 return;
             }
 

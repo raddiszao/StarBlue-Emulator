@@ -1,6 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using Fleck;
-using log4net;
+﻿using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Handshake;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Navigator;
@@ -8,6 +6,7 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
 using StarBlue.Core;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Achievements;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Club;
@@ -30,6 +29,7 @@ using StarBlue.HabboHotel.Users.Polls;
 using StarBlue.HabboHotel.Users.Process;
 using StarBlue.HabboHotel.Users.Relationships;
 using StarBlue.HabboHotel.Users.UserDataManagement;
+using StarBlue.Messages;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -41,8 +41,6 @@ namespace StarBlue.HabboHotel.Users
 {
     public class Habbo
     {
-        private static readonly ILog log = LogManager.GetLogger("StarBlue.HabboHotel.Users");
-
         //Prefijos 
         public string _tag;
         public string _tagcolor;
@@ -68,7 +66,6 @@ namespace StarBlue.HabboHotel.Users
         private int _gotwPoints;
         private int _userpoints;
         private int _homeRoom;
-        private int _toRoom;
         private double _lastOnline;
         private double _accountCreated;
         private List<int> _clientVolume;
@@ -80,6 +77,7 @@ namespace StarBlue.HabboHotel.Users
         private int _vipRank;
         private int _CurrentTalentLevel;
         private int _BonusPoints;
+        public int IceSkatingCounter = 0;
         public bool _playingChess = false;
         public string _eColor = "";
         public bool FindFurniMode = false;
@@ -194,6 +192,8 @@ namespace StarBlue.HabboHotel.Users
 
         public int multiWhisperID;
 
+        public UserData userData;
+
         //alfas
         internal bool onDuty;
         internal bool onService;
@@ -250,6 +250,7 @@ namespace StarBlue.HabboHotel.Users
         public List<RoomData> UsersRooms;
         public List<Item> TradeItems;
         public bool _isBettingDice = false;
+        public int[] PurchasingItem;
 
         private GameClient _client;
         private HabboStats _habboStats;
@@ -291,6 +292,7 @@ namespace StarBlue.HabboHotel.Users
         public int FurniRotation = -1;
         public int FurniState = -1;
         public bool BuilderTool;
+        public long emojiTime;
 
         public Habbo(int Id, string Username, int Rank, string Motto, string Look, string Gender, int Credits, int ActivityPoints, int HomeRoom,
          bool HasFriendRequestsDisabled, int LastOnline, bool AppearOffline, bool HideInRoom, double CreateDate, int Diamonds,
@@ -488,7 +490,7 @@ namespace StarBlue.HabboHotel.Users
                     {
                         _habboStats.RespectsTimestamp = DateTime.Today.ToString("MM/dd");
 
-                        int DailyRespects = 10;
+                        int DailyRespects = 5;
                         _habboStats.DailyRespectPoints = DailyRespects;
                         _habboStats.DailyPetRespectPoints = DailyRespects;
 
@@ -1274,22 +1276,13 @@ namespace StarBlue.HabboHotel.Users
             }
         }
 
-        public IWebSocketConnection WebSocketConnection
+        public string GetUpdateString
         {
             get
             {
-                Habbo habbo = StarBlueServer.GetHabboByUsername(Username);
-                if (StarBlueServer.GetGame().GetWebEventManager() != null && habbo != null && StarBlueServer.GetGame().GetWebEventManager().GetUsersConnection(habbo.GetClient()) != null)
-                {
-                    return StarBlueServer.GetGame().GetWebEventManager().GetUsersConnection(habbo.GetClient());
-                }
-                else
-                {
-                    return null;
-                }
+                return "UPDATE `users` SET `activity_points` = '" + Duckets + "', `credits` = '" + Credits + "', `vip_points` = '" + Diamonds + "', `disabledevents` = '" + StarBlueServer.BoolToEnum(DisabledNotificationEvents) + "', `disabledmentions` = '" + StarBlueServer.BoolToEnum(DisabledMentions) + "', `bonus_points` = '" + _BonusPoints + "', `home_room` = '" + HomeRoom + "',  `gotw_points` = '" + GOTWPoints + "', `puntos_eventos` = '" + UserPoints + "', `guia` = '" + _guidelevel + "', `builder` = '" + _builder + "', `croupier` = '" + _croupier + "', `time_muted` = '" + TimeMuted + "',`friend_bar_state` = '" + FriendBarStateUtility.GetInt(_friendbarState) + "' WHERE id = '" + Id + "' LIMIT 1;UPDATE `user_stats` SET `roomvisits` = '" + _habboStats.RoomVisits + "', `onlineTime` = '" + (StarBlueServer.GetUnixTimestamp() - SessionStart + _habboStats.OnlineTime) + "', `respect` = '" + _habboStats.Respect + "', `respectGiven` = '" + _habboStats.RespectGiven + "', `giftsGiven` = '" + _habboStats.GiftsGiven + "', `giftsReceived` = '" + _habboStats.GiftsReceived + "', `dailyRespectPoints` = '" + _habboStats.DailyRespectPoints + "', `dailyPetRespectPoints` = '" + _habboStats.DailyPetRespectPoints + "', `AchievementScore` = '" + _habboStats.AchievementPoints + "', `quest_id` = '" + _habboStats.QuestID + "', `quest_progress` = '" + _habboStats.QuestProgress + "', `groupid` = '" + _habboStats.FavouriteGroupId + "',`forum_posts` = '" + _habboStats.ForumPosts + "',`PurchaseUsersConcurrent` = '" + _habboStats.PurchaseUsersConcurrent + "', `vip_gifts` = '" + _habboStats.vipGifts + "' WHERE `id` = '" + Id + "' LIMIT 1;";
             }
         }
-
         public bool InitProcess()
         {
             _process = new ProcessComponent();
@@ -1371,6 +1364,7 @@ namespace StarBlue.HabboHotel.Users
 
         public void Init(GameClient client, UserData data)
         {
+            userData = data;
             Achievements = data.achievements;
 
             FavoriteRooms = new ArrayList();
@@ -1472,8 +1466,6 @@ namespace StarBlue.HabboHotel.Users
                 }
             }
 
-            GetClient().LoggingOut = true;
-
             Dispose();
 
             _client = null;
@@ -1548,7 +1540,7 @@ namespace StarBlue.HabboHotel.Users
                     int DiamondVipUpdate = Convert.ToInt32(StarBlueServer.GetConfig().data["vip.diamonds.update"]);
                     int GOTWVipUpdate = Convert.ToInt32(StarBlueServer.GetConfig().data["vip.gotw.update"]);
 
-                    if (_client.GetHabbo().Rank > 1)
+                    if (this.Rank > 1)
                     {
                         _duckets += DucketVipUpdate;
                         _credits += CreditVipUpdate;
@@ -1572,6 +1564,7 @@ namespace StarBlue.HabboHotel.Users
                         _client.SendMessage(new HabboActivityPointNotificationComposer(_gotwPoints, GOTWUpdate, 103));
                         GetClient().SendMessage(RoomNotificationComposer.SendBubble("newuser", "Você recebeu " + DucketUpdate + " duckets, " + CreditUpdate + " créditos, " + DiamondUpdate + " diamantes e " + GOTWUpdate + " " + Convert.ToString(StarBlueServer.GetConfig().data["seasonal.currency.name"]) + " por estar conectado no hotel.", ""));
                     }
+
 
                     CreditsUpdateTick = Convert.ToInt32(StarBlueServer.GetConfig().data["amount.time.minutes"]);
                 }
@@ -1644,7 +1637,7 @@ namespace StarBlue.HabboHotel.Users
         {
             if (casinoEnabled)
             {
-                casinoCount = casinoCount + Int32.Parse(diceRoll);
+                casinoCount = casinoCount + int.Parse(diceRoll);
                 if (casinoCount > 21)
                 {
                     CurrentRoom.SendMessage(RoomNotificationComposer.SendBubble("volada", "O usuário " + Username + " jogue os dados e pegue " + casinoCount + ".", ""));
@@ -1678,105 +1671,112 @@ namespace StarBlue.HabboHotel.Users
             }
         }
 
+        public bool SendWebPacket(IServerPacket Message)
+        {
+            StarBlue.HabboHotel.WebClient.WebClient ClientWeb = StarBlueServer.GetGame().GetWebClientManager().GetClientByUserID(this.Id);
+            if (ClientWeb != null)
+            {
+                ClientWeb.SendPacket(Message);
+                return true;
+            }
+
+            return false;
+        }
+
         public void PrepareRoom(int Id, string Password)
         {
-            if (GetClient() == null || GetClient().GetHabbo() == null)
+            GameClient Session = this.GetClient();
+
+            if (Session == null || this == null)
             {
                 return;
             }
 
-            if (GetClient().GetHabbo().InRoom)
+            if (this.InRoom && this.CurrentRoom != null)
             {
-                if (!StarBlueServer.GetGame().GetRoomManager().TryGetRoom(GetClient().GetHabbo().CurrentRoomId, out Room OldRoom))
-                {
-                    return;
-                }
-
-                if (OldRoom.GetRoomUserManager() != null)
-                {
-                    OldRoom.GetRoomUserManager().RemoveUserFromRoom(GetClient(), false, false);
-                }
-            }
-
-            if (GetClient().GetHabbo().IsTeleporting && GetClient().GetHabbo().TeleportingRoomID != Id)
-            {
-                GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
-                return;
+                this.CurrentRoom.GetRoomUserManager().RemoveUserFromRoom(Session, false, false);
             }
 
             Room Room = StarBlueServer.GetGame().GetRoomManager().LoadRoom(Id);
-            if (Room == null)
+            if (Room == null || Room.isCrashed || (this.IsTeleporting && this.TeleportingRoomID != Id))
             {
-                GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
+                Session.SendMessage(new CloseConnectionComposer(Session));
                 return;
             }
 
-            if (Room.isCrashed)
-            {
-                GetClient().SendNotification("Esta sala não está disponível no momento.");
-                GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
-                return;
-            }
+            this.CurrentRoomId = Room.Id;
 
-            GetClient().GetHabbo().CurrentRoomId = Room.RoomId;
-
-            if (!GetClient().GetHabbo().GetPermissions().HasRight("room_ban_override") && Room.UserIsBanned(GetClient().GetHabbo().Id))
+            if (!this.GetPermissions().HasRight("room_ban_override") && Room.UserIsBanned(this.Id))
             {
-                if (Room.HasBanExpired(GetClient().GetHabbo().Id))
+                if (Room.HasBanExpired(this.Id))
                 {
-                    Room.RemoveBan(GetClient().GetHabbo().Id);
+                    Room.RemoveBan(this.Id);
                 }
                 else
                 {
-                    GetClient().GetHabbo().RoomAuthOk = false;
-                    GetClient().SendMessage(new CantConnectComposer(4));
-                    GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
+                    this.RoomAuthOk = false;
+                    Session.SendMessage(new CantConnectComposer(4));
+                    Session.SendMessage(new CloseConnectionComposer(Session));
                     return;
                 }
             }
 
-            GetClient().SendMessage(new OpenConnectionComposer());
-
-            if (Room.GetRoomUserManager().userCount >= Room.UsersMax && !GetClient().GetHabbo().GetPermissions().HasRight("room_enter_full") && GetClient().GetHabbo().Id != Room.OwnerId)
+            if (Room.RoomData.UsersNow >= Room.RoomData.UsersMax && !this.GetPermissions().HasRight("room_enter_full") && this.Id != Room.RoomData.OwnerId)
             {
-                GetClient().SendMessage(new CantConnectComposer(1));
-                GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
+                Session.SendMessage(new CantConnectComposer(1));
+                Session.SendMessage(new CloseConnectionComposer(Session));
                 return;
-
             }
 
-            if (!Room.CheckRights(GetClient(), true, true) && !GetClient().GetHabbo().IsTeleporting && !GetClient().GetHabbo().IsHopping)
+            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
+            message.appendResponse(new OpenConnectionComposer());
+
+            if (!Room.CheckRights(Session, false, true) && !this.IsTeleporting && !this.IsHopping)
             {
-                if (Room.Access == RoomAccess.DOORBELL && !GetClient().GetHabbo().GetPermissions().HasRight("room_enter_locked"))
+                if (Room.RoomData.Access == RoomAccess.DOORBELL && !this.GetPermissions().HasRight("room_enter_locked"))
                 {
                     if (Room.UserCount > 0)
                     {
-                        GetClient().SendMessage(new DoorbellComposer(""));
-                        Room.SendMessage(new DoorbellComposer(GetClient().GetHabbo().Username), true);
+                        message.appendResponse(new DoorbellComposer(""));
+                        Room.SendMessage(new DoorbellComposer(this.Username), true);
+                        message.sendResponse();
                         return;
                     }
                     else
                     {
-                        GetClient().SendMessage(new FlatAccessDeniedComposer(""));
-                        GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
+                        message.appendResponse(new FlatAccessDeniedComposer(""));
+                        message.appendResponse(new CloseConnectionComposer(Session));
+                        message.sendResponse();
                         return;
                     }
                 }
-                else if (Room.Access == RoomAccess.PASSWORD && !GetClient().GetHabbo().GetPermissions().HasRight("room_enter_locked"))
+                else if (Room.RoomData.Access == RoomAccess.PASSWORD && !this.GetPermissions().HasRight("room_enter_locked"))
                 {
-                    if (Password.ToLower() != Room.Password.ToLower() || String.IsNullOrWhiteSpace(Password))
+                    if (Password.ToLower() != Room.RoomData.Password.ToLower() || string.IsNullOrWhiteSpace(Password))
                     {
-                        GetClient().SendMessage(new GenericErrorComposer(-100002));
-                        GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
+                        message.appendResponse(new GenericErrorComposer(-100002));
+                        message.appendResponse(new CloseConnectionComposer(Session));
+                        message.sendResponse();
                         return;
                     }
                 }
             }
 
-            if (!EnterRoom(Room))
+            message.appendResponse(new RoomReadyComposer(Room.Id, Room.RoomData.ModelName));
+
+            if (Room.RoomData.Wallpaper != "0.0")
             {
-                GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
+                message.appendResponse(new RoomPropertyComposer("wallpaper", Room.RoomData.Wallpaper));
             }
+
+            if (Room.RoomData.Floor != "0.0")
+            {
+                message.appendResponse(new RoomPropertyComposer("floor", Room.RoomData.Floor));
+            }
+
+            message.appendResponse(new RoomPropertyComposer("landscape", Room.RoomData.Landscape));
+            message.appendResponse(new RoomRatingComposer(Room.RoomData.Score, !(this.RatedRooms.Contains(Room.Id) || Room.RoomData.OwnerId == this.Id)));
+            message.sendResponse();
         }
 
         public void InitCalendar()
@@ -1819,36 +1819,29 @@ namespace StarBlue.HabboHotel.Users
 
         public bool EnterRoom(Room Room)
         {
-            if (Room == null)
+            GameClient Session = this.GetClient();
+            if (Room == null || Session == null)
             {
-                GetClient().SendMessage(new CloseConnectionComposer(GetClient()));
+                return false;
             }
 
-            GetClient().SendMessage(new RoomReadyComposer(Room.RoomId, Room.ModelName));
-            if (Room.Wallpaper != "0.0")
+            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
+            message.appendResponse(new RoomReadyComposer(Room.Id, Room.RoomData.ModelName));
+
+            if (Room.RoomData.Wallpaper != "0.0")
             {
-                GetClient().SendMessage(new RoomPropertyComposer("wallpaper", Room.Wallpaper));
+                message.appendResponse(new RoomPropertyComposer("wallpaper", Room.RoomData.Wallpaper));
             }
 
-            if (Room.Floor != "0.0")
+            if (Room.RoomData.Floor != "0.0")
             {
-                GetClient().SendMessage(new RoomPropertyComposer("floor", Room.Floor));
+                message.appendResponse(new RoomPropertyComposer("floor", Room.RoomData.Floor));
             }
 
-            GetClient().SendMessage(new RoomPropertyComposer("landscape", Room.Landscape));
-            GetClient().SendMessage(new RoomRatingComposer(Room.Score, !(GetClient().GetHabbo().RatedRooms.Contains(Room.RoomId) || Room.OwnerId == GetClient().GetHabbo().Id)));
+            message.appendResponse(new RoomPropertyComposer("landscape", Room.RoomData.Landscape));
+            message.appendResponse(new RoomRatingComposer(Room.RoomData.Score, !(this.RatedRooms.Contains(Room.Id) || Room.RoomData.OwnerId == this.Id)));
+            message.sendResponse();
 
-            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-            {
-                dbClient.RunFastQuery("INSERT INTO user_roomvisits (user_id,room_id,entry_timestamp,exit_timestamp,hour,minute) VALUES ('" + GetClient().GetHabbo().Id + "','" + GetClient().GetHabbo().CurrentRoomId + "','" + StarBlueServer.GetUnixTimestamp() + "','0','" + DateTime.Now.Hour + "','" + DateTime.Now.Minute + "');");// +
-            }
-
-
-            if (Room.OwnerId != Id)
-            {
-                GetClient().GetHabbo().GetStats().RoomVisits += 1;
-                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(GetClient(), "ACH_RoomEntry", 1);
-            }
             return true;
         }
     }

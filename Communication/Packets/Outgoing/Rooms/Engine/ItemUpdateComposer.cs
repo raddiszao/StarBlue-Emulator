@@ -1,10 +1,9 @@
 ﻿
 using StarBlue.HabboHotel.Items;
-using System;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class ItemUpdateComposer : ServerPacket
+    internal class ItemUpdateComposer : ServerPacket
     {
         public ItemUpdateComposer(Item Item, int UserId)
             : base(ServerPacketHeader.ItemUpdateMessageComposer)
@@ -16,7 +15,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
         {
             WriteString(Item.Id.ToString());
             WriteInteger(Item.GetBaseItem().SpriteId);
-            WriteString(Convert.ToString(Item.wallCoord));
+            WriteString(Item.wallCoord);
             switch (Item.GetBaseItem().InteractionType)
             {
                 case InteractionType.POSTIT:

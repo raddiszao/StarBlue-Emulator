@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class ThreadDataComposer : ServerPacket
+    internal class ThreadDataComposer : ServerPacket
     {
         public ThreadDataComposer(GroupForumThread Thread, int StartIndex, int MaxLength)
             : base(ServerPacketHeader.ThreadDataMessageComposer)
@@ -12,7 +12,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Groups
             base.WriteInteger(StartIndex);
             base.WriteInteger(Thread.Posts.Count); //Messages count
 
-            foreach (var Post in Thread.Posts)
+            foreach (GroupForumThreadPost Post in Thread.Posts)
             {
                 Post.SerializeData(this);
             }

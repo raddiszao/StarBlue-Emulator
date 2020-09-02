@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Action
 {
-    class IgnoreStatusComposer : ServerPacket
+    internal class IgnoreStatusComposer : ServerPacket
     {
         public IgnoreStatusComposer(int Status, string Username)
             : base(ServerPacketHeader.IgnoreStatusMessageComposer)

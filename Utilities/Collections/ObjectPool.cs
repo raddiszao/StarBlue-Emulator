@@ -1,12 +1,8 @@
-﻿using Plus.Core;
+﻿using StarBlue.Core;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Plus.Utilities.Collections
+namespace StarBlue.Utilities.Collections
 {
     public sealed class ObjectPool<T>
     {

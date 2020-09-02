@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class TeleportUserBox : IWiredItem, IWiredCycle
+    internal class TeleportUserBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -100,6 +100,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 Player.Effects().ApplyEffect(4);
             }
 
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
         }
@@ -123,10 +124,10 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return;
             }
 
-            if (Player.IsTeleporting || Player.IsHopping || Player.TeleporterId != 0)
+            /*if (Player.IsTeleporting || Player.IsHopping || Player.TeleporterId != 0)
             {
                 return;
-            }
+            }*/
 
             Random rand = new Random();
             List<Item> Items = SetItems.Values.ToList();
@@ -169,8 +170,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return;
             }
 
-            Room.GetGameMap().TeleportToItem(User, Item);
-            Room.GetRoomUserManager().UpdateUserStatusses();
+            if (Item.Coordinate != User.Coordinate)
+            {
+                Room.GetGameMap().TeleportToItem(User, Item);
+                Room.GetRoomUserManager().UpdateUserStatusses();
+            }
 
             if (Player.Effects() != null)
             {

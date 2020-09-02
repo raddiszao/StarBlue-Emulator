@@ -3,7 +3,7 @@ using StarBlue.Communication.Packets.Outgoing.Inventory.Badges;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Badges
 {
-    class GetBadgesEvent : IPacketEvent
+    internal class GetBadgesEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

@@ -2,9 +2,9 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class KickCommand : IChatCommand
+    internal class KickCommand : IChatCommand
     {
-        public string PermissionRequired => "user_12";
+        public string PermissionRequired => "user_normal";
         public string Parameters => "[USUARIO] [MENSAGEM]";
         public string Description => "Expulse o usuário e envie-lhe o motivo.";
 
@@ -13,6 +13,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             if (Params.Length == 1)
             {
                 Session.SendWhisper("Digite o nome do usuário.", 34);
+                return;
+            }
+
+            if (Room == null || Room.RoomData.WhoCanKick != 2 && (Room.RoomData.WhoCanKick != 1 || !Room.CheckRights(Session, false, true)) && !Room.CheckRights(Session, true))
+            {
+                Session.SendWhisper("Lamento, você não tem permissão para isso.", 34);
                 return;
             }
 
@@ -46,16 +52,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 return;
             }
 
-            if (Params.Length > 2)
-            {
-                TargetClient.SendNotification("Um moderador expulsou você do quarto pelo seguinte motivo: " + CommandManager.MergeParams(Params, 2));
-            }
-            else
-            {
-                TargetClient.SendNotification("Um moderador expulsou você do quarto.");
-            }
-
-            TargetRoom.GetRoomUserManager().RemoveUserFromRoom(TargetClient, true, false);
+            TargetRoom.GetRoomUserManager().RemoveUserFromRoom(TargetClient, true, true);
         }
     }
 }

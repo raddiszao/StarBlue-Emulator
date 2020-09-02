@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Data;
 
 namespace StarBlue.HabboHotel.Rooms.AI.Types
 {
-    class VisitorLogger : BotAI
+    internal class VisitorLogger : BotAI
     {
         private int VirtualId;
 
@@ -24,14 +24,14 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
 
         public override void OnUserEnterRoom(RoomUser User)
         {
-            if (GetBotData() == null)
+            if (GetBotData() == null || User == null)
             {
                 return;
             }
 
             RoomUser Bot = GetRoomUser();
 
-            if (User.GetClient().GetHabbo().CurrentRoom.OwnerId == User.GetClient().GetHabbo().Id)
+            if (User.GetClient().GetHabbo().CurrentRoom.RoomData.OwnerId == User.GetClient().GetHabbo().Id)
             {
                 DataTable getUsername;
                 using (IQueryAdapter query = StarBlueServer.GetDatabaseManager().GetQueryReactor())
@@ -75,14 +75,14 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
 
             RoomUser Bot = GetRoomUser();
 
-            if (Client.GetHabbo().CurrentRoom.OwnerId == Client.GetHabbo().Id)
+            if (Client.GetHabbo().CurrentRoom.RoomData.OwnerId == Client.GetHabbo().Id)
             {
                 DataTable getRoom;
 
                 using (IQueryAdapter query = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     query.SetQuery("DELETE FROM room_visits WHERE roomid = @id");
-                    query.AddParameter("id", Client.GetHabbo().CurrentRoom.RoomId);
+                    query.AddParameter("id", Client.GetHabbo().CurrentRoom.Id);
                     getRoom = query.GetTable();
                 }
             }
@@ -92,7 +92,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
             {
                 query.SetQuery("UPDATE room_visits SET gone = @gone WHERE roomid = @id AND username = @username");
                 query.AddParameter("gone", "esteve aqui.");
-                query.AddParameter("id", Client.GetHabbo().CurrentRoom.RoomId);
+                query.AddParameter("id", Client.GetHabbo().CurrentRoom.Id);
                 query.AddParameter("username", Client.GetHabbo().Username);
                 getUpdate = query.GetTable();
             }
@@ -119,7 +119,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
                         return;
                     }
 
-                    if (User.GetClient().GetHabbo().CurrentRoom.OwnerId == User.GetClient().GetHabbo().Id)
+                    if (User.GetClient().GetHabbo().CurrentRoom.RoomData.OwnerId == User.GetClient().GetHabbo().Id)
                     {
                         DataTable getRoomVisit;
 
@@ -132,8 +132,8 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
 
                         foreach (DataRow Row in getRoomVisit.Rows)
                         {
-                            var gone = Convert.ToString(Row["gone"]);
-                            var username = Convert.ToString(Row["username"]);
+                            string gone = Convert.ToString(Row["gone"]);
+                            string username = Convert.ToString(Row["username"]);
 
                             GetRoomUser().Chat(username + " " + gone, false);
                         }

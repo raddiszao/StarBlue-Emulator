@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class FilterCommand : IChatCommand
+    internal class FilterCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
         public string Parameters => "[PALAVRA]";
@@ -20,7 +20,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             {
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.SetQuery("INSERT INTO wordfilter (`word`, `addedby`, `bannable`) VALUES " +
+                    dbClient.SetQuery("INSERT IGNORE INTO wordfilter (`word`, `addedby`, `bannable`) VALUES " +
                         "(@ban, '" + Session.GetHabbo().Username + "', '1');");
                     dbClient.AddParameter("ban", BannedWord.ToLower());
                     dbClient.RunQuery();

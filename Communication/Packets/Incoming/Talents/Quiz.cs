@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace StarBlue.Communication.Packets.Incoming.Talents
+﻿namespace StarBlue.Communication.Packets.Incoming.Talents
 {
-    class Quiz
+    internal class Quiz
     {
-        internal static Boolean CorrectAnswer(int Quiz, int Answer)
+        internal static bool CorrectAnswer(int Quiz, int Answer)
         {
             switch (Quiz)
             {

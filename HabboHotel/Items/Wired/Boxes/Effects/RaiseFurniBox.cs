@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class RaiseFurniBox : IWiredItem, IWiredCycle
+    internal class RaiseFurniBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -64,7 +64,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             if (!Requested)
             {
-                counter = Delay;
+                counter = 0;
                 Requested = true;
             }
 
@@ -79,7 +79,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
 
             counter += 500;
-            if (counter >= Delay)
+            if (counter > Delay)
             {
                 counter = 0;
                 foreach (Item Item in SetItems.Values.ToList())
@@ -103,6 +103,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                     Item.UpdateState();
                 }
 
+                Requested = false;
                 _next = 0;
                 return true;
             }

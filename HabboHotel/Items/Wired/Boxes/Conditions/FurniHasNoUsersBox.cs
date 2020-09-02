@@ -1,12 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
-using StarBlue.HabboHotel.Rooms.PathFinding;
 using System.Collections.Concurrent;
+using System.Drawing;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class FurniHasNoUsersBox : IWiredItem
+    internal class FurniHasNoUsersBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -51,6 +51,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 
         public bool Execute(params object[] Params)
         {
+            bool flag = false;
             foreach (Item Item in SetItems.Values.ToList())
             {
                 if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item))
@@ -58,25 +59,13 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
                     continue;
                 }
 
-                bool HasUsers = false;
-                foreach (ThreeDCoord Tile in Item.GetAffectedTiles.Values)
-                {
-                    if (Instance.GetGameMap().SquareHasUsers(Tile.X, Tile.Y))
-                    {
-                        HasUsers = true;
-                    }
-                }
+                foreach (Point coord in Item.GetCoords) if (Instance.GetGameMap().GetRoomUsers(coord).Count != 0) flag = true;
 
-                if (Instance.GetGameMap().SquareHasUsers(Item.GetX, Item.GetY))
-                {
-                    HasUsers = true;
-                }
+                if (flag) return false;
 
-                if (HasUsers)
-                {
-                    return false;
-                }
+                flag = false;
             }
+
             return true;
         }
     }

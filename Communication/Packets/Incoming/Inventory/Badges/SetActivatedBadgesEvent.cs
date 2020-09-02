@@ -1,13 +1,13 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Users;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Badges
 {
-    class SetActivatedBadgesEvent : IPacketEvent
+    internal class SetActivatedBadgesEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

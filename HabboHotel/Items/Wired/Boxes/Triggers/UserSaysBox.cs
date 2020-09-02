@@ -6,11 +6,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 {
-    class UserSaysBox : IWiredItem
+    internal class UserSaysBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -32,7 +31,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
         {
             int Unknown = Packet.PopInt();
             int OwnerOnly = Packet.PopInt();
-            string Message = Encoding.UTF8.GetString(Encoding.Default.GetBytes(Packet.PopString()));
+            string Message = Packet.PopString();
 
             BoolData = OwnerOnly == 1;
             StringData = Message;
@@ -41,7 +40,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
         public bool Execute(params object[] Params)
         {
             Habbo Player = (Habbo)Params[0];
-            if (Player == null || Player.CurrentRoom == null || !Player.InRoom)
+            if (Player == null && !Player.InRoom)
             {
                 return false;
             }
@@ -53,7 +52,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
             }
 
             string Message = Convert.ToString(Params[1]);
-            if ((BoolData && Instance.OwnerId != Player.Id) || Player == null || string.IsNullOrWhiteSpace(Message) || string.IsNullOrWhiteSpace(StringData))
+            if ((BoolData && Instance.RoomData.OwnerId != Player.Id) || Player == null || string.IsNullOrWhiteSpace(Message) || string.IsNullOrWhiteSpace(StringData))
             {
                 return false;
             }
@@ -64,17 +63,29 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
                 ICollection<IWiredItem> Effects = Instance.GetWired().GetEffects(this);
                 ICollection<IWiredItem> Conditions = Instance.GetWired().GetConditions(this);
 
+                bool Success = false;
+                bool HasAnyConditionValid = Effects.Where(x => x.Type == WiredBoxType.AddonAnyConditionValid).ToList().Count() > 0;
                 foreach (IWiredItem Condition in Conditions.ToList())
                 {
                     if (!Condition.Execute(Player))
                     {
-                        return false;
+                        if (!HasAnyConditionValid)
+                            return false;
+
+                        continue;
                     }
 
+                    Success = true;
                     Instance.GetWired().OnEvent(Condition.Item);
                 }
 
+                if (!Success && Conditions.Count > 0)
+                {
+                    return false;
+                }
+
                 Player.GetClient().SendMessage(new WhisperComposer(User.VirtualId, Message, 0, 0));
+
                 //Check the ICollection to find the random addon effect.
                 bool HasRandomEffectAddon = Effects.Where(x => x.Type == WiredBoxType.AddonRandomEffect).ToList().Count() > 0;
                 if (HasRandomEffectAddon)
@@ -88,7 +99,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 
                     //Success! Let's get our selected box and continue.
                     IWiredItem SelectedBox = Instance.GetWired().GetRandomEffect(Effects.ToList());
-                    if (!SelectedBox.Execute())
+                    if (!SelectedBox.Execute(Params))
                     {
                         return false;
                     }

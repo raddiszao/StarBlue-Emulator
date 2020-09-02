@@ -1,11 +1,10 @@
 ﻿using StarBlue.HabboHotel.Items;
 using StarBlue.Utilities;
-using System;
 
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class ObjectUpdateComposer : ServerPacket
+    internal class ObjectUpdateComposer : ServerPacket
     {
         public ObjectUpdateComposer(Item Item, int UserId)
             : base(ServerPacketHeader.ObjectUpdateMessageComposer)
@@ -15,8 +14,8 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
             base.WriteInteger(Item.GetX);
             base.WriteInteger(Item.GetY);
             base.WriteInteger(Item.Rotation);
-            base.WriteString(String.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
-            base.WriteString(String.Empty);
+            base.WriteString(string.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
+            base.WriteString(string.Empty);
 
             if (Item.LimitedNo > 0)
             {
@@ -151,7 +150,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
         }
     }
 
-    class UpdateFootBallComposer : ServerPacket
+    internal class UpdateFootBallComposer : ServerPacket
     {
         public UpdateFootBallComposer(Item Item, int newX, int newY)
             : base(ServerPacketHeader.ObjectUpdateMessageComposer)
@@ -161,8 +160,8 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
             base.WriteInteger(newX);
             base.WriteInteger(newY);
             base.WriteInteger(4); // rot;
-            base.WriteString((String.Format("{0:0.00}", TextHandling.GetString(Item.GetZ))));
-            base.WriteString((String.Format("{0:0.00}", TextHandling.GetString(Item.GetZ))));
+            base.WriteString((string.Format("{0:0.00}", TextHandling.GetString(Item.GetZ))));
+            base.WriteString((string.Format("{0:0.00}", TextHandling.GetString(Item.GetZ))));
             base.WriteInteger(0);
             base.WriteInteger(0);
             base.WriteString(Item.ExtraData);

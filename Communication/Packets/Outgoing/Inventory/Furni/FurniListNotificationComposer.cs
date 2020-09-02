@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    class FurniListNotificationComposer : ServerPacket
+    internal class FurniListNotificationComposer : ServerPacket
     {
         public FurniListNotificationComposer(int Id, int Type)
             : base(ServerPacketHeader.FurniListNotificationMessageComposer)

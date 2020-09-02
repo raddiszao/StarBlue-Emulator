@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class GetIgnoredUsersEvent : IPacketEvent
+    internal class GetIgnoredUsersEvent : IPacketEvent
     {
         public void Parse(GameClient session, ClientPacket packet)
         {

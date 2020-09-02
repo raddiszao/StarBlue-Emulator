@@ -3,6 +3,8 @@ using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
 using StarBlue.HabboHotel.Camera;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
@@ -10,10 +12,11 @@ using StarBlue.HabboHotel.Rooms.AI;
 using StarBlue.HabboHotel.Rooms.Games.Freeze;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.PathFinding;
+using StarBlue.HabboHotel.Users;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Rooms
 {
@@ -25,8 +28,14 @@ namespace StarBlue.HabboHotel.Rooms
         public bool SamePath = false;
         public bool CanWalk;
         public int lastpathcount = 0;
+        public int PathCounter;
         public bool UserOnBall = false;
         public bool UserHandlingBall = false;
+        public bool DiagMove = false;
+        public bool ValidStep = false;
+        public int DistancePath = 0;
+        public int RoomLengthCount = 5;
+        public Item UserToVendingMachine;
         public int LastRotBody;
         public int CarryItemID; //byte
         public int CarryTimer; //byte
@@ -55,7 +64,6 @@ namespace StarBlue.HabboHotel.Rooms
         public int SeatCount;
         public int LastBubble = 0;
         public double LastInteraction;
-        public Item LastItem = null;
         public int LockedTilesCount;
 
         public List<Vector2D> Path = new List<Vector2D>();
@@ -109,6 +117,12 @@ namespace StarBlue.HabboHotel.Rooms
 
         public int DiceTotal = 0;
 
+        public bool OnTrampoline { get; set; } = false;
+        public double TrampolineTicks { get; set; } = 0;
+        public int TrampolineProgresses { get; set; } = 0;
+        public bool OnJog { get; set; } = false;
+        public double JogTicks { get; set; } = 0;
+
         public RoomUser(int HabboId, int RoomId, int VirtualId, Room room)
         {
             Freezed = false;
@@ -155,19 +169,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public int CurrentEffect => GetClient().GetHabbo().Effects().CurrentEffect;
 
-
-        public bool IsDancing
-        {
-            get
-            {
-                if (DanceId >= 1)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
+        public bool IsDancing => (DanceId >= 1);
 
         public bool NeedsAutokick
         {
@@ -183,17 +185,17 @@ namespace StarBlue.HabboHotel.Rooms
                     return true;
                 }
 
-                if (GetClient().GetHabbo().GetPermissions().HasRight("mod_tool") || GetRoom().OwnerId == HabboId)
+                if (GetClient().GetHabbo().GetPermissions().HasRight("mod_tool") || GetRoom().RoomData.OwnerId == HabboId)
                 {
                     return false;
                 }
 
-                if (GetRoom().Id == 1649919)
+                /*if (GetRoom().Id == 1649919)
                 {
                     return false;
-                }
+                }*/
 
-                if (IdleTime >= 7200)
+                if (IdleTime >= 5500)
                 {
                     return true;
                 }
@@ -202,38 +204,9 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
+        public bool IsTrading => (!IsBot && Statusses.ContainsKey("trd"));
 
-
-        public bool IsTrading
-        {
-            get
-            {
-                if (IsBot)
-                {
-                    return false;
-                }
-
-                if (Statusses.ContainsKey("trd"))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        public bool IsBot
-        {
-            get
-            {
-                if (BotData != null)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
+        public bool IsBot => (BotData != null);
 
         public string GetUsername()
         {
@@ -259,13 +232,6 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public double BuildHeight
-        {
-            get => _buildHeight;
-            set => _buildHeight = value;
-        }
-
-
         public void UnIdle()
         {
             if (!IsBot)
@@ -282,6 +248,7 @@ namespace StarBlue.HabboHotel.Rooms
             {
                 IsAsleep = false;
                 GetRoom().SendMessage(new SleepComposer(this, false));
+                ApplyEffect(0);
             }
         }
 
@@ -400,19 +367,6 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public void HandleSpamTicks()
-        {
-            if (ChatSpamTicks >= 0)
-            {
-                ChatSpamTicks--;
-
-                if (ChatSpamTicks == -1)
-                {
-                    ChatSpamCount = 0;
-                }
-            }
-        }
-
         public bool IncrementAndCheckFlood(out int MuteTime)
         {
             MuteTime = 0;
@@ -457,9 +411,53 @@ namespace StarBlue.HabboHotel.Rooms
                 return;
             }
 
-            if (mRoom.GetWired().TriggerEvent(Items.Wired.WiredBoxType.TriggerUserSays, GetClient().GetHabbo(), Encoding.UTF8.GetString(Encoding.Default.GetBytes(Message))))
+            if (mRoom.GetWired().TriggerEvent(Items.Wired.WiredBoxType.TriggerUserSays, GetClient().GetHabbo(), Message))
             {
                 return;
+            }
+
+            if (Message.StartsWith("@") && Message.Split(' ').Length >= 1)
+            {
+                string[] Params = Message.Split(' ');
+                string To = Params[0].Split('@')[1];
+
+                ServerPacket MentionPacket = new MentionUserComposer(mRoom.RoomData.Name, mRoom.RoomData.Id, Message, GetClient().GetHabbo().Username, GetClient().GetHabbo().Look);
+
+                if (GetClient().GetHabbo().Rank >= 14 && (To == "everyone" || To == "here"))
+                {
+                    StarBlueServer.GetGame().GetWebClientManager().SendMessage(MentionPacket);
+                }
+                else
+                {
+                    Habbo UserHabboMentioned = StarBlueServer.GetHabboByUsername(To);
+                    if (UserHabboMentioned == null || UserHabboMentioned.GetClient() == null)
+                    {
+                        GetClient().SendWhisper("Não foi possível encontrar este usuário.", 34);
+                    }
+                    else
+                    {
+                        if (UserHabboMentioned.Username == GetClient().GetHabbo().Username)
+                        {
+                            GetClient().SendWhisper("Não pode mencionar você mesmo.", 34);
+                        }
+                        else if (UserHabboMentioned.DisabledMentions && GetClient().GetHabbo().Rank < 16)
+                        {
+                            GetClient().SendWhisper("Este usuário desabilitou as menções.", 34);
+                        }
+                        else
+                        {
+                            if (UserHabboMentioned.SendWebPacket(MentionPacket))
+                            {
+                                GetClient().SendWhisper("Você mencionou o usuário " + UserHabboMentioned.GetClient().GetHabbo().Username + ".", 34);
+                            }
+                            else
+                            {
+                                UserHabboMentioned.GetClient().SendMessage(RoomNotificationComposer.SendBubble("advice", GetClient().GetHabbo().Username + " mencionou você: " + Message, "event:navigator/goto/" + GetClient().GetHabbo().CurrentRoomId));
+                                GetClient().SendWhisper("Você mencionou o usuário " + UserHabboMentioned.GetClient().GetHabbo().Username + ".", 34);
+                            }
+                        }
+                    }
+                }
             }
 
             GetClient().GetHabbo().HasSpoken = true;
@@ -497,8 +495,7 @@ namespace StarBlue.HabboHotel.Rooms
                 {
                     foreach (RoomUser user in ToNotify)
                     {
-                        if (user == null || user.GetClient() == null || user.GetClient().GetHabbo() == null ||
-                            user.GetClient().GetHabbo().TentId == GetClient().GetHabbo().TentId)
+                        if (user == null || user.GetClient() == null || user.GetClient().GetHabbo() == null || user.GetClient().GetHabbo().TentId == GetClient().GetHabbo().TentId)
                         {
                             continue;
                         }
@@ -517,7 +514,7 @@ namespace StarBlue.HabboHotel.Rooms
                         continue;
                     }
 
-                    if (mRoom.chatDistance > 0 && Gamemap.TileDistance(X, Y, User.X, User.Y) > mRoom.chatDistance)
+                    if (mRoom.RoomData.chatDistance > 0 && Gamemap.TileDistance(X, Y, User.X, User.Y) > mRoom.RoomData.chatDistance)
                     {
                         continue;
                     }
@@ -713,7 +710,7 @@ namespace StarBlue.HabboHotel.Rooms
             SetX = 0;
             SetY = 0;
             SetZ = 0;
-            SeatCount = 0;
+            PathCounter = 0;
 
             if (Update)
             {
@@ -734,18 +731,13 @@ namespace StarBlue.HabboHotel.Rooms
             {
                 GetRoom().SendMessage(GetRoom().GetRoomItemHandler().UpdateUserOnRoller(this, new Point(pX, pY), 0, GetRoom().GetGameMap().SqAbsoluteHeight(GoalX, GoalY)));
                 if (Statusses.ContainsKey("sit"))
-                {
                     Z -= 0.35;
-                }
-
                 UpdateNeeded = true;
                 return;
             }
 
-            if ((GetRoom().GetGameMap().SquareHasUsers(pX, pY, this) && !pOverride) || Frozen)
-            {
+            if (((GetRoom().GetGameMap().SquareHasUsers(pX, pY, this) || GetRoom().GetGameMap().SquareHasFurniNoWalkable(pX, pY, AllowOverride)) && !pOverride) || Frozen)
                 return;
-            }
 
             GoalX = pX;
             GoalY = pY;
@@ -764,26 +756,19 @@ namespace StarBlue.HabboHotel.Rooms
             CanWalk = true;
         }
 
-
         public void SetPos(int pX, int pY, double pZ)
         {
             X = pX;
             Y = pY;
             Z = pZ;
+            UpdateNeeded = true;
         }
 
         public void CarryItem(int Item)
         {
             CarryItemID = Item;
 
-            if (Item > 0)
-            {
-                CarryTimer = 240;
-            }
-            else
-            {
-                CarryTimer = 0;
-            }
+            CarryTimer = Item <= 0 ? 0 : 240;
 
             GetRoom().SendMessage(new CarryObjectComposer(VirtualId, Item));
         }
@@ -865,6 +850,12 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void ApplyEffect(int effectID)
         {
+            if (mRoom == null)
+                return;
+
+            if (RidingHorse && (effectID != 77 && effectID != 103))
+                return;
+
             if (IsBot)
             {
                 BotData.CurrentEffect = effectID;
@@ -880,27 +871,100 @@ namespace StarBlue.HabboHotel.Rooms
             GetClient().GetHabbo().Effects().ApplyEffect(effectID);
         }
 
+        public bool UserRotInFrontOrSide(RoomUser User)
+        {
+            return ((RotBody == 4 && User.RotBody == 6) || (RotBody == 4 && User.RotBody == 2) || (RotBody == 0 && User.RotBody == 6) || (RotBody == 0 && User.RotBody == 2) || (RotBody == 4 && User.RotBody == 2) || (RotBody == 2 && User.RotBody == 6) || (RotBody == 1 && User.RotBody == 5) || (RotBody == 4 && User.RotBody == 0) || (RotBody == 3 && User.RotBody == 7));
+        }
+
         public Point SquareInFront
         {
             get
             {
-                var Sq = new Point(X, Y);
+
+                Point Sq = new Point(X, Y);
 
                 if (RotBody == 0)
                 {
                     Sq.Y--;
                 }
+                else if (RotBody == 1)
+                {
+                    Sq.Y--;
+                    Sq.X++;
+                }
                 else if (RotBody == 2)
                 {
                     Sq.X++;
+                }
+                else if (RotBody == 3)
+                {
+                    Sq.X++;
+                    Sq.Y++;
                 }
                 else if (RotBody == 4)
                 {
                     Sq.Y++;
                 }
+                else if (RotBody == 5)
+                {
+                    Sq.X--;
+                    Sq.Y++;
+                }
                 else if (RotBody == 6)
                 {
                     Sq.X--;
+                }
+                else if (RotBody == 7)
+                {
+                    Sq.X--;
+                    Sq.Y--;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareInFront2
+        {
+            get
+            {
+                Point Sq = new Point(X, Y);
+
+                if (RotBody == 0)
+                {
+                    Sq.Y -= 2;
+                }
+                else if (RotBody == 1)
+                {
+                    Sq.Y -= 2;
+                    Sq.X += 2;
+                }
+                else if (RotBody == 2)
+                {
+                    Sq.X += 2;
+                }
+                else if (RotBody == 3)
+                {
+                    Sq.X += 2;
+                    Sq.Y += 2;
+                }
+                else if (RotBody == 4)
+                {
+                    Sq.Y += 2;
+                }
+                else if (RotBody == 5)
+                {
+                    Sq.X -= 2;
+                    Sq.Y += 2;
+                }
+                else if (RotBody == 6)
+                {
+                    Sq.X -= 2;
+                }
+                else if (RotBody == 7)
+                {
+                    Sq.X -= 2;
+                    Sq.Y -= 2;
                 }
 
                 return Sq;
@@ -911,7 +975,7 @@ namespace StarBlue.HabboHotel.Rooms
         {
             get
             {
-                var Sq = new Point(X, Y);
+                Point Sq = new Point(X, Y);
 
                 if (RotBody == 0)
                 {
@@ -938,7 +1002,7 @@ namespace StarBlue.HabboHotel.Rooms
         {
             get
             {
-                var Sq = new Point(X, Y);
+                Point Sq = new Point(X, Y);
 
                 if (RotBody == 0)
                 {
@@ -965,7 +1029,7 @@ namespace StarBlue.HabboHotel.Rooms
         {
             get
             {
-                var Sq = new Point(X, Y);
+                Point Sq = new Point(X, Y);
 
                 if (RotBody == 0)
                 {

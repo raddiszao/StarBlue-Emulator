@@ -1,12 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
+using System.Collections;
 using System.Collections.Concurrent;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class MuteTriggererBox : IWiredItem
+    internal class MuteTriggererBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -16,12 +16,18 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
 
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
+        public int TickCount { get; set; }
+        private int _delay = 0;
+        private Queue _queue;
+
         public MuteTriggererBox(Room Instance, Item Item)
         {
             this.Instance = Instance;
             this.Item = Item;
             SetItems = new ConcurrentDictionary<int, Item>();
-
+            TickCount = Delay;
+            _queue = new Queue();
             if (SetItems.Count > 0)
             {
                 SetItems.Clear();
@@ -37,9 +43,35 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             int Unknown = Packet.PopInt();
             int Time = Packet.PopInt();
-            string Message = Encoding.UTF8.GetString(Encoding.Default.GetBytes(Packet.PopString()));
+            string Message = Packet.PopString();
+            int Unknown2 = Packet.PopInt();
+            Delay = Packet.PopInt();
 
             StringData = Time + ";" + Message;
+        }
+
+        public bool OnCycle()
+        {
+            if (_queue.Count == 0)
+            {
+                _queue.Clear();
+                TickCount = Delay;
+                return true;
+            }
+
+            while (_queue.Count > 0)
+            {
+                Habbo Player = (Habbo)_queue.Dequeue();
+                if (Player == null || Player.CurrentRoom != Instance)
+                {
+                    continue;
+                }
+
+                MuteUser(Player);
+            }
+
+            TickCount = Delay;
+            return true;
         }
 
         public bool Execute(params object[] Params)
@@ -55,13 +87,25 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
+            TickCount = Delay;
+            _queue.Enqueue(Player);
+            return true;
+        }
+
+        public bool MuteUser(Habbo Player)
+        {
+            if (Player == null)
+            {
+                return false;
+            }
+
             RoomUser User = Instance.GetRoomUserManager().GetRoomUserByHabbo(Player.Id);
             if (User == null)
             {
                 return false;
             }
 
-            if (Player.GetPermissions().HasRight("mod_tool") || Instance.OwnerId == Player.Id)
+            if (Player.GetPermissions().HasRight("mod_tool") || Instance.RoomData.OwnerId == Player.Id)
             {
                 Player.GetClient().SendWhisper("Wired Mute: Usuário impossível de mutar.", 34);
                 return false;

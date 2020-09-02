@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Purse
 {
-    class GetHabboClubCenterInfoMessageComposer : ServerPacket
+    internal class GetHabboClubCenterInfoMessageComposer : ServerPacket
     {
         public GetHabboClubCenterInfoMessageComposer(GameClient Session) : base(ServerPacketHeader.HabboClubCenterInfoMessageComposer)
         {

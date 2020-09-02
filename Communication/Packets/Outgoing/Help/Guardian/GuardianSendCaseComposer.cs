@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    class GuardianSendCaseComposer : ServerPacket
+    internal class GuardianSendCaseComposer : ServerPacket
     {
         public GuardianSendCaseComposer(int seconds, Habbo reported)
             : base(ServerPacketHeader.GuardianSendCaseMessageComposer)

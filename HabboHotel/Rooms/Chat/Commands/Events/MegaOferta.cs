@@ -1,8 +1,9 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class MegaOfertCommand : IChatCommand
+    internal class MegaOfertCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
 
@@ -24,7 +25,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
             if (Params[1] == "on" || Params[1] == "ON")
             {
                 // Comando editaveu abaixo mais cuidado pra não faze merda
-                using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     dbClient.RunFastQuery("UPDATE targeted_offers SET active = 'true' WHERE active = 'false'");
                     dbClient.RunFastQuery("UPDATE users SET targeted_buy = '0'");
@@ -37,7 +38,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
             if (Params[1] == "off" || Params[1] == "OFF")
             {
                 // Comando editaveu abaixo mais cuidado pra não faze merda
-                using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     dbClient.RunFastQuery("UPDATE targeted_offers SET active = 'false' WHERE active = 'true'");
                     dbClient.RunFastQuery("UPDATE users SET targeted_buy = '0'");

@@ -2,9 +2,9 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class RemoveBadgeCommand : IChatCommand
+    internal class RemoveBadgeCommand : IChatCommand
     {
-        public string PermissionRequired => "user_13";
+        public string PermissionRequired => "user_15";
         public string Parameters => "[USUARIO] [CODIGO]";
         public string Description => "Se utiliza para tirar o emblema de um usuário.";
 

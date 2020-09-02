@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
-    class FollowFriendEvent : IPacketEvent
+    internal class FollowFriendEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -34,7 +34,7 @@ namespace StarBlue.Communication.Packets.Incoming.Messenger
             }
             else if (Session.GetHabbo().CurrentRoom != null && Client.GetHabbo().CurrentRoom != null)
             {
-                if (Session.GetHabbo().CurrentRoom.RoomId == Client.GetHabbo().CurrentRoom.RoomId)
+                if (Session.GetHabbo().CurrentRoom.Id == Client.GetHabbo().CurrentRoom.Id)
                 {
                     return;
                 }

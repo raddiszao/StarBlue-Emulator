@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    class TradingStartComposer : ServerPacket
+    internal class TradingStartComposer : ServerPacket
     {
         public TradingStartComposer(int User1Id, int User2Id)
             : base(ServerPacketHeader.TradingStartMessageComposer)

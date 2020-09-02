@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class GroupMembershipRequestedComposer : ServerPacket
+    internal class GroupMembershipRequestedComposer : ServerPacket
     {
         public GroupMembershipRequestedComposer(int GroupId, Habbo Habbo, int Type)
             : base(ServerPacketHeader.GroupMembershipRequestedMessageComposer)

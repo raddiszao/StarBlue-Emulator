@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Data;
 
 namespace StarBlue.HabboHotel.Surveys
 {
-    class SurveyManager
+    internal class SurveyManager
     {
         private readonly ConcurrentDictionary<int, Question> _questions;
 

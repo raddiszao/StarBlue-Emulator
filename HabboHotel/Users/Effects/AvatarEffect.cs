@@ -1,6 +1,6 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects;
+using StarBlue.Database.Interfaces;
 using StarBlue.Utilities;
 
 namespace StarBlue.HabboHotel.Users.Effects

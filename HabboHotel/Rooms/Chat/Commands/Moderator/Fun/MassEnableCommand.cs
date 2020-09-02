@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class MassEnableCommand : IChatCommand
+    internal class MassEnableCommand : IChatCommand
     {
         public string PermissionRequired => "user_15";
         public string Parameters => "[EFEITOID]";
@@ -25,7 +25,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
                     return;
                 }
 
-                if (!Session.GetHabbo().GetPermissions().HasCommand("command_override_massenable") && Room.OwnerId != Session.GetHabbo().Id)
+                if (!Session.GetHabbo().GetPermissions().HasCommand("command_override_massenable") && Room.RoomData.OwnerId != Session.GetHabbo().Id)
                 {
                     Session.SendWhisper("Você pode usar este comando somente se você for o dono.", 34);
                     return;

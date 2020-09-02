@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class CatalogOfferComposer : ServerPacket
+    internal class CatalogOfferComposer : ServerPacket
     {
         public CatalogOfferComposer(CatalogItem Item)
             : base(ServerPacketHeader.CatalogOfferMessageComposer)

@@ -1,7 +1,7 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.HabboHotel.Items.Wired.Util;
 using StarBlue.HabboHotel.Rooms;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -80,7 +80,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             if (!Requested)
             {
-                counter = Delay;
+                counter = 0;
                 Requested = true;
             }
 
@@ -95,7 +95,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
 
             counter += 500;
-            if (counter >= Delay)
+            if (counter > Delay)
             {
                 counter = 0;
                 foreach (Item Item in SetItems.Values.ToList())
@@ -117,7 +117,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                         SetItems.TryRemove(Item.Id, out toRemove);
                     }
 
-                    Point Point = Instance.GetGameMap().GetChaseMovement(Item);
+                    Item.MoveToDirMovement = Instance.GetGameMap().GetChaseMovement(Item.GetX, Item.GetY, Item.MoveToDirMovement);
+                    if (Item.MoveToDirMovement == MovementDirection.NONE)
+                        return false;
+
+                    Point Point = Movement.HandleMovementDir(Item.Coordinate, Item.MoveToDirMovement, Item.Rotation);
 
                     Instance.GetWired().onUserFurniCollision(Instance, Item);
 
@@ -128,8 +132,8 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
                     if (Instance.GetGameMap().CanRollItemHere(Point.X, Point.Y) && !Instance.GetGameMap().SquareHasUsers(Point.X, Point.Y))
                     {
-                        Double NewZ = Item.GetZ;
-                        Boolean CanBePlaced = true;
+                        double NewZ = Instance.GetGameMap().GetHeightForSquareFromData(Point);
+                        bool CanBePlaced = true;
 
                         List<Item> Items = Instance.GetGameMap().GetCoordinatedItems(Point);
 
@@ -166,9 +170,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                     }
                 }
 
+                Requested = false;
                 _next = 0;
                 return true;
             }
+
             return false;
         }
     }

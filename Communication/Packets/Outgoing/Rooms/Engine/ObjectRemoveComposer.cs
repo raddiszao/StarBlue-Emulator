@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class ObjectRemoveComposer : ServerPacket
+    internal class ObjectRemoveComposer : ServerPacket
     {
         public ObjectRemoveComposer(Item Item, int UserId)
             : base(ServerPacketHeader.ObjectRemoveMessageComposer)

@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Moderation;
+﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Database.Interfaces;
 using System.Data;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class GetModeratorUserInfoEvent : IPacketEvent
+    internal class GetModeratorUserInfoEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

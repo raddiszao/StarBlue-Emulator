@@ -3,7 +3,7 @@ using StarBlue.Communication.Packets.Outgoing.GameCenter;
 
 namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
-    class GetPlayableGamesEvent : IPacketEvent
+    internal class GetPlayableGamesEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

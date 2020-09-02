@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    internal class RegenerateMapsBox : IWiredItem
+    internal class RegenerateMapsBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -16,6 +16,14 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public string StringData { get; set; }
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
+
+        public int Delay { get; set; } = 0 * 500;
+
+        public int TickCount { get; set; }
+
+        private long _next;
+        private int counter = 0;
+        private bool Requested = false;
 
         public RegenerateMapsBox(Room Instance, Item Item)
         {
@@ -29,21 +37,49 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         {
             int Unknown = Packet.PopInt();
             string Unknown2 = Packet.PopString();
+            int Unknown3 = Packet.PopInt();
+            Delay = Packet.PopInt() * 500;
+            counter = 0;
+            TickCount = 0;
         }
 
         public bool Execute(params object[] Params)
         {
-            if (Instance == null)
+            if (_next == 0 || _next < StarBlueServer.Now())
+            {
+                _next = StarBlueServer.Now() + Delay;
+            }
+
+            if (!Requested)
+            {
+                counter = 0;
+                Requested = true;
+            }
+
+            return true;
+        }
+
+        public bool OnCycle()
+        {
+            if (Instance == null || !Requested || _next == 0)
             {
                 return false;
             }
 
-            TimeSpan TimeSinceRegen = DateTime.Now - Instance.lastRegeneration;
-
-            if (TimeSinceRegen.TotalMinutes > 1)
+            counter += 500;
+            if (counter > Delay)
             {
-                Instance.GetGameMap().GenerateMaps();
-                return true;
+                counter = 0;
+                TimeSpan TimeSinceRegen = DateTime.Now - Instance.lastRegeneration;
+
+                if (TimeSinceRegen.TotalMinutes > 1)
+                {
+                    Instance.GetGameMap().GenerateMaps();
+                    return true;
+                }
+
+                Requested = false;
+                _next = 0;
             }
 
             return false;

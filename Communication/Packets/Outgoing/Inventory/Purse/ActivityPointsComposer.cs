@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Purse
 {
-    class ActivityPointsComposer : ServerPacket
+    internal class ActivityPointsComposer : ServerPacket
     {
         public ActivityPointsComposer(int PixelsBalance, int SeasionalCurrency, int GOTWPoints)
             : base(ServerPacketHeader.ActivityPointsMessageComposer)

@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class EmptyUserCommand : IChatCommand
+    internal class EmptyUserCommand : IChatCommand
     {
         public string PermissionRequired => "user_14";
         public string Parameters => "[USUARIO]";

@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class SetSpeedCommand : IChatCommand
+    internal class SetSpeedCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

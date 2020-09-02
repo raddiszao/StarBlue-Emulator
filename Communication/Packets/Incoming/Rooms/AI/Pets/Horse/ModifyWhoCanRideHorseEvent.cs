@@ -1,12 +1,12 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 {
-    class ModifyWhoCanRideHorseEvent : IPacketEvent
+    internal class ModifyWhoCanRideHorseEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

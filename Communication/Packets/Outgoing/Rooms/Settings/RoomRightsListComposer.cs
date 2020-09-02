@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    class RoomRightsListComposer : ServerPacket
+    internal class RoomRightsListComposer : ServerPacket
     {
         public RoomRightsListComposer(Room Instance)
             : base(ServerPacketHeader.RoomRightsListMessageComposer)

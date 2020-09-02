@@ -52,6 +52,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             "[TEMPO] [PERGUNTA]";
 
         public string PermissionRequired =>
-            "user_7";
+            "user_12";
     }
 }

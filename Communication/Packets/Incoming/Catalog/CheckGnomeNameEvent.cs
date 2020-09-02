@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Utilities;
 using StarBlue.HabboHotel.Rooms;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
-    class CheckGnomeNameEvent : IPacketEvent
+    internal class CheckGnomeNameEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

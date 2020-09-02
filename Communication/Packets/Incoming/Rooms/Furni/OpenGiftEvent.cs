@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class OpenGiftEvent : IPacketEvent
+    internal class OpenGiftEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -47,7 +47,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 
             if (Data == null)
             {
-                Session.SendNotification("Oops! al parecer hay un error con este regalo.\nNosotros nos encargaremos de deshacernos de este regalo.");
+                Session.SendNotification("Oops! Ocorreu um erro com este presente.");
                 Room.GetRoomItemHandler().RemoveFurniture(null, Present.Id, false);
 
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
@@ -101,7 +101,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 
             if (!StarBlueServer.GetGame().GetItemManager().GetItem(Convert.ToInt32(Data["base_id"]), out ItemData BaseItem))
             {
-                Session.SendNotification("Oops, al parecer este regalo ya no existe!");
+                Session.SendNotification("Oops, esse presente não existe.");
                 Room.GetRoomItemHandler().RemoveFurniture(null, Present.Id, false);
 
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())

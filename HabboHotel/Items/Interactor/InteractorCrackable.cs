@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using System;
@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorCrackable : IFurniInteractor
+    internal class InteractorCrackable : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {
@@ -28,7 +28,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
 
             if (Gamemap.TilesTouching(Item.GetX, Item.GetY, Session.GetRoomUser().X, Session.GetRoomUser().Y))
             {
-                Int32.TryParse(Item.ExtraData, out int clickCount);
+                int.TryParse(Item.ExtraData, out int clickCount);
                 clickCount++;
                 Item.ExtraData = clickCount.ToString();
                 Item.UpdateState(false, true);

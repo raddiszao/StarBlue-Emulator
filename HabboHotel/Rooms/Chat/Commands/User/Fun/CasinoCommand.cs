@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class CasinoCommand : IChatCommand
+    internal class CasinoCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

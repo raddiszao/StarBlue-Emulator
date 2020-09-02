@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Navigator;
 
 namespace StarBlue.HabboHotel.Rooms
 {
-    static class RoomAppender
+    internal static class RoomAppender
     {
         public static void WriteRoom(ServerPacket Packet, RoomData Data, RoomPromotion Promotion, bool NewNavigator = false)
         {

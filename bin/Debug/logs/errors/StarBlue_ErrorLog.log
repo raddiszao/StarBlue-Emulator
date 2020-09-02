@@ -10,3 +10,56 @@ Date/Time: 2020-06-26 18:28:56,044
 Thread: 1
 a? Não foi encontrado esse comando.
 
+Date/Time: 2020-07-05 15:24:43,244
+Thread: 1
+Couldn't load Catalog Item 831684340, no furniture record found. {3}
+
+Date/Time: 2020-07-05 15:26:22,744
+Thread: 6
+Couldn't load Catalog Item 831684340, no furniture record found. {3}
+
+Date/Time: 2020-07-08 19:26:06,169
+Thread: 1
+restrarrestart? Não foi encontrado esse comando.
+
+Date/Time: 2020-07-09 16:16:30,150
+Thread: 1
+tel? Não foi encontrado esse comando.
+
+Date/Time: 2020-07-13 13:31:17,176
+Thread: 1
+? Não foi encontrado esse comando.
+
+Date/Time: 2020-07-15 14:32:46,153
+Thread: 1
+imarestart? Não foi encontrado esse comando.
+
+Date/Time: 2020-07-21 17:55:52,764
+Thread: 1
+a? Não foi encontrado esse comando.
+
+Date/Time: 2020-07-23 00:44:21,653
+Thread: 1
+local? Não foi encontrado esse comando.
+
+Date/Time: 2020-07-27 17:11:21,034
+Thread: 5
+Packet Error! 
+
+System.IndexOutOfRangeException: O índice estava fora dos limites da matriz.
+   em StarBlue.Utilities.HabboEncoding.DecodeInt16(Byte[] v) na E:\BKP\Desktop\StarBlue Emulator\Utilities\HabboEncoding.cs:linha 69
+   em StarBlue.Communication.GamePacketParser.handlePacketData(Byte[] data) na E:\BKP\Desktop\StarBlue Emulator\Communication\GamePacketParser.cs:linha 70
+Date/Time: 2020-08-01 00:38:08,791
+Thread: 1
+restgart? Não foi encontrado esse comando.
+
+Date/Time: 2020-08-07 14:18:30,412
+Thread: 1
+Erro no comando [restart]: System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Core.ConsoleCommandHandler.InvokeCommand(String inputData) na E:\BKP\Desktop\StarBlue Emulator\Core\ConsoleCommandHandler.cs:linha 50
+
+Date/Time: 2020-08-11 10:44:54,284
+Thread: 1
+Erro no comando [restart]: System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Core.ConsoleCommandHandler.InvokeCommand(String inputData) na E:\BKP\Desktop\StarBlue Emulator\Core\ConsoleCommandHandler.cs:linha 50
+

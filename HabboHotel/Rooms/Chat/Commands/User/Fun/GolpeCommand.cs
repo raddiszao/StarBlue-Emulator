@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class GolpeCommand : IChatCommand
+    internal class GolpeCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -20,11 +20,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                 return;
             }
 
-            //if (!Room.GolpeEnabled && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
-            //{
-            //    Session.SendWhisper("@red@ Oops, el dueño de la sala no permite que des golpes a otros en su sala.");
-            //    return;
-            //}
+            if (!Room.RoomData.GolpeEnabled && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
+            {
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
+                return;
+            }
 
             GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
             if (TargetClient == null)
@@ -66,8 +66,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (!((Math.Abs(TargetUser.X - ThisUser.X) >= 2) || (Math.Abs(TargetUser.Y - ThisUser.Y) >= 2)))
             {
-                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*" + Params[1] + " recebeu um murro na cara*", 0, ThisUser.LastBubble));
-                Room.SendMessage(new ChatComposer(TargetUser.VirtualId, "Que acerto men!", 0, ThisUser.LastBubble));
+                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*" + Params[1] + " recebeu um murro na cara*", 0, 3));
+                Room.SendMessage(new ChatComposer(TargetUser.VirtualId, "Que acerto men!", 0, 3));
 
                 if (TargetUser.RotBody == 4)
                 {

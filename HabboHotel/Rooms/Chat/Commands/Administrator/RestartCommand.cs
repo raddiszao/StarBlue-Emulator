@@ -1,8 +1,9 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class RestartCommand : IChatCommand
+    internal class RestartCommand : IChatCommand
     {
         public string PermissionRequired => "user_18";
 
@@ -12,7 +13,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            StarBlueServer.GetGame().GetClientManager().SendMessage(new RoomCustomizedAlertComposer(StarBlueServer.HotelName + " fará um reinício rápido, para aplicar todas as atualizações.\n\nVoltaremos em seguida :)\n\n - " + Session.GetHabbo().Username + ""));
+            StarBlueServer.GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer("<b><font color=\"#ba3733\" size=\"14\">VOLTAMOS LOGO!</font></b><br><br>O hotel será reiniciado nesse instante para aplicarmos atualizações, voltaremos em minutos!"));
 
             StarBlueServer.PerformRestart();
         }

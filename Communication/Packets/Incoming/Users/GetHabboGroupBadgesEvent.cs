@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class GetHabboGroupBadgesEvent : IPacketEvent
+    internal class GetHabboGroupBadgesEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

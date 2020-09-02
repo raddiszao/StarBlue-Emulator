@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Notifications;
+using StarBlue.Database.Interfaces;
 using System.Data;
 using System.Text;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class ViewClonesCommand : IChatCommand
+    internal class ViewClonesCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
 
@@ -28,7 +28,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             StringBuilder builder = new StringBuilder();
             if (StarBlueServer.GetGame().GetClientManager().GetClientByUsername(username) != null)
             {
-                str2 = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(username).GetConnection().GetIp();
+                str2 = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(username).GetConnection().getIp();
                 builder.AppendLine("Username :  " + username + " - Ip : " + str2);
                 using (adapter = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {

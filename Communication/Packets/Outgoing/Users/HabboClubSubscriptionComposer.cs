@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class HabboClubSubscriptionComposer : ServerPacket
+    internal class HabboClubSubscriptionComposer : ServerPacket
     {
         public HabboClubSubscriptionComposer() : base(ServerPacketHeader.HabboClubSubscriptionComposer)
         {

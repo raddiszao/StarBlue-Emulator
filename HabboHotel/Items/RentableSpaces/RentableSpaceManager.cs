@@ -1,7 +1,7 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni.RentableSpaces;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Collections.Generic;

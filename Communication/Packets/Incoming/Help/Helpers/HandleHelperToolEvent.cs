@@ -5,17 +5,17 @@ using StarBlue.HabboHotel.Helpers;
 
 namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
-    class HandleHelperToolEvent : IPacketEvent
+    internal class HandleHelperToolEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
             if (Session.GetHabbo().Rank > 2 || Session.GetHabbo()._guidelevel > 0)
             {
 
-                var onDuty = Packet.PopBoolean();
-                var isGuide = Packet.PopBoolean();
-                var isHelper = Packet.PopBoolean();
-                var isGuardian = Packet.PopBoolean();
+                bool onDuty = Packet.PopBoolean();
+                bool isGuide = Packet.PopBoolean();
+                bool isHelper = Packet.PopBoolean();
+                bool isGuardian = Packet.PopBoolean();
                 if (onDuty)
                 {
                     HelperToolsManager.AddHelper(Session, isHelper, isGuardian, isGuide);

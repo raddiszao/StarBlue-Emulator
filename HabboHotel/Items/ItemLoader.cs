@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,6 @@ namespace StarBlue.HabboHotel.Items
                 {
                     foreach (DataRow Row in Items.Rows)
                     {
-
                         if (StarBlueServer.GetGame().GetItemManager().GetItem(Convert.ToInt32(Row["base_item"]), out ItemData Data))
                         {
                             I.Add(new Item(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["room_id"]), Convert.ToInt32(Row["base_item"]), Convert.ToString(Row["extra_data"]),

@@ -6,19 +6,19 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class GetCraftingRecipesAvailableEvent : IPacketEvent
+    internal class GetCraftingRecipesAvailableEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
             int craftingTable = Packet.PopInt();
             List<Item> items = new List<Item>();
 
-            var count = Packet.PopInt();
-            for (var i = 1; i <= count; i++)
+            int count = Packet.PopInt();
+            for (int i = 1; i <= count; i++)
             {
-                var id = Packet.PopInt();
+                int id = Packet.PopInt();
 
-                var item = Session.GetHabbo().GetInventoryComponent().GetItem(id);
+                Item item = Session.GetHabbo().GetInventoryComponent().GetItem(id);
                 if (item == null || items.Contains(item))
                 {
                     return;
@@ -28,11 +28,11 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             }
 
             CraftingRecipe craftingRecipe = null;
-            foreach (var recipe in StarBlueServer.GetGame().GetCraftingManager().CraftingRecipes)
+            foreach (KeyValuePair<string, CraftingRecipe> recipe in StarBlueServer.GetGame().GetCraftingManager().CraftingRecipes)
             {
                 bool found = false;
                 int total = 0;
-                foreach (var item in recipe.Value.ItemsNeeded)
+                foreach (KeyValuePair<string, int> item in recipe.Value.ItemsNeeded)
                 {
 
                     if (item.Value != items.Count(item2 => item2.GetBaseItem().ItemName == item.Key))

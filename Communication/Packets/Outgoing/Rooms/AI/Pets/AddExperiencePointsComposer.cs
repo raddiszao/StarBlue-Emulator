@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets
 {
-    class AddExperiencePointsComposer : ServerPacket
+    internal class AddExperiencePointsComposer : ServerPacket
     {
         public AddExperiencePointsComposer(int PetId, int VirtualId, int Amount)
             : base(ServerPacketHeader.AddExperiencePointsMessageComposer)

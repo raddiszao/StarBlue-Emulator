@@ -52,6 +52,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 if (!Gamemap.TilesTouching(User.X, User.Y, Item.GetX, Item.GetY))
                 {
                     User.MoveTo(Item.SquareInFront);
+                    User.UserToVendingMachine = Item;
                     return;
                 }
 
@@ -65,7 +66,6 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 }
 
                 Item.RequestUpdate(2, true);
-
                 Item.ExtraData = "1";
                 Item.UpdateState(false, true);
             }

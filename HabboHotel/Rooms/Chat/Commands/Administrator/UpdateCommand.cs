@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class UpdateCommand : IChatCommand
+    internal class UpdateCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
         public string Parameters => "[VARIABLE]";
@@ -34,24 +34,24 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_rewards"))
                         {
-                            Session.SendWhisper("Oops, surgiu um erro.");
+                            Session.SendWhisper("Oops, surgiu um erro.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetCalendarManager().Init();
-                        Session.SendWhisper("Calendário atualizado.");
+                        Session.SendWhisper("Calendário atualizado.", 34);
                         break;
                     }
                 case "ecotron":
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_rewards"))
                         {
-                            Session.SendWhisper("Oops, surgiu um erro.");
+                            Session.SendWhisper("Oops, surgiu um erro.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetFurniMaticRewardsMnager().Initialize(StarBlueServer.GetDatabaseManager().GetQueryReactor());
-                        Session.SendWhisper("Prêmios ecotron atualizados.");
+                        Session.SendWhisper("Prêmios ecotron atualizados.", 34);
                         break;
                     }
                 case "grupos":
@@ -59,7 +59,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_catalog"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o grupos.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o grupos.", 34);
                             break;
                         }
 
@@ -76,7 +76,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_catalog"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o catalogo.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o catalogo.", 34);
                             break;
                         }
 
@@ -85,6 +85,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                         StarBlueServer.GetGame().GetCatalogFrontPageManager().LoadFrontPage();
                         StarBlueServer.GetGame().GetCatalog().Init(StarBlueServer.GetGame().GetItemManager());
                         StarBlueServer.GetGame().GetClientManager().SendMessage(new CatalogUpdatedComposer());
+                        Session.SendWhisper("O catálogo foi atualizado com sucesso.", 34);
                         //StarBlueServer.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("catalogue", "O catálogo foi atualizado.", "catalog/open/" + Message + ""));
 
                         break;
@@ -94,7 +95,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_catalog"))
                         {
-                            Session.SendWhisper("Oops, você não tempermissão para atualizar o LandingCommunityGoalVS.");
+                            Session.SendWhisper("Oops, você não tempermissão para atualizar o LandingCommunityGoalVS.", 34);
                             break;
                         }
 
@@ -111,7 +112,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_catalog"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o premios de las piñatas.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o premios de las piñatas.", 34);
                             break;
                         }
 
@@ -124,7 +125,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_catalog"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o premios de las piñatas.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o premios de las piñatas.", 34);
                             break;
                         }
                         StarBlueServer.GetGame().GetPollManager().Init();
@@ -161,7 +162,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_filter"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o carácteres do filtro");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o carácteres do filtro", 34);
                             break;
                         }
 
@@ -176,19 +177,19 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_furni"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o furnis");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o furnis", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetItemManager().Init();
-                        Session.SendWhisper("Items atualizados corretamente.");
+                        Session.SendWhisper("Items atualizados corretamente.", 34);
                         break;
                     }
 
                 case "crafting":
                     if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_furni"))
                     {
-                        Session.SendWhisper("Oops, você não tem permissão para atualizar o crafting.");
+                        Session.SendWhisper("Oops, você não tem permissão para atualizar o crafting.", 34);
                         break;
                     }
 
@@ -199,7 +200,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                 case "offers":
                     if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_furni"))
                     {
-                        Session.SendWhisper("Oops, você não tem permissão para atualizar o furnis");
+                        Session.SendWhisper("Oops, você não tem permissão para atualizar o furnis", 34);
                         break;
                     }
 
@@ -210,24 +211,24 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                 case "songs":
                     if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_furni"))
                     {
-                        Session.SendWhisper("Oops, você não tem permissão para atualizar as músicas.");
+                        Session.SendWhisper("Oops, você não tem permissão para atualizar as músicas.", 34);
                         break;
                     }
 
                     TraxSoundManager.Init();
-                    Session.SendWhisper("Você recarregou todas as músicas.");
+                    Session.SendWhisper("Você recarregou todas as músicas.", 34);
                     break;
 
                 case "models":
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_models"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o Models");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o Models", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetRoomManager().LoadModels();
-                        Session.SendWhisper("Modelos de sala atualizados corretamente.");
+                        Session.SendWhisper("Modelos de sala atualizados corretamente.", 34);
                         break;
                     }
 
@@ -235,12 +236,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_promotions"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar as promoções.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar as promoções.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetLandingManager().LoadPromotions();
-                        Session.SendWhisper("Noticias de vista do Hotel atualizadas corretamente.");
+                        Session.SendWhisper("Noticias de vista do Hotel atualizadas corretamente.", 34);
                         break;
                     }
 
@@ -248,12 +249,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_youtube"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o videos de Youtube TV.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o videos de Youtube TV.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetTelevisionManager().Init();
-                        Session.SendWhisper("Youtube televisão atualizado corretamente");
+                        Session.SendWhisper("Youtube televisão atualizado corretamente", 34);
                         break;
                     }
 
@@ -261,7 +262,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_filter"))
                         {
-                            Session.SendWhisper("Oops, Você não tem permissão para atualizar o filtro");
+                            Session.SendWhisper("Oops, Você não tem permissão para atualizar o filtro", 34);
                             break;
                         }
 
@@ -274,7 +275,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_navigator"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o navegador.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar o navegador.", 34);
                             break;
                         }
 
@@ -290,11 +291,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_rights"))
                         {
-                            Session.SendWhisper("Oops, você não tem direito para atualizar os direitos e permissões.");
+                            Session.SendWhisper("Oops, você não tem direito para atualizar os direitos e permissões.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetPermissionManager().Init();
+                        StarBlueServer.GetRankManager().Init();
 
                         foreach (GameClient Client in StarBlueServer.GetGame().GetClientManager().GetClients.ToList())
                         {
@@ -328,7 +330,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_bans"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissões para atualizar a lista de banidos");
+                            Session.SendWhisper("Oops, você não tem permissões para atualizar a lista de banidos", 34);
                             break;
                         }
 
@@ -341,7 +343,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_quests"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissões para atualizar as missões.");
+                            Session.SendWhisper("Oops, você não tem permissões para atualizar as missões.", 34);
                             break;
                         }
 
@@ -354,7 +356,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_achievements"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissão para atualizar o logros.");
+                            Session.SendWhisper("Oops, você não tem permissão para atualizar as conquistas.", 34);
                             break;
                         }
 
@@ -370,7 +372,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_moderation"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_moderation' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_moderation' permission.", 34);
                             break;
                         }
 
@@ -385,7 +387,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_vouchers"))
                         {
-                            Session.SendWhisper("Oops, você não tem permissões suficientes para atualizar os vouchers.");
+                            Session.SendWhisper("Oops, você não tem permissões suficientes para atualizar os vouchers.", 34);
                             break;
                         }
 
@@ -400,13 +402,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_game_center"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_game_center' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_game_center' permission.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetGameDataManager().Init();
                         StarBlueServer.GetGame().GetLeaderBoardDataManager().Init();
-                        Session.SendWhisper("Game Center cache successfully updated.");
+                        Session.SendWhisper("Game Center cache successfully updated.", 34);
                         break;
                     }
 
@@ -414,12 +416,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_pet_locale"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_pet_locale' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_pet_locale' permission.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetChatManager().GetPetLocale().Init();
-                        Session.SendWhisper("Pet locale cache successfully updated.");
+                        Session.SendWhisper("Pet locale cache successfully updated.", 34);
                         break;
                     }
 
@@ -427,12 +429,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_locale"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_locale' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_locale' permission.", 34);
                             break;
                         }
 
                         StarBlueServer.GetLanguageManager().Init();
-                        Session.SendWhisper("Locale cache successfully updated.");
+                        Session.SendWhisper("Locale cache successfully updated.", 34);
                         break;
                     }
 
@@ -440,12 +442,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_anti_mutant"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_anti_mutant' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_anti_mutant' permission.", 34);
                             break;
                         }
 
                         StarBlueServer.GetFigureManager().Init();
-                        Session.SendWhisper("Anti mutant successfully reloaded.");
+                        Session.SendWhisper("Anti mutant successfully reloaded.", 34);
                         break;
                     }
 
@@ -453,12 +455,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_bots"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_bots' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_bots' permission.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetBotManager().Init();
-                        Session.SendWhisper("Bot recargados correctamente");
+                        Session.SendWhisper("Bot recargados correctamente", 34);
                         break;
                     }
 
@@ -466,12 +468,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_rewards"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_rewards' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_rewards' permission.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetRewardManager().Reload();
-                        Session.SendWhisper("Rewards managaer successfully reloaded.");
+                        Session.SendWhisper("Rewards managaer successfully reloaded.", 34);
                         break;
                     }
 
@@ -479,12 +481,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_chat_styles"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_chat_styles' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_chat_styles' permission.", 34);
                             break;
                         }
 
                         StarBlueServer.GetGame().GetChatManager().GetChatStyles().Init();
-                        Session.SendWhisper("Chat Styles successfully reloaded.");
+                        Session.SendWhisper("Chat Styles successfully reloaded.", 34);
                         break;
                     }
 
@@ -493,7 +495,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     {
                         if (!Session.GetHabbo().GetPermissions().HasCommand("command_update_badge_definitions"))
                         {
-                            Session.SendWhisper("Oops, you do not have the 'command_update_badge_definitions' permission.");
+                            Session.SendWhisper("Oops, you do not have the 'command_update_badge_definitions' permission.", 34);
                             break;
                         }
 

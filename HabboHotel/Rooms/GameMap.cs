@@ -5,6 +5,7 @@ using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.RentableSpaces;
+using StarBlue.HabboHotel.Items.Wired.Util;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.PathFinding;
 using System;
@@ -20,25 +21,22 @@ namespace StarBlue.HabboHotel.Rooms
         private Room _room;
         private byte[,] mGameMap;
 
-        public bool gotPublicPool;
-        public bool DiagonalEnabled;
         private RoomModel mStaticModel;
         private byte[,] mUserItemEffect;
         private double[,] mItemHeightMap;
         private DynamicRoomModel mDynamicModel;
         private ConcurrentDictionary<Point, List<int>> mCoordinatedItems;
-        private ConcurrentDictionary<Point, List<RoomUser>> userMap;
+        private ConcurrentDictionary<Point, List<int>> mCoordinatedMagicTileItems;
+        public ConcurrentDictionary<Point, List<RoomUser>> userMap;
 
         public Gamemap(Room room)
         {
             _room = room;
-            DiagonalEnabled = true;
-
-            mStaticModel = StarBlueServer.GetGame().GetRoomManager().GetModel(room.ModelName);
+            mStaticModel = StarBlueServer.GetGame().GetRoomManager().GetModel(room.RoomData.ModelName);
             if (mStaticModel == null)
             {
-                StarBlueServer.GetGame().GetRoomManager().LoadModel(room.ModelName);
-                mStaticModel = StarBlueServer.GetGame().GetRoomManager().GetModel(room.ModelName);
+                StarBlueServer.GetGame().GetRoomManager().LoadModel(room.RoomData.ModelName);
+                mStaticModel = StarBlueServer.GetGame().GetRoomManager().GetModel(room.RoomData.ModelName);
             }
 
             if (mStaticModel == null)
@@ -49,8 +47,8 @@ namespace StarBlue.HabboHotel.Rooms
             mDynamicModel = new DynamicRoomModel(mStaticModel);
 
             mCoordinatedItems = new ConcurrentDictionary<Point, List<int>>();
+            mCoordinatedMagicTileItems = new ConcurrentDictionary<Point, List<int>>();
 
-            gotPublicPool = room.RoomData.Model.gotPublicPool;
             mGameMap = new byte[Model.MapSizeX, Model.MapSizeY];
             mItemHeightMap = new double[Model.MapSizeX, Model.MapSizeY];
 
@@ -73,19 +71,29 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
+        public bool SquareIsTeleporter(int X, int Y)
+        {
+            if (SquareHasUsers(X, Y))
+            {
+                return true;
+            }
+            else if (mGameMap[X, Y] == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void TeleportToItem(RoomUser user, Item item)
         {
             if (item == null || user == null)
-            {
                 return;
-            }
 
-            GameMap[user.X, user.Y] = user.SqState;
+            GameMap[user.SetStep ? user.SetX : user.X, user.SetStep ? user.SetY : user.Y] = user.SqState;
             UpdateUserMovement(new Point(user.Coordinate.X, user.Coordinate.Y), new Point(item.Coordinate.X, item.Coordinate.Y), user);
             user.X = item.GetX;
             user.Y = item.GetY;
             user.Z = item.GetZ;
-            user.LastItem = item;
 
             user.SqState = GameMap[item.GetX, item.GetY];
             GameMap[user.X, user.Y] = 1;
@@ -99,10 +107,77 @@ namespace StarBlue.HabboHotel.Rooms
             user.UpdateNeeded = true;
         }
 
+        public bool SquareHasFurniNoWalkable(int X, int Y, bool Override)
+        {
+            if (Override)
+                return false;
+
+            var point = new Point(X, Y);
+            if (!mCoordinatedItems.ContainsKey(point))
+                return false;
+
+            var list = GetItemsFromIds((List<int>)mCoordinatedItems[point]);
+            return list.Any(Item => Item.Coordinate.X == point.X && Item.Coordinate.Y == point.Y && !Item.GetBaseItem().Walkable && !Item.GetBaseItem().IsSeat && Item.Data.InteractionType != InteractionType.GATE && Item.Data.InteractionType != InteractionType.GUILD_GATE);
+
+        }
+
         public void UpdateUserMovement(Point oldCoord, Point newCoord, RoomUser user)
         {
             RemoveUserFromMap(user, oldCoord);
             AddUserToMap(user, newCoord);
+        }
+
+        public bool NextSquareHasUser(int x, int y, RoomUser User)
+        {
+            int newx = 0, newy = 0;
+
+            if (User.RotBody == 0)
+            {
+                newx = x;
+                newy = y - 1;
+            }
+            if (User.RotBody == 1)
+            {
+                newx = x + 1;
+                newy = y - 1;
+            }
+            if (User.RotBody == 2)
+            {
+                newx = x + 1;
+                newy = y;
+            }
+            if (User.RotBody == 3)
+            {
+                newx = x + 1;
+                newy = y + 1;
+
+            }
+            if (User.RotBody == 4)
+            {
+                newx = x;
+                newy = y + 1;
+            }
+            if (User.RotBody == 5)
+            {
+                newx = x - 1;
+                newy = y + 1;
+
+            }
+            if (User.RotBody == 6)
+            {
+                newx = x - 1;
+                newy = y;
+            }
+            if (User.RotBody == 7)
+            {
+                newx = x - 1;
+                newy = y - 1;
+            }
+            if (SquareHasUsers(newx, newy))
+            {
+                mGameMap[newx, newy] = 0;
+            }
+            return false;
         }
 
         public void RemoveUserFromMap(RoomUser user, Point coord)
@@ -132,7 +207,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public Point getRandomWalkableSquare()
         {
-            var walkableSquares = new List<Point>();
+            List<Point> walkableSquares = new List<Point>();
             for (int y = 0; y < mGameMap.GetUpperBound(1); y++)
             {
                 for (int x = 0; x < mGameMap.GetUpperBound(0); x++)
@@ -163,7 +238,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public bool isInMap(int X, int Y)
         {
-            var walkableSquares = new List<Point>();
+            List<Point> walkableSquares = new List<Point>();
             for (int y = 0; y < mGameMap.GetUpperBound(1); y++)
             {
                 for (int x = 0; x < mGameMap.GetUpperBound(0); x++)
@@ -216,9 +291,11 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void GenerateMaps(bool checkLines = true)
         {
+            if (this.mCoordinatedItems.Count > 0)
+                this.mCoordinatedItems.Clear();
+
             int MaxX = 0;
             int MaxY = 0;
-            mCoordinatedItems = new ConcurrentDictionary<Point, List<int>>();
 
             if (checkLines)
             {
@@ -226,36 +303,26 @@ namespace StarBlue.HabboHotel.Rooms
                 foreach (Item item in items.ToList())
                 {
                     if (item == null)
-                    {
                         continue;
-                    }
 
                     if (item.GetX > Model.MapSizeX && item.GetX > MaxX)
-                    {
                         MaxX = item.GetX;
-                    }
-
                     if (item.GetY > Model.MapSizeY && item.GetY > MaxY)
-                    {
                         MaxY = item.GetY;
-                    }
                 }
 
                 Array.Clear(items, 0, items.Length);
                 items = null;
             }
 
+            #region Dynamic game map handling
+
             if (MaxY > (Model.MapSizeY - 1) || MaxX > (Model.MapSizeX - 1))
             {
                 if (MaxX < Model.MapSizeX)
-                {
                     MaxX = Model.MapSizeX;
-                }
-
                 if (MaxY < Model.MapSizeY)
-                {
                     MaxY = Model.MapSizeY;
-                }
 
                 Model.SetMapsize(MaxX + 7, MaxY + 7);
                 GenerateMaps(false);
@@ -266,7 +333,6 @@ namespace StarBlue.HabboHotel.Rooms
             {
                 mUserItemEffect = new byte[Model.MapSizeX, Model.MapSizeY];
                 mGameMap = new byte[Model.MapSizeX, Model.MapSizeY];
-
 
                 mItemHeightMap = new double[Model.MapSizeX, Model.MapSizeY];
                 //if (modelRemap)
@@ -297,21 +363,11 @@ namespace StarBlue.HabboHotel.Rooms
                         }
                     }
                 }
-
-                if (gotPublicPool)
-                {
-                    for (int y = 0; y < StaticModel.MapSizeY; y++)
-                    {
-                        for (int x = 0; x < StaticModel.MapSizeX; x++)
-                        {
-                            if (StaticModel.mRoomModelfx[x, y] != 0)
-                            {
-                                mUserItemEffect[x, y] = StaticModel.mRoomModelfx[x, y];
-                            }
-                        }
-                    }
-                }
             }
+            #endregion
+
+            #region Static game map handling
+
             else
             {
                 //mGameMap
@@ -349,50 +405,31 @@ namespace StarBlue.HabboHotel.Rooms
                         }
                     }
                 }
-
-                if (gotPublicPool)
-                {
-                    for (int y = 0; y < StaticModel.MapSizeY; y++)
-                    {
-                        for (int x = 0; x < StaticModel.MapSizeX; x++)
-                        {
-                            if (StaticModel.mRoomModelfx[x, y] != 0)
-                            {
-                                mUserItemEffect[x, y] = StaticModel.mRoomModelfx[x, y];
-                            }
-                        }
-                    }
-                }
             }
+
+            #endregion
 
             Item[] tmpItems = _room.GetRoomItemHandler().GetFloor.ToArray();
             foreach (Item Item in tmpItems.ToList())
             {
                 if (Item == null)
-                {
                     continue;
-                }
 
                 if (!AddItemToMap(Item))
-                {
                     continue;
-                }
             }
-
             Array.Clear(tmpItems, 0, tmpItems.Length);
             tmpItems = null;
 
-            if (_room.RoomBlockingEnabled == 0)
+            if (_room.RoomData.RoomBlockingEnabled == 0)
             {
                 foreach (RoomUser user in _room.GetRoomUserManager().GetUserList().ToList())
                 {
                     if (user == null)
-                    {
                         continue;
-                    }
 
-                    user.SqState = mGameMap[user.X, user.Y];
-                    mGameMap[user.X, user.Y] = 0;
+                    user.SqState = mGameMap[user.SetStep ? user.SetX : user.X, user.SetStep ? user.SetY : user.Y];
+                    mGameMap[user.SetStep ? user.SetX : user.X, user.SetStep ? user.SetY : user.Y] = 0;
                 }
             }
 
@@ -456,16 +493,12 @@ namespace StarBlue.HabboHotel.Rooms
                     if (Item.GetBaseItem().Walkable)    // If this item is walkable and on the floor, allow users to walk here.
                     {
                         if (mGameMap[Coord.X, Coord.Y] != 3)
-                        {
                             mGameMap[Coord.X, Coord.Y] = 1;
-                        }
                     }
-                    else if (Item.GetZ <= (Model.SqFloorHeight[Item.GetX, Item.GetY] + 0.1) && Item.GetBaseItem().InteractionType == InteractionType.GATE && Item.ExtraData == "1")// If this item is a gate, open, and on the floor, allow users to walk here.
+                    else if (Item.GetBaseItem().InteractionType == InteractionType.GATE && Item.ExtraData == "1")// If this item is a gate, open, and on the floor, allow users to walk here.
                     {
                         if (mGameMap[Coord.X, Coord.Y] != 3)
-                        {
                             mGameMap[Coord.X, Coord.Y] = 1;
-                        }
                     }
                     else if (Item.GetBaseItem().IsSeat || Item.GetBaseItem().InteractionType == InteractionType.BED || Item.GetBaseItem().InteractionType == InteractionType.TENT_SMALL)
                     {
@@ -474,9 +507,7 @@ namespace StarBlue.HabboHotel.Rooms
                     else // Finally, if it's none of those, block the square.
                     {
                         if (mGameMap[Coord.X, Coord.Y] != 3)
-                        {
                             mGameMap[Coord.X, Coord.Y] = 0;
-                        }
                     }
                 }
 
@@ -495,7 +526,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void AddCoordinatedItem(Item item, Point coord)
         {
-            List<int> Items = new List<int>(); //mCoordinatedItems[CoordForItem];
+            List<int> Items = new List<int>();
 
             if (!mCoordinatedItems.TryGetValue(coord, out Items))
             {
@@ -521,14 +552,57 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
+        public void AddCoordinatedMagicTileItem(Item item, Point coord)
+        {
+            List<int> Items = new List<int>(); //mCoordinatedItems[CoordForItem];
+
+            if (!mCoordinatedMagicTileItems.TryGetValue(coord, out Items))
+            {
+                Items = new List<int>();
+
+                if (!Items.Contains(item.Id))
+                {
+                    Items.Add(item.Id);
+                }
+
+                if (!mCoordinatedMagicTileItems.ContainsKey(coord))
+                {
+                    mCoordinatedMagicTileItems.TryAdd(coord, Items);
+                }
+            }
+            else
+            {
+                if (!Items.Contains(item.Id))
+                {
+                    Items.Add(item.Id);
+                    mCoordinatedMagicTileItems[coord] = Items;
+                }
+            }
+        }
+
         public List<Item> GetCoordinatedItems(Point coord)
         {
-            var point = new Point(coord.X, coord.Y);
+            Point point = new Point(coord.X, coord.Y);
             List<Item> Items = new List<Item>();
 
             if (mCoordinatedItems.ContainsKey(point))
             {
                 List<int> Ids = mCoordinatedItems[point];
+                Items = GetItemsFromIds(Ids);
+                return Items;
+            }
+
+            return new List<Item>();
+        }
+
+        public List<Item> GetCoordinatedMagicTileItems(Point coord)
+        {
+            Point point = new Point(coord.X, coord.Y);
+            List<Item> Items = new List<Item>();
+
+            if (mCoordinatedMagicTileItems.ContainsKey(point))
+            {
+                List<int> Ids = mCoordinatedMagicTileItems[point];
                 Items = GetItemsFromIds(Ids);
                 return Items;
             }
@@ -542,6 +616,17 @@ namespace StarBlue.HabboHotel.Rooms
             if (mCoordinatedItems != null && mCoordinatedItems.ContainsKey(point))
             {
                 mCoordinatedItems[point].RemoveAll(x => x == item.Id);
+                return true;
+            }
+            return false;
+        }
+
+        public bool RemoveCoordinatedMagicTileItem(Item item, Point coord)
+        {
+            Point point = new Point(coord.X, coord.Y);
+            if (mCoordinatedMagicTileItems != null && mCoordinatedMagicTileItems.ContainsKey(point))
+            {
+                mCoordinatedMagicTileItems[point].RemoveAll(x => x == item.Id);
                 return true;
             }
             return false;
@@ -860,7 +945,7 @@ namespace StarBlue.HabboHotel.Rooms
                 return true;
             }
 
-            if (_room.GetRoomUserManager().GetUserForSquare(X, Y) != null && _room.RoomBlockingEnabled == 0)
+            if (_room.GetRoomUserManager().GetUserForSquare(X, Y) != null && _room.RoomData.RoomBlockingEnabled == 0)
             {
                 return false;
             }
@@ -917,8 +1002,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public double GetHeightForSquareFromData(Point coord)
         {
-            if (coord.X > mDynamicModel.SqFloorHeight.GetUpperBound(0) ||
-                coord.Y > mDynamicModel.SqFloorHeight.GetUpperBound(1))
+            if (coord.X > mDynamicModel.SqFloorHeight.GetUpperBound(0) ||  coord.Y > mDynamicModel.SqFloorHeight.GetUpperBound(1) || coord.X < 0 || coord.Y < 0)
             {
                 return 1;
             }
@@ -1000,88 +1084,262 @@ namespace StarBlue.HabboHotel.Rooms
             return 0.0;
         }
 
-        public Point GetChaseMovement(Item item)
+        public MovementDirection GetChaseMovement(int X, int Y, MovementDirection OldMouvement)
         {
-            int Distance = 99;
-            Point Coord = new Point(0, 0);
-            int iX = item.GetX;
-            int iY = item.GetY;
-            bool X = false;
+            bool moveToLeft = true;
+            bool moveToRight = true;
+            bool moveToUp = true;
+            bool moveToDown = true;
+            bool moveToUpLeft = true;
+            bool moveToUpRight = true;
+            bool moveToDownLeft = true;
+            bool moveToDownRight = true;
 
-            foreach (RoomUser User in _room.GetRoomUserManager().GetRoomUsers())
+            for (int y = 0; y < Model.MapSizeY; y++)
             {
-                if (User.X == item.GetX || item.GetY == User.Y)
+                for (int i = 0; i < Model.MapSizeX; i++)
                 {
-                    if (User.X == item.GetX)
-                    {
-                        int Difference = Math.Abs(User.Y - item.GetY);
-                        if (Difference < Distance)
-                        {
-                            Distance = Difference;
-                            Coord = User.Coordinate;
-                            X = false;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else if (User.Y == item.GetY)
-                    {
-                        int Difference = Math.Abs(User.X - item.GetX);
-                        if (Difference < Distance)
-                        {
-                            Distance = Difference;
-                            Coord = User.Coordinate;
-                            X = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    // Left
+                    if (i == 1 && !CanRollItemHere(X - i, Y))
+                        moveToLeft = false;
+                    else if (moveToLeft && SquareHasUsers(X - i, Y))
+                        return MovementDirection.LEFT;
+
+                    // Right
+                    if (i == 1 && !CanRollItemHere(X + i, Y))
+                        moveToRight = false;
+                    else if (moveToRight && SquareHasUsers(X + i, Y))
+                        return MovementDirection.RIGHT;
+
+                    // Up
+                    if (i == 1 && !CanRollItemHere(X, Y - i))
+                        moveToUp = false;
+                    else if (moveToUp && SquareHasUsers(X, Y - i))
+                        return MovementDirection.UP;
+
+                    // Down
+                    if (i == 1 && !CanRollItemHere(X, Y + i))
+                        moveToDown = false;
+                    else if (moveToDown && SquareHasUsers(X, Y + i))
+                        return MovementDirection.DOWN;
+
+                    if (i == 1 && !CanRollItemHere(X - i, Y - i))
+                        moveToUpLeft = false;
+                    else if (moveToUpLeft && SquareHasUsers(X - i, Y - i))
+                        return MovementDirection.UP_LEFT;
+
+                    if (i == 1 && !CanRollItemHere(X + i, Y - i))
+                        moveToUpRight = false;
+                    else if (moveToUpRight && SquareHasUsers(X + i, Y - i))
+                        return MovementDirection.UP_RIGHT;
+
+                    if (i == 1 && !CanRollItemHere(X - i, Y + i))
+                        moveToDownLeft = false;
+                    else if (moveToDownLeft && SquareHasUsers(X - i, Y + i))
+                        return MovementDirection.DOWN_LEFT;
+
+                    if (i == 1 && !CanRollItemHere(X + i, Y + i))
+                        moveToDownRight = false;
+                    else if (moveToDownRight && SquareHasUsers(X + i, Y + i))
+                        return MovementDirection.DOWN_RIGHT;
+
+                    // Breaking bucle
+                    if (i == 1 && !moveToLeft && !moveToRight && !moveToUp && !moveToDown && !moveToDownRight && !moveToDownLeft && !moveToUpLeft && !moveToUpRight)
+                        return MovementDirection.NONE;
                 }
             }
 
-            if (Distance > 5)
-            {
-                return item.GetSides().OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-            }
+            List<MovementDirection> movements = new List<MovementDirection>();
+            if (moveToLeft && OldMouvement != MovementDirection.RIGHT)
+                movements.Add(MovementDirection.LEFT);
+            if (moveToRight && OldMouvement != MovementDirection.LEFT)
+                movements.Add(MovementDirection.RIGHT);
+            if (moveToUp && OldMouvement != MovementDirection.DOWN)
+                movements.Add(MovementDirection.UP);
+            if (moveToDown && OldMouvement != MovementDirection.UP)
+                movements.Add(MovementDirection.DOWN);
+            if (moveToUpLeft && OldMouvement != MovementDirection.DOWN_LEFT)
+                movements.Add(MovementDirection.UP_LEFT);
+            if (moveToUpRight && OldMouvement != MovementDirection.DOWN_RIGHT)
+                movements.Add(MovementDirection.UP_RIGHT);
+            if (moveToDownLeft && OldMouvement != MovementDirection.UP_LEFT)
+                movements.Add(MovementDirection.DOWN_LEFT);
+            if (moveToDownRight && OldMouvement != MovementDirection.UP_RIGHT)
+                movements.Add(MovementDirection.DOWN_RIGHT);
 
-            if (X && Distance < 99)
-            {
-                if (iX > Coord.X)
-                {
-                    iX--;
-                    return new Point(iX, iY);
-                }
-                else
-                {
-                    iX++;
-                    return new Point(iX, iY);
-                }
-            }
-            else if (!X && Distance < 99)
-            {
-                if (iY > Coord.Y)
-                {
-                    iY--;
-                    return new Point(iX, iY);
-                }
-                else
-                {
-                    iY++;
-                    return new Point(iX, iY);
-                }
-            }
+            if (movements.Count > 0)
+                return movements[new Random().Next(0, movements.Count)];
             else
             {
-                return item.Coordinate;
+                if (moveToLeft && OldMouvement == MovementDirection.LEFT)
+                    return MovementDirection.LEFT;
+                if (moveToRight && OldMouvement == MovementDirection.RIGHT)
+                    return MovementDirection.RIGHT;
+                if (moveToUp && OldMouvement == MovementDirection.UP)
+                    return MovementDirection.UP;
+                if (moveToDown && OldMouvement == MovementDirection.DOWN)
+                    return MovementDirection.DOWN;
+                if (moveToDownLeft && OldMouvement == MovementDirection.DOWN_LEFT)
+                    return MovementDirection.DOWN_LEFT;
+                if (moveToDownRight && OldMouvement == MovementDirection.DOWN_RIGHT)
+                    return MovementDirection.DOWN_RIGHT;
+                if (moveToUpLeft && OldMouvement == MovementDirection.UP_LEFT)
+                    return MovementDirection.UP_LEFT;
+                if (moveToUpRight && OldMouvement == MovementDirection.UP_RIGHT)
+                    return MovementDirection.UP_RIGHT;
             }
+
+            List<MovementDirection> movements2 = new List<MovementDirection>();
+            if (moveToLeft)
+                movements2.Add(MovementDirection.LEFT);
+            if (moveToRight)
+                movements2.Add(MovementDirection.RIGHT);
+            if (moveToUp)
+                movements2.Add(MovementDirection.UP);
+            if (moveToDown)
+                movements2.Add(MovementDirection.DOWN);
+            if (moveToUpLeft)
+                movements2.Add(MovementDirection.UP_LEFT);
+            if (moveToUpRight)
+                movements2.Add(MovementDirection.UP_RIGHT);
+            if (moveToDownLeft)
+                movements2.Add(MovementDirection.DOWN_LEFT);
+            if (moveToDownRight)
+                movements2.Add(MovementDirection.DOWN_RIGHT);
+
+            if (movements2.Count > 0)
+                return movements2[new Random().Next(0, movements2.Count)];
+
+            return MovementDirection.NONE;
+        }
+
+        public MovementDirection GetEscapeMovement(int X, int Y, MovementDirection OldMouvement)
+        {
+            bool moveToLeft = true;
+            bool moveToRight = true;
+            bool moveToUp = true;
+            bool moveToDown = true;
+            bool moveToUpLeft = true;
+            bool moveToUpRight = true;
+            bool moveToDownLeft = true;
+            bool moveToDownRight = true;
+
+            for (int y = 0; y < Model.MapSizeY; y++)
+            {
+                for (int i = 0; i < Model.MapSizeX; i++)
+                {
+                    // Left
+                    if (i == 1 && !CanRollItemHere(X - i, Y) || SquareHasUsers(X - i, Y) && i == 1)
+                        moveToLeft = false;
+                    else if (moveToLeft && SquareHasUsers(X - i, Y))
+                        moveToLeft = false;
+
+                    // Right
+                    if (i == 1 && !CanRollItemHere(X + i, Y) || SquareHasUsers(X + i, Y) && i == 1)
+                        moveToRight = false;
+                    else if (moveToRight && SquareHasUsers(X + i, Y))
+                        moveToRight = false;
+
+                    // Up
+                    if (i == 1 && !CanRollItemHere(X, Y - i) || SquareHasUsers(X, Y - i) && i == 1)
+                        moveToUp = false;
+                    else if (moveToUp && SquareHasUsers(X, Y - i))
+                        moveToUp = false;
+
+                    // Down
+                    if (i == 1 && !CanRollItemHere(X, Y + i) || SquareHasUsers(X, Y + i) && i == 1)
+                        moveToDown = false;
+                    else if (moveToDown && SquareHasUsers(X, Y + i))
+                        moveToDown = false;
+
+                    if (i == 1 && !CanRollItemHere(X - i, Y + i) || SquareHasUsers(X - i, Y + i) && i == 1)
+                        moveToDownLeft = false;
+                    else if (moveToDownLeft && SquareHasUsers(X - i, Y + i))
+                        moveToDownLeft = false;
+
+                    if (i == 1 && !CanRollItemHere(X + i, Y + i) || SquareHasUsers(X + i, Y + i) && i == 1)
+                        moveToDownRight = false;
+                    else if (moveToDownRight && SquareHasUsers(X + i, Y + i))
+                        moveToDownRight = false;
+
+                    if (i == 1 && !CanRollItemHere(X - i, Y - i) || SquareHasUsers(X - i, Y - i) && i == 1)
+                        moveToUpLeft = false;
+                    else if (moveToUpLeft && SquareHasUsers(X - i, Y - i))
+                        moveToUpLeft = false;
+
+                    if (i == 1 && !CanRollItemHere(X + i, Y - i) || SquareHasUsers(X + i, Y - i) && i == 1)
+                        moveToUpRight = false;
+                    else if (moveToUpRight && SquareHasUsers(X + i, Y - i))
+                        moveToUpRight = false;
+
+                    // Breaking bucle
+                    if (i == 1 && !moveToLeft && !moveToRight && !moveToUp && !moveToDown)
+                        return MovementDirection.NONE;
+                }
+            }
+
+            List<MovementDirection> movements = new List<MovementDirection>();
+            if (moveToLeft && OldMouvement != MovementDirection.RIGHT)
+                movements.Add(MovementDirection.LEFT);
+            if (moveToRight && OldMouvement != MovementDirection.LEFT)
+                movements.Add(MovementDirection.RIGHT);
+            if (moveToUp && OldMouvement != MovementDirection.DOWN)
+                movements.Add(MovementDirection.UP);
+            if (moveToDown && OldMouvement != MovementDirection.UP)
+                movements.Add(MovementDirection.DOWN);
+            if (moveToUpLeft && OldMouvement != MovementDirection.DOWN_LEFT)
+                movements.Add(MovementDirection.UP_LEFT);
+            if (moveToUpRight && OldMouvement != MovementDirection.DOWN_RIGHT)
+                movements.Add(MovementDirection.UP_RIGHT);
+            if (moveToDownLeft && OldMouvement != MovementDirection.UP_LEFT)
+                movements.Add(MovementDirection.DOWN_LEFT);
+            if (moveToDownRight && OldMouvement != MovementDirection.UP_RIGHT)
+                movements.Add(MovementDirection.DOWN_RIGHT);
+
+            if (movements.Count > 0)
+                return movements[new Random().Next(0, movements.Count)];
+            else
+            {
+                if (moveToLeft && OldMouvement == MovementDirection.LEFT)
+                    return MovementDirection.LEFT;
+                if (moveToRight && OldMouvement == MovementDirection.RIGHT)
+                    return MovementDirection.RIGHT;
+                if (moveToUp && OldMouvement == MovementDirection.UP)
+                    return MovementDirection.UP;
+                if (moveToDown && OldMouvement == MovementDirection.DOWN)
+                    return MovementDirection.DOWN;
+                if (moveToDownLeft && OldMouvement == MovementDirection.DOWN_LEFT)
+                    return MovementDirection.DOWN_LEFT;
+                if (moveToDownRight && OldMouvement == MovementDirection.DOWN_RIGHT)
+                    return MovementDirection.DOWN_RIGHT;
+                if (moveToUpLeft && OldMouvement == MovementDirection.UP_LEFT)
+                    return MovementDirection.UP_LEFT;
+                if (moveToUpRight && OldMouvement == MovementDirection.UP_RIGHT)
+                    return MovementDirection.UP_RIGHT;
+            }
+
+            List<MovementDirection> movements2 = new List<MovementDirection>();
+            if (moveToLeft)
+                movements2.Add(MovementDirection.LEFT);
+            if (moveToRight)
+                movements2.Add(MovementDirection.RIGHT);
+            if (moveToUp)
+                movements2.Add(MovementDirection.UP);
+            if (moveToDown)
+                movements2.Add(MovementDirection.DOWN);
+            if (moveToUpLeft)
+                movements2.Add(MovementDirection.UP_LEFT);
+            if (moveToUpRight)
+                movements2.Add(MovementDirection.UP_RIGHT);
+            if (moveToDownLeft)
+                movements2.Add(MovementDirection.DOWN_LEFT);
+            if (moveToDownRight)
+                movements2.Add(MovementDirection.DOWN_RIGHT);
+
+            if (movements2.Count > 0)
+                return movements2[new Random().Next(0, movements2.Count)];
+
+            return MovementDirection.NONE;
         }
 
         public bool IsValidMovement(int CoordX, int CoordY)
@@ -1093,7 +1351,7 @@ namespace StarBlue.HabboHotel.Rooms
 
             if (SquareHasUsers(CoordX, CoordY))
             {
-                return true;
+                return false;
             }
 
             if (GetCoordinatedItems(new Point(CoordX, CoordY)).Count > 0 && !SquareIsOpen(CoordX, CoordY, false))
@@ -1107,19 +1365,13 @@ namespace StarBlue.HabboHotel.Rooms
         public bool IsValidStep2(RoomUser User, Vector2D From, Vector2D To, bool EndOfPath, bool Override)
         {
             if (User == null)
-            {
                 return false;
-            }
 
             if (!ValidTile(To.X, To.Y))
-            {
                 return false;
-            }
 
             if (Override)
-            {
                 return true;
-            }
 
             /*
              * 0 = blocked
@@ -1128,26 +1380,35 @@ namespace StarBlue.HabboHotel.Rooms
              * 3 = door
              * */
 
+
+            RoomUser Userx = _room.GetRoomUserManager().GetUserForSquare(To.X, To.Y);
+            if (Userx != null && _room.RoomData.RoomBlockingEnabled == 0)
+                return false;
+
             List<Item> Items = _room.GetGameMap().GetAllRoomItemForSquare(To.X, To.Y);
             if (Items.Count > 0)
             {
-                bool HasGroupGate = Items.ToList().Where(x => x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE).ToList().Count() > 0;
+                var HasGate = Items.Where(x => x.GetBaseItem().InteractionType == InteractionType.GATE).FirstOrDefault();
+                if ((HasGate != null && HasGate.ExtraData == "0") || (Userx != null && Userx.SqState == 3))
+                {
+                    return false;
+                }
+
+                var HasGroupGate = Items.Any(x => x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE);
                 if (HasGroupGate)
                 {
-                    Item I = Items.FirstOrDefault(x => x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE);
+                    var I = Items.FirstOrDefault(x => x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE);
                     if (I != null)
                     {
-                        if (!StarBlueServer.GetGame().GetGroupManager().TryGetGroup(I.GroupId, out Group Group))
-                        {
+                        Group gp = null;
+                        var Group = StarBlueServer.GetGame().GetGroupManager().TryGetGroup(I.GroupId, out gp);
+                        if (gp == null)
                             return false;
-                        }
 
                         if (User.GetClient() == null || User.GetClient().GetHabbo() == null)
-                        {
                             return false;
-                        }
 
-                        if (Group.IsMember(User.GetClient().GetHabbo().Id))
+                        if (gp.IsMember(User.GetClient().GetHabbo().Id))
                         {
                             I.InteractingUser = User.GetClient().GetHabbo().Id;
                             I.ExtraData = "1";
@@ -1157,107 +1418,8 @@ namespace StarBlue.HabboHotel.Rooms
 
                             return true;
                         }
-                        else
-                        {
-                            if (User.Path.Count > 0)
-                            {
-                                User.Path.Clear();
-                            }
-
-                            User.PathRecalcNeeded = false;
-                            return false;
-                        }
-                    }
-                }
-                bool HasHcGate = Items.ToList().Where(x => x.GetBaseItem().InteractionType == InteractionType.HCGATE).ToList().Count() > 0;
-                if (HasHcGate)
-                {
-                    Item I = Items.FirstOrDefault(x => x.GetBaseItem().InteractionType == InteractionType.HCGATE);
-                    if (I != null)
-                    {
-                        var IsHc = User.GetClient().GetHabbo().GetClubManager().HasSubscription("habbo_vip");
-                        if (!IsHc)
-                        {
-                            User.GetClient().SendMessage(new AlertNotificationHCMessageComposer(3));
-                            if (User.Path.Count > 0)
-                            {
-                                User.Path.Clear();
-                            }
-
-                            User.PathRecalcNeeded = false;
-                            return false;
-                        }
-
-                        if (User.GetClient() == null || User.GetClient().GetHabbo() == null)
-                        {
-                            return false;
-                        }
-
-                        if (User.GetClient().GetHabbo().GetClubManager().HasSubscription("habbo_vip"))
-                        {
-                            I.InteractingUser = User.GetClient().GetHabbo().Id;
-                            I.ExtraData = "1";
-                            I.UpdateState(false, true);
-                            I.RequestUpdate(4, true);
-                            return true;
-                        }
-                        else
-                        {
-                            User.GetClient().SendMessage(new AlertNotificationHCMessageComposer(3));
-                            if (User.Path.Count > 0)
-                            {
-                                User.Path.Clear();
-                            }
-
-                            User.PathRecalcNeeded = false;
-                            return false;
-                        }
-                    }
-                }
-
-            }
-
-            bool HasVIPGate = Items.ToList().Where(x => x.GetBaseItem().InteractionType == InteractionType.VIPGATE).ToList().Count() > 0;
-            if (HasVIPGate)
-            {
-                Item I = Items.FirstOrDefault(x => x.GetBaseItem().InteractionType == InteractionType.VIPGATE);
-                if (I != null)
-                {
-                    var IsVIP = User.GetClient().GetHabbo().GetClubManager().HasSubscription("club_vip");
-                    if (!IsVIP)
-                    {
-                        User.GetClient().SendMessage(new AlertNotificationHCMessageComposer(1));
                         if (User.Path.Count > 0)
-                        {
                             User.Path.Clear();
-                        }
-
-                        User.PathRecalcNeeded = false;
-                        return false;
-                    }
-
-                    if (User.GetClient() == null || User.GetClient().GetHabbo() == null)
-                    {
-                        return false;
-                    }
-
-                    if (User.GetClient().GetHabbo().GetClubManager().HasSubscription("club_vip"))
-                    {
-                        I.InteractingUser = User.GetClient().GetHabbo().Id;
-                        I.ExtraData = "1";
-                        I.UpdateState(false, true);
-                        I.RequestUpdate(4, true);
-
-                        return true;
-                    }
-                    else
-                    {
-                        User.GetClient().SendMessage(new AlertNotificationHCMessageComposer(1));
-                        if (User.Path.Count > 0)
-                        {
-                            User.Path.Clear();
-                        }
-
                         User.PathRecalcNeeded = false;
                         return false;
                     }
@@ -1269,9 +1431,7 @@ namespace StarBlue.HabboHotel.Rooms
             foreach (Item Item in Items.ToList())
             {
                 if (Item == null)
-                {
                     continue;
-                }
 
                 if (Item.GetZ < HighestZ)
                 {
@@ -1281,164 +1441,145 @@ namespace StarBlue.HabboHotel.Rooms
 
                 HighestZ = Item.GetZ;
                 if (Item.GetBaseItem().IsSeat)
-                {
                     Chair = true;
-                }
             }
 
             if ((mGameMap[To.X, To.Y] == 3 && !EndOfPath && !Chair) || (mGameMap[To.X, To.Y] == 0) || (mGameMap[To.X, To.Y] == 2 && !EndOfPath))
             {
                 if (User.Path.Count > 0)
-                {
                     User.Path.Clear();
-                }
-
                 User.PathRecalcNeeded = true;
             }
 
             double HeightDiff = SqAbsoluteHeight(To.X, To.Y) - SqAbsoluteHeight(From.X, From.Y);
             if (HeightDiff > 1.5 && !User.RidingHorse)
-            {
                 return false;
-            }
 
-            RoomUser Userx = _room.GetRoomUserManager().GetUserForSquare(To.X, To.Y);
             if (Userx != null)
             {
                 if (!Userx.IsWalking && EndOfPath)
-                {
                     return false;
-                }
             }
             return true;
         }
 
-        public bool IsValidStep(Vector2D From, Vector2D To, bool EndOfPath, bool Override, bool DiagonalEnabled = false, bool DiagMovement = false, bool Roller = false)
+        public bool IsValidStep(RoomUser User, Vector2D From, Vector2D To, bool EndOfPath, bool Override, bool DiagonalEnabled = false, bool DiagMovement = false, bool Roller = false)
         {
             if (!ValidTile(To.X, To.Y))
-            {
                 return false;
-            }
 
             if (Override)
-            {
                 return true;
-            }
 
-            int XValue = To.X - From.X;
-            int YValue = To.Y - From.Y;
             if (DiagMovement && !DiagonalEnabled)
             {
+                int XValue = To.X - From.X;
+                int YValue = To.Y - From.Y;
+
                 if (XValue == -1 && YValue == -1)
                 {
                     if (mGameMap[To.X + 1, To.Y] != 1 && mGameMap[To.X, To.Y + 1] != 1)
-                    {
                         return false;
-                    }
                 }
                 else if (XValue == 1 && YValue == -1)
                 {
                     if (mGameMap[To.X - 1, To.Y] != 1 && mGameMap[To.X, To.Y + 1] != 1)
-                    {
                         return false;
-                    }
                 }
                 else if (XValue == 1 && YValue == 1)
                 {
                     if (mGameMap[To.X - 1, To.Y] != 1 && mGameMap[To.X, To.Y - 1] != 1)
-                    {
                         return false;
-                    }
                 }
                 else if (XValue == -1 && YValue == 1)
                 {
                     if (mGameMap[To.X + 1, To.Y] != 1 && mGameMap[To.X, To.Y - 1] != 1)
+                        return false;
+                }
+            }
+
+            RoomUser Userx = _room.GetRoomUserManager().GetUserForSquare(To.X, To.Y);
+            if (_room.RoomData.RoomBlockingEnabled == 0 && Userx != null)
+                return false;
+
+            List<Item> Items = _room.GetGameMap().GetAllRoomItemForSquare(To.X, To.Y);
+            if (Items.Count > 0)
+            {
+                var HasGate = Items.Where(x => x.GetBaseItem().InteractionType == InteractionType.GATE).FirstOrDefault();
+                if ((HasGate != null && HasGate.ExtraData == "0") || (Userx != null && Userx.SqState == 3))
+                {
+                    return false;
+                }
+
+                var HasGroupGate = Items.Any(x => x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE);
+                if (HasGroupGate)
+                {
+                    var I = Items.FirstOrDefault(x => x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE);
+                    if (I != null)
                     {
+                        Group gp = null;
+                        var Group = StarBlueServer.GetGame().GetGroupManager().TryGetGroup(I.GroupId, out gp);
+                        if (gp == null)
+                            return false;
+
+                        if (User.GetClient() == null || User.GetClient().GetHabbo() == null)
+                            return false;
+
+                        if (gp.IsMember(User.GetClient().GetHabbo().Id))
+                        {
+                            return true;
+                        }
                         return false;
                     }
                 }
             }
 
-            /* if (XValue == -1 && YValue == -1)
-             {
-                 if (GetCoordinatedItems(new Point(To.X + 1, To.Y)).Count > 0 && GetCoordinatedItems(new Point(To.X, To.Y + 1)).Count > 0)
-                     return false;
-             }
-             else if (XValue == 1 && YValue == -1)
-             {
-                 if (GetCoordinatedItems(new Point(To.X - 1, To.Y)).Count > 0 && GetCoordinatedItems(new Point(To.X, To.Y + 1)).Count > 0)
-                     return false;
-             }
-             else if (XValue == 1 && YValue == 1)
-             {
-                 if (GetCoordinatedItems(new Point(To.X - 1, To.Y)).Count > 0 && GetCoordinatedItems(new Point(To.X, To.Y - 1)).Count > 0)
-                     return false;
-             }
-             else if (XValue == -1 && YValue == 1)
-             {
-                 if (GetCoordinatedItems(new Point(To.X + 1, To.Y)).Count > 0 && GetCoordinatedItems(new Point(To.X, To.Y - 1)).Count > 0)
-                     return false;
-             }*/
-
-            List<RoomUser> Users = GetRoomUsers(new Point(To.X, To.Y));
-            if (_room.RoomBlockingEnabled == 0 && Users.Count > 0)
-            {
+            if ((mGameMap[To.X, To.Y] == 3 && !EndOfPath) || (mGameMap[To.X, To.Y] == 0) || (mGameMap[To.X, To.Y] == 2 && !EndOfPath))
                 return false;
-            }
-
-            List<Item> Items = _room.GetGameMap().GetAllRoomItemForSquare(To.X, To.Y);
-            if (Items.Count > 0)
-            {
-                if (!SquareIsOpen(To.X, To.Y, false) && Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType != InteractionType.ROLLER).Count() > 0)
-                {
-                    return false;
-                }
-
-                if (_room.RoomBlockingEnabled == 1 && Users.Count > 0)
-                {
-                    foreach (RoomUser User in Users)
-                    {
-                        if ((User.Statusses.ContainsKey("sit") && Items.ToList().Where(x => x != null && x.GetBaseItem().IsSeat).Count() > 0) || (User.Statusses.ContainsKey("lay") && Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType == InteractionType.BED).Count() > 0))
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                bool HasGroupGate = Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType == InteractionType.GUILD_GATE).Count() > 0;
-                if (HasGroupGate)
-                {
-                    return true;
-                }
-
-                bool HasHcGate = Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType == InteractionType.HCGATE).Count() > 0;
-                if (HasHcGate)
-                {
-                    return true;
-                }
-
-                bool HasVIPGate = Items.ToList().Where(x => x != null && x.GetBaseItem().InteractionType == InteractionType.VIPGATE).Count() > 0;
-                if (HasVIPGate)
-                {
-                    return true;
-                }
-            }
-
-            if ((mGameMap[To.X, To.Y] == 3 && !EndOfPath) || mGameMap[To.X, To.Y] == 0 || (mGameMap[To.X, To.Y] == 2 && !EndOfPath))
-            {
-                return false;
-            }
 
             if (!Roller)
             {
                 double HeightDiff = SqAbsoluteHeight(To.X, To.Y) - SqAbsoluteHeight(From.X, From.Y);
                 if (HeightDiff > 1.5)
-                {
                     return false;
-                }
             }
 
             return true;
+        }
+
+        public bool TileIsWalkable(int pX, int pY, bool isUser, RoomUser User, bool endPath = false)
+        {
+            if (!isUser)
+            {
+                if (SquareHasUsers(pX, pY))
+                    return false;
+
+                if (!ValidTile(pX, pY) || GameMap[pX, pY] != 1)
+                    return false;
+            }
+            else
+            {
+                if (SquareHasUsers(pX, pY))
+                {
+                    RoomUser Userx = _room.GetRoomUserManager().GetUserForSquare(pX, pY);
+                    if (endPath)
+                        return true;//??keycode
+
+                    if (Userx.IsWalking && User.IsWalking)
+                    {
+                        return true;
+                    }
+                    if (_room.RoomData.RoomBlockingEnabled == 0 && !(_room.GetGameMap().Model.DoorX == pX && _room.GetGameMap().Model.DoorY == pY))
+                        return false;
+                }
+
+                if (!ValidTile(pX, pY))
+                    return false;
+
+                if (GameMap[pX, pY] == 0)
+                    return false;
+            }
+            return Model.SqState[pX, pY] == SquareState.OPEN;
         }
 
         public static bool CanWalk(byte pState, bool pOverride)
@@ -1462,15 +1603,15 @@ namespace StarBlue.HabboHotel.Rooms
 
         public List<Item> GetRoomItemForMinZ(int pX, int pY, double pZ)
         {
-            var itemsToReturn = new List<Item>();
-            var coord = new Point(pX, pY);
+            List<Item> itemsToReturn = new List<Item>();
+            Point coord = new Point(pX, pY);
 
             if (mCoordinatedItems.ContainsKey(coord))
             {
-                var itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
-                foreach (var item in itemsFromSquare)
+                List<Item> itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
+                foreach (Item item in itemsFromSquare)
                 {
-                    if (pZ <= item.GetZ)
+                    if (pZ < item.GetZ)
                     {
                         itemsToReturn.Add(item);
                     }
@@ -1571,7 +1712,7 @@ namespace StarBlue.HabboHotel.Rooms
             return -1;
         }
 
-        public bool itemCanBePlacedHere(int x, int y, Item ball = null, RoomUser User = null)
+        public bool itemCanBePlacedHere(int x, int y, Item ball = null)
         {
 
             if (mDynamicModel.MapSizeX - 1 < x || mDynamicModel.MapSizeY - 1 < y || (x == mDynamicModel.DoorX && y == mDynamicModel.DoorY))
@@ -1800,64 +1941,55 @@ namespace StarBlue.HabboHotel.Rooms
             }
             else
             {
-                return mDynamicModel.SqFloorHeight[X, Y];
+                return GetHeightForSquareFromData(new Point(X, Y));
             }
+        }
+
+        public static Item GetItemFromTileMaxHeight(List<Item> items)
+        {
+            double actualHeight = 0;
+            Item currentItem = null;
+
+            foreach (var i in items)
+                if (i.TotalHeight > actualHeight)
+                {
+                    actualHeight = i.TotalHeight;
+                    currentItem = i;
+                }
+            return currentItem;
         }
 
         public double SqAbsoluteHeight(int X, int Y, List<Item> ItemsOnSquare)
         {
-            try
-            {
-                bool deduct = false;
-                double HighestStack = 0;
-                double deductable = 0.0;
+            if (!this.ValidTile(X, Y))
+                return 0.0;
 
-                if (ItemsOnSquare != null && ItemsOnSquare.Count > 0)
+            double HighestStack = 0.0;
+            bool deduct = false;
+            double deductable = 0.0;
+            foreach (Item roomItem in ItemsOnSquare)
+            {
+                if (roomItem.TotalHeight > HighestStack)
                 {
-                    foreach (Item Item in ItemsOnSquare.ToList())
+                    if (roomItem.GetBaseItem().IsSeat || roomItem.GetBaseItem().InteractionType == InteractionType.BED || roomItem.GetBaseItem().InteractionType == InteractionType.TENT_SMALL)
                     {
-                        if (Item == null)
-                        {
-                            continue;
-                        }
-
-                        if (Item.TotalHeight > HighestStack)
-                        {
-                            if (Item.GetBaseItem().IsSeat || Item.GetBaseItem().InteractionType == InteractionType.BED || Item.GetBaseItem().InteractionType == InteractionType.TENT_SMALL)
-                            {
-                                deduct = true;
-                                deductable = Item.GetBaseItem().Height;
-                            }
-                            else
-                            {
-                                deduct = false;
-                            }
-
-                            HighestStack = Item.TotalHeight;
-                        }
+                        deduct = true;
+                        deductable = roomItem.GetBaseItem().Height;
                     }
+                    else
+                        deduct = false;
+
+                    HighestStack = roomItem.TotalHeight;
                 }
-
-                double floorHeight = Model.SqFloorHeight[X, Y];
-                double stackHeight = HighestStack - Model.SqFloorHeight[X, Y];
-
-                if (deduct)
-                {
-                    stackHeight -= deductable;
-                }
-
-                if (stackHeight < 0)
-                {
-                    stackHeight = 0;
-                }
-
-                return (floorHeight + stackHeight);
             }
-            catch (Exception e)
-            {
-                Logging.LogException(e.ToString());
-                return 0;
-            }
+            double floorHeight = (double)this.Model.SqFloorHeight[X, Y];
+            double stackHeight = HighestStack - (double)this.Model.SqFloorHeight[X, Y];
+            if (deduct)
+                stackHeight -= deductable;
+            if (stackHeight < 0.0)
+                stackHeight = 0.0;
+
+            return floorHeight + stackHeight;
         }
 
         public bool ValidTile(int X, int Y, Item ball = null)
@@ -1980,12 +2112,12 @@ namespace StarBlue.HabboHotel.Rooms
 
         public List<Item> GetRoomItemForSquare(int pX, int pY, double minZ)
         {
-            var itemsToReturn = new List<Item>();
+            List<Item> itemsToReturn = new List<Item>();
 
-            var coord = new Point(pX, pY);
+            Point coord = new Point(pX, pY);
             if (mCoordinatedItems.ContainsKey(coord))
             {
-                var itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
+                List<Item> itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
 
                 foreach (Item item in itemsFromSquare)
                 {
@@ -2004,13 +2136,13 @@ namespace StarBlue.HabboHotel.Rooms
 
         public List<Item> GetRoomItemForSquare(int pX, int pY)
         {
-            var coord = new Point(pX, pY);
+            Point coord = new Point(pX, pY);
             //List<RoomItem> itemsFromSquare = new List<RoomItem>();
-            var itemsToReturn = new List<Item>();
+            List<Item> itemsToReturn = new List<Item>();
 
             if (mCoordinatedItems.ContainsKey(coord))
             {
-                var itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
+                List<Item> itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
 
                 foreach (Item item in itemsFromSquare)
                 {
@@ -2026,13 +2158,11 @@ namespace StarBlue.HabboHotel.Rooms
 
         public bool GetRoomItemForSquare2(int pX, int pY)
         {
-            var coord = new Point(pX, pY);
-            //List<RoomItem> itemsFromSquare = new List<RoomItem>();
-            var itemsToReturn = new List<Item>();
+            Point coord = new Point(pX, pY);
 
             if (mCoordinatedItems.ContainsKey(coord))
             {
-                var itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
+                List<Item> itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
 
                 foreach (Item item in itemsFromSquare)
                 {
@@ -2048,12 +2178,11 @@ namespace StarBlue.HabboHotel.Rooms
 
         public bool HasStackTool(int pX, int pY)
         {
-            var coord = new Point(pX, pY);
-            var itemsToReturn = new List<Item>();
+            Point coord = new Point(pX, pY);
 
             if (mCoordinatedItems.ContainsKey(coord))
             {
-                var itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
+                List<Item> itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
 
                 foreach (Item item in itemsFromSquare)
                 {
@@ -2068,12 +2197,11 @@ namespace StarBlue.HabboHotel.Rooms
         }
         public bool IsRentableSpace(int pX, int pY, GameClient Session)
         {
-            var coord = new Point(pX, pY);
-            var itemsToReturn = new List<Item>();
+            Point coord = new Point(pX, pY);
 
             if (mCoordinatedItems.ContainsKey(coord))
             {
-                var itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
+                List<Item> itemsFromSquare = GetItemsFromIds(mCoordinatedItems[coord]);
 
                 foreach (Item item in itemsFromSquare)
                 {
@@ -2138,6 +2266,22 @@ namespace StarBlue.HabboHotel.Rooms
             return Items;
         }
 
+        public bool SquareHasUser2(int X, int Y, RoomUser UserClicking)
+        {
+            Point coord = new Point(X, Y);
+            List<RoomUser> UsersInSquare = GetRoomUsers(coord);
+            if (UsersInSquare.Count == 1)
+            {
+                return !UsersInSquare.Contains(UserClicking);
+            }
+            else
+            {
+                return (UsersInSquare.Count > 0);
+            }
+
+
+        }
+
         public bool SquareHasUsers(int X, int Y)
         {
             return MapGotUser(new Point(X, Y));
@@ -2154,11 +2298,16 @@ namespace StarBlue.HabboHotel.Rooms
             return false;
         }
 
+        public RoomUser SquareHasUser4(int X, int Y, RoomUser MyUser)
+        {
+            List<RoomUser> users = GetRoomUsers(new Point(X, Y)).Where(u => u.UserId != MyUser.UserId).ToList();
+            return users.FirstOrDefault();
+        }
+
         public bool SquareHasUser3(int X, int Y, RoomUser UserClicking)
         {
             Point coord = new Point(X, Y);
-            List<RoomUser> UsersInSquare = new List<RoomUser>();
-            UsersInSquare = GetRoomUsers(coord);
+            List<RoomUser> UsersInSquare = GetRoomUsers(coord);
             int i = 0;
             foreach (RoomUser Userin in UsersInSquare)
             {
@@ -2217,6 +2366,7 @@ namespace StarBlue.HabboHotel.Rooms
             userMap.Clear();
             mDynamicModel.Destroy();
             mCoordinatedItems.Clear();
+            mCoordinatedMagicTileItems.Clear();
 
             Array.Clear(mGameMap, 0, mGameMap.Length);
             Array.Clear(mUserItemEffect, 0, mUserItemEffect.Length);
@@ -2227,6 +2377,7 @@ namespace StarBlue.HabboHotel.Rooms
             mUserItemEffect = null;
             mItemHeightMap = null;
             mCoordinatedItems = null;
+            mCoordinatedMagicTileItems = null;
 
             mDynamicModel = null;
             _room = null;

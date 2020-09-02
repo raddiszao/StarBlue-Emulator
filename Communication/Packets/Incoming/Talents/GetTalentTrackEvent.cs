@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Talents
 {
-    class GetTalentTrackEvent : IPacketEvent
+    internal class GetTalentTrackEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

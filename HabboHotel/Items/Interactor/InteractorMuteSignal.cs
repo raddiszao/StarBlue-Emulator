@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorMuteSignal : IFurniInteractor
+    internal class InteractorMuteSignal : IFurniInteractor
     {
         private const int Modes = 1;
 
@@ -16,8 +16,8 @@ namespace StarBlue.HabboHotel.Items.Interactor
             {
                 return;
             }
-            var currentMode = 0;
-            var newMode = 0;
+            int currentMode = 0;
+            int newMode = 0;
 
             try
             {

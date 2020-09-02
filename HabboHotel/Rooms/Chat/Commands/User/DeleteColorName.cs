@@ -1,6 +1,7 @@
-﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
+﻿using StarBlue.Database.Interfaces;
+namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class DeleteColorName : IChatCommand
+    internal class DeleteColorName : IChatCommand
     {
         public string PermissionRequired => "user_vip";
         public string Parameters => "%remove%";
@@ -35,7 +36,7 @@
                 return;
             }
 
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.RunFastQuery("UPDATE `users` SET `namecolor` = '" + Session.GetHabbo().chatHTMLColour + "' WHERE `id` = '" + Session.GetHabbo().Id + "' LIMIT 1");
             }

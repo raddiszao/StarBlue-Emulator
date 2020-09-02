@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 {
-    class AlertNotificationHCMessageComposer : ServerPacket
+    internal class AlertNotificationHCMessageComposer : ServerPacket
     {
         public AlertNotificationHCMessageComposer(int type)
             : base(ServerPacketHeader.AlertNotificationHCMessageComposer)

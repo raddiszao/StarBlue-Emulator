@@ -32,23 +32,16 @@ using StarBlue.HabboHotel.Rooms.Polls;
 using StarBlue.HabboHotel.Rooms.TraxMachine;
 using StarBlue.HabboHotel.Subscriptions;
 using StarBlue.HabboHotel.Talents;
-using StarBlue.WebSocket;
+using StarBlue.HabboHotel.WebClient;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace StarBlue.HabboHotel
 {
     public class Game
     {
         private static readonly ILog log = LogManager.GetLogger("StarBlue.HabboHotel.Game");
-
-        public GroupForumManager GetGroupForumManager()
-        {
-            return _forumManager;
-        }
-
-        private GroupForumManager _forumManager;
+        private readonly GroupForumManager _forumManager;
         private readonly PacketManager _packetManager;
         private readonly GameClientManager _clientManager;
         private readonly ModerationManager _modManager;
@@ -70,6 +63,7 @@ namespace StarBlue.HabboHotel
         private readonly BotManager _botManager;
         private readonly CacheManager _cacheManager;
         private readonly RewardManager _rewardManager;
+        private readonly WebClientManager _clientWebManager;
         private readonly BadgeManager _badgeManager;
         private readonly PermissionManager _permissionManager;
         private readonly SubscriptionManager _subscriptionManager;
@@ -80,13 +74,13 @@ namespace StarBlue.HabboHotel
         private readonly PollManager _pollManager;
         private readonly CommunityGoalVS _communityGoalVS;
         private readonly CalendarManager _calendarManager;
-        private RentableSpaceManager _rentableSpaceManager;
+        private readonly RentableSpaceManager _rentableSpaceManager;
         private readonly LeaderBoardDataManager _leaderBoardDataManager;
-        private readonly WebEventManager _webEventManager;
 
         private bool _cycleEnded;
-        private bool _cycleActive;
-        private Task _gameCycle;
+        private bool _cycleActive = true;
+        private Thread _gameCycle;
+
         private int _cycleSleepTime = 25;
 
         public Game()
@@ -127,6 +121,8 @@ namespace StarBlue.HabboHotel
             _landingViewManager = new LandingViewManager();
             _gameDataManager = new GameDataManager();
 
+            _clientWebManager = new WebClientManager();
+
             _globalUpdater = new ServerStatusUpdater();
             _globalUpdater.Init();
 
@@ -163,41 +159,37 @@ namespace StarBlue.HabboHotel
             HelperToolsManager.Init();
             TraxSoundManager.Init();
             GetHallOfFame.Load();
-
-            _webEventManager = new WebEventManager();
-            _webEventManager.Init();
-
         }
 
         public void StartGameLoop()
         {
-            _gameCycle = new Task(GameCycle);
-            _gameCycle.Start();
-
-            _cycleActive = true;
+            this._cycleActive = true;
+            this._gameCycle = new Thread(new ThreadStart(GameCycle));
+            this._gameCycle.Priority = ThreadPriority.Highest;
+            this._gameCycle.Start();
         }
 
         private void GameCycle()
         {
-            while (_cycleActive)
+            while (this._cycleActive)
             {
-                _cycleEnded = false;
+                this._cycleEnded = false;
 
-                StarBlueServer.GetGame().GetRoomManager().OnCycle();
-                StarBlueServer.GetGame().GetClientManager().OnCycle();
-                //AlphaManager.getInstance().onCycle();
-                _cycleEnded = true;
-                Thread.Sleep(_cycleSleepTime);
+                GetRoomManager().OnCycle();
+                GetClientManager().TestClientConnections();
+                Thread.Sleep(this._cycleSleepTime);
             }
+
+            this._cycleEnded = true;
         }
 
         public void StopGameLoop()
         {
-            _cycleActive = false;
+            this._cycleActive = false;
 
-            while (!_cycleEnded)
+            while (!this._cycleEnded)
             {
-                Thread.Sleep(_cycleSleepTime);
+                Thread.Sleep(this._cycleSleepTime);
             }
         }
 
@@ -209,6 +201,16 @@ namespace StarBlue.HabboHotel
         public GameClientManager GetClientManager()
         {
             return _clientManager;
+        }
+
+        public GroupForumManager GetGroupForumManager()
+        {
+            return _forumManager;
+        }
+
+        public WebClientManager GetWebClientManager()
+        {
+            return this._clientWebManager;
         }
 
         public CatalogManager GetCatalog()
@@ -295,11 +297,6 @@ namespace StarBlue.HabboHotel
         public LandingViewManager GetLandingManager()
         {
             return _landingViewManager;
-        }
-
-        public WebEventManager GetWebEventManager()
-        {
-            return _webEventManager;
         }
 
         public TelevisionManager GetTelevisionManager()

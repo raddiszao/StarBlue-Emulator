@@ -1,13 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveUserEnableBox : IWiredItem, IWiredCycle
+    internal class GiveUserEnableBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -83,7 +82,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }
@@ -95,12 +94,12 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         private void ApplyEnableToUser(Habbo Player)
         {
             RoomUser User = Player.CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Player.Username);
-            if (User == null)
+            if (User == null || string.IsNullOrEmpty(StringData))
             {
                 return;
             }
 
-            var effect = int.Parse(StringData);
+            int effect = int.Parse(StringData);
 
             if (effect == 102 | effect == 178 | effect == 187 | effect == 593 | effect == 596 | effect == 592 | effect == 597 | effect == 594 || effect == 598 || effect == 595 || effect == 599 || effect == 600)
             {

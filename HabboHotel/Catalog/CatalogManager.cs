@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog.Clothing;
 using StarBlue.HabboHotel.Catalog.Marketplace;
 using StarBlue.HabboHotel.Catalog.Pets;
@@ -109,7 +109,7 @@ namespace StarBlue.HabboHotel.Catalog
                         uint PredesignedId = Convert.ToUInt32(Row["predesigned_id"]);
                         if (BaseId == 0 && PredesignedId > 0)
                         {
-                            var roomPack = _predesignedManager.predesignedRoom[PredesignedId];
+                            PredesignedRooms.PredesignedRooms roomPack = _predesignedManager.predesignedRoom[PredesignedId];
                             if (roomPack == null)
                             {
                                 continue;
@@ -117,11 +117,11 @@ namespace StarBlue.HabboHotel.Catalog
 
                             if (roomPack.CatalogItems.Contains(";"))
                             {
-                                var cataItems = new Dictionary<int, int>();
-                                var itemArray = roomPack.CatalogItems.Split(new char[] { ';' });
-                                foreach (var item in itemArray)
+                                Dictionary<int, int> cataItems = new Dictionary<int, int>();
+                                string[] itemArray = roomPack.CatalogItems.Split(new char[] { ';' });
+                                foreach (string item in itemArray)
                                 {
-                                    var items = item.Split(',');
+                                    string[] items = item.Split(',');
                                     if (!ItemDataManager.GetItem(Convert.ToInt32(items[0]), out ItemData PredesignedData))
                                     {
                                         log.Error("Catalog Bundle " + ItemId + " has no furniture data.");
@@ -183,7 +183,7 @@ namespace StarBlue.HabboHotel.Catalog
                         uint PredesignedId = Convert.ToUInt32(Row["predesigned_id"]);
                         if (BaseId == 0 && PredesignedId > 0)
                         {
-                            var roomPack = _predesignedManager.predesignedRoom[PredesignedId];
+                            PredesignedRooms.PredesignedRooms roomPack = _predesignedManager.predesignedRoom[PredesignedId];
                             if (roomPack == null)
                             {
                                 continue;
@@ -191,11 +191,11 @@ namespace StarBlue.HabboHotel.Catalog
 
                             if (roomPack.CatalogItems.Contains(";"))
                             {
-                                var cataItems = new Dictionary<int, int>();
-                                var itemArray = roomPack.CatalogItems.Split(new char[] { ';' });
-                                foreach (var item in itemArray)
+                                Dictionary<int, int> cataItems = new Dictionary<int, int>();
+                                string[] itemArray = roomPack.CatalogItems.Split(new char[] { ';' });
+                                foreach (string item in itemArray)
                                 {
-                                    var items = item.Split(',');
+                                    string[] items = item.Split(',');
                                     if (!ItemDataManager.GetItem(Convert.ToInt32(items[0]), out ItemData PredesignedData))
                                     {
                                         log.Error("Couldn't load Catalog BC Item " + ItemId + ", no furniture record found. {2}");

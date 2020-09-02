@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Marketplace;
+﻿using StarBlue.Communication.Packets.Outgoing.Marketplace;
+using StarBlue.Database.Interfaces;
 using System;
 using System.Data;
 
 namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
-    class GetMarketplaceItemStatsEvent : IPacketEvent
+    internal class GetMarketplaceItemStatsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

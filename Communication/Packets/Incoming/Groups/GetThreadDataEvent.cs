@@ -3,16 +3,16 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class GetThreadDataEvent : IPacketEvent
+    internal class GetThreadDataEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var ForumId = Packet.PopInt(); //Maybe Forum ID
-            var ThreadId = Packet.PopInt(); //Maybe Thread ID
-            var StartIndex = Packet.PopInt(); //Start index
-            var length = Packet.PopInt(); //List Length
+            int ForumId = Packet.PopInt(); //Maybe Forum ID
+            int ThreadId = Packet.PopInt(); //Maybe Thread ID
+            int StartIndex = Packet.PopInt(); //Start index
+            int length = Packet.PopInt(); //List Length
 
-            var Forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(ForumId);
+            HabboHotel.Groups.Forums.GroupForum Forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(ForumId);
 
             if (Forum == null)
             {
@@ -20,7 +20,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 return;
             }
 
-            var Thread = Forum.GetThread(ThreadId);
+            HabboHotel.Groups.Forums.GroupForumThread Thread = Forum.GetThread(ThreadId);
             if (Thread == null)
             {
                 Session.SendNotification(";forum.thread.open.error.threadnotfound");

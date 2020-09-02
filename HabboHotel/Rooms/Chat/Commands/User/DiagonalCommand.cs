@@ -1,6 +1,8 @@
-﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
+﻿using StarBlue.Database.Interfaces;
+
+namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class DiagonalCommand : IChatCommand
+    internal class DiagonalCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -16,8 +18,17 @@
                 return;
             }
 
-            Room.GetGameMap().DiagonalEnabled = !Room.GetGameMap().DiagonalEnabled;
-            Session.SendWhisper(Room.GetGameMap().DiagonalEnabled ? "Todos podem caminhar em diagonal na sala." : "Ninguém pode caminhar na diagonal na sala.", 34);
+            Room.RoomData.DiagonalEnabled = !Room.RoomData.DiagonalEnabled;
+
+            using (IQueryAdapter con = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            {
+                con.SetQuery("UPDATE `rooms` SET `diagonal_enabled` = @enum WHERE `id` = @id LIMIT 1");
+                con.AddParameter("enum", StarBlueServer.BoolToEnum(Room.RoomData.DiagonalEnabled));
+                con.AddParameter("id", Room.Id);
+                con.RunQuery();
+            }
+
+            Session.SendWhisper(Room.RoomData.DiagonalEnabled ? "Todos podem caminhar em diagonal na sala." : "Ninguém pode caminhar na diagonal na sala.", 34);
         }
     }
 }

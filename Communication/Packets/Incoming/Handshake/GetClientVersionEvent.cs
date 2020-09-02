@@ -1,6 +1,4 @@
-﻿using StarBlue.Core;
-using StarBlue.HabboHotel.GameClients;
-using System;
+﻿using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Handshake
 {
@@ -12,8 +10,7 @@ namespace StarBlue.Communication.Packets.Incoming.Handshake
 
             if (StarBlueServer.SWFRevision != Build)
             {
-                Logging.WriteLine(">> " + Build, ConsoleColor.DarkGray);
-                StarBlueServer.SWFRevision = Build;
+                Session.Disconnect();
             }
         }
     }

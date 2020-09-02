@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.AvatarEffects
 {
-    class AvatarEffectSelectedEvent : IPacketEvent
+    internal class AvatarEffectSelectedEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

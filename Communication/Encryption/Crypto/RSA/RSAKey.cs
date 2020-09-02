@@ -24,18 +24,18 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
             BigInteger dmp1, BigInteger dmq1,
             BigInteger coeff)
         {
-            E = e;
+            this.E = e;
             this.e = e;
-            N = n;
-            D = d;
-            P = p;
-            Q = q;
-            Dmp1 = dmp1;
-            Dmq1 = dmq1;
-            Coeff = coeff;
+            this.N = n;
+            this.D = d;
+            this.P = p;
+            this.Q = q;
+            this.Dmp1 = dmp1;
+            this.Dmq1 = dmq1;
+            this.Coeff = coeff;
 
-            CanEncrypt = (N != 0 && E != 0);
-            CanDecrypt = (CanEncrypt && D != 0);
+            this.CanEncrypt = (this.N != 0 && this.E != 0);
+            this.CanDecrypt = (this.CanEncrypt && this.D != 0);
 
             //this.GeneratePair(1024, this.e);
         }
@@ -50,9 +50,9 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
             {
                 while (true)
                 {
-                    P = BigInteger.genPseudoPrime(b - qs, 1, new Random());
+                    this.P = BigInteger.genPseudoPrime(b - qs, 1, new Random());
 
-                    if ((P - 1).gcd(this.e) == 1 && P.isProbablePrime(10))
+                    if ((this.P - 1).gcd(this.e) == 1 && this.P.isProbablePrime(10))
                     {
                         break;
                     }
@@ -60,35 +60,35 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
 
                 while (true)
                 {
-                    Q = BigInteger.genPseudoPrime(qs, 1, new Random());
+                    this.Q = BigInteger.genPseudoPrime(qs, 1, new Random());
 
-                    if ((Q - 1).gcd(this.e) == 1 && P.isProbablePrime(10))
+                    if ((this.Q - 1).gcd(this.e) == 1 && this.P.isProbablePrime(10))
                     {
                         break;
                     }
                 }
 
-                if (P < Q)
+                if (this.P < this.Q)
                 {
-                    BigInteger t = P;
-                    P = Q;
-                    Q = t;
+                    BigInteger t = this.P;
+                    this.P = this.Q;
+                    this.Q = t;
                 }
 
-                BigInteger phi = (P - 1) * (Q - 1);
+                BigInteger phi = (this.P - 1) * (this.Q - 1);
                 if (phi.gcd(this.e) == 1)
                 {
-                    N = P * Q;
-                    D = this.e.modInverse(phi);
-                    Dmp1 = D % (P - 1);
-                    Dmq1 = D % (Q - 1);
-                    Coeff = Q.modInverse(P);
+                    this.N = this.P * this.Q;
+                    this.D = this.e.modInverse(phi);
+                    this.Dmp1 = this.D % (this.P - 1);
+                    this.Dmq1 = this.D % (this.Q - 1);
+                    this.Coeff = this.Q.modInverse(this.P);
                     break;
                 }
             }
 
-            CanEncrypt = N != 0 && this.e != 0;
-            CanDecrypt = CanEncrypt && D != 0;
+            this.CanEncrypt = this.N != 0 && this.e != 0;
+            this.CanDecrypt = this.CanEncrypt && this.D != 0;
 
             Console.WriteLine(N.ToString(16));
             Console.WriteLine(D.ToString(16));
@@ -118,36 +118,36 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
 
         public int GetBlockSize()
         {
-            return (N.bitCount() + 7) / 8;
+            return (this.N.bitCount() + 7) / 8;
         }
 
         public byte[] Encrypt(byte[] src)
         {
-            return DoEncrypt(new DoCalculateionDelegate(DoPublic), src, Pkcs1PadType.FullByte);
+            return this.DoEncrypt(new DoCalculateionDelegate(this.DoPublic), src, Pkcs1PadType.FullByte);
         }
 
         public byte[] Decrypt(byte[] src)
         {
-            return DoDecrypt(new DoCalculateionDelegate(DoPublic), src, Pkcs1PadType.FullByte);
+            return this.DoDecrypt(new DoCalculateionDelegate(this.DoPublic), src, Pkcs1PadType.FullByte);
         }
 
         public byte[] Sign(byte[] src)
         {
-            return DoEncrypt(new DoCalculateionDelegate(DoPrivate), src, Pkcs1PadType.FullByte);
+            return this.DoEncrypt(new DoCalculateionDelegate(this.DoPrivate), src, Pkcs1PadType.FullByte);
         }
 
         public byte[] Verify(byte[] src)
         {
-            return DoDecrypt(new DoCalculateionDelegate(DoPrivate), src, Pkcs1PadType.FullByte);
+            return this.DoDecrypt(new DoCalculateionDelegate(this.DoPrivate), src, Pkcs1PadType.FullByte);
         }
 
         private byte[] DoEncrypt(DoCalculateionDelegate method, byte[] src, Pkcs1PadType type)
         {
             try
             {
-                int bl = GetBlockSize();
+                int bl = this.GetBlockSize();
 
-                byte[] paddedBytes = Pkcs1pad(src, bl, type);
+                byte[] paddedBytes = this.pkcs1pad(src, bl, type);
                 BigInteger m = new BigInteger(paddedBytes);
                 if (m == 0)
                 {
@@ -179,9 +179,9 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
                     return null;
                 }
 
-                int bl = GetBlockSize();
+                int bl = this.GetBlockSize();
 
-                byte[] bytes = Pkcs1unpad(m.getBytes(), bl, type);
+                byte[] bytes = this.pkcs1unpad(m.getBytes(), bl, type);
 
                 return bytes;
             }
@@ -191,7 +191,7 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
             }
         }
 
-        private byte[] Pkcs1pad(byte[] src, int n, Pkcs1PadType type)
+        private byte[] pkcs1pad(byte[] src, int n, Pkcs1PadType type)
         {
             byte[] bytes = new byte[n];
 
@@ -218,7 +218,7 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
             return bytes;
         }
 
-        private byte[] Pkcs1unpad(byte[] src, int n, Pkcs1PadType type)
+        private byte[] pkcs1unpad(byte[] src, int n, Pkcs1PadType type)
         {
             int i = 0;
             while (i < src.Length && src[i] == 0)
@@ -253,14 +253,14 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
 
         protected BigInteger DoPublic(BigInteger m)
         {
-            return m.modPow(E, N);
+            return m.modPow(this.E, this.N);
         }
 
         protected BigInteger DoPrivate(BigInteger m)
         {
-            if (P == 0 && Q == 0)
+            if (this.P == 0 && this.Q == 0)
             {
-                return m.modPow(D, N);
+                return m.modPow(this.D, this.N);
             }
             else
             {
@@ -270,4 +270,10 @@ namespace StarBlue.Communication.Encryption.Crypto.RSA
     }
 
     public delegate BigInteger DoCalculateionDelegate(BigInteger m);
+
+    public enum Pkcs1PadType
+    {
+        FullByte = 1,
+        RandomByte = 2
+    }
 }

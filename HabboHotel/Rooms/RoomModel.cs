@@ -1,15 +1,6 @@
 ﻿using System;
 namespace StarBlue.HabboHotel.Rooms
 {
-    public enum SquareState
-    {
-        OPEN = 0,
-        BLOCKED = 1,
-        SEAT = 2,
-        POOL = 3, //Should be closed ASAP
-        VIP = 4
-    }
-
     public class RoomModel
     {
         //public string Name;
@@ -29,18 +20,10 @@ namespace StarBlue.HabboHotel.Rooms
         public byte[,] SqSeatRot;
         public SquareState[,] SqState;
 
-        public string StaticFurniMap;
-
-        public bool gotPublicPool;
-        public byte[,] mRoomModelfx;
-
         public int WallHeight;
 
-        //public List<PublicRoomSquare> Furnis;
 
-
-
-        public RoomModel(int DoorX, int DoorY, double DoorZ, int DoorOrientation, string Heightmap, string StaticFurniMap, bool ClubOnly, string Poolmap, int WallHeight)
+        public RoomModel(int DoorX, int DoorY, double DoorZ, int DoorOrientation, string Heightmap, bool ClubOnly, int WallHeight)
         {
             try
             {
@@ -52,31 +35,23 @@ namespace StarBlue.HabboHotel.Rooms
                 this.WallHeight = WallHeight;
 
                 this.Heightmap = Heightmap.ToLower();
-                this.StaticFurniMap = StaticFurniMap;
 
-                gotPublicPool = !string.IsNullOrEmpty(Poolmap);
                 string[] tmpHeightmap = Heightmap.Split(Convert.ToChar(13));
-                string[] tmpFxMap = Poolmap.Split(Convert.ToChar(13));
 
-                MapSizeX = tmpHeightmap[0].Length;
-                MapSizeY = tmpHeightmap.Length;
+                this.MapSizeX = tmpHeightmap[0].Length;
+                this.MapSizeY = tmpHeightmap.Length;
                 this.ClubOnly = ClubOnly;
 
                 SqState = new SquareState[MapSizeX, MapSizeY];
                 SqFloorHeight = new short[MapSizeX, MapSizeY];
                 SqSeatRot = new byte[MapSizeX, MapSizeY];
-                if (gotPublicPool)
-                {
-                    mRoomModelfx = new byte[MapSizeX, MapSizeY];
-                }
-
-                //this.Furnis = Furnis;
 
                 for (int y = 0; y < MapSizeY; y++)
                 {
                     string line = tmpHeightmap[y];
                     line = line.Replace("\r", "");
                     line = line.Replace("\n", "");
+                    line = line.Replace("\\", "");
 
                     int x = 0;
                     foreach (char square in line)
@@ -176,7 +151,8 @@ namespace StarBlue.HabboHotel.Rooms
                     return 32;
 
                 default:
-                    throw new FormatException("The input was not in a correct format: input must be between (0-k)");
+                    Console.WriteLine("The input was not in a correct format: input must be between (0-k) : " + input);
+                    return 0;
             }
         }
 

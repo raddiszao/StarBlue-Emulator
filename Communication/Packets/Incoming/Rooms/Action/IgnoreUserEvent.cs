@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Action;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Action;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class IgnoreUserEvent : IPacketEvent
+    internal class IgnoreUserEvent : IPacketEvent
     {
         public void Parse(GameClient session, ClientPacket packet)
         {
@@ -24,8 +24,14 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
             string username = packet.PopString();
 
             Habbo player = StarBlueServer.GetHabboByUsername(username);
-            if (player == null || player.GetPermissions().HasRight("mod_tool"))
+            if (player == null)
             {
+                return;
+            }
+
+            if (player.GetPermissions().HasRight("mod_tool"))
+            {
+                session.SendWhisper("Você não pode calar este usuário.", 34);
                 return;
             }
 

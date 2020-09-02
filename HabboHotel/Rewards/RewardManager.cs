@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Collections.Concurrent;
@@ -147,7 +147,7 @@ namespace StarBlue.HabboHotel.Rewards
                             }
                     }
 
-                    if (!String.IsNullOrEmpty(Reward.Message))
+                    if (!string.IsNullOrEmpty(Reward.Message))
                     {
                         Session.SendNotification(Reward.Message);
                     }

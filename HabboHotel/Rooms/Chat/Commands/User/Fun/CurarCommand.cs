@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class CurarCommand : IChatCommand
+    internal class CurarCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

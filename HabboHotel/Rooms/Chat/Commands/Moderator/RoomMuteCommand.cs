@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class RoomMuteCommand : IChatCommand
+    internal class RoomMuteCommand : IChatCommand
     {
-        public string PermissionRequired => "user_12";
+        public string PermissionRequired => "user_7";
         public string Parameters => "[MENSAGEM]";
         public string Description => "Mutar quarto.";
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (!Room.RoomMuted)
+            if (!Room.RoomData.RoomMuted)
             {
-                Room.RoomMuted = true;
+                Room.RoomData.RoomMuted = true;
             }
 
             List<RoomUser> RoomUsers = Room.GetRoomUserManager().GetRoomUsers();

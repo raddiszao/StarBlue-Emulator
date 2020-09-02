@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using System;
@@ -40,12 +40,12 @@ namespace StarBlue.HabboHotel.Items.Interactor
                     {
                         if (Item.GetZ < 2.5)
                         {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "El planeta tota sólo puede ser activado si está encima de un tótem.", ""));
+                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "O planeta totem só pode ser ativado se estiver no topo de um totem.", ""));
                             return;
                         }
                         if (Item.UserID != Session.GetHabbo().Id)
                         {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Este tótem no te pertenece.", ""));
+                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Este totem não te pertence.", ""));
                             return;
                         }
                         if (Session.GetHabbo().Rank > 0)
@@ -55,14 +55,14 @@ namespace StarBlue.HabboHotel.Items.Interactor
                             {
                                 User.ApplyEffect(24);
 
-                                Session.SendWhisper("Efeito de lluvia adicionado com sucesso.");
+                                Session.SendWhisper("Efeito de chuva adicionado com sucesso.");
                                 return;
                             }
                             if (Item.ExtraData == "1")
                             {
                                 User.ApplyEffect(25);
 
-                                Session.SendWhisper("Efeito de fuego adicionado com sucesso.");
+                                Session.SendWhisper("Efeito de fogo adicionado com sucesso.");
 
                                 return;
                             }
@@ -77,71 +77,10 @@ namespace StarBlue.HabboHotel.Items.Interactor
                             if (Item.ExtraData == "3")
                             {
                                 User.ApplyEffect(23);
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("INSERT INTO `user_effects` (`user_id`,`effect_id`) VALUES ('" + Session.GetHabbo().Id + "', '23')");
-                                    dbClient.RunQuery();
-                                }
-                                Session.SendWhisper("Efeito levitación adicionado com sucesso.");
+                                Session.SendWhisper("Efeito levitação adicionado com sucesso.");
 
                                 return;
                             }
-                        }
-                    }
-                    else
-                    {
-                        if (Item.GetZ < 2.5)
-                        {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "El planeta tota sólo puede ser activado si está encima de un tótem.", ""));
-                            return;
-                        }
-                        if (Item.UserID != Session.GetHabbo().Id)
-                        {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Esta caja de la suerte no te pertenece.", ""));
-                            return;
-                        }
-                        if (Item.ExtraData == "0")
-                        {
-                            User.ApplyEffect(24);
-                            Item.ExtraData = "1";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito de lluvia adicionado com sucesso.");
-                            return;
-                        }
-                        if (Item.ExtraData == "1")
-                        {
-                            User.ApplyEffect(25);
-                            Item.ExtraData = "2";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito de fuego adicionado com sucesso.");
-
-                            return;
-                        }
-                        if (Item.ExtraData == "2")
-                        {
-                            User.ApplyEffect(26);
-                            Item.ExtraData = "3";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito Totem adicionado com sucesso.");
-
-                            return;
-                        }
-                        if (Item.ExtraData == "3")
-                        {
-                            User.ApplyEffect(23);
-                            Item.ExtraData = "0";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito levitación adicionado com sucesso.");
-
-                            return;
                         }
                     }
                 }
@@ -161,26 +100,26 @@ namespace StarBlue.HabboHotel.Items.Interactor
                     {
                         if (Item.GetZ < 2.5)
                         {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "El planeta tota sólo puede ser activado si está encima de un tótem.", ""));
+                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "O planeta totem só pode ser ativado se estiver no topo de um totem.", ""));
                             return;
                         }
                         if (Item.UserID != Session.GetHabbo().Id)
                         {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Este tótem no te pertenece.", ""));
+                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Este totem não te pertence.", ""));
                             return;
                         }
                         if (Item.ExtraData == "0")
                         {
                             User.ApplyEffect(548);
 
-                            Session.SendWhisper("Efeito fuego adicionado com sucesso.");
+                            Session.SendWhisper("Efeito fogo adicionado com sucesso.");
                             return;
                         }
                         if (Item.ExtraData == "1")
                         {
                             User.ApplyEffect(531);
 
-                            Session.SendWhisper("Efeito fuego adicionado com sucesso.");
+                            Session.SendWhisper("Efeito fogo adicionado com sucesso.");
 
                             return;
                         }
@@ -196,63 +135,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
                         {
                             User.ApplyEffect(23);
 
-                            Session.SendWhisper("Efeito levitación adicionado com sucesso.");
-
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (Item.GetZ < 2.5)
-                        {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "El planeta tota sólo puede ser activado si está encima de un tótem.", ""));
-                            return;
-                        }
-                        if (Item.UserID != Session.GetHabbo().Id)
-                        {
-                            Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Esta caja de la suerte no te pertenece.", ""));
-                            return;
-                        }
-                        if (Item.ExtraData == "0")
-                        {
-                            User.ApplyEffect(548);
-                            Item.ExtraData = "1";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito fuego adicionado com sucesso.");
-                            return;
-                        }
-                        if (Item.ExtraData == "1")
-                        {
-                            User.ApplyEffect(531);
-                            Item.ExtraData = "2";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito fuego adicionado com sucesso.");
-
-                            return;
-                        }
-                        if (Item.ExtraData == "2")
-                        {
-                            User.ApplyEffect(26);
-                            Item.ExtraData = "3";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito Totem adicionado com sucesso.");
-
-                            return;
-                        }
-                        if (Item.ExtraData == "3")
-                        {
-                            User.ApplyEffect(23);
-                            Item.ExtraData = "0";
-                            Item.UpdateState(true, true);
-                            Item.RequestUpdate(0, true);
-
-                            Session.SendWhisper("Efeito levitación adicionado com sucesso.");
+                            Session.SendWhisper("Efeito levitação adicionado com sucesso.");
 
                             return;
                         }
@@ -309,7 +192,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 int randomNumber = random.Next(1, 9);
                 if (Item.UserID != Session.GetHabbo().Id)
                 {
-                    Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Esta caja de la suerte no te pertenece.", ""));
+                    Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Esta caixa de sorte não te pertence.", ""));
                     return;
                 }
                 Room Room = Session.GetHabbo().CurrentRoom;

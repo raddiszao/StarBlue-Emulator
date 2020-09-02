@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class SaveBrandingItemEvent : IPacketEvent
+    internal class SaveBrandingItemEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

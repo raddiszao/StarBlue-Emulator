@@ -6,7 +6,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.RentableSpaces
 {
-    class GetRentableSpaceEvent : IPacketEvent
+    internal class GetRentableSpaceEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

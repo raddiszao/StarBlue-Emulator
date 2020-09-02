@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Moodlight
 {
-    class GetMoodlightConfigEvent : IPacketEvent
+    internal class GetMoodlightConfigEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

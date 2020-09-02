@@ -1,11 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Users;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Groups
 {
@@ -20,12 +19,12 @@ namespace StarBlue.HabboHotel.Groups
         public Dictionary<int, GroupSymbolColours> SymbolColours;
         public List<GroupSymbols> Symbols;
 
-        private readonly Object _groupLoadingSync;
+        private readonly object _groupLoadingSync;
         private ConcurrentDictionary<int, Group> _groups;
 
         public GroupManager()
         {
-            _groupLoadingSync = new Object();
+            _groupLoadingSync = new object();
 
             Init();
         }
@@ -137,8 +136,8 @@ namespace StarBlue.HabboHotel.Groups
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("INSERT INTO `groups` (`name`, `desc`, `badge`, `owner_id`, `created`, `room_id`, `state`, `colour1`, `colour2`, `admindeco`) VALUES (@name, @desc, @badge, @owner, UNIX_TIMESTAMP(), @room, '0', @colour1, @colour2, '0')");
-                dbClient.AddParameter("name", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Group.Name)));
-                dbClient.AddParameter("desc", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Group.Description)));
+                dbClient.AddParameter("name", Group.Name);
+                dbClient.AddParameter("desc", Group.Description);
                 dbClient.AddParameter("owner", Group.CreatorId);
                 dbClient.AddParameter("badge", Group.Badge);
                 dbClient.AddParameter("room", Group.RoomId);

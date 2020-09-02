@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Talents
 {
-    class TalentTrackLevelComposer : ServerPacket
+    internal class TalentTrackLevelComposer : ServerPacket
     {
         public TalentTrackLevelComposer()
             : base(ServerPacketHeader.TalentTrackLevelMessageComposer)

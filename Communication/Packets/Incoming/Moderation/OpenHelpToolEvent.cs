@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class OpenHelpToolEvent : IPacketEvent
+    internal class OpenHelpToolEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

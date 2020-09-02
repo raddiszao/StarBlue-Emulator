@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Games;
 
 namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    class LoadGameComposer : ServerPacket
+    internal class LoadGameComposer : ServerPacket
     {
         public LoadGameComposer(GameData GameData, string SSOTicket, GameClient Session)
             : base(ServerPacketHeader.LoadGameMessageComposer)

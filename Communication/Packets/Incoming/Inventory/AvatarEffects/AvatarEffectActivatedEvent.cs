@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Users.Effects;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.AvatarEffects
 {
-    class AvatarEffectActivatedEvent : IPacketEvent
+    internal class AvatarEffectActivatedEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

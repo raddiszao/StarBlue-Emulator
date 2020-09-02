@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Items;
 using System;
@@ -10,14 +10,14 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
-    class BuyTargettedOfferMessage : IPacketEvent
+    internal class BuyTargettedOfferMessage : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
 
         {
             #region RETURN VALUES
-            var offer = StarBlueServer.GetGame().GetTargetedOffersManager().TargetedOffer;
-            var habbo = Session.GetHabbo();
+            TargetedOffers offer = StarBlueServer.GetGame().GetTargetedOffersManager().TargetedOffer;
+            HabboHotel.Users.Habbo habbo = Session.GetHabbo();
             if (offer == null || habbo == null)
             {
                 Session.SendMessage(new PurchaseErrorComposer(1));
@@ -27,14 +27,14 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
             #region FIELDS
             Packet.PopInt();
-            var amount = Packet.PopInt();
+            int amount = Packet.PopInt();
             if (amount > offer.Limit)
             {
                 Session.SendMessage(new PurchaseErrorComposer(1));
                 return;
             }
-            var creditsCost = int.Parse(offer.Price[0]) * amount;
-            var extraMoneyCost = int.Parse(offer.Price[1]) * amount;
+            int creditsCost = int.Parse(offer.Price[0]) * amount;
+            int extraMoneyCost = int.Parse(offer.Price[1]) * amount;
             #endregion
 
             //#region CREDITS COST
@@ -119,12 +119,12 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     else
 
                     {
-                        using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
                             dbClient.RunFastQuery("UPDATE users SET targeted_buy = targeted_buy +1 WHERE id = " + Session.GetHabbo().Id + ";");
                         }
 
-                        foreach (var product in offer.Products)
+                        foreach (TargetedItems product in offer.Products)
                         {
                             #region CHECK PRODUCT TYPE
                             switch (product.ItemType)
@@ -142,7 +142,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                                             return;
                                         }
 
-                                        var cItem = ItemFactory.CreateSingleItemNullable(item, Session.GetHabbo(), string.Empty, string.Empty);
+                                        Item cItem = ItemFactory.CreateSingleItemNullable(item, Session.GetHabbo(), string.Empty, string.Empty);
                                         if (cItem != null)
                                         {
                                             Session.GetHabbo().GetInventoryComponent().TryAddItem(cItem);

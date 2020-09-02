@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Bots;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Bots;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.AI;
 using StarBlue.HabboHotel.Rooms.AI.Speech;
@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
 {
-    class PlaceBotEvent : IPacketEvent
+    internal class PlaceBotEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -26,8 +26,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
                 return;
             }
 
-            if (!Room.CheckRights(Session, true))
+            if (!Room.CheckRights(Session, false, true))
             {
+                Session.SendNotification("Você não pode colocar bot aqui!");
                 return;
             }
 
@@ -37,7 +38,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
 
             if (!Room.GetGameMap().CanWalk(X, Y, false) || !Room.GetGameMap().ValidTile(X, Y))
             {
-                Session.SendNotification("No puedes colocar al Bot aqui!");
+                Session.SendNotification("Você não pode colocar bot aqui!");
                 return;
             }
 
@@ -66,7 +67,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
             //TODO: Hmm, maybe not????
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("UPDATE `bots` SET `room_id` = '" + Room.RoomId + "', `x` = @CoordX, `y` = @CoordY WHERE `id` = @BotId LIMIT 1");
+                dbClient.SetQuery("UPDATE `bots` SET `room_id` = '" + Room.Id + "', `x` = @CoordX, `y` = @CoordY WHERE `id` = @BotId LIMIT 1");
                 dbClient.AddParameter("BotId", Bot.Id);
                 dbClient.AddParameter("CoordX", X);
                 dbClient.AddParameter("CoordY", Y);

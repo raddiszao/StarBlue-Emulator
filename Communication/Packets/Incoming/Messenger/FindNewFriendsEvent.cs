@@ -5,11 +5,11 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
-    class FindNewFriendsEvent : IPacketEvent
+    internal class FindNewFriendsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
-            Room Instance = StarBlueServer.GetGame().GetRoomManager().TryGetRandomLoadedRoom();
+            Room Instance = StarBlueServer.GetGame().GetRoomManager().TryGetRandomLoadedRoom(Session);
 
             if (Instance != null)
             {

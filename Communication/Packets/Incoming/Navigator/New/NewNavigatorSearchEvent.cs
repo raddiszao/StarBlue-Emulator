@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class NewNavigatorSearchEvent : IPacketEvent
+    internal class NewNavigatorSearchEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient session, ClientPacket packet)
         {

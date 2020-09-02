@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class GetNavigatorFlatsEvent : IPacketEvent
+    internal class GetNavigatorFlatsEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

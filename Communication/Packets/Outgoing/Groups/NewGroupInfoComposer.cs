@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class NewGroupInfoComposer : ServerPacket
+    internal class NewGroupInfoComposer : ServerPacket
     {
         public NewGroupInfoComposer(int RoomId, int GroupId)
             : base(ServerPacketHeader.NewGroupInfoMessageComposer)

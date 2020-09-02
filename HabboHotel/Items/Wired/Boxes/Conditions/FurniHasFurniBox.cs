@@ -1,11 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
+using StarBlue.HabboHotel.Rooms.PathFinding;
 using System.Collections.Concurrent;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class FurniHasFurniBox : IWiredItem
+    internal class FurniHasFurniBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -54,17 +55,56 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 
         public bool Execute(params object[] Params)
         {
-            return BoolData ? AllFurniHaveFurniOn() : SomeFurniHaveFurniOn();
-        }
+            if (SetItems.Count == 0)
+                return false;
 
-        public bool AllFurniHaveFurniOn()
-        {
-            return SetItems.Values.All(i => i.GetRoom().GetGameMap().GetRoomItemForMinZ(i.GetX, i.GetY, i.TotalHeight).Count > 0);
+            return BoolData ? AllFurniHaveFurniOn() : SomeFurniHaveFurniOn();
         }
 
         public bool SomeFurniHaveFurniOn()
         {
-            return SetItems.Values.Any(i => i.GetRoom().GetGameMap().GetRoomItemForMinZ(i.GetX, i.GetY, i.TotalHeight).Count > 0);
+            bool HasFurni = false;
+            Gamemap map = Instance.GetGameMap();
+            foreach (Item Item in SetItems.Values.ToList())
+            {
+                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item))
+                    continue;
+
+                foreach (ThreeDCoord coord in Item.GetAffectedTiles.Values)
+                {
+                    if (!map.ValidTile(coord.X, coord.Y))
+                        return false;
+
+                    if (map.Model.SqFloorHeight[coord.X, coord.Y] + map.ItemHeightMap[coord.X, coord.Y] > Item.TotalHeight)
+                        HasFurni = true;
+                }
+            }
+
+            if (HasFurni)
+                return true;
+
+            return false;
+        }
+
+        public bool AllFurniHaveFurniOn()
+        {
+            Gamemap map = Instance.GetGameMap();
+            foreach (Item Item in SetItems.Values.ToList())
+            {
+                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item))
+                    continue;
+
+                foreach (ThreeDCoord coord in Item.GetAffectedTiles.Values)
+                {
+                    if (!map.ValidTile(coord.X, coord.Y))
+                        return false;
+
+                    if (map.Model.SqFloorHeight[coord.X, coord.Y] + map.ItemHeightMap[coord.X, coord.Y] > Item.TotalHeight)
+                        return true;
+                }
+            }
+
+            return true;
         }
     }
 }

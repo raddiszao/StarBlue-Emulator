@@ -1,5 +1,6 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Crafting;
 using StarBlue.HabboHotel.Rooms;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class CraftSecretEvent : IPacketEvent
+    internal class CraftSecretEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -28,12 +29,12 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 
             List<Item> items = new List<Item>();
 
-            var count = Packet.PopInt();
-            for (var i = 1; i <= count; i++)
+            int count = Packet.PopInt();
+            for (int i = 1; i <= count; i++)
             {
-                var id = Packet.PopInt();
+                int id = Packet.PopInt();
 
-                var item = Session.GetHabbo().GetInventoryComponent().GetItem(id);
+                Item item = Session.GetHabbo().GetInventoryComponent().GetItem(id);
                 if (item == null || items.Contains(item))
                 {
                     return;
@@ -43,11 +44,11 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             }
 
             CraftingRecipe recipe = null;
-            foreach (var Receta in StarBlueServer.GetGame().GetCraftingManager().CraftingRecipes)
+            foreach (KeyValuePair<string, CraftingRecipe> Receta in StarBlueServer.GetGame().GetCraftingManager().CraftingRecipes)
             {
                 bool found = false;
 
-                foreach (var item in Receta.Value.ItemsNeeded)
+                foreach (KeyValuePair<string, int> item in Receta.Value.ItemsNeeded)
                 {
                     if (item.Value != items.Count(item2 => item2.GetBaseItem().ItemName == item.Key))
                     {
@@ -79,9 +80,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             }
 
             bool success = true;
-            foreach (var need in recipe.ItemsNeeded)
+            foreach (KeyValuePair<string, int> need in recipe.ItemsNeeded)
             {
-                for (var i = 1; i <= need.Value; i++)
+                for (int i = 1; i <= need.Value; i++)
                 {
                     ItemData item = StarBlueServer.GetGame().GetItemManager().GetItemByName(need.Key);
                     if (item == null)
@@ -90,14 +91,14 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
                         continue;
                     }
 
-                    var inv = Session.GetHabbo().GetInventoryComponent().GetFirstItemByBaseId(item.Id);
+                    Item inv = Session.GetHabbo().GetInventoryComponent().GetFirstItemByBaseId(item.Id);
                     if (inv == null)
                     {
                         success = false;
                         continue;
                     }
 
-                    using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         dbClient.RunFastQuery("DELETE FROM `items` WHERE `id` = '" + inv.Id + "' AND `user_id` = '" + Session.GetHabbo().Id + "' LIMIT 1");
                     }

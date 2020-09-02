@@ -1,12 +1,12 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Permissions;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class RemoveMyRightsEvent : IPacketEvent
+    internal class RemoveMyRightsEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

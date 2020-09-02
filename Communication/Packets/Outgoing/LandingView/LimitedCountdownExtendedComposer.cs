@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    class LimitedCountdownExtendedComposer : ServerPacket
+    internal class LimitedCountdownExtendedComposer : ServerPacket
     {
         public LimitedCountdownExtendedComposer()
             : base(ServerPacketHeader.LimitedCountdownExtendedComposer)

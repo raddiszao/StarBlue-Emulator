@@ -6,7 +6,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Wired
 {
-    class SaveWiredConfigEvent : IPacketEvent
+    internal class SaveWiredConfigEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -30,7 +30,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Wired
                 return;
             }
 
-            if (!Room.CheckRights(Session, false) && !Room.CheckRights(Session, true))
+            if (!Room.CheckRights(Session, false, true) && !Room.CheckRights(Session, true))
             {
                 return;
             }
@@ -48,12 +48,12 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Wired
 
             if (Box.Type == WiredBoxType.EffectGiveUserBadge && !Session.GetHabbo().GetPermissions().HasRight("room_item_wired_rewards"))
             {
-                Session.SendNotification("Você não tem permissões suficientes para usar este Wired");
+                Session.SendNotification("Você não tem permissões suficientes para usar este Wired.");
                 return;
             }
 
             Box.HandleSave(Packet);
-            Session.GetHabbo().CurrentRoom.GetWired().SaveBox(Box);
+            Room.GetWired().SaveBox(Box);
         }
     }
 }

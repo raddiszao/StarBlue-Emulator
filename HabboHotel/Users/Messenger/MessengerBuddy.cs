@@ -28,8 +28,7 @@ namespace StarBlue.HabboHotel.Users.Messenger
 
         public int Id => UserId;
 
-        public bool IsOnline => (client != null && client.GetHabbo() != null && client.GetHabbo().GetMessenger() != null &&
-                        !client.GetHabbo().GetMessenger().AppearOffline);
+        public bool IsOnline => (client != null && client.GetHabbo() != null && client.GetHabbo().GetMessenger() != null && !client.GetHabbo().GetMessenger().AppearOffline);
 
         private GameClient Client
         {

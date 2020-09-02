@@ -1,51 +1,54 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
-using StarBlue.HabboHotel.Items;
+﻿using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.Utilities;
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class ObjectsComposer : ServerPacket
+    internal class ObjectsComposer : ServerPacket
     {
         public ObjectsComposer(Item[] Objects, Room Room)
             : base(ServerPacketHeader.ObjectsMessageComposer)
         {
+            List<Item> ItemsTemp = Objects.ToList();
             base.WriteInteger(1);
 
-            base.WriteInteger(Room.OwnerId);
-            base.WriteString(Room.OwnerName);
+            base.WriteInteger(Room.RoomData.OwnerId);
+            base.WriteString(Room.RoomData.OwnerName);
 
-            base.WriteInteger(Objects.Length);
-            foreach (Item Item in Objects)
+            if (Objects.Length > 2500)
             {
-                foreach (Item __item in Room.GetGameMap().GetCoordinatedItems(new Point(Item.GetX, Item.GetY)).ToList())
+                base.WriteInteger(2500);
+                for (int i = 0; i < 2500; i++)
                 {
-                    if (Room.GetGameMap().HasStackTool(__item.GetX, __item.GetY) && __item.Data.InteractionType != InteractionType.STACKTOOL)
-                    {
-                        Room.GetGameMap().RemoveFromMap(__item);
-                    }
-                    else
-                    {
-                        Room.SendMessage(new UpdateStackMapMessageComposer(Room, __item.GetAffectedTiles));
-                    }
+                    Item Item = Objects[i];
+                    ItemsTemp.Remove(Item);
+                    WriteFloorItem(Item, Convert.ToInt32(Item.UserID));
                 }
-                WriteFloorItem(Item, Convert.ToInt32(Item.UserID));
+
+                Room.SendMessage(new ObjectsComposer(ItemsTemp.ToArray(), Room));
+            }
+            else
+            {
+                base.WriteInteger(Objects.Length);
+                foreach (Item Item in Objects)
+                {
+                    WriteFloorItem(Item, Convert.ToInt32(Item.UserID));
+                }
             }
         }
 
         private void WriteFloorItem(Item Item, int UserID)
         {
-
             base.WriteInteger(Item.Id);
             base.WriteInteger(Item.GetBaseItem().SpriteId);
             base.WriteInteger(Item.GetX);
             base.WriteInteger(Item.GetY);
             base.WriteInteger(Item.Rotation);
-            base.WriteString(String.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
-            base.WriteString(String.Empty);
+            base.WriteString(string.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
+            base.WriteString(string.Empty);
 
             if (Item.LimitedNo > 0)
             {

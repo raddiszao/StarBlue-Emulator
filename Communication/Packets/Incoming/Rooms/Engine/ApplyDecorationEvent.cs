@@ -1,6 +1,6 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
@@ -8,7 +8,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class ApplyDecorationEvent : IPacketEvent
+    internal class ApplyDecorationEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -57,7 +57,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             switch (DecorationKey)
             {
                 case "floor":
-                    Room.Floor = Item.ExtraData;
                     Room.RoomData.Floor = Item.ExtraData;
 
                     StarBlueServer.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.FURNI_DECORATION_FLOOR);
@@ -65,7 +64,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                     break;
 
                 case "wallpaper":
-                    Room.Wallpaper = Item.ExtraData;
                     Room.RoomData.Wallpaper = Item.ExtraData;
 
                     StarBlueServer.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.FURNI_DECORATION_WALL);
@@ -73,7 +71,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                     break;
 
                 case "landscape":
-                    Room.Landscape = Item.ExtraData;
                     Room.RoomData.Landscape = Item.ExtraData;
 
                     StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomDecoLandscape", 1);
@@ -82,7 +79,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("UPDATE `rooms` SET " + DecorationKey + " = @extradata WHERE `id` = '" + Room.RoomId + "' LIMIT 1");
+                dbClient.SetQuery("UPDATE `rooms` SET " + DecorationKey + " = @extradata WHERE `id` = '" + Room.Id + "' LIMIT 1");
                 dbClient.AddParameter("extradata", Item.ExtraData);
                 dbClient.RunQuery();
 

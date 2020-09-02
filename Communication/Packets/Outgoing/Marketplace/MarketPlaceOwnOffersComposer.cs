@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Data;
 
 
 namespace StarBlue.Communication.Packets.Outgoing.Marketplace
 {
-    class MarketPlaceOwnOffersComposer : ServerPacket
+    internal class MarketPlaceOwnOffersComposer : ServerPacket
     {
         public MarketPlaceOwnOffersComposer(int UserId)
             : base(ServerPacketHeader.MarketPlaceOwnOffersMessageComposer)

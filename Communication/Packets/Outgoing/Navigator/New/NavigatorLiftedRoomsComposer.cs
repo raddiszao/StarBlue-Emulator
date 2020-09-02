@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class NavigatorLiftedRoomsComposer : ServerPacket
+    internal class NavigatorLiftedRoomsComposer : ServerPacket
     {
         public NavigatorLiftedRoomsComposer()
             : base(ServerPacketHeader.NavigatorLiftedRoomsMessageComposer)

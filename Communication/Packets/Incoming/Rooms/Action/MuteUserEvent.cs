@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class MuteUserEvent : IPacketEvent
+    internal class MuteUserEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -22,7 +22,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
                 return;
             }
 
-            if (((Room.WhoCanMute == 0 && !Room.CheckRights(Session, true) && Room.Group == null) || (Room.WhoCanMute == 1 && !Room.CheckRights(Session)) && Room.Group == null) || (Room.Group != null && !Room.CheckRights(Session, false, true)))
+            if (!Session.GetHabbo().GetPermissions().HasRight("mod_mute") && ((Room.RoomData.WhoCanMute == 0 && !Room.CheckRights(Session, true) && Room.RoomData.Group == null) || (Room.RoomData.WhoCanMute == 1 && !Room.CheckRights(Session)) && Room.RoomData.Group == null) || (Room.RoomData.Group != null && !Room.CheckRights(Session, false, true)))
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 
             Room.MutedUsers.Add(UserId, (StarBlueServer.GetUnixTimestamp() + (Time * 60)));
 
-            Target.GetClient().SendWhisper("Você foi silenciado por " + Time + " minutos!");
+            Target.GetClient().SendWhisper("Você foi silenciado por " + Time + " minutos!", 34);
             StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_SelfModMuteSeen", 1);
         }
     }

@@ -1,9 +1,9 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class ModerationMuteEvent : IPacketEvent
+    internal class ModerationMuteEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -21,7 +21,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
             Habbo Habbo = StarBlueServer.GetHabboById(UserId);
             if (Habbo == null)
             {
-                Session.SendWhisper("Ocurrio un error mientras se realiza la busqueda de este usuario en la DB");
+                Session.SendWhisper("Ocorreu um erro ao encontrar o usuário.");
                 return;
             }
 

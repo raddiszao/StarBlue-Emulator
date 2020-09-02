@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class FlagMeCommand : IChatCommand
+    internal class FlagMeCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
 

@@ -1,4 +1,5 @@
-﻿using StarBlue.HabboHotel.GameClients;
+﻿using StarBlue.Database.Interfaces;
+using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Data;
 
@@ -18,7 +19,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
             ParentForum = Forum;
 
             DataRow Row;
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("SELECT * FROM group_forums_settings WHERE group_id = @id");
                 adap.AddParameter("id", Forum.Id);
@@ -27,7 +28,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
             if (Row == null)
             {
-                using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     adap.SetQuery("REPLACE INTO group_forums_settings (group_id) VALUES (@id);SELECT * FROM group_forums_settings WHERE group_id = @id");
                     adap.AddParameter("id", Forum.Id);
@@ -43,7 +44,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
 
         public void Save()
         {
-            using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 adap.SetQuery("UPDATE group_forums_settings SET who_can_read = @a, who_can_post = @b, who_can_init_discussions = @c, who_can_mod = @d WHERE group_id = @id");
                 adap.AddParameter("id", ParentForum.Id);

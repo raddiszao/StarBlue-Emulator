@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.Rooms;
 using System;
@@ -6,7 +6,7 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class ModeratorRoomChatlogComposer : ServerPacket
+    internal class ModeratorRoomChatlogComposer : ServerPacket
     {
         public ModeratorRoomChatlogComposer(Room Room)
             : base(ServerPacketHeader.ModeratorRoomChatlogMessageComposer)
@@ -15,7 +15,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
             base.WriteShort(2);//Count
             base.WriteString("roomName");
             base.WriteByte(2);
-            base.WriteString(Room.Name);
+            base.WriteString(Room.RoomData.Name);
             base.WriteString("roomId");
             base.WriteByte(1);
             base.WriteInteger(Room.Id);
@@ -27,6 +27,9 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
                 dbClient.AddParameter("rid", Room.Id);
                 Table = dbClient.GetTable();
             }
+
+            if (Table == null)
+                return;
 
             base.WriteShort(Table.Rows.Count);
             if (Table != null)

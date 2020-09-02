@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Navigator;
+﻿using StarBlue.Communication.Packets.Outgoing.Navigator;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
 using StarBlue.Communication.Packets.Outgoing.Users;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class ChangeNameEvent : IPacketEvent
+    internal class ChangeNameEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -130,10 +130,9 @@ namespace StarBlue.Communication.Packets.Incoming.Users
                         continue;
                     }
 
-                    UserRoom.OwnerName = NewName;
                     UserRoom.RoomData.OwnerName = NewName;
 
-                    UserRoom.SendMessage(new RoomInfoUpdatedComposer(UserRoom.RoomId));
+                    UserRoom.SendMessage(new RoomInfoUpdatedComposer(UserRoom.Id));
                 }
 
                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_Name", 1);

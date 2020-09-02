@@ -1,9 +1,9 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Groups;
+﻿using StarBlue.Communication.Packets.Outgoing.Groups;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class UpdateGroupBadgeEvent : IPacketEvent
+    internal class UpdateGroupBadgeEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

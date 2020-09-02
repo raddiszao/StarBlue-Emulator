@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets
 {
-    class PetTrainingPanelComposer : ServerPacket
+    internal class PetTrainingPanelComposer : ServerPacket
     {
         public PetTrainingPanelComposer(Pet pet)
             : base(ServerPacketHeader.PetTrainingPanelMessageComposer)

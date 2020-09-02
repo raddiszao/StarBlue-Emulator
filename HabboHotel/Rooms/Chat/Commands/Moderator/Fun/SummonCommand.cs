@@ -5,9 +5,9 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class SummonCommand : IChatCommand
+    internal class SummonCommand : IChatCommand
     {
-        public string PermissionRequired => "user_3";
+        public string PermissionRequired => "user_12";
         public string Parameters => "[USUARIO]";
         public string Description => "Trazer um usuário para o quarto atual.";
 

@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,7 +6,7 @@ using System.Data;
 
 namespace StarBlue.HabboHotel.Users.Inventory.Bots
 {
-    class BotLoader
+    internal class BotLoader
     {
         public static List<Bot> GetBotsForUser(int UserId)
         {

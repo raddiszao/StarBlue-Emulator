@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Purse
 {
-    class GetHabboClubCenterInfoMessageEvent : IPacketEvent
+    internal class GetHabboClubCenterInfoMessageEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

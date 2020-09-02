@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Marketplace;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using System;
 using System.Data;
@@ -8,7 +8,7 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
-    class CancelOfferEvent : IPacketEvent
+    internal class CancelOfferEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

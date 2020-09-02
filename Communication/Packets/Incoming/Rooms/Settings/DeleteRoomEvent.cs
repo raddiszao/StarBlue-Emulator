@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Moderation;
+﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 {
-    class DeleteRoomEvent : IPacketEvent
+    internal class DeleteRoomEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -41,8 +41,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
                 return;
             }
 
-            if (Room.OwnerId != Session.GetHabbo().Id && !Session.GetHabbo().GetPermissions().HasRight("room_delete_any") || StarBlueServer.GoingIsToBeClose)
+            if (Room.RoomData.OwnerId != Session.GetHabbo().Id && !Session.GetHabbo().GetPermissions().HasRight("room_delete_any") || StarBlueServer.GoingIsToBeClose)
             {
+                Session.SendNotification("Essa função foi desativada até o servidor for reinicializado.");
                 return;
             }
 
@@ -99,7 +100,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
                 dbClient.RunFastQuery("DELETE FROM room_models WHERE id='" + Room.RoomData.ModelName + "' AND custom='1'");
             }
 
-            RoomData removedRoom = (from p in Session.GetHabbo().UsersRooms where p.Id == RoomId select p).SingleOrDefault();
+            RoomData removedRoom = (from p in Session.GetHabbo().UsersRooms where p != null && p.Id == RoomId select p).SingleOrDefault();
             if (removedRoom != null)
             {
                 Session.GetHabbo().UsersRooms.Remove(removedRoom);

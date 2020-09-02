@@ -1,13 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveUserHanditemBox : IWiredItem, IWiredCycle
+    internal class GiveUserHanditemBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -83,11 +82,12 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }
 
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
         }
@@ -95,12 +95,12 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         private void SendHanditemToUser(Habbo Player)
         {
             RoomUser User = Player.CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Player.Username);
-            if (User == null)
+            if (User == null || string.IsNullOrEmpty(StringData))
             {
                 return;
             }
 
-            var handitem = int.Parse(StringData);
+            int handitem = int.Parse(StringData);
             User.CarryItem(handitem);
         }
     }

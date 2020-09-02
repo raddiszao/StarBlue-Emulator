@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class TeleportAllBox : IWiredItem, IWiredCycle
+    internal class TeleportAllBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -93,6 +93,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
 
@@ -113,10 +114,10 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                     continue;
                 }
 
-                if (User.GetClient().GetHabbo().IsTeleporting || User.GetClient().GetHabbo().IsHopping || User.GetClient().GetHabbo().TeleporterId != 0)
+                /*if (User.GetClient().GetHabbo().IsTeleporting || User.GetClient().GetHabbo().IsHopping || User.GetClient().GetHabbo().TeleporterId != 0)
                 {
                     continue;
-                }
+                }*/
 
                 Random rand = new Random();
                 List<Item> Items = SetItems.Values.ToList();
@@ -159,8 +160,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                     return;
                 }
 
-                Room.GetGameMap().TeleportToItem(User, Item);
-                Room.GetRoomUserManager().UpdateUserStatusses();
+                if (Item.Coordinate != User.Coordinate)
+                {
+                    Room.GetGameMap().TeleportToItem(User, Item);
+                    Room.GetRoomUserManager().UpdateUserStatusses();
+                }
 
                 if (User.GetClient().GetHabbo().Effects() != null)
                 {

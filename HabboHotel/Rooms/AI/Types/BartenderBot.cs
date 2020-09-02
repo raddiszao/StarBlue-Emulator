@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace StarBlue.HabboHotel.Rooms.AI.Types
 {
-    class BartenderBot : BotAI
+    internal class BartenderBot : BotAI
     {
         private int VirtualId;
         private int ActionTimer = 0;
@@ -179,7 +179,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
                             }
                             else
                             {
-                                var Sq = new Point(Target.X, Target.Y);
+                                Point Sq = new Point(Target.X, Target.Y);
 
                                 if (Target.RotBody == 0)
                                 {

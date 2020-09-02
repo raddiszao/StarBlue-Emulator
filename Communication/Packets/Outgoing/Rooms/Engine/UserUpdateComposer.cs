@@ -1,12 +1,11 @@
 ﻿using StarBlue.HabboHotel.Rooms;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class UserUpdateComposer : ServerPacket
+    internal class UserUpdateComposer : ServerPacket
     {
         public UserUpdateComposer(ICollection<RoomUser> RoomUsers)
             : base(ServerPacketHeader.UserUpdateMessageComposer)
@@ -28,7 +27,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
                 {
                     StatusComposer.Append(Status.Key);
 
-                    if (!String.IsNullOrEmpty(Status.Value))
+                    if (!string.IsNullOrEmpty(Status.Value))
                     {
                         StatusComposer.Append(" ");
                         StatusComposer.Append(Status.Value);

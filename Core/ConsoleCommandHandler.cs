@@ -28,7 +28,7 @@ namespace StarBlue.Core
                     #region stop
                     case "shutdown":
                         {
-                            string time = "1";
+                            string time = "0";
                             if (parameters.Length > 1)
                             {
                                 time = parameters[1];
@@ -36,8 +36,7 @@ namespace StarBlue.Core
 
                             int total_time = int.Parse(time) * 60 * 1000;
                             Logging.WriteLine("O servidor irá fechar em " + time + " minutos.", ConsoleColor.Yellow);
-                            StarBlueServer.GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer("O " + StarBlueServer.HotelName + " Hotel irá reinicializar em " + time + " minutos.\r\n" + "- Equipe " + StarBlueServer.HotelName));
-                            StarBlueServer.GetConfig().data["going.is.to.be.close"] = "true";
+                            StarBlueServer.GoingIsToBeClose = true;
                             Task t = Task.Factory.StartNew(() => ShutdownIn(total_time));
                             break;
                         }
@@ -47,7 +46,7 @@ namespace StarBlue.Core
                     case "restart":
                     case "reiniciar":
                         {
-                            StarBlueServer.GetGame().GetClientManager().SendMessage(new RoomCustomizedAlertComposer(StarBlueServer.HotelName + " fará um reinício rápido, para aplicar todas as atualizações.\n\nVoltaremos em seguida :)"));
+                            StarBlueServer.GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer("<b><font color=\"#ba3733\" size=\"14\">VOLTAMOS LOGO!</font></b><br><br>O hotel será reiniciado nesse instante para aplicarmos atualizações, voltaremos em minutos!"));
                             StarBlueServer.PerformRestart();
                             break;
                         }
@@ -89,6 +88,7 @@ namespace StarBlue.Core
 
         public static void ShutdownIn(int time)
         {
+            StarBlueServer.GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer("<b><font color=\"#ba3733\" size=\"14\">HOTEL SERÁ REINICIADO EM MINUTOS!</font></b><br><br>O hotel será reiniciado em " + time / 60000 + " minutos!"));
             Thread.Sleep(time);
 
             Logging.DisablePrimaryWriting(true);

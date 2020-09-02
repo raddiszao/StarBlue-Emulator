@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.SMS
 {
-    class SMSErrorComposer : ServerPacket
+    internal class SMSErrorComposer : ServerPacket
     {
         public SMSErrorComposer()
             : base(ServerPacketHeader.SMSErrorComposer)

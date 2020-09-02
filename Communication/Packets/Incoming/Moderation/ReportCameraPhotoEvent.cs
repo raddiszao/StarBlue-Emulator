@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class ReportCameraPhotoEvent : IPacketEvent
+    internal class ReportCameraPhotoEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

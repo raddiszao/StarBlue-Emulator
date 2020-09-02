@@ -10,7 +10,7 @@ using System.Linq;
 namespace StarBlue.Communication.Packets.Incoming.Groups
 
 {
-    class JoinGroupEvent : IPacketEvent
+    internal class JoinGroupEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

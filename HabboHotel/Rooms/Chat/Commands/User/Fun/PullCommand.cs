@@ -1,10 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.HabboHotel.GameClients;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class PullCommand : IChatCommand
+    internal class PullCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -14,19 +16,40 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (Params.Length == 1)
+            if (!Room.RoomData.PullEnabled && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
             {
-                Session.SendWhisper("Digite o nome de usuário que você deseja puxar", 34);
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
                 return;
             }
 
-            //if (!Room.PullEnabled && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
-            //{
-            //    Session.SendWhisper("Oops, el dueño de la sala no permite que hales a otros en su sala", 34);
-            //    return;
-            //}
+            GameClient TargetClient = null;
+            if (Params.Length == 1)
+            {
+                Point UserInFront2 = Session.GetRoomUser().SquareInFront2;
+                List<RoomUser> UsersInSquare2 = Room.GetGameMap().GetRoomUsers(UserInFront2);
+                if (UsersInSquare2.Count > 0)
+                {
+                    TargetClient = UsersInSquare2[0].GetClient();
+                }
+                else
+                {
+                    Point UserInFront = Session.GetRoomUser().SquareInFront;
+                    List<RoomUser> UsersInSquare = Room.GetGameMap().GetRoomUsers(UserInFront);
+                    if (UsersInSquare.Count > 0)
+                    {
+                        TargetClient = UsersInSquare[0].GetClient();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
+            }
 
-            GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(Params[1]);
             if (TargetClient == null)
             {
                 Session.SendWhisper("Ocorreu um erro, o usuário não foi obtido, talvez não esteja online.", 34);
@@ -58,17 +81,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                 return;
             }
 
-            if (ThisUser.SetX - 1 == Room.GetGameMap().Model.DoorX)
-            {
-                Session.SendWhisper("Por favor, não jogue fora da sala :(!", 34);
-                return;
-            }
-
-
             string PushDirection = "down";
             if (TargetClient.GetHabbo().CurrentRoomId == Session.GetHabbo().CurrentRoomId && (Math.Abs(ThisUser.X - TargetUser.X) < 3 && Math.Abs(ThisUser.Y - TargetUser.Y) < 3))
             {
-                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Eu puxei " + Params[1] + "*", 0, ThisUser.LastBubble));
+                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, "*Eu puxei " + TargetUser.GetClient().GetHabbo().Username + "*", 0, 31));
 
                 if (ThisUser.RotBody == 0)
                 {
@@ -109,8 +125,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                 {
                     TargetUser.MoveTo(ThisUser.X - 1, ThisUser.Y);
                 }
-
-                return;
             }
             else
             {

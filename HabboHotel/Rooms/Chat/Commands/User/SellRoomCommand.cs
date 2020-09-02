@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class SellRoomCommand : IChatCommand
+    internal class SellRoomCommand : IChatCommand
     {
         public string Description => "Coloca a sala em que você está para venda.";
 
@@ -31,7 +31,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                     Session.SendWhisper("Oops, você deve escolher um preço para vender este quarto.");
                     return;
                 }
-                else if (Room.Group != null)
+                else if (Room.RoomData.Group != null)
                 {
                     Session.SendWhisper("Oops, ao que parece está sala tem um grupo, para poder vender, delete o grupo.");
                     return;

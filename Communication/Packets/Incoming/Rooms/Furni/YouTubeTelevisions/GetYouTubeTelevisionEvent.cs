@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.YouTubeTelevisions
 {
-    class GetYouTubeTelevisionEvent : IPacketEvent
+    internal class GetYouTubeTelevisionEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

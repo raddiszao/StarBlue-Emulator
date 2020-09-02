@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class SexCommand : IChatCommand
+    internal class SexCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -16,6 +16,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
+            if (!Room.RoomData.SexEnabled && !Room.CheckRights(Session, true) && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
+            {
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
+                return;
+            }
+
             long nowTime = StarBlueServer.CurrentTimeMillis();
             long timeBetween = nowTime - Session.GetHabbo()._lastTimeUsedHelpCommand;
             if (timeBetween < 60000)
@@ -77,8 +83,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                                     {
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo1.VirtualId, "*Agarro o " + Params[1] + " ele vira, e começo a meter com força* ", 0, 16), false);
                                         Thread.Sleep(2000);
-                                        roomUserByHabbo1.ApplyEffect(9);
                                         roomUserByHabbo2.ApplyEffect(9);
+                                        roomUserByHabbo1.ApplyEffect(469);
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo2.VirtualId, "*Olho de forma maliciosa o" + Session.GetHabbo().Username + " * ", 0, 16), false);
                                         Thread.Sleep(2000);
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo1.VirtualId, "*Tocando devagar o " + Params[1] + ", coloco meu pau * ", 0, 16), false);
@@ -92,15 +98,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo1.VirtualId, "*Pego meu pau e gozo nela " + Params[1] + " * ", 0, 16), false);
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo2.VirtualId, "*Olhar malicioso* Espero que isso se repita!", 0, 16), false);
                                         Thread.Sleep(2000);
-                                        roomUserByHabbo1.ApplyEffect(9);
-                                        roomUserByHabbo2.ApplyEffect(9);
                                     }
                                     else
                                     {
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo2.VirtualId, "*Bato uma punheta para " + Session.GetHabbo().Username + "*", 0, 16), false);
                                         Thread.Sleep(1000);
-                                        roomUserByHabbo1.ApplyEffect(9);
                                         roomUserByHabbo2.ApplyEffect(9);
+                                        roomUserByHabbo1.ApplyEffect(469);
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo1.VirtualId, "*Agarro " + Params[1] + " e começo meter com força*", 0, 16), false);
                                         Thread.Sleep(2000);
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo2.VirtualId, "*Lubrificando minha buceta para " + Session.GetHabbo().Username + "*", 0, 16), false);
@@ -112,8 +116,24 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo2.VirtualId, "*Goza em mim " + Session.GetHabbo().Username + "*", 0, 16), false);
                                         Room.SendMessage(new ChatComposer(roomUserByHabbo1.VirtualId, "*Olhar malicioso* Espero que isso se repita!", 0, 16), false);
                                         Thread.Sleep(1000);
-                                        roomUserByHabbo1.ApplyEffect(0);
-                                        roomUserByHabbo2.ApplyEffect(0);
+                                    }
+
+                                    if (!roomUserByHabbo1.Statusses.ContainsKey("lay"))
+                                    {
+                                        roomUserByHabbo1.RotBody--;//
+                                        roomUserByHabbo1.Statusses.Add("lay", "1.0 null");
+                                        roomUserByHabbo1.Z -= 0.35;
+                                        roomUserByHabbo1.isLying = true;
+                                        roomUserByHabbo1.UpdateNeeded = true;
+                                    }
+
+                                    if (!roomUserByHabbo2.Statusses.ContainsKey("lay"))
+                                    {
+                                        roomUserByHabbo2.RotBody--;//
+                                        roomUserByHabbo2.Statusses.Add("lay", "1.0 null");
+                                        roomUserByHabbo2.Z -= 0.35;
+                                        roomUserByHabbo2.isLying = true;
+                                        roomUserByHabbo2.UpdateNeeded = true;
                                     }
 
                                 }

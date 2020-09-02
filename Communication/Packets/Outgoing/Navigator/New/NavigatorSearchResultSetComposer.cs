@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class NavigatorSearchResultSetComposer : ServerPacket
+    internal class NavigatorSearchResultSetComposer : ServerPacket
     {
-        public NavigatorSearchResultSetComposer(string Category, string Data, ICollection<SearchResultList> SearchResultLists, GameClient Session, int GoBack = 1, int FetchLimit = 12)
+        public NavigatorSearchResultSetComposer(string Category, string Data, ICollection<SearchResultList> SearchResultLists, GameClient Session, int GoBack = 1, int FetchLimit = 50)
             : base(ServerPacketHeader.NavigatorSearchResultSetMessageComposer)
         {
             base.WriteString(Category);//Search code.

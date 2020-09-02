@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    class MessengerInitComposer : ServerPacket
+    internal class MessengerInitComposer : ServerPacket
     {
         public MessengerInitComposer(int Rank)
             : base(ServerPacketHeader.MessengerInitMessageComposer)

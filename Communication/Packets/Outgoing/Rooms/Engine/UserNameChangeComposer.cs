@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class UserNameChangeComposer : ServerPacket
+    internal class UserNameChangeComposer : ServerPacket
     {
         public UserNameChangeComposer(int RoomId, int VirtualId, string Username)
             : base(ServerPacketHeader.UserNameChangeMessageComposer)

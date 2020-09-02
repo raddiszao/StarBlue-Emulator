@@ -2,19 +2,19 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Sound
 {
-    class SetJukeboxNowPlayingComposer : ServerPacket
+    internal class SetJukeboxNowPlayingComposer : ServerPacket
     {
         public SetJukeboxNowPlayingComposer(Room room)
             : base(ServerPacketHeader.SetJukeboxNowPlayingMessageComposer)
         {
-            var trax = room.GetTraxManager();
+            HabboHotel.Rooms.TraxMachine.RoomTraxManager trax = room.GetTraxManager();
             if (trax.IsPlaying && trax.ActualSongData != null)
             {
 
-                var actualmusicitem = trax.ActualSongData;
-                var actualmusic = trax.GetMusicByItem(actualmusicitem);
-                var musicindex = trax.GetMusicIndex(actualmusicitem);
-                var anteriorlength = trax.AnteriorMusic != null ? trax.AnteriorMusic.Length : 0;
+                HabboHotel.Items.Item actualmusicitem = trax.ActualSongData;
+                HabboHotel.Rooms.TraxMachine.TraxMusicData actualmusic = trax.GetMusicByItem(actualmusicitem);
+                int musicindex = trax.GetMusicIndex(actualmusicitem);
+                int anteriorlength = trax.AnteriorMusic != null ? trax.AnteriorMusic.Length : 0;
                 base.WriteInteger(actualmusic.Id); // songid
                 base.WriteInteger(musicindex);
                 base.WriteInteger(actualmusic.Id); // songid

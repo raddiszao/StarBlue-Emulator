@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorAlertFurniture : IFurniInteractor
+    internal class InteractorAlertFurniture : IFurniInteractor
     {
 
         public void OnPlace(GameClient Session, Item Item)

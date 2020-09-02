@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing;
+﻿using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Trading;
 using StarBlue.Core;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using System;
 using System.Collections.Generic;

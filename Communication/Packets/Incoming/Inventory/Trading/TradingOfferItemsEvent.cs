@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Trading
 {
-    class TradingOfferItemsEvent : IPacketEvent
+    internal class TradingOfferItemsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -39,7 +39,7 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Trading
                 return;
             }
 
-            List<Item> AllItems = Session.GetHabbo().GetInventoryComponent().GetItems.Where(x => x.Data.Id == Item.Data.Id).Take(Amount).ToList();
+            List<Item> AllItems = Session.GetHabbo().GetInventoryComponent().GetItems.Where(x => x != null && x.Data.Id == Item.Data.Id).Take(Amount).ToList();
             foreach (Item I in AllItems)
             {
                 Trade.OfferItem(Session.GetHabbo().Id, I);

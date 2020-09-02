@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class NavigatorSettingsComposer : ServerPacket
+    internal class NavigatorSettingsComposer : ServerPacket
     {
         public NavigatorSettingsComposer(int Homeroom)
             : base(ServerPacketHeader.NavigatorSettingsMessageComposer)

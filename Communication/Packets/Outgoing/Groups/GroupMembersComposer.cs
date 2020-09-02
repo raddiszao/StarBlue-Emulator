@@ -1,10 +1,9 @@
-﻿using Plus.HabboHotel.Groups;
-using StarBlue.HabboHotel.Groups;
+﻿using StarBlue.HabboHotel.Groups;
 using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class GroupMembersComposer : ServerPacket
+    internal class GroupMembersComposer : ServerPacket
     {
         public GroupMembersComposer(Group Group, ICollection<GroupMember> Members, int MembersCount, int Page, bool Admin, int ReqType, string SearchVal)
             : base(ServerPacketHeader.GroupMembersMessageComposer)

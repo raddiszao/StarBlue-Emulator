@@ -3,7 +3,7 @@ using StarBlue.Communication.Packets.Outgoing.Catalog;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
-    class GetGroupFurniConfigEvent : IPacketEvent
+    internal class GetGroupFurniConfigEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

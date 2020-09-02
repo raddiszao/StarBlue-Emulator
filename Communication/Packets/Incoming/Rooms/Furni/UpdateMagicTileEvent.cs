@@ -7,7 +7,7 @@ using StarBlue.HabboHotel.Rooms.PathFinding;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class UpdateMagicTileEvent : IPacketEvent
+    internal class UpdateMagicTileEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

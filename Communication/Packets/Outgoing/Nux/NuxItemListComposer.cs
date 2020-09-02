@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Data;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Nux
 {
-    class NuxItemListComposer : ServerPacket
+    internal class NuxItemListComposer : ServerPacket
     {
         public NuxItemListComposer() : base(ServerPacketHeader.NuxItemListComposer)
         {

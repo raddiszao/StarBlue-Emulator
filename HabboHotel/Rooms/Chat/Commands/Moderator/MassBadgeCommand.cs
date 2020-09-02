@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class MassBadgeCommand : IChatCommand
+    internal class MassBadgeCommand : IChatCommand
     {
-        public string PermissionRequired => "user_13";
+        public string PermissionRequired => "user_16";
         public string Parameters => "[CODIGO]";
         public string Description => "Dar emblemas para todo o hotel.";
 

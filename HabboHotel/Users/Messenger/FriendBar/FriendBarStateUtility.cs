@@ -6,15 +6,14 @@
         {
             switch (State)
             {
-                default:
                 case 0:
                     return FriendBarState.CLOSED;
 
                 case 1:
                     return FriendBarState.OPEN;
 
-                case 3:
-                    return FriendBarState.MIDDLE;
+                default:
+                    return FriendBarState.OPEN;
             }
         }
 
@@ -23,6 +22,8 @@
             switch (State)
             {
                 default:
+                    return 1;
+
                 case FriendBarState.CLOSED:
                     return 0;
 

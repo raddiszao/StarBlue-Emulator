@@ -16,7 +16,7 @@ namespace StarBlue.HabboHotel.Rooms
         public int MapSizeX;
         public int MapSizeY;
         public short[,] SqFloorHeight;
-        public byte[,] SqSeatRot;
+        //public byte[,] SqSeatRot;
         public SquareState[,] SqState;
         private RoomModel staticModel;
 
@@ -36,7 +36,7 @@ namespace StarBlue.HabboHotel.Rooms
             MapSizeY = staticModel.MapSizeY;
             ClubOnly = staticModel.ClubOnly;
 
-            RelativeHeightmap = string.Empty;
+            this.RelativeHeightmap = string.Empty;
 
             Generate();
         }
@@ -45,7 +45,7 @@ namespace StarBlue.HabboHotel.Rooms
         {
             SqState = new SquareState[MapSizeX, MapSizeY];
             SqFloorHeight = new short[MapSizeX, MapSizeY];
-            SqSeatRot = new byte[MapSizeX, MapSizeY];
+            //SqSeatRot = new byte[MapSizeX, MapSizeY];
 
             for (int y = 0; y < MapSizeY; y++)
             {
@@ -59,16 +59,11 @@ namespace StarBlue.HabboHotel.Rooms
                     {
                         SqState[x, y] = staticModel.SqState[x, y];
                         SqFloorHeight[x, y] = staticModel.SqFloorHeight[x, y];
-                        SqSeatRot[x, y] = staticModel.SqSeatRot[x, y];
+                        //SqSeatRot[x, y] = staticModel.SqSeatRot[x, y];
                     }
                 }
             }
 
-            Make();
-        }
-
-        private void Make()
-        {
             var FloorMap = new StringBuilder();
 
             for (int y = 0; y < MapSizeY; y++)
@@ -95,14 +90,14 @@ namespace StarBlue.HabboHotel.Rooms
                 FloorMap.Append(Convert.ToChar(13));
             }
 
-            RelativeHeightmap = FloorMap.ToString();
+            this.RelativeHeightmap = FloorMap.ToString();
         }
 
         public void refreshArrays()
         {
             var newSqState = new SquareState[MapSizeX + 1, MapSizeY + 1];
             var newSqFloorHeight = new short[MapSizeX + 1, MapSizeY + 1];
-            var newSqSeatRot = new byte[MapSizeX + 1, MapSizeY + 1];
+            //var newSqSeatRot = new byte[MapSizeX + 1, MapSizeY + 1];
 
             for (int y = 0; y < MapSizeY; y++)
             {
@@ -116,23 +111,21 @@ namespace StarBlue.HabboHotel.Rooms
                     {
                         newSqState[x, y] = SqState[x, y];
                         newSqFloorHeight[x, y] = SqFloorHeight[x, y];
-                        newSqSeatRot[x, y] = SqSeatRot[x, y];
+                        //newSqSeatRot[x, y] = SqSeatRot[x, y];
                     }
                 }
             }
 
             SqState = newSqState;
             SqFloorHeight = newSqFloorHeight;
-            SqSeatRot = newSqSeatRot;
+            //SqSeatRot = newSqSeatRot;
 
         }
 
         public string GetRelativeHeightmap()
         {
-            return RelativeHeightmap;
+            return this.RelativeHeightmap;
         }
-
-
 
         public void AddX()
         {
@@ -143,15 +136,9 @@ namespace StarBlue.HabboHotel.Rooms
         public void OpenSquare(int x, int y, double z)
         {
             if (z > 9)
-            {
                 z = 9;
-            }
-
             if (z < 0)
-            {
                 z = 0;
-            }
-
             SqFloorHeight[x, y] = (short)z;
             SqState[x, y] = SquareState.OPEN;
         }
@@ -165,13 +152,9 @@ namespace StarBlue.HabboHotel.Rooms
         public bool DoorIsValid()
         {
             if (DoorX > SqFloorHeight.GetUpperBound(0) || DoorY > SqFloorHeight.GetUpperBound(1))
-            {
                 return false;
-            }
             else
-            {
                 return true;
-            }
         }
 
         public void SetMapsize(int x, int y)
@@ -185,13 +168,14 @@ namespace StarBlue.HabboHotel.Rooms
         {
             Array.Clear(SqState, 0, SqState.Length);
             Array.Clear(SqFloorHeight, 0, SqFloorHeight.Length);
-            Array.Clear(SqSeatRot, 0, SqSeatRot.Length);
+            // Array.Clear(SqSeatRot, 0, SqSeatRot.Length);
 
             staticModel = null;
+            RelativeHeightmap = null;
             Heightmap = null;
             SqState = null;
             SqFloorHeight = null;
-            SqSeatRot = null;
+            // SqSeatRot = null;
         }
     }
 }

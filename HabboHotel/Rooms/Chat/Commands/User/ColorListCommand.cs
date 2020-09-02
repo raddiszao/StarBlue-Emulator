@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class ColorListCommand : IChatCommand
+    internal class ColorListCommand : IChatCommand
     {
         public string PermissionRequired => "command_info";
 

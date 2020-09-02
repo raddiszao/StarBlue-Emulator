@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class NavigatorFlatCatsComposer : ServerPacket
+    internal class NavigatorFlatCatsComposer : ServerPacket
     {
         public NavigatorFlatCatsComposer(ICollection<SearchResultList> Categories, int Rank)
             : base(ServerPacketHeader.NavigatorFlatCatsMessageComposer)

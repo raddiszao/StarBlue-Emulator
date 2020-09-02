@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Games;
 
 namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
-    class UnknownGameCenterEvent : IPacketEvent
+    internal class UnknownGameCenterEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

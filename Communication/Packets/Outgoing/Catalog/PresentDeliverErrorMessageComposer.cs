@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class PresentDeliverErrorMessageComposer : ServerPacket
+    internal class PresentDeliverErrorMessageComposer : ServerPacket
     {
         public PresentDeliverErrorMessageComposer(bool CreditError, bool DucketError)
             : base(ServerPacketHeader.PresentDeliverErrorMessageComposer)

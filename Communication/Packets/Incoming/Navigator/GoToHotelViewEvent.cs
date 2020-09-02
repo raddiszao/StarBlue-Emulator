@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class GoToHotelViewEvent : IPacketEvent
+    internal class GoToHotelViewEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

@@ -1,14 +1,13 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using System;
+﻿using StarBlue.Database.Interfaces;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class SetMessengerInviteStatusEvent : IPacketEvent
+    internal class SetMessengerInviteStatusEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
-            Boolean Status = Packet.PopBoolean();
+            bool Status = Packet.PopBoolean();
 
             Session.GetHabbo().AllowMessengerInvites = Status;
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())

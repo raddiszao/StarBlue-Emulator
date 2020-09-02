@@ -7,7 +7,7 @@ using StarBlue.Utilities;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Nux
 {
-    class GetNuxPresentEvent : IPacketEvent
+    internal class GetNuxPresentEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -15,7 +15,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Nux
             int Data2 = Packet.PopInt(); // ELEMENTO 2
             int Data3 = Packet.PopInt(); // ELEMENTO 3
             int Data4 = Packet.PopInt(); // SELECTOR
-            var RewardName = "";
+            string RewardName = "";
 
             switch (Data4)
             {
@@ -35,7 +35,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Nux
                     break;
                 case 2:
                     int RewardItem = RandomNumber.GenerateRandom(1, 10);
-                    var RewardItemId = 0;
+                    int RewardItemId = 0;
 
                     switch (RewardItem)
                     {

@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorSwitch : IFurniInteractor
+    internal class InteractorSwitch : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {

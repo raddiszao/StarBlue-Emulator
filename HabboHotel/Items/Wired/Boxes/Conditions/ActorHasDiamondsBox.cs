@@ -1,12 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class ActorHasDiamondsBox : IWiredItem
+    internal class ActorHasDiamondsBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -34,7 +33,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 
         public bool Execute(params object[] Params)
         {
-            if (Params.Length == 0 || Instance == null || String.IsNullOrEmpty(StringData))
+            if (Params.Length == 0 || Instance == null || string.IsNullOrEmpty(StringData))
             {
                 return false;
             }

@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Handshake;
+﻿using StarBlue.Communication.Packets.Outgoing.Handshake;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Users.UserDataManagement;
 using System.Collections.Generic;

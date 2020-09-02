@@ -1,17 +1,17 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Navigator;
+﻿using StarBlue.Communication.Packets.Outgoing.Navigator;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Settings;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Navigator;
 using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class StaffPickRoomEvent : IPacketEvent
+    internal class StaffPickRoomEvent : IPacketEvent
     {
         public void Parse(GameClient session, ClientPacket packet)
         {
-            GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(session.GetHabbo().CurrentRoom.OwnerName);
+            GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(session.GetHabbo().CurrentRoom.RoomData.OwnerName);
 
             if (!session.GetHabbo().GetPermissions().HasRight("room.staff_picks.management"))
             {
@@ -53,8 +53,8 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
                 }
             }
 
-            room.SendMessage(new RoomSettingsSavedComposer(room.RoomId));
-            room.SendMessage(new RoomInfoUpdatedComposer(room.RoomId));
+            room.SendMessage(new RoomSettingsSavedComposer(room.Id));
+            room.SendMessage(new RoomInfoUpdatedComposer(room.Id));
         }
     }
 }

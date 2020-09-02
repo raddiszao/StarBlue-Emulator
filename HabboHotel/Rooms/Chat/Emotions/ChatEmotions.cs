@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Emotions
 {
-    enum ChatEmotions
+    internal enum ChatEmotions
     {
         Smile,
         Angry,

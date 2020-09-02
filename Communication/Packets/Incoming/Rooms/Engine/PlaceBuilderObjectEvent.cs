@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class PlaceBuilderObjectEvent : IPacketEvent
+    internal class PlaceBuilderObjectEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -47,10 +47,11 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             if (Session.GetHabbo().Rank > 3 && !Session.GetHabbo().StaffOk || StarBlueServer.GoingIsToBeClose)
             {
+                Session.SendNotification("Essa função foi desativada até o servidor for reinicializado.");
                 return;
             }
 
-            if (!Page.Enabled || !Page.Visible || Page.MinimumRank > Session.GetHabbo().Rank || (Page.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+            if (!Page.Enabled || !Page.Visible || (Page.MinimumRank > Session.GetHabbo().Rank && Page.MinimumVIP == 0) || (Page.MinimumVIP > 0 && Page.MinimumVIP > Session.GetHabbo().VIPRank && Page.MinimumRank > Session.GetHabbo().Rank))
             {
                 return;
             }
@@ -124,12 +125,12 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             int Y = Packet.PopInt();
             int Rot = Packet.PopInt();
 
-            Item RoomItem = new Item(newID, Room.RoomId, baseItem.Id, Item.ExtraData, X, Y, 0, Rot, Session.GetHabbo().Id, 0, 0, 0, string.Empty, Room);
+            Item RoomItem = new Item(newID, Room.Id, baseItem.Id, Item.ExtraData, X, Y, 0, Rot, Session.GetHabbo().Id, 0, 0, 0, string.Empty, Room);
             if (Room.GetRoomItemHandler().SetFloorItem(Session, RoomItem, X, Y, Rot, true, false, true))
             {
                 Session.GetHabbo().GetInventoryComponent().RemoveItem(newID);
 
-                if (Session.GetHabbo().Id == Room.OwnerId)
+                if (Session.GetHabbo().Id == Room.RoomData.OwnerId)
                 {
                     StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomDecoFurniCount", 1, false);
                 }

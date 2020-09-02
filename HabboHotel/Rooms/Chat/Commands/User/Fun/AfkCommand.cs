@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class AfkCommand : IChatCommand
+    internal class AfkCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -13,8 +13,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             RoomUser User = Room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+            if (User == null)
+                return;
+
             User.IsAsleep = true;
             Room.SendMessage(new SleepComposer(User, true));
+            User.ApplyEffect(517);
 
             Session.SendWhisper("Agora você está dormindo!", 34);
         }

@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json.Linq;
-using StarBlue.Communication.Packets.Incoming;
+﻿using StarBlue.Communication.Packets.Incoming;
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
+using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class SendYouTubeVideoBox : IWiredItem
+    internal class SendYouTubeVideoBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
 
@@ -22,46 +22,85 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public bool BoolData { get; set; }
 
         public string ItemsData { get; set; }
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
+        public int TickCount { get; set; }
+        private int _delay = 0;
+        private Queue _queue;
 
         public SendYouTubeVideoBox(Room Instance, Item Item)
         {
             this.Instance = Instance;
             this.Item = Item;
             SetItems = new ConcurrentDictionary<int, Item>();
+            TickCount = Delay;
+            _queue = new Queue();
         }
 
         public void HandleSave(ClientPacket Packet)
         {
             int Unknown = Packet.PopInt();
             string Link = Packet.PopString();
+            int Unknown2 = Packet.PopInt();
+            Delay = Packet.PopInt();
 
             StringData = Link;
         }
 
+        public bool OnCycle()
+        {
+            if (_queue.Count == 0)
+            {
+                _queue.Clear();
+                TickCount = Delay;
+                return true;
+            }
+
+            while (_queue.Count > 0)
+            {
+                Habbo Player = (Habbo)_queue.Dequeue();
+                if (Player == null || Player.CurrentRoom != Instance)
+                {
+                    continue;
+                }
+
+                SendYoutubeVideo(Player);
+            }
+
+            TickCount = Delay;
+            return true;
+        }
+
         public bool Execute(params object[] Params)
         {
-            if (Params == null || Params.Length == 0)
+            if (Params.Length != 1)
             {
                 return false;
             }
 
             Habbo Player = (Habbo)Params[0];
+            if (Player == null)
+            {
+                return false;
+            }
+
+            TickCount = Delay;
+            _queue.Enqueue(Player);
+            return true;
+        }
+
+        public bool SendYoutubeVideo(Habbo Player)
+        {
             if (Player == null || Player.GetClient() == null)
             {
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }
 
-            JObject WebEventData = new JObject(new JProperty("type", "youtube"), new JProperty("data", new JObject(
-                new JProperty("video_id", StringData),
-                new JProperty("by", Instance.OwnerName)
-            )));
-            StarBlueServer.GetGame().GetWebEventManager().SendDataDirect(Player.GetClient(), WebEventData.ToString());
-
+            Player.GetClient().GetHabbo().SendWebPacket(new YoutubeVideoComposer(StringData, Instance.RoomData.OwnerName));
             return true;
         }
     }

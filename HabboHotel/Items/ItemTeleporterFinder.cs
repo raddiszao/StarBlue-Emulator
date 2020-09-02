@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using System;
 using System.Data;
@@ -28,7 +28,7 @@ namespace StarBlue.HabboHotel.Items
         {
             if (pRoom.GetRoomItemHandler().GetItem(TeleId) != null)
             {
-                return pRoom.RoomId;
+                return pRoom.Id;
             }
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())

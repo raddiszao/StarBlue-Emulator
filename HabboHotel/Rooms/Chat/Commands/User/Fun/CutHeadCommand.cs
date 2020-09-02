@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class CutHeadCommand : IChatCommand
+    internal class CutHeadCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
         public string Parameters => "[USUARIO]";
@@ -50,8 +50,8 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (Math.Abs(User.X - ThisUser.X) < 2 && Math.Abs(User.Y - ThisUser.Y) < 2)
             {
-                Room.SendMessage(new ShoutComposer(ThisUser.VirtualId, "*Cortar a cabeça de " + TargetClient.GetHabbo().Username + "*", 0, ThisUser.LastBubble));
-                Room.SendMessage(new ChatComposer(User.VirtualId, "*Morrendo*", 0, User.LastBubble));
+                Room.SendMessage(new ShoutComposer(ThisUser.VirtualId, "*Cortar a cabeça de " + TargetClient.GetHabbo().Username + "*", 0, 32));
+                Room.SendMessage(new ChatComposer(User.VirtualId, "*Morrendo*", 0, 32));
 
                 ThisUser.ApplyEffect(117);
                 User.ApplyEffect(93);

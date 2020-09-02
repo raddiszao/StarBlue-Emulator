@@ -5,11 +5,10 @@ using StarBlue.HabboHotel.Users;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class ShowMessageBox : IWiredItem, IWiredCycle
+    internal class ShowMessageBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -36,7 +35,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public void HandleSave(ClientPacket Packet)
         {
             int Unknown = Packet.PopInt();
-            string Message = Encoding.UTF8.GetString(Encoding.Default.GetBytes(Packet.PopString()));
+            string Message = Packet.PopString();
             int Unused = Packet.PopInt();
             Delay = Packet.PopInt();
 
@@ -81,6 +80,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
 
@@ -88,6 +88,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         private void SendMessageToUser(Habbo Player)
         {
+            if (Player == null || StringData == "")
+            {
+                return;
+            }
+
             RoomUser User = Player.CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Player.Username);
             if (User == null)
             {
@@ -143,7 +148,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             // ROOM VARIABLES
             if (StringData.Contains("%roomname%"))
             {
-                MessageFiltered = MessageFiltered.Replace("%roomname%", Player.CurrentRoom.Name);
+                MessageFiltered = MessageFiltered.Replace("%roomname%", Player.CurrentRoom.RoomData.Name);
             }
 
             if (StringData.Contains("%roomusers%"))
@@ -153,12 +158,12 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             if (StringData.Contains("%roomowner%"))
             {
-                MessageFiltered = MessageFiltered.Replace("%roomowner%", Player.CurrentRoom.OwnerName.ToString());
+                MessageFiltered = MessageFiltered.Replace("%roomowner%", Player.CurrentRoom.RoomData.OwnerName.ToString());
             }
 
             if (StringData.Contains("%roomlikes%"))
             {
-                MessageFiltered = MessageFiltered.Replace("%roomlikes%", Player.CurrentRoom.Score.ToString());
+                MessageFiltered = MessageFiltered.Replace("%roomlikes%", Player.CurrentRoom.RoomData.Score.ToString());
             }
 
             // HOTEL VARIABLES

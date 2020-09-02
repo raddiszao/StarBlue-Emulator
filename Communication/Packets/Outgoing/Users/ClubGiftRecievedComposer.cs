@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class ClubGiftRecievedComposer : ServerPacket
+    internal class ClubGiftRecievedComposer : ServerPacket
     {
         public ClubGiftRecievedComposer(GameClient Session) : base(ServerPacketHeader.ClubGiftRecievedComposer)
         {

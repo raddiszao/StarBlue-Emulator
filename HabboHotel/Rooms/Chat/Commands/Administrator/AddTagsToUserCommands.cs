@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Users;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class AddTagsToUserCommand : IChatCommand
+    internal class AddTagsToUserCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
 

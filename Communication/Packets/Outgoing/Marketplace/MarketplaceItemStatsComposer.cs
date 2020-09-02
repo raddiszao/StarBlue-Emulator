@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Marketplace
 {
-    class MarketplaceItemStatsComposer : ServerPacket
+    internal class MarketplaceItemStatsComposer : ServerPacket
     {
         public MarketplaceItemStatsComposer(int ItemId, int SpriteId, int AveragePrice)
             : base(ServerPacketHeader.MarketplaceItemStatsMessageComposer)

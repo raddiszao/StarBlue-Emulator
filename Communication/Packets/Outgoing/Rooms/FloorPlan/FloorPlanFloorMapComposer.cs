@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.FloorPlan
 {
-    class FloorPlanFloorMapComposer : ServerPacket
+    internal class FloorPlanFloorMapComposer : ServerPacket
     {
         public FloorPlanFloorMapComposer(ICollection<Item> Items)
             : base(ServerPacketHeader.FloorPlanFloorMapMessageComposer)

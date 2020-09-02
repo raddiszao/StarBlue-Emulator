@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class CfhTopicsInitComposer : ServerPacket
+    internal class CfhTopicsInitComposer : ServerPacket
     {
         public CfhTopicsInitComposer() : base(ServerPacketHeader.CfhTopicsInitMessageComposer)
         {

@@ -1,15 +1,17 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
+using StarBlue.HabboHotel.Users;
+using StarBlue.HabboHotel.Users.Messenger;
 using StarBlue.Utilities;
 using System;
-using System.Text;
+using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Avatar
 {
-    class ChangeMottoEvent : IPacketEvent
+    internal class ChangeMottoEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -59,7 +61,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Avatar
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("UPDATE `users` SET `motto` = @motto WHERE `id` = '" + Session.GetHabbo().Id + "' LIMIT 1");
-                dbClient.AddParameter("motto", Encoding.UTF8.GetString(Encoding.Default.GetBytes(newMotto)));
+                dbClient.AddParameter("motto", newMotto);
                 dbClient.RunQuery();
             }
 
@@ -81,6 +83,23 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Avatar
                 }
 
                 Room.SendMessage(new UserChangeComposer(User, false));
+                foreach (MessengerBuddy Buddy in Session.GetHabbo().GetMessenger().GetFriends().ToList())
+                {
+                    if (Buddy == null)
+                    {
+                        continue;
+                    }
+
+                    Habbo _habbo = StarBlueServer.GetHabboById(Buddy.UserId);
+                    if (_habbo != null && _habbo.GetMessenger() != null)
+                    {
+                        if (_habbo.GetMessenger().GetFriendsIds().TryGetValue(Session.GetHabbo().Id, out MessengerBuddy value))
+                        {
+                            value.mMotto = newMotto;
+                            _habbo.GetMessenger().UpdateFriend(Session.GetHabbo().Id, Session, true);
+                        }
+                    }
+                }
             }
         }
     }

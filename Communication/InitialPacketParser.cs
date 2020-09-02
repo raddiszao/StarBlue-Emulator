@@ -1,32 +1,26 @@
 ﻿using StarBlue.Communication.ConnectionManager;
 using System;
 
-namespace StarBlue.Communication
+namespace StarBlueServer.Communication
 {
-    public class InitialPacketParser : IDataParser
+    public class InitialPacketParser : IDataParser, IDisposable, ICloneable
     {
-        public delegate void NoParamDelegate();
-
         public byte[] currentData;
 
-        public void HandlePacketData(byte[] packet)
+        public event InitialPacketParser.NoParamDelegate SwitchParserRequest;
+
+        public void handlePacketData(byte[] packet, bool deciphered = false)
         {
-            if (packet[0] == 60 && PolicyRequest != null)
-            {
-                PolicyRequest.Invoke();
-            }
-            else if (packet[0] != 67 && SwitchParserRequest != null)
-            {
-                currentData = packet;
-                SwitchParserRequest.Invoke();
-            }
+            if (this.SwitchParserRequest == null)
+                return;
+
+            this.currentData = packet;
+            this.SwitchParserRequest();
         }
 
         public void Dispose()
         {
-            PolicyRequest = null;
-            SwitchParserRequest = null;
-            GC.SuppressFinalize(this);
+            this.SwitchParserRequest = (InitialPacketParser.NoParamDelegate)null;
         }
 
         public object Clone()
@@ -34,7 +28,6 @@ namespace StarBlue.Communication
             return new InitialPacketParser();
         }
 
-        public event NoParamDelegate PolicyRequest;
-        public event NoParamDelegate SwitchParserRequest;
+        public delegate void NoParamDelegate();
     }
 }

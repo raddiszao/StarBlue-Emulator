@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class NavigatorCollapsedCategoriesComposer : ServerPacket
+    internal class NavigatorCollapsedCategoriesComposer : ServerPacket
     {
         public NavigatorCollapsedCategoriesComposer()
             : base(ServerPacketHeader.NavigatorCollapsedCategoriesMessageComposer)

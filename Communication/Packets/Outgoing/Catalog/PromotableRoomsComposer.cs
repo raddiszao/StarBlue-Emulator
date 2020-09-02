@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class PromotableRoomsComposer : ServerPacket
+    internal class PromotableRoomsComposer : ServerPacket
     {
         public PromotableRoomsComposer(ICollection<RoomData> Rooms)
             : base(ServerPacketHeader.PromotableRoomsMessageComposer)

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
-    class FigureSetIdsComposer : ServerPacket
+    internal class FigureSetIdsComposer : ServerPacket
     {
         public FigureSetIdsComposer(ICollection<ClothingParts> ClothingParts)
             : base(ServerPacketHeader.FigureSetIdsMessageComposer)

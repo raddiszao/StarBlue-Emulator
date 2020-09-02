@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class EnableCommand : IChatCommand
+    internal class EnableCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
         public string Parameters => "[ID]";
@@ -43,6 +43,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (EffectId > int.MaxValue || EffectId < int.MinValue)
             {
+                return;
+            }
+
+            if (!Room.RoomData.EnablesEnabled && !Room.CheckRights(Session, true) && !Session.GetHabbo().GetPermissions().HasRight("room_override_custom_config"))
+            {
+                Session.SendWhisper("Oops, o dono do quarto desativou esta função.", 34);
                 return;
             }
 

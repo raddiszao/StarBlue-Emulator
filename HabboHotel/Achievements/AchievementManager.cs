@@ -1,7 +1,7 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Achievements;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace StarBlue.HabboHotel.Achievements
                 return;
             }
 
-            Double daysBtwLastLogin = StarBlueServer.GetUnixTimestamp() - Session.GetHabbo().LastOnline;
+            double daysBtwLastLogin = StarBlueServer.GetUnixTimestamp() - Session.GetHabbo().LastOnline;
 
             if (daysBtwLastLogin >= 51840 && daysBtwLastLogin <= 112320)
             {
@@ -58,6 +58,7 @@ namespace StarBlue.HabboHotel.Achievements
                 return;
             }
 
+            ProgressAchievement(Session, "ACH_EmailVerification", 1);
             UserAchievement regACH = Session.GetHabbo().GetAchievementData("ACH_RegistrationDuration");
             if (regACH == null)
             {
@@ -106,8 +107,8 @@ namespace StarBlue.HabboHotel.Achievements
                 return;
             }
 
-            var Subscription = Session.GetHabbo().GetClubManager().GetSubscription("habbo_vip");
-            Double SinceActivation = StarBlueServer.GetUnixTimestamp() - Subscription.ExpireTime;
+            Club.Subscription Subscription = Session.GetHabbo().GetClubManager().GetSubscription("habbo_vip");
+            double SinceActivation = StarBlueServer.GetUnixTimestamp() - Subscription.ExpireTime;
 
             if (SinceActivation < 31556926)
             {
@@ -144,7 +145,7 @@ namespace StarBlue.HabboHotel.Achievements
 
         public bool ProgressAchievement(GameClient Session, string AchievementGroup, int ProgressAmount, bool FromZero = false)
         {
-            if (!_achievements.ContainsKey(AchievementGroup) || Session == null)
+            if (!_achievements.ContainsKey(AchievementGroup) || Session == null || Session.GetHabbo() == null)
             {
                 return false;
             }

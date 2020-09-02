@@ -21,15 +21,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Handshake
             }
 
             base.WriteInteger(habbo.Rank);
-            if (habbo.Rank > 3)
-            {
-                base.WriteBoolean(true);//Is an ambassador
-            }
-            else
-            {
-                base.WriteBoolean(false);//Is an ambassador
-            }
-
+            base.WriteBoolean(habbo.Rank > 3);//Is an ambassador
         }
     }
 }

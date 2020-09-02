@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class GetCatalogRoomPromotionComposer : ServerPacket
+    internal class GetCatalogRoomPromotionComposer : ServerPacket
     {
         public GetCatalogRoomPromotionComposer(List<RoomData> UsersRooms)
             : base(ServerPacketHeader.PromotableRoomsMessageComposer)

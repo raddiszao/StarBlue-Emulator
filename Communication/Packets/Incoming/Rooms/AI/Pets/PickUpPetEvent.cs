@@ -1,7 +1,7 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Pets;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.AI;
@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
 {
-    class PickUpPetEvent : IPacketEvent
+    internal class PickUpPetEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -34,7 +34,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
             if (!Room.GetRoomUserManager().TryGetPet(PetId, out RoomUser Pet))
             {
                 //Check kick rights, just because it seems most appropriate. 
-                if ((!Room.CheckRights(Session) && Room.WhoCanKick != 2 && Room.Group == null) || (Room.Group != null && !Room.CheckRights(Session, false, true)))
+                if ((!Room.CheckRights(Session) && Room.RoomData.WhoCanKick != 2 && Room.RoomData.Group == null) || (Room.RoomData.Group != null && !Room.CheckRights(Session, false, true)))
                 {
                     return;
                 }

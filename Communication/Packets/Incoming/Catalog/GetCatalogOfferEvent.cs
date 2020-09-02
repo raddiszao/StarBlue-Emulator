@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Catalog;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
-    class GetCatalogOfferEvent : IPacketEvent
+    internal class GetCatalogOfferEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -21,7 +21,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 return;
             }
 
-            if (!Page.Enabled || !Page.Visible || Page.MinimumRank > Session.GetHabbo().Rank || (Page.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+            if (!Page.Enabled || !Page.Visible || (Page.MinimumRank > Session.GetHabbo().Rank && Page.MinimumVIP == 0) || (Page.MinimumVIP > 0 && Page.MinimumVIP > Session.GetHabbo().VIPRank && Page.MinimumRank > Session.GetHabbo().Rank))
             {
                 return;
             }

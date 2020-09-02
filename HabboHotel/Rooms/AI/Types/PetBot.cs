@@ -98,7 +98,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
 
                 if (Pet != null)
                 {
-                    var RandomSpeech = new Random();
+                    Random RandomSpeech = new Random();
                     RemovePetStatus();
 
                     string[] Speech = StarBlueServer.GetGame().GetChatManager().GetPetLocale().GetValue("speech.pet" + Pet.PetData.Type);
@@ -406,9 +406,8 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
                         //GetRoomUser refers to the pet
                         //User refers to Owner
 
-                        RoomUser UserRiding = GetRoom().GetRoomUserManager().GetRoomUserByVirtualId(Pet.HorseID); ;
-
-                        if (UserRiding.RidingHorse)
+                        RoomUser UserRiding = GetRoom().GetRoomUserManager().GetRoomUserByVirtualId(Pet.HorseID);
+                        if (UserRiding != null && UserRiding.RidingHorse)
                         {
                             Pet.Chat("Getof my sit", false);
                             UserRiding.RidingHorse = false;
@@ -419,7 +418,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
 
                         string[] Speech = StarBlueServer.GetGame().GetChatManager().GetPetLocale().GetValue("pet.tired");
 
-                        var RandomSpeech = new Random();
+                        Random RandomSpeech = new Random();
                         Pet.Chat(Speech[RandomNumber.GenerateRandom(0, Speech.Length - 1)], false);
 
                         Pet.Statusses.Add("lay", TextHandling.GetString(Pet.Z));
@@ -433,7 +432,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
                     {
                         string[] Speech = StarBlueServer.GetGame().GetChatManager().GetPetLocale().GetValue("pet.lazy");
 
-                        var RandomSpeech = new Random();
+                        Random RandomSpeech = new Random();
                         Pet.Chat(Speech[RandomNumber.GenerateRandom(0, Speech.Length - 1)], false);
 
                         Pet.PetData.PetEnergy(false); // Remove Energy

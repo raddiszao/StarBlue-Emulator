@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class PopularRoomTagsResultComposer : ServerPacket
+    internal class PopularRoomTagsResultComposer : ServerPacket
     {
         public PopularRoomTagsResultComposer(ICollection<KeyValuePair<string, int>> Tags)
             : base(ServerPacketHeader.PopularRoomTagsResultMessageComposer)

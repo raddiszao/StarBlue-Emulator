@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 {
-    class LongTriggerBox : IWiredItem, IWiredCycle
+    internal class LongTriggerBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
-        public WiredBoxType Type => WiredBoxType.TriggerRepeat;
+        public WiredBoxType Type => WiredBoxType.TriggerLongRepeat;
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData { get; set; }
         public bool BoolData { get; set; }
@@ -50,35 +50,40 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
                 ICollection<RoomUser> Avatars = Instance.GetRoomUserManager().GetRoomUsers().ToList();
                 ICollection<IWiredItem> Effects = Instance.GetWired().GetEffects(this);
                 ICollection<IWiredItem> Conditions = Instance.GetWired().GetConditions(this);
+                bool HasAnyConditionValid = Effects.Where(x => x.Type == WiredBoxType.AddonAnyConditionValid).ToList().Count() > 0;
 
                 foreach (IWiredItem Condition in Conditions.ToList())
                 {
                     foreach (RoomUser Avatar in Avatars.ToList())
                     {
                         if (Avatar == null || Avatar.GetClient() == null || Avatar.GetClient().GetHabbo() == null)
-                        {
                             continue;
-                        }
 
                         if (!Condition.Execute(Avatar.GetClient().GetHabbo()))
-                        {
                             continue;
-                        }
 
                         Success = true;
                     }
 
-                    if (!Success)
-                    {
+                    if (!Success && !HasAnyConditionValid)
                         return false;
-                    }
 
-                    Success = false;
-                    Instance.GetWired().OnEvent(Condition.Item);
+                    if (!HasAnyConditionValid)
+                        Success = false;
+
+                    if (Instance != null)
+                        Instance.GetWired().OnEvent(Condition.Item);
                 }
 
+                if (!Success && Conditions.Count > 0 && HasAnyConditionValid)
+                {
+                    return false;
+                }
+
+                Success = false;
+
                 //Check the ICollection to find the random addon effect.
-                bool HasRandomEffectAddon = Effects.Count(x => x.Type == WiredBoxType.AddonRandomEffect) > 0;
+                bool HasRandomEffectAddon = Effects.Where(x => x.Type == WiredBoxType.AddonRandomEffect).ToList().Count() > 0;
                 if (HasRandomEffectAddon)
                 {
                     //Okay, so we have a random addon effect, now lets get the IWiredItem and attempt to execute it.
@@ -90,7 +95,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
 
                     //Success! Let's get our selected box and continue.
                     IWiredItem SelectedBox = Instance.GetWired().GetRandomEffect(Effects.ToList());
-                    if (!SelectedBox.Execute())
+                    if (SelectedBox != null && !SelectedBox.Execute())
                     {
                         return false;
                     }
@@ -107,19 +112,15 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
                     foreach (IWiredItem Effect in Effects.ToList())
                     {
                         if (!Effect.Execute())
-                        {
                             continue;
-                        }
+
+                        Success = true;
 
                         if (!Success)
-                        {
                             return false;
-                        }
 
                         if (Instance != null)
-                        {
                             Instance.GetWired().OnEvent(Effect.Item);
-                        }
                     }
                 }
             }

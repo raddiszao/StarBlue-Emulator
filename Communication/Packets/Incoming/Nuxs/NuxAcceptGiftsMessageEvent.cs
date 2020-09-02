@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Nux
 {
-    class NuxAcceptGiftsMessageEvent : IPacketEvent
+    internal class NuxAcceptGiftsMessageEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

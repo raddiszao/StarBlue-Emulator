@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Catalog.Clothing
 {
@@ -22,7 +21,7 @@ namespace StarBlue.HabboHotel.Catalog.Clothing
                     this.PartIds.Add(int.Parse(PartId));
                 }
             }
-            else if (!String.IsNullOrEmpty(PartIds) && (int.Parse(PartIds)) > 0)
+            else if (!string.IsNullOrEmpty(PartIds) && (int.Parse(PartIds)) > 0)
             {
                 this.PartIds.Add(int.Parse(PartIds));
             }

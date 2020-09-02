@@ -5,7 +5,7 @@ using System;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets
 {
-    class PetInformationComposer : ServerPacket
+    internal class PetInformationComposer : ServerPacket
     {
         public PetInformationComposer(Pet Pet, bool isMounted = false)
             : base(ServerPacketHeader.PetInformationMessageComposer)

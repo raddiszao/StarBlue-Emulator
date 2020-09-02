@@ -6,7 +6,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class GiveCommand : IChatCommand
+    internal class GiveCommand : IChatCommand
     {
         public string PermissionRequired => "user_15";
         public string Parameters => "[USUARIO] [MOEDA] [QUANTIDADE]";
@@ -15,6 +15,12 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
             if (Params.Length == 1)
+            {
+                Session.SendWhisper("Por favor, insira (moedas, duckets, diamantes, gotw)", 34);
+                return;
+            }
+
+            if (Params.Length == 2)
             {
                 Session.SendWhisper("Por favor, insira (moedas, duckets, diamantes, gotw)", 34);
                 return;

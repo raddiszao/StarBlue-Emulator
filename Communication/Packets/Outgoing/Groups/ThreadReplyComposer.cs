@@ -3,12 +3,12 @@ using StarBlue.HabboHotel.Groups.Forums;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class ThreadReplyComposer : ServerPacket
+    internal class ThreadReplyComposer : ServerPacket
     {
         public ThreadReplyComposer(GameClient Session, GroupForumThreadPost Post)
             : base(ServerPacketHeader.ThreadReplyMessageComposer)
         {
-            var User = Post.GetAuthor();
+            HabboHotel.Users.Habbo User = Post.GetAuthor();
             base.WriteInteger(Post.ParentThread.ParentForum.Id);
             base.WriteInteger(Post.ParentThread.Id);
 

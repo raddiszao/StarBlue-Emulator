@@ -3,7 +3,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class GuideAlertCommand : IChatCommand
+    internal class GuideAlertCommand : IChatCommand
     {
         public string PermissionRequired => "command_guide_alert";
 

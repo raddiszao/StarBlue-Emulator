@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items
 {
-    static class ItemBehaviourUtility
+    internal static class ItemBehaviourUtility
     {
         public static void GenerateExtradata(Item Item, ServerPacket Message)
         {
@@ -40,21 +40,21 @@ namespace StarBlue.HabboHotel.Items
                             {
                                 case "2":
                                     Message.WriteInteger(1);
-                                    Message.WriteInteger(Item.GetRoom().WiredScoreBordDay.Count);
-                                    ScoreBordata = Item.GetRoom().WiredScoreBordDay;
+                                    Message.WriteInteger(Item.GetRoom().RoomData.WiredScoreBordDay.Count);
+                                    ScoreBordata = Item.GetRoom().RoomData.WiredScoreBordDay;
                                     break;
 
                                 case "3":
                                     Message.WriteInteger(2);
-                                    Message.WriteInteger(Item.GetRoom().WiredScoreBordWeek.Count);
-                                    ScoreBordata = Item.GetRoom().WiredScoreBordWeek;
+                                    Message.WriteInteger(Item.GetRoom().RoomData.WiredScoreBordWeek.Count);
+                                    ScoreBordata = Item.GetRoom().RoomData.WiredScoreBordWeek;
                                     break;
 
 
                                 case "4":
                                     Message.WriteInteger(3);
-                                    Message.WriteInteger(Item.GetRoom().WiredScoreBordMonth.Count);
-                                    ScoreBordata = Item.GetRoom().WiredScoreBordMonth;
+                                    Message.WriteInteger(Item.GetRoom().RoomData.WiredScoreBordMonth.Count);
+                                    ScoreBordata = Item.GetRoom().RoomData.WiredScoreBordMonth;
                                     break;
 
                                 default:
@@ -197,7 +197,7 @@ namespace StarBlue.HabboHotel.Items
                 case InteractionType.BACKGROUND:
                     Message.WriteInteger(0);
                     Message.WriteInteger(1);
-                    if (!String.IsNullOrEmpty(Item.ExtraData))
+                    if (!string.IsNullOrEmpty(Item.ExtraData))
                     {
                         Message.WriteInteger(Item.ExtraData.Split(Convert.ToChar(9)).Length / 2);
 
@@ -255,8 +255,8 @@ namespace StarBlue.HabboHotel.Items
                     break;
 
                 case InteractionType.CRACKABLE:
-                    Int32 clickCount = 0;
-                    Int32.TryParse(Item.ExtraData, out clickCount);
+                    int clickCount = 0;
+                    int.TryParse(Item.ExtraData, out clickCount);
                     int maxclicks = getCrackableClicks(Item);
                     Message.WriteInteger(0);
                     Message.WriteInteger(7);
@@ -349,7 +349,7 @@ namespace StarBlue.HabboHotel.Items
                 case InteractionType.LOVELOCK:
                     if (Item.ExtraData.Contains(Convert.ToChar(5).ToString()))
                     {
-                        var EData = Item.ExtraData.Split((char)5);
+                        string[] EData = Item.ExtraData.Split((char)5);
                         int I = 0;
                         Message.WriteInteger(0);
                         Message.WriteInteger(2);
@@ -429,13 +429,13 @@ namespace StarBlue.HabboHotel.Items
             }
             else if (item.GetBaseItem().ItemName.Contains("hween"))
             {
-                Int32 crackstate;
+                int crackstate;
                 crackstate = (int)Math.Floor((1.80 / (cracks_max / (double)cracks) * 20.80));
                 state = crackstate.ToString();
             }
             else
             {
-                Int32 crackstate;
+                int crackstate;
                 crackstate = (int)Math.Floor((1.80 / (cracks_max / (double)cracks) * 14.80));
                 state = crackstate.ToString();
             }

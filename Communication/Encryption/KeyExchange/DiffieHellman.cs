@@ -15,49 +15,49 @@ namespace StarBlue.Communication.Encryption.KeyExchange
 
         public DiffieHellman()
         {
-            Initialize();
+            this.Initialize();
         }
 
         public DiffieHellman(int b)
         {
-            BITLENGTH = b;
+            this.BITLENGTH = b;
 
-            Initialize();
+            this.Initialize();
         }
 
         public DiffieHellman(BigInteger prime, BigInteger generator)
         {
-            Prime = prime;
-            Generator = generator;
+            this.Prime = prime;
+            this.Generator = generator;
 
-            Initialize(true);
+            this.Initialize(true);
         }
 
         private void Initialize(bool ignoreBaseKeys = false)
         {
-            PublicKey = 0;
+            this.PublicKey = 0;
 
             Random rand = new Random();
-            while (PublicKey == 0)
+            while (this.PublicKey == 0)
             {
                 if (!ignoreBaseKeys)
                 {
-                    Prime = BigInteger.genPseudoPrime(BITLENGTH, 10, rand);
-                    Generator = BigInteger.genPseudoPrime(BITLENGTH, 10, rand);
+                    this.Prime = BigInteger.genPseudoPrime(BITLENGTH, 10, rand);
+                    this.Generator = BigInteger.genPseudoPrime(BITLENGTH, 10, rand);
                 }
 
-                byte[] bytes = new byte[BITLENGTH / 8];
+                byte[] bytes = new byte[this.BITLENGTH / 8];
                 Randomizer.NextBytes(bytes);
-                PrivateKey = new BigInteger(bytes);
+                this.PrivateKey = new BigInteger(bytes);
 
-                if (Generator > Prime)
+                if (this.Generator > this.Prime)
                 {
-                    BigInteger temp = Prime;
-                    Prime = Generator;
-                    Generator = temp;
+                    BigInteger temp = this.Prime;
+                    this.Prime = this.Generator;
+                    this.Generator = temp;
                 }
 
-                PublicKey = Generator.modPow(PrivateKey, Prime);
+                this.PublicKey = this.Generator.modPow(this.PrivateKey, this.Prime);
 
                 if (!ignoreBaseKeys)
                 {
@@ -68,7 +68,7 @@ namespace StarBlue.Communication.Encryption.KeyExchange
 
         public BigInteger CalculateSharedKey(BigInteger m)
         {
-            return m.modPow(PrivateKey, Prime);
+            return m.modPow(this.PrivateKey, this.Prime);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class FavouritesComposer : ServerPacket
+    internal class FavouritesComposer : ServerPacket
     {
         public FavouritesComposer(ArrayList favouriteIDs)
             : base(ServerPacketHeader.FavouritesMessageComposer)

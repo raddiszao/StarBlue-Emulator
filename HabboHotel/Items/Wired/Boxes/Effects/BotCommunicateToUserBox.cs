@@ -2,12 +2,12 @@
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
+using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class BotCommunicateToUserBox : IWiredItem
+    internal class BotCommunicateToUserBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -17,11 +17,18 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
 
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
+        public int TickCount { get; set; }
+        private int _delay = 0;
+        private Queue _queue;
+
         public BotCommunicateToUserBox(Room Instance, Item Item)
         {
             this.Instance = Instance;
             this.Item = Item;
             SetItems = new ConcurrentDictionary<int, Item>();
+            TickCount = Delay;
+            _queue = new Queue();
         }
 
         public void HandleSave(ClientPacket Packet)
@@ -29,6 +36,8 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             int Unknown = Packet.PopInt();
             int ChatMode = Packet.PopInt();
             string ChatConfig = Packet.PopString();
+            int Unknown2 = Packet.PopInt();
+            Delay = Packet.PopInt();
 
             StringData = ChatConfig;
             if (ChatMode == 1)
@@ -42,24 +51,65 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         }
 
+        public bool OnCycle()
+        {
+            if (_queue.Count == 0)
+            {
+                _queue.Clear();
+                TickCount = Delay;
+                return true;
+            }
+
+            while (_queue.Count > 0)
+            {
+                Habbo Player = (Habbo)_queue.Dequeue();
+                if (Player == null || Player.CurrentRoom != Instance)
+                {
+                    continue;
+                }
+
+                BotCommunicateToUser(Player);
+            }
+
+            TickCount = Delay;
+            return true;
+        }
+
         public bool Execute(params object[] Params)
         {
-            if (Params == null || Params.Length == 0)
+            if (Params.Length != 1)
             {
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            Habbo Player = (Habbo)Params[0];
+            if (Player == null)
             {
                 return false;
             }
 
-            StringData.Split(' ');
+            TickCount = Delay;
+            _queue.Enqueue(Player);
+            return true;
+        }
+
+        public bool BotCommunicateToUser(Habbo Player)
+        {
+            if (string.IsNullOrEmpty(StringData) || Player == null || Player.GetClient() == null)
+            {
+                return false;
+            }
+
             string BotName = StringData.Split('	')[0];
-            string Chat = StringData.Split('	')[1];
-
-            string Message = StringData.Split('	')[1];
-            string MessageFiltered = StringData.Split('	')[1];
+            string Chat = string.Empty;
+            try
+            {
+                Chat = StringData.Split('	')[1];
+            }
+            catch
+            {
+                return false;
+            }
 
             RoomUser User = Instance.GetRoomUserManager().GetBotByName(BotName);
             if (User == null)
@@ -67,14 +117,18 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            Habbo Player = (Habbo)Params[0];
+            if (Chat.Contains("%username%"))
+            {
+                Chat = Chat.Replace("%username%", Player.Username);
+            }
+
             if (BoolData)
             {
                 Player.GetClient().SendMessage(new WhisperComposer(User.VirtualId, Chat, 0, 31));
             }
             else
             {
-                User.Chat(Player.GetClient().GetHabbo().Username + ": " + Chat, false, User.LastBubble);
+                Player.GetClient().SendMessage(new ChatComposer(User.VirtualId, Chat, 0, 31));
             }
 
             return true;

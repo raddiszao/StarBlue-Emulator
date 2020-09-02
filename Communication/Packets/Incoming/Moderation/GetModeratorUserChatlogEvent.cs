@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class GetModeratorUserChatlogEvent : IPacketEvent
+    internal class GetModeratorUserChatlogEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

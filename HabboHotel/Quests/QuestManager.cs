@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
 using StarBlue.Communication.Packets.Incoming;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Quests;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System;
 using System.Collections.Generic;
@@ -231,7 +231,7 @@ namespace StarBlue.HabboHotel.Quests
 
             foreach (Quest Quest in _quests.Values.ToList())
             {
-                foreach (var Goal in UserQuestGoals)
+                foreach (KeyValuePair<string, int> Goal in UserQuestGoals)
                 {
                     if (Quest.Category.Contains("xmas2012"))
                     {

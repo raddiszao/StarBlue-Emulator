@@ -3,11 +3,10 @@ using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Text;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class KickUserBox : IWiredItem, IWiredCycle
+    internal class KickUserBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -41,7 +40,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
 
             int Unknown = Packet.PopInt();
-            string Message = Encoding.UTF8.GetString(Encoding.Default.GetBytes(Packet.PopString()));
+            string Message = Packet.PopString();
             int Unknown2 = Packet.PopInt();
             Delay = Packet.PopInt();
             StringData = Message;
@@ -65,6 +64,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 Player.GetClient().SendWhisper(StringData, 34);
             }
 
+            TickCount = Delay;
             _toKick.Enqueue(Player);
             return true;
         }
@@ -91,7 +91,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                     continue;
                 }
 
-                if (Player.Rank >= 7 || Instance.OwnerId == Player.Id)
+                if (Player.Rank >= 7 || Instance.RoomData.OwnerId == Player.Id)
                 {
                     Player.GetClient().SendWhisper("Wired Kick: Impossível expulsar este jogador.", 34);
                     return true;

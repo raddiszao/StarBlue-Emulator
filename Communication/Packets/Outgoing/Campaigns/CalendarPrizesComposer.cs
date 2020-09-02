@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Campaigns
 {
-    class CalendarPrizesComposer : ServerPacket
+    internal class CalendarPrizesComposer : ServerPacket
     {
         public CalendarPrizesComposer(CalendarDay cday)
             : base(ServerPacketHeader.CalendarPrizesMessageComposer)

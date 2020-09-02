@@ -1,15 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Interfaces;
-using StarBlue.Communication.Packets.Outgoing;
+﻿using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Camera;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Poll;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
 using StarBlue.Core;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
-using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Data.Moodlight;
 using StarBlue.HabboHotel.Items.Data.Toner;
@@ -23,31 +20,27 @@ using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.Instance;
 using StarBlue.HabboHotel.Rooms.Trading;
 using StarBlue.HabboHotel.Rooms.TraxMachine;
+using StarBlue.Messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StarBlue.HabboHotel.Rooms
 {
-    public class Room : RoomData
+    public class Room
     {
         public bool isCrashed;
         public bool mDisposed;
-        public bool RoomMuted;
         public bool DiscoMode;
         public bool muteSignalEnabled;
+        public Task ProcessTask;
         public DateTime lastTimerReset;
         public DateTime lastRegeneration;
         public int BallSpeed;
 
-        public delegate void FurnisLoaded();
-        public event FurnisLoaded OnFurnisLoad;
-
-        public Task ProcessTask;
         public ArrayList ActiveTrades;
 
         public TonerData TonerData;
@@ -58,15 +51,15 @@ namespace StarBlue.HabboHotel.Rooms
 
         internal bool ForSale;
         internal int SalePrice;
-        private Dictionary<int, List<RoomUser>> Tents;
+        public Dictionary<int, List<RoomUser>> Tents;
 
         internal string poolQuestion;
 
         public List<int> UsersWithRights;
         private GameManager _gameManager;
-        private Freeze _freeze;
+        public Freeze _freeze;
         private Soccer _soccer;
-        private BattleBanzai _banzai;
+        public BattleBanzai _banzai;
 
         private Gamemap _gamemap;
         private GameItemHandler _gameItemHandler;
@@ -88,83 +81,32 @@ namespace StarBlue.HabboHotel.Rooms
         internal List<int> noPoolAnswers;
 
         public int IsLagging { get; set; }
+
         public int IdleTime { get; set; }
-        private bool _hideWired;
+
         public int ForSaleAmount;
+
         public bool RoomForSale;
+
         public List<RoomUser> MultiWhispers;
+
+        public int SaveTimer;
+
+        public bool isCycling;
 
         public Room(RoomData Data)
         {
             IsLagging = 0;
             IdleTime = 0;
+            SaveTimer = 0;
 
             _roomData = Data;
-            RoomMuted = false;
             mDisposed = false;
+            isCycling = false;
             muteSignalEnabled = false;
-
-            Id = Data.Id;
-            Name = Data.Name;
-            Description = Data.Description;
-            OwnerName = Data.OwnerName;
-            OwnerId = Data.OwnerId;
-
-            WiredScoreBordDay = Data.WiredScoreBordDay;
-            WiredScoreBordWeek = Data.WiredScoreBordWeek;
-            WiredScoreBordMonth = Data.WiredScoreBordMonth;
-            WiredScoreFirstBordInformation = Data.WiredScoreFirstBordInformation;
 
             ForSale = false;
             SalePrice = 0;
-            Category = Data.Category;
-            Type = Data.Type;
-            Access = Data.Access;
-            UsersNow = 0;
-            UsersMax = Data.UsersMax;
-            ModelName = Data.ModelName;
-            Score = Data.Score;
-            Tags = new List<string>();
-            foreach (string tag in Data.Tags)
-            {
-                Tags.Add(tag);
-            }
-
-            AllowPets = Data.AllowPets;
-            AllowPetsEating = Data.AllowPetsEating;
-            RoomBlockingEnabled = Data.RoomBlockingEnabled;
-            Hidewall = Data.Hidewall;
-            Group = Data.Group;
-
-            Password = Data.Password;
-            Wallpaper = Data.Wallpaper;
-            Floor = Data.Floor;
-            Landscape = Data.Landscape;
-
-            WallThickness = Data.WallThickness;
-            FloorThickness = Data.FloorThickness;
-
-            chatMode = Data.chatMode;
-            chatSize = Data.chatSize;
-            chatSpeed = Data.chatSpeed;
-            chatDistance = Data.chatDistance;
-            extraFlood = Data.extraFlood;
-
-            TradeSettings = Data.TradeSettings;
-
-            WhoCanBan = Data.WhoCanBan;
-            WhoCanKick = Data.WhoCanKick;
-            WhoCanBan = Data.WhoCanBan;
-
-            PushEnabled = Data.PushEnabled;
-            PullEnabled = Data.PullEnabled;
-            SPullEnabled = Data.SPullEnabled;
-            SPushEnabled = Data.SPushEnabled;
-            EnablesEnabled = Data.EnablesEnabled;
-            HideWired = Data.HideWired;
-            RespectNotificationsEnabled = Data.RespectNotificationsEnabled;
-            PetMorphsAllowed = Data.PetMorphsAllowed;
-            Shoot = Data.Shoot;
 
             poolQuestion = string.Empty;
             yesPoolAnswers = new List<int>();
@@ -174,6 +116,7 @@ namespace StarBlue.HabboHotel.Rooms
             Bans = new Dictionary<int, double>();
             MutedUsers = new Dictionary<int, double>();
             Tents = new Dictionary<int, List<RoomUser>>();
+            UsersWithRights = new List<int>();
             MultiWhispers = new List<RoomUser>();
 
             _gamemap = new Gamemap(this);
@@ -235,7 +178,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public List<int> BannedUsers()
         {
-            var Bans = new List<int>();
+            List<int> Bans = new List<int>();
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
@@ -331,7 +274,7 @@ namespace StarBlue.HabboHotel.Rooms
                 return;
             }
 
-            ActiveTrades.Add(new Trade(UserOne.GetClient().GetHabbo().Id, UserTwo.GetClient().GetHabbo().Id, RoomId));
+            ActiveTrades.Add(new Trade(UserOne.GetClient().GetHabbo().Id, UserTwo.GetClient().GetHabbo().Id, Id));
         }
 
         public void TryStopTrade(int UserId)
@@ -352,40 +295,27 @@ namespace StarBlue.HabboHotel.Rooms
 
         public int UserCount => _roomUserManager.GetRoomUsers().Count;
 
-        public int RoomId => Id;
+        public int Id => _roomData.Id;
 
         public bool CanTradeInRoom => true;
 
         public List<ServerPacket> HideWiredMessages(bool hideWired)
         {
             List<ServerPacket> list = new List<ServerPacket>();
-            Item[] items = GetRoomItemHandler().GetFloor.ToArray();
-            if (hideWired)
+            List<Item> items = GetRoomItemHandler().GetFloor.ToList();
+            foreach (Item item in items)
             {
-                for (int i = 0; i < items.Count(); i++)
+                if (!item.IsWired && item.Data.Id != 716132)
                 {
-                    Item item = items[i];
-                    if (!item.IsWired)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
+                if (hideWired)
                     list.Add(new ObjectRemoveComposer(item, 0));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < items.Count(); i++)
-                {
-                    Item item = items[i];
-                    if (!item.IsWired)
-                    {
-                        continue;
-                    }
-
+                else
                     list.Add(new ObjectAddComposer(item, this));
-                }
             }
+
             return list;
         }
 
@@ -497,10 +427,10 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void ClearTags()
         {
-            Tags.Clear();
+            RoomData.Tags.Clear();
         }
 
-        public void setPoolQuestion(String pool)
+        public void setPoolQuestion(string pool)
         {
             poolQuestion = pool;
         }
@@ -511,7 +441,7 @@ namespace StarBlue.HabboHotel.Rooms
             noPoolAnswers.Clear();
         }
 
-        public void startQuestion(String question)
+        public void startQuestion(string question)
         {
             setPoolQuestion(question);
             clearPoolAnswers();
@@ -529,14 +459,14 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void AddTagRange(List<string> tags)
         {
-            Tags.AddRange(tags);
+            RoomData.Tags.AddRange(tags);
         }
 
         public void InitBots()
         {
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT `id`,`room_id`,`name`,`motto`,`look`,`x`,`y`,`z`,`rotation`,`gender`,`user_id`,`ai_type`,`walk_mode`,`automatic_chat`,`speaking_interval`,`mix_sentences`,`chat_bubble` FROM `bots` WHERE `room_id` = '" + RoomId + "' AND `ai_type` != 'pet'");
+                dbClient.SetQuery("SELECT `id`,`room_id`,`name`,`motto`,`look`,`x`,`y`,`z`,`rotation`,`gender`,`user_id`,`ai_type`,`walk_mode`,`automatic_chat`,`speaking_interval`,`mix_sentences`,`chat_bubble` FROM `bots` WHERE `room_id` = '" + Id + "' AND `ai_type` != 'pet'");
                 DataTable Data = dbClient.GetTable();
                 if (Data == null)
                 {
@@ -564,7 +494,7 @@ namespace StarBlue.HabboHotel.Rooms
         {
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT `id`,`user_id`,`room_id`,`name`,`x`,`y`,`z` FROM `bots` WHERE `room_id` = '" + RoomId + "' AND `ai_type` = 'pet'");
+                dbClient.SetQuery("SELECT `id`,`user_id`,`room_id`,`name`,`x`,`y`,`z` FROM `bots` WHERE `room_id` = '" + Id + "' AND `ai_type` = 'pet'");
                 DataTable Data = dbClient.GetTable();
 
                 if (Data == null)
@@ -585,9 +515,9 @@ namespace StarBlue.HabboHotel.Rooms
                         Convert.ToString(mRow["color"]), Convert.ToInt32(mRow["experience"]), Convert.ToInt32(mRow["energy"]), Convert.ToInt32(mRow["nutrition"]), Convert.ToInt32(mRow["respect"]), Convert.ToDouble(mRow["createstamp"]), Convert.ToInt32(Row["x"]), Convert.ToInt32(Row["y"]),
                         Convert.ToDouble(Row["z"]), Convert.ToInt32(mRow["have_saddle"]), Convert.ToInt32(mRow["anyone_ride"]), Convert.ToInt32(mRow["hairdye"]), Convert.ToInt32(mRow["pethair"]), Convert.ToString(mRow["gnome_clothing"]));
 
-                    var RndSpeechList = new List<RandomSpeech>();
+                    List<RandomSpeech> RndSpeechList = new List<RandomSpeech>();
 
-                    _roomUserManager.DeployBot(new RoomBot(Pet.PetId, RoomId, "pet", "freeroam", Pet.Name, "", Pet.Look, Pet.X, Pet.Y, Convert.ToInt32(Pet.Z), 0, 0, 0, 0, 0, ref RndSpeechList, "", 0, Pet.OwnerId, false, 0, false, 0), Pet);
+                    _roomUserManager.DeployBot(new RoomBot(Pet.PetId, Id, "pet", "freeroam", Pet.Name, "", Pet.Look, Pet.X, Pet.Y, Convert.ToInt32(Pet.Z), 0, 0, 0, 0, 0, ref RndSpeechList, "", 0, Pet.OwnerId, false, 0, false, 0), Pet);
                 }
             }
         }
@@ -622,8 +552,10 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void LoadRights()
         {
-            UsersWithRights = new List<int>();
-            if (Group != null)
+            if (UsersWithRights.Count > 0)
+                return;
+
+            if (RoomData.Group != null)
             {
                 return;
             }
@@ -632,8 +564,8 @@ namespace StarBlue.HabboHotel.Rooms
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT room_rights.user_id FROM room_rights WHERE room_id = @roomid");
-                dbClient.AddParameter("roomid", Id);
+                dbClient.SetQuery("SELECT room_rights.user_id FROM room_rights WHERE room_id = @Id");
+                dbClient.AddParameter("Id", Id);
                 Data = dbClient.GetTable();
             }
 
@@ -653,8 +585,8 @@ namespace StarBlue.HabboHotel.Rooms
             DataTable Data = null;
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT * FROM `room_filter` WHERE `room_id` = @roomid;");
-                dbClient.AddParameter("roomid", Id);
+                dbClient.SetQuery("SELECT * FROM `room_filter` WHERE `room_id` = @Id;");
+                dbClient.AddParameter("Id", Id);
                 Data = dbClient.GetTable();
             }
 
@@ -699,58 +631,52 @@ namespace StarBlue.HabboHotel.Rooms
 
         public bool CheckRights(GameClient Session, bool RequireOwnership, bool CheckForGroups = false)
         {
-            try
+            if (Session == null || Session.GetHabbo() == null)
             {
-                if (Session == null || Session.GetHabbo() == null)
+                return false;
+            }
+
+            if (Session.GetHabbo().Username == RoomData.OwnerName)
+            {
+                return true;
+            }
+
+            if (Session.GetHabbo().GetPermissions().HasRight("room_any_owner"))
+            {
+                return true;
+            }
+
+            if (!RequireOwnership)
+            {
+                if (Session.GetHabbo().GetPermissions().HasRight("room_any_rights"))
+                {
+                    return true;
+                }
+
+                LoadRights();
+                if (UsersWithRights.Contains(Session.GetHabbo().Id))
+                {
+                    return true;
+                }
+            }
+
+            if (CheckForGroups)
+            {
+                if (RoomData.Group == null)
                 {
                     return false;
                 }
 
-                if (Session.GetHabbo().Username == OwnerName && Type == "private")
+                if (RoomData.Group.IsAdmin(Session.GetHabbo().Id))
                 {
                     return true;
                 }
 
-                if (Session.GetHabbo().GetPermissions().HasRight("room_any_owner"))
+                if (RoomData.Group.AdminOnlyDeco == 0 && RoomData.Group.IsMember(Session.GetHabbo().Id))
                 {
                     return true;
-                }
-
-                if (!RequireOwnership && Type == "private")
-                {
-                    if (Session.GetHabbo().GetPermissions().HasRight("room_any_rights"))
-                    {
-                        return true;
-                    }
-
-                    if (UsersWithRights.Contains(Session.GetHabbo().Id))
-                    {
-                        return true;
-                    }
-                }
-
-                if (CheckForGroups && Type == "private")
-                {
-                    if (Group == null)
-                    {
-                        return false;
-                    }
-
-                    if (Group.IsAdmin(Session.GetHabbo().Id))
-                    {
-                        return true;
-                    }
-
-                    if (Group.AdminOnlyDeco == 0)
-                    {
-                        if (Group.IsAdmin(Session.GetHabbo().Id))
-                        {
-                            return true;
-                        }
-                    }
                 }
             }
-            catch (Exception e) { Logging.HandleException(e, "Room.CheckRights"); }
             return false;
         }
 
@@ -785,17 +711,17 @@ namespace StarBlue.HabboHotel.Rooms
                 Adapter.SetQuery("DELETE FROM room_rights WHERE room_id = @id");
                 Adapter.AddParameter("id", ForSale.RoomData.Id);
 
-                if (ForSale.Group != null)
+                if (ForSale.RoomData.Group != null)
                 {
                     Adapter.SetQuery("SELECT id FROM groups WHERE room_id = @id");
                     Adapter.AddParameter("id", ForSale.RoomData.Id);
                     int GroupID = Adapter.GetInteger();
                     if (GroupID > 0)
                     {
-                        ForSale.Group.ClearRequests();
-                        foreach (KeyValuePair<int, string> Data in ForSale.Group.GetAllMembers)
+                        ForSale.RoomData.Group.ClearRequests();
+                        foreach (KeyValuePair<int, string> Data in ForSale.RoomData.Group.GetAllMembers)
                         {
-                            ForSale.Group.DeleteMember(Data.Key);
+                            ForSale.RoomData.Group.DeleteMember(Data.Key);
                             GameClient UserClient = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(Data.Key);
                             if (UserClient == null)
                             {
@@ -807,16 +733,16 @@ namespace StarBlue.HabboHotel.Rooms
                                 UserClient.GetHabbo().GetStats().FavouriteGroupId = 0;
                             }
                         }
-                        Adapter.RunFastQuery("DELETE FROM `groups` WHERE `id` = @id = '" + ForSale.Group.Id + "'");
-                        Adapter.RunFastQuery("DELETE FROM `group_memberships` WHERE group_id = '" + ForSale.Group.Id + "'");
-                        Adapter.RunFastQuery("DELETE FROM `group_requests` WHERE group_id = '" + ForSale.Group.Id + "'");
-                        Adapter.RunFastQuery("UPDATE `rooms` SET `group_id` = '0' WHERE `group_id` = '" + ForSale.Group.Id + "'");
-                        Adapter.RunFastQuery("UPDATE `user_stats` SET `group_id` = '0' WHERE group_id = '" + ForSale.Group.Id + "'");
-                        Adapter.RunFastQuery("DELETE FROM `items_groups` WHERE `group_id` = '" + ForSale.Group.Id + "'");
+                        Adapter.RunFastQuery("DELETE FROM `groups` WHERE `id` = @id = '" + ForSale.RoomData.Group.Id + "'");
+                        Adapter.RunFastQuery("DELETE FROM `group_memberships` WHERE group_id = '" + ForSale.RoomData.Group.Id + "'");
+                        Adapter.RunFastQuery("DELETE FROM `group_requests` WHERE group_id = '" + ForSale.RoomData.Group.Id + "'");
+                        Adapter.RunFastQuery("UPDATE `rooms` SET `group_id` = '0' WHERE `group_id` = '" + ForSale.RoomData.Group.Id + "'");
+                        Adapter.RunFastQuery("UPDATE `user_stats` SET `group_id` = '0' WHERE group_id = '" + ForSale.RoomData.Group.Id + "'");
+                        Adapter.RunFastQuery("DELETE FROM `items_groups` WHERE `group_id` = '" + ForSale.RoomData.Group.Id + "'");
                     }
-                    StarBlueServer.GetGame().GetGroupManager().DeleteGroup(ForSale.Group.Id);
+                    StarBlueServer.GetGame().GetGroupManager().DeleteGroup(ForSale.RoomData.Group.Id);
                     ForSale.RoomData.Group = null;
-                    ForSale.Group = null;
+                    ForSale.RoomData.Group = null;
                 }
             }
             ForSale.RoomData.OwnerId = Buyer.HabboId;
@@ -836,13 +762,12 @@ namespace StarBlue.HabboHotel.Rooms
             ForSale.RoomForSale = false;
             ForSale.ForSaleAmount = 0;
 
-            Buyer.GetClient().GetHabbo().UsersRooms.Add(ForSale);
-            Buyer.GetClient().GetHabbo().UsersRooms.Remove(ForSale);
+            Buyer.GetClient().GetHabbo().UsersRooms.Add(ForSale.RoomData);
+            Buyer.GetClient().GetHabbo().UsersRooms.Remove(ForSale.RoomData);
 
-            Room Room = null;
             List<RoomUser> UsersReturn = ForSale.GetRoomUserManager().GetRoomUsers().ToList();
             StarBlueServer.GetGame().GetNavigator().Init();
-            StarBlueServer.GetGame().GetRoomManager().UnloadRoom(Room.Id, true);
+            StarBlueServer.GetGame().GetRoomManager().UnloadRoom(Id, true);
             foreach (RoomUser User in UsersReturn)
             {
                 if (User == null || User.GetClient() == null)
@@ -850,114 +775,58 @@ namespace StarBlue.HabboHotel.Rooms
                     continue;
                 }
 
-                User.GetClient().SendMessage(new RoomForwardComposer(ForSale.RoomId));
+                User.GetClient().SendMessage(new RoomForwardComposer(ForSale.Id));
                 User.GetClient().SendNotification("A sala onde você está acabou de ser comprada por " + Buyer.GetClient().GetHabbo().Username + " no total " + ForSale.ForSaleAmount + " duckets!");
             }
         }
 
-        public bool OnUserShoot(RoomUser User, Item Ball)
+        public bool OnUserShoot(RoomUser User, Item Ball, GameClient Session)
         {
             Func<Item, bool> predicate = null;
             string Key = null;
-            foreach (Item item in GetRoomItemHandler().GetFurniObjects(Ball.GetX, Ball.GetY).ToList())
+            foreach (Item item in this.GetRoomItemHandler().GetFurniObjects(Ball.GetX, Ball.GetY).ToList())
             {
                 if (item.GetBaseItem().ItemName.StartsWith("fball_goal_"))
                 {
                     Key = item.GetBaseItem().ItemName.Split(new char[] { '_' })[2];
                     User.UnIdle();
                     User.DanceId = 0;
+
+                    if (User.GetClient().GetHabbo().Id == User.GetClient().GetHabbo().CurrentRoom.RoomData.OwnerId)
+                        StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_FootballGoalScoredInRoom", 1);
+
                     StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_FootballGoalScored", 1);
                     SendMessage(new ActionComposer(User.VirtualId, 1));
+                    Ball.ballstop = true;
                 }
             }
+
             if (Key != null)
             {
                 if (predicate == null)
                 {
                     predicate = p => p.GetBaseItem().ItemName == ("fball_score_" + Key);
                 }
-                foreach (Item item2 in GetRoomItemHandler().GetFloor.Where<Item>(predicate).ToList())
+                foreach (Item item2 in this.GetRoomItemHandler().GetFloor.Where<Item>(predicate).ToList())
                 {
                     if (item2.GetBaseItem().ItemName == ("fball_score_" + Key))
                     {
                         if (!String.IsNullOrEmpty(item2.ExtraData))
-                        {
                             item2.ExtraData = (Convert.ToInt32(item2.ExtraData) + 1).ToString();
-                        }
                         else
-                        {
                             item2.ExtraData = "1";
-                        }
-
                         item2.UpdateState();
                     }
                 }
                 return true;
             }
             else
-            {
                 return false;
-            }
-        }
-
-        public void OnUserShoot(GameClient client, Item Ball)
-        {
-            Func<Item, bool> predicate = null;
-            string Key = null;
-
-            if (client == null)
-            {
-                return;
-            }
-
-            RoomUser User = Ball.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(client.GetHabbo().Id);
-            if (User == null)
-            {
-                return;
-            }
-
-            foreach (Item item in GetRoomItemHandler().GetFurniObjects(Ball.GetX, Ball.GetY).ToList())
-            {
-                if (item.GetBaseItem().ItemName.StartsWith("fball_goal_"))
-                {
-                    Key = item.GetBaseItem().ItemName.Split(new char[] { '_' })[2];
-                    User.UnIdle();
-                    User.DanceId = 0;
-
-                    StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_FootballGoalScored", 1);
-
-                    SendMessage(new ActionComposer(User.VirtualId, 1));
-                }
-            }
-
-            if (Key != null)
-            {
-                if (predicate == null)
-                {
-                    predicate = p => p.GetBaseItem().ItemName == ("fball_score_" + Key);
-                }
-
-                foreach (Item item2 in GetRoomItemHandler().GetFloor.Where<Item>(predicate).ToList())
-                {
-                    if (item2.GetBaseItem().ItemName == ("fball_score_" + Key))
-                    {
-                        if (!String.IsNullOrEmpty(item2.ExtraData))
-                        {
-                            item2.ExtraData = (Convert.ToInt32(item2.ExtraData) + 1).ToString();
-                        }
-                        else
-                        {
-                            item2.ExtraData = "1";
-                        }
-
-                        item2.UpdateState();
-                    }
-                }
-            }
         }
 
         public void ProcessRoom()
         {
+            //isCycling = true;
             if (isCrashed || mDisposed)
             {
                 return;
@@ -965,13 +834,41 @@ namespace StarBlue.HabboHotel.Rooms
 
             try
             {
+                try
+                {
+                    GetRoomItemHandler().OnCycle();
+                }
+                catch (Exception e)
+                {
+                    Logging.HandleException(e, "Error in cycle Room Item Handler - Room.cs");
+                }
+
+                try
+                {
+                    GetRoomUserManager().OnCycle();
+                }
+                catch (Exception e)
+                {
+                    Logging.HandleException(e, "Error in cycle Room User Manager - Room.cs");
+                }
+
                 if (GetRoomUserManager().GetRoomUsers().Count == 0)
                 {
                     IdleTime++;
                 }
-                else if (IdleTime > 0)
+                else
                 {
                     IdleTime = 0;
+                }
+
+                if (IdleTime >= 20 && !RoomData.HasActivePromotion)
+                {
+                    StarBlueServer.GetGame().GetRoomManager().UnloadRoom(Id);
+                    return;
+                }
+                else
+                {
+                    GetRoomUserManager().SerializeStatusUpdates();
                 }
 
                 if (RoomData.HasActivePromotion && RoomData.Promotion.HasExpired)
@@ -979,74 +876,63 @@ namespace StarBlue.HabboHotel.Rooms
                     RoomData.EndPromotion();
                 }
 
-                if (IdleTime >= 60 && !RoomData.HasActivePromotion)
-                {
-                    StarBlueServer.GetGame().GetRoomManager().UnloadRoom(Id);
-                    return;
-                }
-
-                try { GetRoomItemHandler().OnCycle(); }
-                catch (Exception)
-                {
-                    //Logging.LogException("Room ID [" + RoomId + "] está tendo problemas com ITEMS" + e.ToString());
-                }
-
-                try { GetRoomUserManager().OnCycle(); }
-                catch (Exception)
-                {
-                    //Logging.LogException("Room ID [" + RoomId + "] está tendo problemas com ITEMS" + e.ToString());
-                }
-
-                try { _traxManager.OnCycle(); }
-                catch (Exception)
-                {
-                    //ExceptionLogger.LogException(e);
-                }
-
-                #region Status Updates
                 try
                 {
-                    GetRoomUserManager().SerializeStatusUpdates();
+                    if (_traxManager != null)
+                        _traxManager.OnCycle();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //Logging.LogException("Room ID [" + RoomId + "] está tendo problemas com alguns PACOTES ou está usando TANJI." + e.ToString());
+                    Logging.HandleException(e, "Error in cycle Trax Manager - Room.cs");
                 }
-                #endregion
 
-                #region Game Item Cycle
                 try
                 {
                     if (_gameItemHandler != null)
-                    {
                         _gameItemHandler.OnCycle();
-                    }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //Logging.LogException("Room ID [" + RoomId + "] está tendo problemas com ITEMS." + e.ToString());
+                    Logging.HandleException(e, "Error in cycle Game Item Handler - Room.cs");
                 }
-                #endregion
 
-                try { GetWired().OnCycle(); }
-                catch (Exception)
+                try
                 {
-                    //Logging.LogException("Room ID [" + RoomId + "] está tendo problemas com WIRED." + e.ToString());
+                    if (GetWired() != null)
+                        GetWired().OnCycle();
+                }
+                catch (Exception e)
+                {
+                    Logging.HandleException(e, "Error in cycle Wired Component - Room.cs");
+                }
+
+                if (this.SaveTimer < ((5 * 60) * 2))
+                    this.SaveTimer++;
+                else
+                {
+                    this.SaveTimer = 0;
+                    using (IQueryAdapter queryreactor = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                    {
+                        this.GetRoomItemHandler().SaveFurniture(queryreactor);
+                    }
                 }
 
             }
             catch (Exception e)
             {
-                Logging.WriteLine("Room ID [" + RoomId + "] travou!");
-                Logging.LogException("Room ID [" + RoomId + "] travou!" + e.ToString());
+                //isCycling = false;
+                Logging.WriteLine("Room ID [" + Id + "] travou!");
+                Logging.LogException("Room ID [" + Id + "] travou!" + e.ToString());
                 OnRoomCrash(e);
             }
+            //finally
+            //{
+            //  isCycling = false;
+            // }
         }
 
         private void OnRoomCrash(Exception e)
         {
-            //Logging.LogThreadException(e.ToString(), "Erro com o quarto" + RoomId);
-
             try
             {
                 foreach (RoomUser user in _roomUserManager.GetRoomUsers().ToList())
@@ -1086,7 +972,7 @@ namespace StarBlue.HabboHotel.Rooms
                 }
             }
 
-            if (Session.GetHabbo().TimeMuted > 0 || (RoomMuted && Session.GetHabbo().Username != OwnerName))
+            if (Session.GetHabbo().TimeMuted > 0 || (RoomData.RoomMuted && !CheckRights(Session, false, true)))
             {
                 return true;
             }
@@ -1100,8 +986,8 @@ namespace StarBlue.HabboHotel.Rooms
             {
                 dbClient.SetQuery("INSERT INTO `chatlogs` (user_id, room_id, message, timestamp) VALUES (@user, @room, @message, @time)");
                 dbClient.AddParameter("user", Id);
-                dbClient.AddParameter("room", RoomId);
-                dbClient.AddParameter("message", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Message)));
+                dbClient.AddParameter("room", Id);
+                dbClient.AddParameter("message", Message);
                 dbClient.AddParameter("time", StarBlueServer.GetUnixTimestamp());
                 dbClient.RunQuery();
             }
@@ -1109,49 +995,50 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void SendObjects(GameClient Session)
         {
-            Room Room = Session.GetHabbo().CurrentRoom;
+            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
 
-            Session.SendMessage(new HeightMapComposer(Room.GetGameMap().Model.Heightmap));
-            Session.SendMessage(new FloorHeightMapComposer(Room.GetGameMap().Model.GetRelativeHeightmap(), Room.GetGameMap().StaticModel.WallHeight));
+            ICollection<RoomUser> RoomUsers = _roomUserManager.GetUserList();
+            message.appendResponse(new HeightMapComposer(this));
+            message.appendResponse(new FloorHeightMapComposer(_gamemap.Model.GetRelativeHeightmap(), _gamemap.StaticModel.WallHeight));
+            message.appendResponse(new UsersComposer(RoomUsers.Where(x => x != null).ToList()));
 
-            foreach (RoomUser RoomUser in _roomUserManager.GetUserList().ToList())
+            foreach (RoomUser User in RoomUsers.ToList())
             {
-                if (RoomUser == null)
+                if (User == null)
                 {
-                    continue;
+                    return;
                 }
 
-                Session.SendMessage(new UsersComposer(RoomUser));
-
-                if (RoomUser.IsBot && RoomUser.BotData.DanceId > 0)
+                if (User.IsBot && User.BotData.DanceId > 0)
                 {
-                    Session.SendMessage(new DanceComposer(RoomUser, RoomUser.BotData.DanceId));
+                    message.appendResponse(new DanceComposer(User, User.BotData.DanceId));
                 }
-                else if (!RoomUser.IsBot && !RoomUser.IsPet && RoomUser.IsDancing)
+                else if (!User.IsBot && !User.IsPet && User.IsDancing)
                 {
-                    Session.SendMessage(new DanceComposer(RoomUser, RoomUser.DanceId));
+                    message.appendResponse(new DanceComposer(User, User.DanceId));
                 }
 
-                if (RoomUser.IsAsleep)
+                if (User.IsAsleep)
                 {
-                    Session.SendMessage(new SleepComposer(RoomUser, true));
+                    message.appendResponse(new SleepComposer(User, true));
                 }
 
-                if (RoomUser.CarryItemID > 0 && RoomUser.CarryTimer > 0)
+                if (User.CarryItemID > 0 && User.CarryTimer > 0)
                 {
-                    Session.SendMessage(new CarryObjectComposer(RoomUser.VirtualId, RoomUser.CarryItemID));
+                    message.appendResponse(new CarryObjectComposer(User.VirtualId, User.CarryItemID));
                 }
 
-                //  if (!RoomUser.IsBot && !RoomUser.IsPet && RoomUser.CurrentEffect > 0)
-                // {
-                //     Room.SendMessage(new AvatarEffectComposer(RoomUser.VirtualId, RoomUser.CurrentEffect));
-                // }
+                if (!User.IsBot && !User.IsPet && User.CurrentEffect > 0)
+                {
+                    message.appendResponse(new AvatarEffectComposer(User.VirtualId, User.CurrentEffect));
+                }
             }
 
-            Session.SendMessage(new UserUpdateComposer(_roomUserManager.GetUserList().ToList()));
-            Session.SendMessage(new ObjectsComposer(Room.GetRoomItemHandler().GetFloor.ToArray(), this));
-            Session.SendMessage(new ItemsComposer(Room.GetRoomItemHandler().GetWall.ToArray(), this));
-            Session.SendMessage(new SetCameraPicturePriceMessageComposer(100, 10, 10));
+
+            message.appendResponse(new ObjectsComposer(_roomData.HideWired ? _roomItemHandling.GetFloor.Where(Item => !Item.IsWired && Item.Data.Id != 716132).ToArray() : _roomItemHandling.GetFloor.ToArray(), this));
+            message.appendResponse(new ItemsComposer(_roomItemHandling.GetWall.ToArray(), this));
+            message.appendResponse(new UserUpdateComposer(_roomUserManager.GetUserList().ToList()));
+            message.sendResponse();
         }
 
         #region Tents
@@ -1207,7 +1094,7 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public void RemoveUserFromTent(int TentId, RoomUser User, Item Item)
+        public void RemoveUserFromTent(int TentId, RoomUser User)
         {
             if (User != null && User.GetClient() != null && User.GetClient().GetHabbo() != null)
             {
@@ -1380,17 +1267,15 @@ namespace StarBlue.HabboHotel.Rooms
                 try
                 {
                     if (ProcessTask != null && ProcessTask.IsCompleted)
-                    {
                         ProcessTask.Dispose();
-                    }
                 }
                 catch { }
 
-                GetRoomItemHandler().SaveFurniture();
+                ProcessTask = null;
 
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.RunFastQuery("UPDATE `rooms` SET `users_now` = '0' WHERE `id` = '" + Id + "' LIMIT 1");
+                    GetRoomItemHandler().SaveFurniture(dbClient);
                 }
 
                 if (_roomUserManager.PetCount > 0)
@@ -1400,9 +1285,6 @@ namespace StarBlue.HabboHotel.Rooms
 
                 SaveAI();
 
-                UsersNow = 0;
-                RoomData.UsersNow = 0;
-
                 UsersWithRights.Clear();
                 Bans.Clear();
                 MutedUsers.Clear();
@@ -1410,7 +1292,9 @@ namespace StarBlue.HabboHotel.Rooms
                 MultiWhispers.Clear();
 
                 if (ActiveTrades.Count > 0)
+                {
                     ActiveTrades.Clear();
+                }
 
                 TonerData = null;
                 MoodlightData = null;
@@ -1450,6 +1334,7 @@ namespace StarBlue.HabboHotel.Rooms
 
                 if (_roomUserManager != null)
                 {
+                    _roomUserManager.UpdateUserCount(0);
                     _roomUserManager.Dispose();
                 }
 

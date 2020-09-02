@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 
 
 namespace StarBlue.HabboHotel.Users.Effects
 {
-    static class AvatarEffectFactory
+    internal static class AvatarEffectFactory
     {
         /// <summary>
         /// Creates a new AvatarEffect with the specified details.

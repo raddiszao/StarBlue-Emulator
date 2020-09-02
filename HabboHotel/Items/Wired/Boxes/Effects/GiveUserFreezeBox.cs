@@ -1,13 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveUserFreezeBox : IWiredItem, IWiredCycle
+    internal class GiveUserFreezeBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -37,7 +36,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             int Unused = Packet.PopInt();
             Delay = Packet.PopInt();
 
-            StringData = Mode;
+            //StringData = Mode;
         }
 
         public bool OnCycle()
@@ -77,11 +76,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
-            {
-                return false;
-            }
-
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
         }
@@ -94,12 +89,9 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return;
             }
 
-            var mode = int.Parse(StringData);
+            //int mode = int.Parse(StringData);
 
-            if (mode == 1)
-            { User.Frozen = true; }
-            if (mode == 2)
-            { User.Frozen = false; }
+            User.Frozen = true;
             return;
         }
     }

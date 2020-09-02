@@ -1,14 +1,14 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Nux;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using System;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorCashier : IFurniInteractor
+    internal class InteractorCashier : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {

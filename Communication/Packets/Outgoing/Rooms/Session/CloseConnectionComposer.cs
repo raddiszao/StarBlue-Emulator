@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Session
 {
-    class CloseConnectionComposer : ServerPacket
+    internal class CloseConnectionComposer : ServerPacket
     {
         public CloseConnectionComposer(GameClient Session)
             : base(ServerPacketHeader.CloseConnectionMessageComposer)

@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Marketplace;
+﻿using StarBlue.Communication.Packets.Outgoing.Marketplace;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog.Marketplace;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
-    class GetOffersEvent : IPacketEvent
+    internal class GetOffersEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

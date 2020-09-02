@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Achievements
 {
-    class BadgeDefinitionsComposer : ServerPacket
+    internal class BadgeDefinitionsComposer : ServerPacket
     {
         public BadgeDefinitionsComposer(Dictionary<string, Achievement> Achievements)
             : base(ServerPacketHeader.BadgeDefinitionsMessageComposer)

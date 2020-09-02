@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
-    class AcceptJoinJudgeChatEvent : IPacketEvent
+    internal class AcceptJoinJudgeChatEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

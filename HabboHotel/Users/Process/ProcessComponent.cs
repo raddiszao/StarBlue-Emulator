@@ -1,203 +1,208 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
 using StarBlue.Communication.Packets.Outgoing.Handshake;
+using StarBlue.HabboHotel.Rooms;
 using System;
 using System.Threading;
 
 namespace StarBlue.HabboHotel.Users.Process
 {
-    sealed class ProcessComponent
-    {
-        private static readonly ILog log = LogManager.GetLogger("StarBlue.HabboHotel.Users.Process.ProcessComponent");
+	sealed class ProcessComponent
+	{
+		private static readonly ILog log = LogManager.GetLogger("StarBlue.HabboHotel.Users.Process.ProcessComponent");
 
-        /// <summary>
-        /// Player to update, handle, change etc.
-        /// </summary>
-        private Habbo _player = null;
+		/// <summary>
+		/// Player to update, handle, change etc.
+		/// </summary>
+		private Habbo _player = null;
 
-        /// <summary>
-        /// ThreadPooled Timer.
-        /// </summary>
-        private Timer _timer = null;
+		/// <summary>
+		/// ThreadPooled Timer.
+		/// </summary>
+		private Timer _timer = null;
 
-        /// <summary>
-        /// Prevents the timer from overlapping itself.
-        /// </summary>
-        private bool _timerRunning = false;
+		/// <summary>
+		/// Prevents the timer from overlapping itself.
+		/// </summary>
+		private bool _timerRunning = false;
 
-        /// <summary>
-        /// Checks if the timer is lagging behind (server can't keep up).
-        /// </summary>
-        private bool _timerLagging = false;
+		/// <summary>
+		/// Checks if the timer is lagging behind (server can't keep up).
+		/// </summary>
+		private bool _timerLagging = false;
 
-        /// <summary>
-        /// Enable/Disable the timer WITHOUT disabling the timer itself.
-        /// </summary>
-        private bool _disabled = false;
+		/// <summary>
+		/// Enable/Disable the timer WITHOUT disabling the timer itself.
+		/// </summary>
+		private bool _disabled = false;
 
-        /// <summary>
-        /// Used for disposing the ProcessComponent safely.
-        /// </summary>
-        private AutoResetEvent _resetEvent = new AutoResetEvent(true);
+		/// <summary>
+		/// Used for disposing the ProcessComponent safely.
+		/// </summary>
+		private AutoResetEvent _resetEvent = new AutoResetEvent(true);
 
-        /// <summary>
-        /// How often the timer should execute.
-        /// </summary>
-        private static int _runtimeInSec = 60;
+		/// <summary>
+		/// How often the timer should execute.
+		/// </summary>
+		private static int _runtimeInSec = 60;
 
-        /// <summary>
-        /// Default.
-        /// </summary>
-        public ProcessComponent()
-        {
-        }
+		public bool TimerLagging
+		{
+			get
+			{
+				return _timerLagging;
+			}
 
-        /// <summary>
-        /// Initializes the ProcessComponent.
-        /// </summary>
-        /// <param name="Player">Player.</param>
-        public bool Init(Habbo Player)
-        {
-            if (Player == null)
-            {
-                return false;
-            }
-            else if (_player != null)
-            {
-                return false;
-            }
+			set
+			{
+				_timerLagging = value;
+			}
+		}
 
-            _player = Player;
-            _timer = new Timer(new TimerCallback(Run), null, _runtimeInSec * 1000, _runtimeInSec * 1000);
-            return true;
-        }
+		/// <summary>
+		/// Default.
+		/// </summary>
+		public ProcessComponent()
+		{
+		}
 
-        /// <summary>
-        /// Called for each time the timer ticks.
-        /// </summary>
-        /// <param name="State"></param>
-        public void Run(object State)
-        {
-            try
-            {
-                if (_disabled)
-                {
-                    return;
-                }
+		/// <summary>
+		/// Initializes the ProcessComponent.
+		/// </summary>
+		/// <param name="Player">Player.</param>
+		public bool Init(Habbo Player)
+		{
+			if (Player == null)
+				return false;
+			else if (_player != null)
+				return false;
 
-                if (_timerRunning)
-                {
-                    _timerLagging = true;
-                    log.Warn("<Player " + _player.Id + "> Server can't keep up, Player timer is lagging behind.");
-                    return;
-                }
+			_player = Player;
+			_timer = new Timer(new TimerCallback(Run), null, _runtimeInSec * 1000, _runtimeInSec * 1000);
+			return true;
+		}
 
-                _resetEvent.Reset();
+		/// <summary>
+		/// Called for each time the timer ticks.
+		/// </summary>
+		/// <param name="State"></param>
+		public void Run(object State)
+		{
+			try
+			{
+				if (_disabled)
+					return;
 
-                #region Muted Checks
-                if (_player.TimeMuted > 0)
-                {
-                    _player.TimeMuted -= 60;
-                }
-                #endregion
+				if (_timerRunning)
+				{
+					_timerLagging = true;
+					log.Warn("<Player " + _player.Id + "> Server can't keep up, Player timer is lagging behind.");
+					return;
+				}
 
-                #region Console Checks
-                if (_player.MessengerSpamTime > 0)
-                {
-                    _player.MessengerSpamTime -= 60;
-                }
+				_resetEvent.Reset();
 
-                if (_player.MessengerSpamTime <= 0)
-                {
-                    _player.MessengerSpamCount = 0;
-                }
-                #endregion
+				// BEGIN CODE
 
-                _player.TimeAFK += 1;
+				#region Muted Checks
+				if (_player.TimeMuted > 0)
+					_player.TimeMuted -= 60;
+				#endregion
 
-                #region Respect checking
-                if (_player.GetStats().RespectsTimestamp != DateTime.Today.ToString("MM/dd"))
-                {
-                    _player.GetStats().RespectsTimestamp = DateTime.Today.ToString("MM/dd");
-                    using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                    {
-                        dbClient.RunFastQuery("UPDATE `user_stats` SET `dailyRespectPoints` = '10', `dailyPetRespectPoints` = '10', `respectsTimestamp` = '" + DateTime.Today.ToString("MM/dd") + "' WHERE `id` = '" + _player.Id + "' LIMIT 1");
-                    }
+				#region Console Checks
+				if (_player.MessengerSpamTime > 0)
+					_player.MessengerSpamTime -= 60;
+				if (_player.MessengerSpamTime <= 0)
+					_player.MessengerSpamCount = 0;
+				#endregion
 
-                    _player.GetStats().DailyRespectPoints = 10;
-                    _player.GetStats().DailyPetRespectPoints = 10;
+				_player.TimeAFK += 1;
 
-                    if (_player.GetClient() != null)
-                    {
-                        _player.GetClient().SendMessage(new UserObjectComposer(_player));
-                    }
-                }
-                #endregion
+				#region Respect checking
+				if (_player.GetStats().RespectsTimestamp != DateTime.Today.ToString("MM/dd"))
+				{
+					_player.GetStats().RespectsTimestamp = DateTime.Today.ToString("MM/dd");
+					using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+					{
+						dbClient.RunFastQuery("UPDATE `user_stats` SET `dailyRespectPoints` = '5', `dailyPetRespectPoints` = '5', `respectsTimestamp` = '" + DateTime.Today.ToString("MM/dd") + "' WHERE `id` = '" + _player.Id + "' LIMIT 1");
+					}
 
-                #region Reset Scripting Warnings
-                if (_player.GiftPurchasingWarnings < 15)
-                {
-                    _player.GiftPurchasingWarnings = 0;
-                }
+					_player.GetStats().DailyRespectPoints = 5;
+					_player.GetStats().DailyPetRespectPoints = 5;
 
-                if (_player.MottoUpdateWarnings < 15)
-                {
-                    _player.MottoUpdateWarnings = 0;
-                }
+					if (_player.GetClient() != null)
+					{
+						_player.GetClient().SendMessage(new UserObjectComposer(_player));
+					}
+				}
+				#endregion
 
-                if (_player.ClothingUpdateWarnings < 15)
-                {
-                    _player.ClothingUpdateWarnings = 0;
-                }
-                #endregion
+				#region Reset Scripting Warnings
+				if (_player.GiftPurchasingWarnings < 15)
+					_player.GiftPurchasingWarnings = 0;
 
+				if (_player.MottoUpdateWarnings < 15)
+					_player.MottoUpdateWarnings = 0;
 
-                if (_player.GetClient() != null)
-                {
-                    StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(_player.GetClient(), "ACH_AllTimeHotelPresence", 1);
-                }
+				if (_player.ClothingUpdateWarnings < 15)
+					_player.ClothingUpdateWarnings = 0;
+				#endregion
 
-                _player.CheckCreditsTimer();
-                _player.Effects().CheckEffectExpiry(_player);
+				if (_player.GetClient() != null)
+					StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(_player.GetClient(), "ACH_AllTimeHotelPresence", 1);
 
-                _timerRunning = false;
-                _timerLagging = false;
+				_player.CheckCreditsTimer();
+				_player.Effects().CheckEffectExpiry(_player);
 
-                _resetEvent.Set();
-            }
-            catch { }
-        }
+				RoomUser User = _player.GetClient().GetRoomUser();
+				if (User != null)
+				{
+					User.RoomLengthCount--;
+					if (User.RoomLengthCount <= 0 && _player.CurrentRoom.RoomData.OwnerId == _player.Id && _player.CurrentRoom.RoomData.UsersNow > 1)
+					{
+						StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(_player.GetClient(), "ACH_RoomDecoHosting", 1);
+						User.RoomLengthCount = 5;
+					}
+				}
 
-        /// <summary>
-        /// Stops the timer and disposes everything.
-        /// </summary>
-        public void Dispose()
-        {
-            // Wait until any processing is complete first.
-            try
-            {
-                _resetEvent.WaitOne(TimeSpan.FromMinutes(5));
-            }
-            catch { } // give up
+				// END CODE
 
-            // Set the timer to disabled
-            _disabled = true;
+				// Reset the values
+				_timerRunning = false;
+				_timerLagging = false;
 
-            // Dispose the timer to disable it.
-            try
-            {
-                if (_timer != null)
-                {
-                    _timer.Dispose();
-                }
-            }
-            catch { }
+				_resetEvent.Set();
+			}
+			catch { }
+		}
 
-            // Remove reference to the timer.
-            _timer = null;
+		/// <summary>
+		/// Stops the timer and disposes everything.
+		/// </summary>
+		public void Dispose()
+		{
+			// Wait until any processing is complete first.
+			try
+			{
+				_resetEvent.WaitOne(TimeSpan.FromMinutes(5));
+			}
+			catch { } // give up
 
-            // Null the player so we don't reference it here anymore
-            _player = null;
-        }
-    }
+			// Set the timer to disabled
+			_disabled = true;
+
+			// Dispose the timer to disable it.
+			try
+			{
+				if (_timer != null)
+					_timer.Dispose();
+			}
+			catch { }
+
+			// Remove reference to the timer.
+			_timer = null;
+
+			// Null the player so we don't reference it here anymore
+			_player = null;
+		}
+	}
 }

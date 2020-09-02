@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -43,7 +43,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Pets.Commands
                 }
             }
 
-            foreach (var pair in _commandRegister)
+            foreach (KeyValuePair<int, string> pair in _commandRegister)
             {
                 int commandID = pair.Key;
                 string commandStringedID = pair.Value;

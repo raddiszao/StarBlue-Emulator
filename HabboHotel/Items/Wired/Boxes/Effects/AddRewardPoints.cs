@@ -10,7 +10,7 @@ using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class AddRewardPoints : IWiredItem, IWiredCycle
+    internal class AddRewardPoints : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -103,6 +103,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
         }

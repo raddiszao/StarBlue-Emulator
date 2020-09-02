@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    class HideUserOnPlaying : ServerPacket
+    internal class HideUserOnPlaying : ServerPacket
     {
         public HideUserOnPlaying(bool state)
             : base(ServerPacketHeader.HideUserOnPlayingComposer)

@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
-    class GetGroupFurniSettingsEvent : IPacketEvent
+    internal class GetGroupFurniSettingsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

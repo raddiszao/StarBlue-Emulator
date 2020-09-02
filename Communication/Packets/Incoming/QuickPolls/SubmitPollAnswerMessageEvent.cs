@@ -1,15 +1,14 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Poll;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.Polls;
 using StarBlue.Utilities;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.QuickPolls
 {
-    class SubmitPollAnswerMessageEvent : IPacketEvent
+    internal class SubmitPollAnswerMessageEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -33,7 +32,7 @@ namespace StarBlue.Communication.Packets.Incoming.QuickPolls
 
             if (questionId == -1)
             {
-                String answer = Packet.PopString();
+                string answer = Packet.PopString();
                 if (room.poolQuestion != string.Empty)
                 {
                     if (room.yesPoolAnswers.Contains(Session.GetHabbo().Id) || room.noPoolAnswers.Contains(Session.GetHabbo().Id))

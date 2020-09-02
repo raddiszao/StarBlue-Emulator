@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class SuperFastwalkCommand : IChatCommand
+    internal class SuperFastwalkCommand : IChatCommand
     {
         public string PermissionRequired => "user_7";
         public string Parameters => "";

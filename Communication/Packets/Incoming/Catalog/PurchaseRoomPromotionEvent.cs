@@ -1,9 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
-using System.Text;
 
 namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
@@ -52,8 +51,8 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
             {
                 dbClient.SetQuery("REPLACE INTO `room_promotions` (`room_id`,`title`,`description`,`timestamp_start`,`timestamp_expire`,`category_id`) VALUES (@room_id, @title, @description, @start, @expires, @CategoryId)");
                 dbClient.AddParameter("room_id", RoomId);
-                dbClient.AddParameter("title", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Name)));
-                dbClient.AddParameter("description", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Desc)));
+                dbClient.AddParameter("title", Name);
+                dbClient.AddParameter("description", Desc);
                 dbClient.AddParameter("start", Data.Promotion.TimestampStarted);
                 dbClient.AddParameter("expires", Data.Promotion.TimestampExpires);
                 dbClient.AddParameter("CategoryId", CategoryId);

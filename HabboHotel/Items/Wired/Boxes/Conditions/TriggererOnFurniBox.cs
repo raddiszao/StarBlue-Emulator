@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class TriggererOnFurniBox : IWiredItem
+    internal class TriggererOnFurniBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }

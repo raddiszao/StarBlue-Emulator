@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Groups;
+﻿using StarBlue.Communication.Packets.Outgoing.Groups;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Permissions;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Rooms;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class UpdateGroupSettingsEvent : IPacketEvent
+    internal class UpdateGroupSettingsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -71,7 +71,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 
             foreach (RoomUser User in Room.GetRoomUserManager().GetRoomUsers().ToList())
             {
-                if (Room.OwnerId == User.UserId || Group.IsAdmin(User.UserId) || !Group.IsMember(User.UserId))
+                if (Room.RoomData.OwnerId == User.UserId || Group.IsAdmin(User.UserId) || !Group.IsMember(User.UserId))
                 {
                     continue;
                 }

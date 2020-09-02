@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class IsNotGroupMemberBox : IWiredItem
+    internal class IsNotGroupMemberBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Inventory.Achievements
 {
-    class GetAchievementsEvent : IPacketEvent
+    internal class GetAchievementsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace StarBlue.HabboHotel.RewaStarBlue.Rooms.AI.Types
 {
-    class WelcomeBot : BotAI
+    internal class WelcomeBot : BotAI
     {
         private int VirtualId;
         private int ActionTimer = 0;
@@ -53,14 +53,14 @@ namespace StarBlue.HabboHotel.RewaStarBlue.Rooms.AI.Types
                 return;
             }
 
-            GameClient Target = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(GetRoom().OwnerName);
+            GameClient Target = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(GetRoom().RoomData.OwnerName);
             if (Target == null || Target.GetHabbo() == null || Target.GetHabbo().CurrentRoom != GetRoom())
             {
                 GetRoom().GetGameMap().RemoveUserFromMap(GetRoomUser(), new Point(GetRoomUser().X, GetRoomUser().Y));
                 GetRoom().GetRoomUserManager().RemoveBot(GetRoomUser().VirtualId, false);
                 return;
             }
-            var habbo = Target.GetHabbo();
+            Users.Habbo habbo = Target.GetHabbo();
 
             if (ActionTimer <= 0)
             {/*

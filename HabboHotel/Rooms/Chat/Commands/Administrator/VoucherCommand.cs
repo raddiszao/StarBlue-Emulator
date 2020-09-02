@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class VoucherCommand : IChatCommand
+    internal class VoucherCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
 
@@ -22,7 +22,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 
             int Voucher = 10;
             string _CaracteresPermitidos = "abcdefghijklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@$?";
-            Byte[] randomBytes = new Byte[Voucher];
+            byte[] randomBytes = new byte[Voucher];
             char[] Caracter = new char[Voucher];
             int CuentaPermitida = _CaracteresPermitidos.Length;
 
@@ -33,7 +33,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                 Caracter[i] = _CaracteresPermitidos[randomBytes[i] % CuentaPermitida];
             }
 
-            var code = new string(Caracter);
+            string code = new string(Caracter);
 
             StarBlueServer.GetGame().GetCatalog().GetVoucherManager().AddVoucher(code, type, value, uses);
 

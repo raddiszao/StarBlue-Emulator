@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    class FurniListRemoveComposer : ServerPacket
+    internal class FurniListRemoveComposer : ServerPacket
     {
         public FurniListRemoveComposer(int Id)
             : base(ServerPacketHeader.FurniListRemoveMessageComposer)

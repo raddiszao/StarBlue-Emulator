@@ -18,6 +18,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             "";
 
         public string PermissionRequired =>
-            "user_7";
+            "user_12";
     }
 }

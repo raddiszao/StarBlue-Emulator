@@ -1,6 +1,6 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Groups;
+﻿using StarBlue.Communication.Packets.Outgoing.Groups;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Items;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class UpdateGroupColoursEvent : IPacketEvent
+    internal class UpdateGroupColoursEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

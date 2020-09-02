@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+using StarBlue.Database.Interfaces;
 using System;
 using System.Data;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
-    class RedeemOfferCreditsEvent : IPacketEvent
+    internal class RedeemOfferCreditsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -28,8 +28,8 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
 
                 if (CreditsOwed >= 1)
                 {
-                    Session.GetHabbo().Duckets += CreditsOwed;
-                    Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, CreditsOwed));
+                    Session.GetHabbo().Diamonds += CreditsOwed;
+                    Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Diamonds, CreditsOwed, 5));
                 }
 
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())

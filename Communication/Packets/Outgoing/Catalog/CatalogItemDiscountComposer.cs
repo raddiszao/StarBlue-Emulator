@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class CatalogItemDiscountComposer : ServerPacket
+    internal class CatalogItemDiscountComposer : ServerPacket
     {
         public CatalogItemDiscountComposer()
             : base(ServerPacketHeader.CatalogItemDiscountMessageComposer)

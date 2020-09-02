@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class AddScoreBox : IWiredItem, IWiredCycle
+    internal class AddScoreBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -65,7 +65,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                     continue;
                 }
 
-                TeleportUser(Player);
+                AddScore(Player);
             }
 
             TickCount = Delay;
@@ -86,14 +86,15 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
+            TickCount = Delay;
             _queue.Enqueue(Player);
             return true;
         }
 
-        private void TeleportUser(Habbo Player)
+        private void AddScore(Habbo Player)
         {
             RoomUser User = Player.CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Player.Id);
-            if (User == null)
+            if (User == null || (!int.TryParse(StringData.Split(';')[0], out int m1) || !int.TryParse(StringData.Split(';')[1], out int m2)))
             {
                 return;
             }
@@ -101,7 +102,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             Room Instance = Player.CurrentRoom;
 
             int currentscore = 0;
-            int mScore = int.Parse(StringData.Split(';')[0]) * int.Parse(StringData.Split(';')[1]);
+            int mScore = m1 * m2;
             KeyValuePair<int, string> newkey;
             KeyValuePair<int, string> item;
 
@@ -109,59 +110,59 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             {
                 Instance.GetRoomItemHandler().usedwiredscorebord = true;
 
-                if (Instance.WiredScoreFirstBordInformation.Count == 3)
+                if (Instance.RoomData.WiredScoreFirstBordInformation.Count == 3)
                 {
                     Instance.GetRoomItemHandler().ScorebordChangeCheck();
                 }
 
-                if ((Instance.WiredScoreBordDay == null || Instance.WiredScoreBordMonth == null ? false : Instance.WiredScoreBordWeek != null))
+                if ((Instance.RoomData.WiredScoreBordDay == null || Instance.RoomData.WiredScoreBordMonth == null ? false : Instance.RoomData.WiredScoreBordWeek != null))
                 {
                     string username = User.GetClient().GetHabbo().Username;
 
-                    lock (Instance.WiredScoreBordDay)
+                    lock (Instance.RoomData.WiredScoreBordDay)
                     {
-                        if (!Instance.WiredScoreBordDay.ContainsKey(User.UserId))
+                        if (!Instance.RoomData.WiredScoreBordDay.ContainsKey(User.UserId))
                         {
-                            Instance.WiredScoreBordDay.Add(User.UserId, new KeyValuePair<int, string>(mScore, username));
+                            Instance.RoomData.WiredScoreBordDay.Add(User.UserId, new KeyValuePair<int, string>(mScore, username));
                         }
                         else
                         {
-                            item = Instance.WiredScoreBordDay[User.UserId];
+                            item = Instance.RoomData.WiredScoreBordDay[User.UserId];
                             currentscore = (item.Key + mScore);
 
                             newkey = new KeyValuePair<int, string>(currentscore, username);
-                            Instance.WiredScoreBordDay[User.UserId] = newkey;
+                            Instance.RoomData.WiredScoreBordDay[User.UserId] = newkey;
                         }
                     }
 
-                    lock (Instance.WiredScoreBordWeek)
+                    lock (Instance.RoomData.WiredScoreBordWeek)
                     {
-                        if (!Instance.WiredScoreBordWeek.ContainsKey(User.UserId))
+                        if (!Instance.RoomData.WiredScoreBordWeek.ContainsKey(User.UserId))
                         {
-                            Instance.WiredScoreBordWeek.Add(User.UserId, new KeyValuePair<int, string>(mScore, username));
+                            Instance.RoomData.WiredScoreBordWeek.Add(User.UserId, new KeyValuePair<int, string>(mScore, username));
                         }
                         else
                         {
-                            item = Instance.WiredScoreBordWeek[User.UserId];
+                            item = Instance.RoomData.WiredScoreBordWeek[User.UserId];
                             currentscore = (item.Key + mScore);
 
                             newkey = new KeyValuePair<int, string>(currentscore, username);
-                            Instance.WiredScoreBordWeek[User.UserId] = newkey;
+                            Instance.RoomData.WiredScoreBordWeek[User.UserId] = newkey;
                         }
                     }
 
-                    lock (Instance.WiredScoreBordMonth)
+                    lock (Instance.RoomData.WiredScoreBordMonth)
                     {
-                        if (!Instance.WiredScoreBordMonth.ContainsKey(User.UserId))
+                        if (!Instance.RoomData.WiredScoreBordMonth.ContainsKey(User.UserId))
                         {
-                            Instance.WiredScoreBordMonth.Add(User.UserId, new KeyValuePair<int, string>(mScore, username));
+                            Instance.RoomData.WiredScoreBordMonth.Add(User.UserId, new KeyValuePair<int, string>(mScore, username));
                         }
                         else
                         {
-                            item = Instance.WiredScoreBordMonth[User.UserId];
+                            item = Instance.RoomData.WiredScoreBordMonth[User.UserId];
                             currentscore = (item.Key + mScore);
                             newkey = new KeyValuePair<int, string>(currentscore, username);
-                            Instance.WiredScoreBordMonth[User.UserId] = newkey;
+                            Instance.RoomData.WiredScoreBordMonth[User.UserId] = newkey;
                         }
                     }
                     //Instance.GetWired().ExecuteWired(WiredItemType.TriggerScoreAchieved, User, currentscore);

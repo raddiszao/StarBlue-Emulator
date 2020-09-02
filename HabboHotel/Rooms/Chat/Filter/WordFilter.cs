@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Filter
 {
-    sealed class WordFilter
+    internal sealed class WordFilter
     {
         private string _word;
         private string _replacement;

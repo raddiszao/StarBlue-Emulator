@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Pets
 {
-    class PetBreedingComposer : ServerPacket
+    internal class PetBreedingComposer : ServerPacket
     {
         public PetBreedingComposer()
             : base(ServerPacketHeader.PetBreedingMessageComposer)

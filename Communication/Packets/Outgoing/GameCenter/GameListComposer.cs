@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    class GameListComposer : ServerPacket
+    internal class GameListComposer : ServerPacket
     {
         public GameListComposer(ICollection<GameData> Games)
             : base(ServerPacketHeader.GameListMessageComposer)

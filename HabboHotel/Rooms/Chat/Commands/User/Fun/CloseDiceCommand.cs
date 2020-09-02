@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class CloseDiceCommand : IChatCommand
+    internal class CloseDiceCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -19,8 +19,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 return;
             }
 
-            List<Items.Item> userBooth = Room.GetRoomItemHandler().GetFloor.Where(x => x != null && Gamemap.TilesTouching(
-                x.Coordinate, roomUser.Coordinate) && x.Data.InteractionType == Items.InteractionType.DICE).ToList();
+            List<Items.Item> userBooth = Room.GetRoomItemHandler().GetFloor.Where(x => x != null && Gamemap.TilesTouching(x.Coordinate, roomUser.Coordinate) && x.Data.InteractionType == Items.InteractionType.DICE).ToList();
 
             if (userBooth.Count != 5)
             {

@@ -32,7 +32,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
             {
 
                 base.WriteInteger(Page.Items.Count);
-                foreach (var Item in Page.Items.Values)
+                foreach (CatalogItem Item in Page.Items.Values)
                 {
                     base.WriteInteger(Item.Id);
                     base.WriteString(Item.Name);
@@ -59,7 +59,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
                     if (Item.PredesignedId > 0)
                     {
                         base.WriteInteger(Page.PredesignedItems.Items.Count);
-                        foreach (var predesigned in Page.PredesignedItems.Items.ToList())
+                        foreach (KeyValuePair<int, int> predesigned in Page.PredesignedItems.Items.ToList())
                         {
                             if (StarBlueServer.GetGame().GetItemManager().GetItem(predesigned.Key, out ItemData Data)) { }
                             base.WriteString(Data.Type.ToString());
@@ -154,7 +154,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Catalog
             else if (!Page.Template.Equals("frontpage") && !Page.Template.Equals("club_buy") && Page.PageLink == "last_purchases")
             {
                 base.WriteInteger(Session.GetHabbo().LastPurchasesItems.Count());
-                foreach (var Item in Session.GetHabbo().LastPurchasesItems.ToList())
+                foreach (KeyValuePair<int, CatalogItem> Item in Session.GetHabbo().LastPurchasesItems.ToList())
                 {
                     base.WriteInteger(Item.Value.Id);
                     base.WriteString(Item.Value.Name);

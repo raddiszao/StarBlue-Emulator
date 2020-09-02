@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class ModeratorRoomInfoComposer : ServerPacket
+    internal class ModeratorRoomInfoComposer : ServerPacket
     {
         public ModeratorRoomInfoComposer(RoomData Data, bool OwnerInRoom)
             : base(ServerPacketHeader.ModeratorRoomInfoMessageComposer)

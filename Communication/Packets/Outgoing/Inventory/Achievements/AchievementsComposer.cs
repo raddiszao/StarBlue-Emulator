@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Achievements
 {
-    class AchievementsComposer : ServerPacket
+    internal class AchievementsComposer : ServerPacket
     {
         public AchievementsComposer(GameClient Session, List<Achievement> Achievements)
             : base(ServerPacketHeader.AchievementsMessageComposer)

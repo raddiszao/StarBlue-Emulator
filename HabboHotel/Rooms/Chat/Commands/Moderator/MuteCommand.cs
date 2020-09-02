@@ -1,11 +1,11 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Users;
 
 
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class MuteCommand : IChatCommand
+    internal class MuteCommand : IChatCommand
     {
         public string PermissionRequired => "user_7";
         public string Parameters => "[USUARIO] [TEMPO]";

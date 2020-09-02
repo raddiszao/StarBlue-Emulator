@@ -6,14 +6,14 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var ForumID = Packet.PopInt();
-            var ThreadID = Packet.PopInt();
-            var Pinned = Packet.PopBoolean();
-            var Locked = Packet.PopBoolean();
+            int ForumID = Packet.PopInt();
+            int ThreadID = Packet.PopInt();
+            bool Pinned = Packet.PopBoolean();
+            bool Locked = Packet.PopBoolean();
 
 
-            var forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(ForumID);
-            var thread = forum.GetThread(ThreadID);
+            HabboHotel.Groups.Forums.GroupForum forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(ForumID);
+            HabboHotel.Groups.Forums.GroupForumThread thread = forum.GetThread(ThreadID);
 
             if (forum.Settings.GetReasonForNot(Session, forum.Settings.WhoCanModerate) != "")
             {

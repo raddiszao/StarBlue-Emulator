@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class PlaceObjectEvent : IPacketEvent
+    internal class PlaceObjectEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -25,6 +25,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             if (Session.GetHabbo().Rank > 3 && !Session.GetHabbo().StaffOk || StarBlueServer.GoingIsToBeClose)
             {
+                Session.SendNotification("Essa função foi desativada até o servidor for reinicializado.");
                 return;
             }
 
@@ -44,7 +45,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             }
 
             bool HasRights = false;
-            if (Room.CheckRights(Session, false, true))
+            if (Room.CheckRights(Session, false, true) || Room.CheckRights(Session, true))
             {
                 HasRights = true;
             }
@@ -52,8 +53,14 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             Item Item = Session.GetHabbo().GetInventoryComponent().GetItem(ItemId);
             if (Item == null)
             {
+                if (!int.TryParse(Data[1], out int X)) { return; }
+                if (!int.TryParse(Data[2], out int Y)) { return; }
+                if (!int.TryParse(Data[3], out int Rotation)) { return; }
+                Session.GetHabbo().PurchasingItem = new int[] { ItemId, X, Y, Rotation };
                 return;
             }
+
+            Session.GetHabbo().PurchasingItem = null;
 
             if (Room.ForSale)
             {
@@ -64,10 +71,10 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             if (Room.GetRoomItemHandler().GetWallAndFloor.Count() > Convert.ToInt32(StarBlueServer.GetConfig().data["room.furniture.limit"]))
             {
-                Session.SendNotification("Você não pode ter mais de " + Convert.ToInt32(StarBlueServer.GetConfig().data["room.furniture.limit"]) + " mobis em uma sala!");
+                Session.SendNotification("Você não pode ter mais de " + Convert.ToInt32(StarBlueServer.GetConfig().data["room.furniture.limit"]) + " mobis em um quarto");
                 return;
             }
-            else if (Item.GetBaseItem().ItemName.ToLower().Contains("cf") && Room.OwnerId != Session.GetHabbo().Id && !Session.GetHabbo().GetPermissions().HasRight("room_item_place_exchange_anywhere"))
+            else if (Item.GetBaseItem().ItemName.ToLower().Contains("cf") && Room.RoomData.OwnerId != Session.GetHabbo().Id && !Session.GetHabbo().GetPermissions().HasRight("room_item_place_exchange_anywhere"))
             {
                 Session.SendNotification("Você não pode fazer isso!");
                 return;
@@ -132,12 +139,11 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                     return;
                 }
 
-
                 if (!int.TryParse(Data[1], out int X)) { return; }
                 if (!int.TryParse(Data[2], out int Y)) { return; }
                 if (!int.TryParse(Data[3], out int Rotation)) { return; }
 
-                Item RoomItem = new Item(Item.Id, Room.RoomId, Item.BaseItem, Item.ExtraData, X, Y, 0, Rotation, Session.GetHabbo().Id, Item.GroupId, Item.LimitedNo, Item.LimitedTot, string.Empty, Room);
+                Item RoomItem = new Item(Item.Id, Room.Id, Item.BaseItem, Item.ExtraData, X, Y, 0, Rotation, Session.GetHabbo().Id, Item.GroupId, Item.LimitedNo, Item.LimitedTot, string.Empty, Room);
                 if (Room.GetGameMap().IsRentableSpace(X, Y, Session))
                 {
                     Item Items = Session.GetHabbo().GetInventoryComponent().GetItem(ItemId);
@@ -146,7 +152,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                     {
                         Session.GetHabbo().GetInventoryComponent().RemoveItem(ItemId);
 
-                        if (Session.GetHabbo().Id == Room.OwnerId)
+                        if (Session.GetHabbo().Id == Room.RoomData.OwnerId)
                         {
                             StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomDecoFurniCount", 1, false);
                         }
@@ -163,7 +169,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                         return;
                     }
                 }
-                else if (!Room.GetGameMap().IsRentableSpace(X, Y, Session) && Session.GetHabbo().Id != Room.OwnerId && !HasRights)
+                else if (!Room.GetGameMap().IsRentableSpace(X, Y, Session) && Session.GetHabbo().Id != Room.RoomData.OwnerId && !HasRights)
                 {
                     Session.SendMessage(RoomNotificationComposer.SendBubble("furni_placement_error", "Não é possível colocar mobis aqui.", ""));
                     return;
@@ -181,15 +187,21 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 {
                     Session.GetHabbo().GetInventoryComponent().RemoveItem(ItemId);
 
-                    if (Session.GetHabbo().Id == Room.OwnerId)
+                    if (Session.GetHabbo().Id == Room.RoomData.OwnerId)
                     {
                         StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomDecoFurniCount", 1, false);
                     }
 
                     if (RoomItem.IsWired)
                     {
-                        try { Room.GetWired().LoadWiredBox(RoomItem); }
-                        catch { Console.WriteLine("Error Wired Box: " + Item.GetBaseItem().PublicName); }
+                        try
+                        {
+                            Room.GetWired().LoadWiredBox(RoomItem);
+                        }
+                        catch (Exception error)
+                        {
+                            Console.WriteLine("Error Wired Box: " + Item.GetBaseItem().PublicName + ", " + error);
+                        }
                     }
                 }
                 else
@@ -219,12 +231,12 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 {
                     try
                     {
-                        Item RoomItem = new Item(Item.Id, Room.RoomId, Item.BaseItem, Item.ExtraData, 0, 0, 0, 0, Session.GetHabbo().Id, Item.GroupId, Item.LimitedNo, Item.LimitedTot, WallPos, Room);
+                        Item RoomItem = new Item(Item.Id, Room.Id, Item.BaseItem, Item.ExtraData, 0, 0, 0, 0, Session.GetHabbo().Id, Item.GroupId, Item.LimitedNo, Item.LimitedTot, WallPos, Room);
 
                         if (Room.GetRoomItemHandler().SetWallItem(Session, RoomItem))
                         {
                             Session.GetHabbo().GetInventoryComponent().RemoveItem(ItemId);
-                            if (Session.GetHabbo().Id == Room.OwnerId)
+                            if (Session.GetHabbo().Id == Room.RoomData.OwnerId)
                             {
                                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomDecoFurniCount", 1, false);
                             }

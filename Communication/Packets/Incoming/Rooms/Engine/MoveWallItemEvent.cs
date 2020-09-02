@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class MoveWallItemEvent : IPacketEvent
+    internal class MoveWallItemEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -14,8 +14,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 return;
             }
 
-            if (!Room.CheckRights(Session))
+            if (!Room.CheckRights(Session) || Room.ForSale)
             {
+                Session.SendNotification("Não foi possível mover o item, tente novamente.");
                 return;
             }
 
@@ -29,15 +30,10 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 return;
             }
 
-            try
-            {
-                string WallPos = Room.GetRoomItemHandler().WallPositionCheck(":" + wallPositionData.Split(':')[1]);
-                Item.wallCoord = WallPos;
-            }
-            catch { return; }
-
+            string WallPos = Room.GetRoomItemHandler().WallPositionCheck(":" + wallPositionData.Split(':')[1]);
+            Item.wallCoord = WallPos;
             Room.GetRoomItemHandler().UpdateItem(Item);
-            Room.SendMessage(new ItemUpdateComposer(Item, Room.OwnerId));
+            Room.SendMessage(new ItemUpdateComposer(Item, Room.RoomData.OwnerId));
         }
     }
 }

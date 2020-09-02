@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
-    class AvatarEffectAddedComposer : ServerPacket
+    internal class AvatarEffectAddedComposer : ServerPacket
     {
         public AvatarEffectAddedComposer(int SpriteId, int Duration)
             : base(ServerPacketHeader.AvatarEffectAddedMessageComposer)

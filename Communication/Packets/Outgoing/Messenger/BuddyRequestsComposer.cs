@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    class BuddyRequestsComposer : ServerPacket
+    internal class BuddyRequestsComposer : ServerPacket
     {
         public BuddyRequestsComposer(ICollection<MessengerRequest> Requests)
             : base(ServerPacketHeader.BuddyRequestsMessageComposer)

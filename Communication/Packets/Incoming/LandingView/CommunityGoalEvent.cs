@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.LandingView
 {
-    class CommunityGoalEvent : IPacketEvent
+    internal class CommunityGoalEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

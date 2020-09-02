@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class GetGroupCreationWindowEvent : IPacketEvent
+    internal class GetGroupCreationWindowEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

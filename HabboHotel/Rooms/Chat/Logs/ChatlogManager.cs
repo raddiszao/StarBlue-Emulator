@@ -1,6 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Logs
@@ -51,7 +50,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Logs
                         dbClient.AddParameter("uid", Entry.PlayerId);
                         dbClient.AddParameter("rid", Entry.RoomId);
                         dbClient.AddParameter("time", Entry.Timestamp);
-                        dbClient.AddParameter("msg", Encoding.UTF8.GetString(Encoding.Default.GetBytes(Entry.Message)));
+                        dbClient.AddParameter("msg", Entry.Message);
                         dbClient.RunQuery();
                     }
                 }

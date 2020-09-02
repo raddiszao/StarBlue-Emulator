@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorPressurePad : IFurniInteractor
+    internal class InteractorPressurePad : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {

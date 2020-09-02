@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    class BadgeEditorPartsComposer : ServerPacket
+    internal class BadgeEditorPartsComposer : ServerPacket
     {
         public BadgeEditorPartsComposer(ICollection<GroupBases> Bases, ICollection<GroupSymbols> Symbols, ICollection<GroupBaseColours> BaseColours, Dictionary<int, GroupSymbolColours> SymbolColours,
             Dictionary<int, GroupBackGroundColours> BackgroundColours)

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.YouTubeTelevisions
 {
-    class GetYouTubePlaylistComposer : ServerPacket
+    internal class GetYouTubePlaylistComposer : ServerPacket
     {
         public GetYouTubePlaylistComposer(int ItemId, ICollection<TelevisionItem> Videos)
             : base(ServerPacketHeader.GetYouTubePlaylistMessageComposer)

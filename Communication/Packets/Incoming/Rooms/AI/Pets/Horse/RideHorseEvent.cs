@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 {
-    class RideHorseEvent : IPacketEvent
+    internal class RideHorseEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -35,14 +35,27 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
             }
 
             if (Pet.PetData == null)
-            {
                 return;
-            }
 
             if (Pet.PetData.AnyoneCanRide == 0 && Pet.PetData.OwnerId != User.UserId)
             {
-                Session.SendNotification(
-                    "Você não pode montar neste cavalo.");
+                Session.SendNotification("Você não pode montar neste cavalo.");
+                return;
+            }
+
+            if (Math.Abs(User.X - Pet.X) >= 2 || Math.Abs(User.Y - Pet.Y) >= 2)
+            {
+                Pet.CanWalk = false;
+                User.MoveTo(Pet.SquareInFront.X, Pet.SquareInFront.Y);
+                System.Timers.Timer _timer = new System.Timers.Timer();
+                _timer.Elapsed += _timer_Elapsed;
+                _timer.AutoReset = false;
+                _timer.Interval = 10000;
+                _timer.Start();
+                void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+                {
+                    Pet.UnlockWalking();
+                }
                 return;
             }
 
@@ -51,12 +64,13 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
                 if (Pet.RidingHorse)
                 {
                     string[] Speech2 = StarBlueServer.GetGame().GetChatManager().GetPetLocale().GetValue("pet.alreadymounted");
-                    var RandomSpeech2 = new Random();
+                    Random RandomSpeech2 = new Random();
                     Pet.Chat(Speech2[RandomSpeech2.Next(0, Speech2.Length - 1)], false);
                 }
                 else if (User.RidingHorse)
                 {
                     Session.SendNotification("Você está montado no cavalo!");
+                    return;
                 }
                 else
                 {
@@ -66,6 +80,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
                         return;
                     }
 
+                    Pet.CanWalk = false;
                     if (Pet.Statusses.Count > 0)
                     {
                         Pet.Statusses.Clear();
@@ -73,25 +88,29 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 
                     int NewX2 = Pet.X;
                     int NewY2 = Pet.Y;
-                    Room.SendMessage(Room.GetRoomItemHandler().UpdateUserOnRoller(Pet, new Point(NewX2, NewY2), 0, Room.GetGameMap().SqAbsoluteHeight(NewX2, NewY2)));
                     Room.SendMessage(Room.GetRoomItemHandler().UpdateUserOnRoller(User, new Point(NewX2, NewY2), 0, Room.GetGameMap().SqAbsoluteHeight(NewX2, NewY2) + 1));
+                    Room.SendMessage(Room.GetRoomItemHandler().UpdateUserOnRoller(Pet, new Point(NewX2, NewY2), 0, Room.GetGameMap().SqAbsoluteHeight(NewX2, NewY2)));
 
                     User.MoveTo(NewX2, NewY2);
-
-                    Pet.ClearMovement(true);
 
                     User.RidingHorse = true;
                     Pet.RidingHorse = true;
                     Pet.HorseID = User.VirtualId;
                     User.HorseID = Pet.VirtualId;
 
-                    User.ApplyEffect(77);
+                    if (Pet.PetData.Saddle == 9)
+                        User.ApplyEffect(77);
+                    else
+                        User.ApplyEffect(103);
 
                     User.RotBody = Pet.RotBody;
                     User.RotHead = Pet.RotHead;
 
                     User.UpdateNeeded = true;
                     Pet.UpdateNeeded = true;
+                    Room.GetGameMap().RemoveUserFromMap(User, new Point(User.X, User.Y));
+                    Room.GetGameMap().RemoveUserFromMap(Pet, new Point(Pet.X, Pet.Y));
+                    Pet.UnlockWalking();
                 }
             }
             else
@@ -108,7 +127,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
                     User.HorseID = 0;
                     Pet.RidingHorse = false;
                     Pet.HorseID = 0;
-                    User.MoveTo(new Point(User.X + 2, User.Y + 2));
+                    User.MoveTo(new Point(User.SquareInFront.X, User.SquareInFront.Y));
                     User.ApplyEffect(-1);
                     User.UpdateNeeded = true;
                     Pet.UpdateNeeded = true;

@@ -1,11 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Messenger;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class GroupChatCommand : IChatCommand
+    internal class GroupChatCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
         public string Parameters => "";
@@ -25,14 +26,14 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 return;
             }
 
-            if (Room.Group == null)
+            if (Room.RoomData.Group == null)
             {
                 Session.SendWhisper("Esta sala não tem grupo, se acabou de criar um digite :unload", 34);
                 return;
             }
 
-            var mode = Params[1].ToLower();
-            var group = Room.Group;
+            string mode = Params[1].ToLower();
+            Groups.Group group = Room.RoomData.Group;
 
             if (mode == "encerrar")
             {
@@ -42,7 +43,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                     return;
                 }
 
-                using (var adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter adap = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     adap.SetQuery("UPDATE groups SET has_chat = '0' WHERE id = @id");
                     adap.AddParameter("id", group.Id);

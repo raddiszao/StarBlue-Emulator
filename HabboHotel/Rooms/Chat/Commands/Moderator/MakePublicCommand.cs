@@ -1,10 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
+using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class MakePublicCommand : IChatCommand
+    internal class MakePublicCommand : IChatCommand
     {
         public string PermissionRequired => "user_16";
         public string Parameters => "";
@@ -12,15 +13,21 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            var room = Session.GetHabbo().CurrentRoom;
-            using (var queryReactor = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            Room room = Session.GetHabbo().CurrentRoom;
+            if (room == null)
             {
-                queryReactor.RunFastQuery(string.Format("UPDATE rooms SET roomtype = 'public' WHERE id = {0}",
-                    room.RoomId));
+                return;
             }
 
-            var roomId = Session.GetHabbo().CurrentRoom.RoomId;
-            var users = new List<RoomUser>(Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUsers().ToList());
+            using (IQueryAdapter queryReactor = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            {
+                queryReactor.RunFastQuery(string.Format("UPDATE rooms SET roomtype = 'public' WHERE id = {0}", room.Id));
+            }
+
+            room.RoomData.Type = "public";
+
+            int roomId = Session.GetHabbo().CurrentRoom.Id;
+            List<RoomUser> users = new List<RoomUser>(Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUsers().ToList());
 
             StarBlueServer.GetGame().GetRoomManager().UnloadRoom(Session.GetHabbo().CurrentRoom.Id);
 
@@ -29,9 +36,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
             StarBlueServer.GetGame().GetRoomManager().LoadRoom(roomId);
 
-            var data = new RoomForwardComposer(roomId);
+            RoomForwardComposer data = new RoomForwardComposer(roomId);
 
-            foreach (var user in users.Where(user => user != null && user.GetClient() != null))
+            foreach (RoomUser user in users.Where(user => user != null && user.GetClient() != null))
             {
                 user.GetClient().SendMessage(data);
             }

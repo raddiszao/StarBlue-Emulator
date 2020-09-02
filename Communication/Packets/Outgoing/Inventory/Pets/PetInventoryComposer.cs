@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Pets
 {
-    class PetInventoryComposer : ServerPacket
+    internal class PetInventoryComposer : ServerPacket
     {
         public PetInventoryComposer(ICollection<Pet> Pets)
             : base(ServerPacketHeader.PetInventoryMessageComposer)

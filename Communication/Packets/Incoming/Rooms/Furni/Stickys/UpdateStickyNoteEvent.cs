@@ -1,10 +1,9 @@
 ﻿using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Stickys
 {
-    class UpdateStickyNoteEvent : IPacketEvent
+    internal class UpdateStickyNoteEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -25,8 +24,8 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Stickys
                 return;
             }
 
-            String Color = Packet.PopString();
-            String Text = Packet.PopString();
+            string Color = Packet.PopString();
+            string Text = Packet.PopString();
 
             if (!Room.CheckRights(Session))
             {

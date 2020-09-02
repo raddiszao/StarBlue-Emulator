@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets
 {
-    class PetHorseFigureInformationComposer : ServerPacket
+    internal class PetHorseFigureInformationComposer : ServerPacket
     {
         public PetHorseFigureInformationComposer(RoomUser PetUser)
             : base(ServerPacketHeader.PetHorseFigureInformationMessageComposer)

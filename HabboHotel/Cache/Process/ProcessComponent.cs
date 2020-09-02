@@ -1,5 +1,4 @@
-﻿using log4net;
-using StarBlue.Core;
+﻿using StarBlue.Core;
 using StarBlue.HabboHotel.Users;
 using System;
 using System.Collections.Generic;
@@ -10,8 +9,6 @@ namespace StarBlue.HabboHotel.Cache.Process
 {
     sealed class ProcessComponent
     {
-        private static readonly ILog log = LogManager.GetLogger("StarBlue.HabboHotel.Cache.Process.ProcessComponent");
-
         /// <summary>
         /// ThreadPooled Timer.
         /// </summary>
@@ -54,7 +51,7 @@ namespace StarBlue.HabboHotel.Cache.Process
         /// </summary>
         public void Init()
         {
-            _timer = new Timer(new TimerCallback(Run), null, _runtimeInSec * 1000, _runtimeInSec * 1000);
+            this._timer = new Timer(new TimerCallback(Run), null, _runtimeInSec * 1000, _runtimeInSec * 1000);
         }
 
         /// <summary>
@@ -65,18 +62,16 @@ namespace StarBlue.HabboHotel.Cache.Process
         {
             try
             {
-                if (_disabled)
+                if (this._disabled)
+                    return;
+
+                if (this._timerRunning)
                 {
+                    this._timerLagging = true;
                     return;
                 }
 
-                if (_timerRunning)
-                {
-                    _timerLagging = true;
-                    return;
-                }
-
-                _resetEvent.Reset();
+                this._resetEvent.Reset();
 
                 // BEGIN CODE
                 List<UserCache> CacheList = StarBlueServer.GetGame().GetCacheManager().GetUserCache().ToList();
@@ -87,22 +82,18 @@ namespace StarBlue.HabboHotel.Cache.Process
                         try
                         {
                             if (Cache == null)
-                            {
                                 continue;
-                            }
 
                             UserCache Temp = null;
 
                             if (Cache.isExpired())
-                            {
                                 StarBlueServer.GetGame().GetCacheManager().TryRemoveUser(Cache.Id, out Temp);
-                            }
 
                             Temp = null;
                         }
                         catch (Exception e)
                         {
-                            Logging.LogCacheException(e.ToString());
+                            Logging.HandleException(e, "ProcessComponent1");
                         }
                     }
                 }
@@ -117,27 +108,21 @@ namespace StarBlue.HabboHotel.Cache.Process
                         try
                         {
                             if (Data == null)
-                            {
                                 continue;
-                            }
 
                             Habbo Temp = null;
 
                             if (Data.CacheExpired())
-                            {
                                 StarBlueServer.RemoveFromCache(Data.Id, out Temp);
-                            }
 
                             if (Temp != null)
-                            {
                                 Temp.Dispose();
-                            }
 
                             Temp = null;
                         }
                         catch (Exception e)
                         {
-                            Logging.LogCacheException(e.ToString());
+                            Logging.HandleException(e, "ProcessComponent1");
                         }
                     }
                 }
@@ -146,12 +131,15 @@ namespace StarBlue.HabboHotel.Cache.Process
                 // END CODE
 
                 // Reset the values
-                _timerRunning = false;
-                _timerLagging = false;
+                this._timerRunning = false;
+                this._timerLagging = false;
 
-                _resetEvent.Set();
+                this._resetEvent.Set();
             }
-            catch (Exception e) { Logging.LogCacheException(e.ToString()); }
+            catch (Exception e)
+            {
+                Logging.HandleException(e, "ProcessComponent1");
+            }
         }
 
         /// <summary>
@@ -162,25 +150,23 @@ namespace StarBlue.HabboHotel.Cache.Process
             // Wait until any processing is complete first.
             try
             {
-                _resetEvent.WaitOne(TimeSpan.FromMinutes(5));
+                this._resetEvent.WaitOne(TimeSpan.FromMinutes(5));
             }
             catch { } // give up
 
             // Set the timer to disabled
-            _disabled = true;
+            this._disabled = true;
 
             // Dispose the timer to disable it.
             try
             {
-                if (_timer != null)
-                {
-                    _timer.Dispose();
-                }
+                if (this._timer != null)
+                    this._timer.Dispose();
             }
             catch { }
 
             // Remove reference to the timer.
-            _timer = null;
+            this._timer = null;
         }
     }
 }

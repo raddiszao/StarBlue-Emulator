@@ -1,8 +1,11 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
+using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.HabboHotel.Items.Wired.Util;
 using StarBlue.HabboHotel.Rooms;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 
@@ -21,7 +24,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public ConcurrentDictionary<int, Item> SetItems { get; set; }
         public string StringData
         {
-            get => string.Format("{0};{1}", StartDirection, WhenMoveIsBlocked);
+            get { return string.Format("{0};{1}", StartDirection, WhenMoveIsBlocked); }
             set
             {
                 var array = value.Split(';');
@@ -103,7 +106,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             if (!Requested)
             {
-                counter = Delay;
+                counter = 0;
                 Requested = true;
             }
 
@@ -118,7 +121,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
 
             counter += 500;
-            if (counter >= Delay)
+            if (counter > Delay)
             {
                 counter = 0;
                 foreach (Item Item in SetItems.Values.ToList())
@@ -133,11 +136,9 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                         continue;
                     }
 
-                    Item toRemove = null;
-
                     if (Instance.GetWired().OtherBoxHasItem(this, Item.Id))
                     {
-                        SetItems.TryRemove(Item.Id, out toRemove);
+                        SetItems.TryRemove(Item.Id, out Item toRemove);
                     }
 
                     if (Item.MoveToDirMovement == MovementDirection.NONE || _needChange)
@@ -146,14 +147,14 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                         _needChange = false;
                     }
 
-                    var newPoint = Movement.HandleMovementDir(Item.Coordinate, Item.MoveToDirMovement, Item.Rotation);
+                    Point newPoint = Movement.HandleMovementDir(Item.Coordinate, Item.MoveToDirMovement, Item.Rotation);
                     if (newPoint != Item.Coordinate)
                     {
-
-                        if (Instance.GetGameMap().SquareIsOpen(newPoint.X, newPoint.Y, false))
+                        if (Instance.GetGameMap().SquareIsOpen(newPoint.X, newPoint.Y, false) && Instance.GetGameMap().CanRollItemHere(newPoint.X, newPoint.Y))
                         {
-                            Instance.GetRoomItemHandler()
-                                .SetFloorItem(null, Item, newPoint.X, newPoint.Y, Item.Rotation, false, false, true, true);
+                            double NewZ = Instance.GetGameMap().GetHeightForSquareFromData(newPoint);
+                            Instance.SendMessage(new SlideObjectBundleComposer(Item.GetX, Item.GetY, Item.GetZ, newPoint.X, newPoint.Y, NewZ, 0, 0, Item.Id));
+                            Instance.GetRoomItemHandler().SetFloorItem(Item, newPoint.X, newPoint.Y, NewZ);
                         }
                         else
                         {
@@ -1290,16 +1291,52 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                                     #endregion Random
                             }
 
-                            newPoint = Movement.HandleMovementDir(Item.Coordinate, Item.MoveToDirMovement, Item.Rotation);
-                            Instance.GetRoomItemHandler()
-                                .SetFloorItem(null, Item, newPoint.X, newPoint.Y, Item.Rotation, false, false, true, true);
+                            if (Instance.GetGameMap().CanRollItemHere(newPoint.X, newPoint.Y) && !Instance.GetGameMap().SquareHasUsers(newPoint.X, newPoint.Y))
+                            {
+                                bool CanBePlaced = true;
+                                newPoint = Movement.HandleMovementDir(Item.Coordinate, Item.MoveToDirMovement, Item.Rotation);
+                                double NewZ = Instance.GetGameMap().GetHeightForSquareFromData(new System.Drawing.Point(newPoint.X, newPoint.Y));
+                                List<Item> Items = Instance.GetGameMap().GetCoordinatedItems(new System.Drawing.Point(newPoint.X, newPoint.Y));
+                                foreach (Item IItem in Items.ToList())
+                                {
+                                    if (IItem == null || IItem.Id == Item.Id)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (!IItem.GetBaseItem().Walkable)
+                                    {
+                                        counter = 0;
+                                        CanBePlaced = false;
+                                        break;
+                                    }
+
+                                    if (IItem.TotalHeight > NewZ)
+                                    {
+                                        NewZ = IItem.TotalHeight;
+                                    }
+
+                                    if (CanBePlaced == true && !IItem.GetBaseItem().Stackable)
+                                    {
+                                        CanBePlaced = false;
+                                    }
+                                }
+
+                                if (CanBePlaced)
+                                {
+                                    Instance.SendMessage(new SlideObjectBundleComposer(Item.GetX, Item.GetY, Item.GetZ, newPoint.X, newPoint.Y, NewZ, 0, 0, Item.Id));
+                                    Instance.GetRoomItemHandler().SetFloorItem(Item, newPoint.X, newPoint.Y, NewZ);
+                                }
+                            }
                         }
                     }
                 }
 
+                Requested = false;
                 _next = 0;
                 return true;
             }
+
             return false;
         }
     }

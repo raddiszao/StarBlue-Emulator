@@ -50,8 +50,10 @@ using StarBlue.Communication.Packets.Incoming.SMS;
 using StarBlue.Communication.Packets.Incoming.Sound;
 using StarBlue.Communication.Packets.Incoming.Talents;
 using StarBlue.Communication.Packets.Incoming.Users;
+using StarBlue.Communication.Packets.Incoming.WebSocket;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms.Instance;
+using StarBlue.HabboHotel.WebClient;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -75,10 +77,13 @@ namespace StarBlue.Communication.Packets
 
         private readonly Dictionary<int, IPacketEvent> _incomingPackets;
 
+        private readonly Dictionary<int, IPacketWebEvent> _incomingWebPackets;
+
         private readonly ConcurrentDictionary<int, Task> _runningTasks;
 
         public PacketManager()
         {
+            _incomingWebPackets = new Dictionary<int, IPacketWebEvent>();
             _incomingPackets = new Dictionary<int, IPacketEvent>();
 
             _eventDispatcher = new TaskFactory(TaskCreationOptions.PreferFairness, TaskContinuationOptions.None);
@@ -121,6 +126,7 @@ namespace StarBlue.Communication.Packets
             RegisterRoomCamera();
             RegisterNux();
             RegisterSMS();
+            RegisterWebEvents();
         }
 
         public void TryExecutePacket(GameClient Session, ClientPacket Packet)
@@ -156,6 +162,16 @@ namespace StarBlue.Communication.Packets
             {
                 OutPacket.Parse(Session, Packet);
             }
+        }
+
+        public void TryExecuteWebPacket(WebClient Session, ClientPacket Packet)
+        {
+            if (!_incomingWebPackets.TryGetValue(Packet.Id, out IPacketWebEvent Pak))
+            {
+                return;
+            }
+
+            Pak.Parse(Session, Packet);
         }
 
         private void ExecutePacketAsync(GameClient Session, ClientPacket Packet, IPacketEvent Pak)
@@ -205,7 +221,7 @@ namespace StarBlue.Communication.Packets
 
                 CancelSource.Dispose();
 
-                //log.Debug("Event took " + (DateTime.Now - Start).Milliseconds + "ms to complete.");
+                log.Warn("Event took " + (DateTime.Now - Start).Milliseconds + "ms to complete.");
             }
         }
 
@@ -220,6 +236,15 @@ namespace StarBlue.Communication.Packets
         public void UnregisterAll()
         {
             _incomingPackets.Clear();
+        }
+
+        private void RegisterWebEvents()
+        {
+            _incomingWebPackets.Add(1, new SSOWebTicketEvent());
+            _incomingWebPackets.Add(2, new BuilderToolEvent());
+            _incomingWebPackets.Add(3, new EnterRoomEvent());
+            _incomingWebPackets.Add(4, new EmojiEvent());
+            _incomingWebPackets.Add(12, new PinVerifyEvent());
         }
 
         private void RegisterHandshake()
@@ -487,7 +512,7 @@ namespace StarBlue.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.SetUsernameMessageEvent, new SetUsernameEvent());
             _incomingPackets.Add(ClientPacketHeader.GetHabboGroupBadgesMessageEvent, new GetHabboGroupBadgesEvent());
             _incomingPackets.Add(ClientPacketHeader.GetUserTagsMessageEvent, new GetUserTagsEvent());
-            //_incomingPackets.Add(ClientPacketHeader.GetIgnoredUsersMessageEvent, new GetIgnoredUsersEvent());
+            _incomingPackets.Add(ClientPacketHeader.GetIgnoredUsersMessageEvent, new GetIgnoredUsersEvent());
         }
 
         private void RegisterSound()

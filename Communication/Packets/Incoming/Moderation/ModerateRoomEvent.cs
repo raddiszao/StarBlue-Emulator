@@ -1,13 +1,13 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Navigator;
+﻿using StarBlue.Communication.Packets.Outgoing.Navigator;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Settings;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 using System.Linq;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class ModerateRoomEvent : IPacketEvent
+    internal class ModerateRoomEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -36,7 +36,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
                 Room.RoomData.Access = RoomAccess.DOORBELL;
             }
 
-            if (Room.Tags.Count > 0)
+            if (Room.RoomData.Tags.Count > 0)
             {
                 Room.ClearTags();
             }
@@ -50,20 +50,20 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
             {
                 if (SetName && SetLock)
                 {
-                    dbClient.RunFastQuery("UPDATE `rooms` SET `caption` = 'Inappropriate to Hotel Management', `description` = 'Inappropriate to Hotel Management', `tags` = '', `state` = '1' WHERE `id` = '" + Room.RoomId + "' LIMIT 1");
+                    dbClient.RunFastQuery("UPDATE `rooms` SET `caption` = 'Inappropriate to Hotel Management', `description` = 'Inappropriate to Hotel Management', `tags` = '', `state` = '1' WHERE `id` = '" + Room.Id + "' LIMIT 1");
                 }
                 else if (SetName && !SetLock)
                 {
-                    dbClient.RunFastQuery("UPDATE `rooms` SET `caption` = 'Inappropriate to Hotel Management', `description` = 'Inappropriate to Hotel Management', `tags` = '' WHERE `id` = '" + Room.RoomId + "' LIMIT 1");
+                    dbClient.RunFastQuery("UPDATE `rooms` SET `caption` = 'Inappropriate to Hotel Management', `description` = 'Inappropriate to Hotel Management', `tags` = '' WHERE `id` = '" + Room.Id + "' LIMIT 1");
                 }
                 else if (!SetName && SetLock)
                 {
-                    dbClient.RunFastQuery("UPDATE `rooms` SET `state` = '1', `tags` = '' WHERE `id` = '" + Room.RoomId + "' LIMIT 1");
+                    dbClient.RunFastQuery("UPDATE `rooms` SET `state` = '1', `tags` = '' WHERE `id` = '" + Room.Id + "' LIMIT 1");
                 }
             }
 
-            Room.SendMessage(new RoomSettingsSavedComposer(Room.RoomId));
-            Room.SendMessage(new RoomInfoUpdatedComposer(Room.RoomId));
+            Room.SendMessage(new RoomSettingsSavedComposer(Room.Id));
+            Room.SendMessage(new RoomInfoUpdatedComposer(Room.Id));
 
             if (KickAll)
             {

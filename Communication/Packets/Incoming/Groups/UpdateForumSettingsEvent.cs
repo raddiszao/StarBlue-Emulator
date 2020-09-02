@@ -3,18 +3,18 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class UpdateForumSettingsEvent : IPacketEvent
+    internal class UpdateForumSettingsEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var ForumId = Packet.PopInt();
-            var WhoCanRead = Packet.PopInt();
-            var WhoCanReply = Packet.PopInt();
-            var WhoCanPost = Packet.PopInt();
-            var WhoCanMod = Packet.PopInt();
+            int ForumId = Packet.PopInt();
+            int WhoCanRead = Packet.PopInt();
+            int WhoCanReply = Packet.PopInt();
+            int WhoCanPost = Packet.PopInt();
+            int WhoCanMod = Packet.PopInt();
 
 
-            var forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(ForumId);
+            HabboHotel.Groups.Forums.GroupForum forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(ForumId);
 
             if (forum == null)
             {

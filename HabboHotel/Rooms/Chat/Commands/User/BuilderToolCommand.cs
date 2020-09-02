@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class BuilderToolCommand : IChatCommand
+    internal class BuilderToolCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -12,21 +13,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            if (!Room.CheckRights(Session, true))
+            if (!Room.CheckRights(Session, false, true))
             {
-                Session.SendWhisper("Oops, somente o dono do quarto pode usar a ferramenta.", 34);
+                Session.SendWhisper("Oops, somente pessoas com direitos podem usar esta ferramenta.", 34);
                 return;
             }
 
-            JObject WebEventData = new JObject(new JProperty("type", "buildertool"), new JProperty("data", new JObject(
-                new JProperty("stack", false),
-                new JProperty("stackValue", Session.GetHabbo().StackHeight),
-                new JProperty("rotation", false),
-                new JProperty("rotationValue", Session.GetHabbo().FurniRotation),
-                new JProperty("state", false),
-                new JProperty("stateValue", Session.GetHabbo().FurniState)
-            )));
-            StarBlueServer.GetGame().GetWebEventManager().SendDataDirect(Session, WebEventData.ToString());
+            Session.GetHabbo().SendWebPacket(new BuilderToolComposer(false, Session.GetHabbo().StackHeight.ToString(), false, Session.GetHabbo().FurniRotation, false, Session.GetHabbo().FurniState));
         }
     }
 }

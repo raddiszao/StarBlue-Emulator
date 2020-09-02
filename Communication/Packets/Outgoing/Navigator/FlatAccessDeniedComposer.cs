@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class FlatAccessDeniedComposer : ServerPacket
+    internal class FlatAccessDeniedComposer : ServerPacket
     {
         public FlatAccessDeniedComposer(string Username)
             : base(ServerPacketHeader.FlatAccessDeniedMessageComposer)

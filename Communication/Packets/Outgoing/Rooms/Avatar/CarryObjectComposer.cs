@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Avatar
 {
-    class CarryObjectComposer : ServerPacket
+    internal class CarryObjectComposer : ServerPacket
     {
         public CarryObjectComposer(int virtualID, int itemID)
             : base(ServerPacketHeader.CarryObjectMessageComposer)

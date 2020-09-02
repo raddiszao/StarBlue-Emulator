@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Badges
 {
-    class BadgesComposer : ServerPacket
+    internal class BadgesComposer : ServerPacket
     {
         public BadgesComposer(GameClient Session)
             : base(ServerPacketHeader.BadgesMessageComposer)

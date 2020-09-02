@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.HabboHotel.Rooms.Instance
 {
-    class FootballGateComponent : IPacketEvent
+    internal class FootballGateComponent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

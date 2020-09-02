@@ -8,7 +8,7 @@ using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class GiveUserCreditsBox : IWiredItem
+    internal class GiveUserCreditsBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -64,7 +64,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }

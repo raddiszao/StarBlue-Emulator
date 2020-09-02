@@ -4,7 +4,7 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class KillCommand : IChatCommand
+    internal class KillCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -68,10 +68,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 
             if (!((Math.Abs(TargetUser.X - ThisUser.X) > 1) || (Math.Abs(TargetUser.Y - ThisUser.Y) > 1)))
             {
-                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, " *Ele assassinou " + Params[1] + " * ", 0, ThisUser.LastBubble));
-                Room.SendMessage(new ChatComposer(TargetUser.VirtualId, "Oh não, eu morri x.x", 0, TargetUser.LastBubble));
+                Room.SendMessage(new ChatComposer(ThisUser.VirtualId, " *Matei " + Params[1] + "*", 0, 32));
+                Room.SendMessage(new ChatComposer(TargetUser.VirtualId, "Oh não, eu morri x.x", 0, 32));
                 TargetUser.RotBody--;//
-                TargetUser.Statusses.Add("lay", "1.0 null");
+                if (!TargetUser.Statusses.ContainsKey("lay"))
+                    TargetUser.Statusses.Add("lay", "1.0 null");
                 TargetUser.Z -= 0.35;
                 TargetUser.isLying = true;
                 TargetUser.UpdateNeeded = true;

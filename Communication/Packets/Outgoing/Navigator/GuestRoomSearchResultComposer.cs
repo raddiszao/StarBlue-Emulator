@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    class GuestRoomSearchResultComposer : ServerPacket
+    internal class GuestRoomSearchResultComposer : ServerPacket
     {
         public GuestRoomSearchResultComposer(int Mode, string UserQuery, ICollection<RoomData> Rooms)
             : base(ServerPacketHeader.GuestRoomSearchResultMessageComposer)

@@ -26,7 +26,7 @@ namespace StarBlue.Core.FigureData
 
             try
             {
-                XDocument Doc = XDocument.Load(@"extra/figuredata.xml");
+                XDocument Doc = XDocument.Load(@"figuredata.xml");
 
                 var data = (from item in Doc.Descendants("sets") from tItem in Doc.Descendants("settype") select new { Part = tItem.Elements("set"), Type = tItem.Attribute("type"), });
                 foreach (var item in data.ToList())
@@ -62,7 +62,7 @@ namespace StarBlue.Core.FigureData
         {
             List<string> FigureLook = new List<string>();
             List<string> FigureParts = new List<string>();
-            string[] RequiredParts = { "hd", "ch" };
+            string[] RequiredParts = { "hd" };
             bool ForDefault = false;
 
             foreach (string Part in Figure.Split('.').ToList())

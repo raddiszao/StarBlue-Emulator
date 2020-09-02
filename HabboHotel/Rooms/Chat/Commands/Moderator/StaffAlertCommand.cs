@@ -3,9 +3,9 @@ using System;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class StaffAlertCommand : IChatCommand
+    internal class StaffAlertCommand : IChatCommand
     {
-        public string PermissionRequired => "user_3";
+        public string PermissionRequired => "user_12";
         public string Parameters => "[MENSAGEM]";
         public string Description => "Enviar mensagem aos staff.";
 

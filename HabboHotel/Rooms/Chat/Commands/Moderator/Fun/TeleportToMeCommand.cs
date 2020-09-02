@@ -3,14 +3,19 @@ using System.Drawing;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class TeleportToMeCommand : IChatCommand
+    internal class TeleportToMeCommand : IChatCommand
     {
-        public string PermissionRequired => "user_12";
+        public string PermissionRequired => "user_1";
         public string Parameters => "[USUARIO]";
         public string Description => "Teleporta um usuário até você.";
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
+            if (!Room.CheckRights(Session, false, true))
+            {
+                Session.SendWhisper("Oops, somente pessoas com direitos podem usar este comando.", 34);
+                return;
+            }
 
             if (Params.Length != 2)
             {
@@ -31,8 +36,16 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 return;
             }
 
-            Room.SendMessage(Room.GetRoomItemHandler().UpdateUserOnRoller(TargetClient.GetRoomUser(), new Point(Session.GetRoomUser().X, Session.GetRoomUser().Y), 0, Room.GetGameMap().SqAbsoluteHeight(Session.GetRoomUser().X, Session.GetRoomUser().Y)));
-            Room.GetGameMap().GenerateMaps();
+            if (Session.GetRoomUser() == null)
+            {
+                return;
+            }
+
+            if (Room.GetGameMap().ValidTile(Session.GetRoomUser().X, Session.GetRoomUser().Y))
+            {
+                Room.SendMessage(Room.GetRoomItemHandler().UpdateUserOnRoller(TargetClient.GetRoomUser(), new Point(Session.GetRoomUser().X, Session.GetRoomUser().Y), 0, Room.GetGameMap().SqAbsoluteHeight(Session.GetRoomUser().X, Session.GetRoomUser().Y)));
+                TargetClient.GetRoomUser().UpdateNeeded = true;
+            }
         }
     }
 }

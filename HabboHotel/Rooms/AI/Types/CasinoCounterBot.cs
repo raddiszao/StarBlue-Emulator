@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.AI.Types
 {
-    class CasinoCounter : BotAI
+    internal class CasinoCounter : BotAI
     {
         private int VirtualId;
 
@@ -46,7 +46,7 @@ namespace StarBlue.HabboHotel.Rooms.AI.Types
             long timeBetween = nowTime - User.GetClient().GetHabbo()._lastTimeUsedHelpCommand;
             if (timeBetween < 60000 && Message.Length == 5)
             {
-                User.GetClient().SendMessage(RoomNotificationComposer.SendBubble("abuse", "Espera al menos 1 minuto para volver a usar el sistema de revisión de rares.", ""));
+                User.GetClient().SendMessage(RoomNotificationComposer.SendBubble("abuse", "Espere um minuto.", ""));
                 return;
             }
 

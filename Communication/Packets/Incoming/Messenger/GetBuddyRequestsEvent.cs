@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
-    class GetBuddyRequestsEvent : IPacketEvent
+    internal class GetBuddyRequestsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

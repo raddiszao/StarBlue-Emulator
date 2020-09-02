@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class PickAllCommand : IChatCommand
+    internal class PickAllCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 
@@ -17,7 +17,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
-            if (!Room.CheckRights(Session))
+            if (!Room.CheckRights(Session, true))
             {
                 return;
             }

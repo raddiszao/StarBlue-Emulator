@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class AcceptGroupMembershipEvent : IPacketEvent
+    internal class AcceptGroupMembershipEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -38,7 +38,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 
             if (Group.HasChat)
             {
-                var Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
+                HabboHotel.GameClients.GameClient Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
                 if (Client != null)
                 {
                     Client.SendMessage(new FriendListUpdateComposer(Group, 1));

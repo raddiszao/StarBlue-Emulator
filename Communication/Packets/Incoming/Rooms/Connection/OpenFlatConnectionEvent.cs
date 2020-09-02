@@ -15,7 +15,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Connection
             string Password = Packet.PopString();
 
             Session.GetHabbo().PrepareRoom(RoomId, Password);
-
         }
     }
 }

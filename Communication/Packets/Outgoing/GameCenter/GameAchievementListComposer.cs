@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    class GameAchievementListComposer : ServerPacket
+    internal class GameAchievementListComposer : ServerPacket
     {
         public GameAchievementListComposer(GameClient Session, ICollection<Achievement> Achievements, int GameId)
             : base(ServerPacketHeader.GameAchievementListMessageComposer)

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    class CampaignComposer : ServerPacket
+    internal class CampaignComposer : ServerPacket
     {
         public CampaignComposer(string campaignString, string campaignName)
             : base(ServerPacketHeader.CampaignMessageComposer)

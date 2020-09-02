@@ -1,5 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Handshake;
 using StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Bots;
@@ -11,12 +10,15 @@ using StarBlue.Communication.Packets.Outgoing.Navigator;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Users;
 using StarBlue.Core;
+using StarBlue.Database.Interfaces;
+using StarBlue.HabboHotel.Badges;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Groups.Forums;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Utilities;
+using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.AI;
 using StarBlue.HabboHotel.Users.Effects;
 using StarBlue.HabboHotel.Users.Inventory.Bots;
@@ -50,15 +52,14 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
             if (Session.GetHabbo().Rank > 3 && !Session.GetHabbo().StaffOk || StarBlueServer.GoingIsToBeClose)
             {
+                Session.SendNotification("Essa função foi desativada até o servidor for reinicializado.");
                 return;
             }
 
-            if (!Page.Enabled || !Page.Visible || Page.MinimumRank > Session.GetHabbo().Rank || (Page.MinimumVIP > Session.GetHabbo().VIPRank && Session.GetHabbo().Rank == 2))
+            if (!Page.Enabled || !Page.Visible || (Page.MinimumRank > Session.GetHabbo().Rank && Page.MinimumVIP == 0) || (Page.MinimumVIP > 0 && Page.MinimumVIP > Session.GetHabbo().VIPRank && Page.MinimumRank > Session.GetHabbo().Rank))
             {
                 return;
             }
-
-            bool ValidItem = true;
 
             if (!Page.Items.TryGetValue(ItemId, out CatalogItem Item))
             {
@@ -67,21 +68,14 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     Item = Page.ItemOffers[ItemId];
                     if (Item == null)
                     {
-                        ValidItem = false;
+                        return;
                     }
                 }
                 else
                 {
-                    ValidItem = false;
+                    return;
                 }
             }
-
-            if (!ValidItem)
-            {
-                Console.WriteLine("[" + ItemId + "] Catalog cant load item.");
-                return;
-            }
-
 
             ItemData baseItem = Item.GetBaseItem(Item.ItemId);
             if (baseItem != null)
@@ -130,9 +124,27 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
                 if (baseItem.InteractionType == InteractionType.namecolor)
                 {
-                    if (Item.CostGOTWPoints > Session.GetHabbo().GOTWPoints)
+                    if (Item.CostCredits > Session.GetHabbo().Credits || Item.CostPixels > Session.GetHabbo().Duckets || Item.CostDiamonds > Session.GetHabbo().Diamonds || Item.CostGOTWPoints > Session.GetHabbo().GOTWPoints)
                     {
                         return;
+                    }
+
+                    if (Item.CostCredits > 0)
+                    {
+                        Session.GetHabbo().Credits -= Item.CostCredits;
+                        Session.SendMessage(new CreditBalanceComposer(Session.GetHabbo().Credits));
+                    }
+
+                    if (Item.CostPixels > 0)
+                    {
+                        Session.GetHabbo().Duckets -= Item.CostPixels;
+                        Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, Session.GetHabbo().Duckets));//Love you, Tom.
+                    }
+
+                    if (Item.CostDiamonds > 0)
+                    {
+                        Session.GetHabbo().Diamonds -= Item.CostDiamonds;
+                        Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Diamonds, 0, 5));
                     }
 
                     if (Item.CostGOTWPoints > 0)
@@ -155,15 +167,33 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
                 if (baseItem.InteractionType == InteractionType.changename)
                 {
-                    if (Item.CostDiamonds > Session.GetHabbo().Diamonds)
+                    if (Item.CostCredits > Session.GetHabbo().Credits || Item.CostPixels > Session.GetHabbo().Duckets || Item.CostDiamonds > Session.GetHabbo().Diamonds || Item.CostGOTWPoints > Session.GetHabbo().GOTWPoints)
                     {
                         return;
+                    }
+
+                    if (Item.CostCredits > 0)
+                    {
+                        Session.GetHabbo().Credits -= Item.CostCredits;
+                        Session.SendMessage(new CreditBalanceComposer(Session.GetHabbo().Credits));
+                    }
+
+                    if (Item.CostPixels > 0)
+                    {
+                        Session.GetHabbo().Duckets -= Item.CostPixels;
+                        Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, Session.GetHabbo().Duckets));//Love you, Tom.
                     }
 
                     if (Item.CostDiamonds > 0)
                     {
                         Session.GetHabbo().Diamonds -= Item.CostDiamonds;
                         Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Diamonds, 0, 5));
+                    }
+
+                    if (Item.CostGOTWPoints > 0)
+                    {
+                        Session.GetHabbo().GOTWPoints -= Item.CostGOTWPoints;
+                        Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().GOTWPoints, 0, 103));
                     }
 
                     Session.GetHabbo().LastNameChange = 0;
@@ -387,7 +417,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     Session.GetHabbo().Diamonds -= Item.CostDiamonds;
                     Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Diamonds, 0, 5));
 
-                    var IsVIP = Session.GetHabbo().GetClubManager().HasSubscription("club_vip");
+                    bool IsVIP = Session.GetHabbo().GetClubManager().HasSubscription("club_vip");
                     if (IsVIP)
                     {
                         Session.SendMessage(new AlertNotificationHCMessageComposer(4));
@@ -399,6 +429,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
                     Session.GetHabbo().GetClubManager().AddOrExtendSubscription("club_vip", DurationSeconds, Session);
                     Session.GetHabbo().GetBadgeComponent().GiveBadge("DVIP", true, Session);
+                    Session.GetHabbo().GetBadgeComponent().GiveBadge("VIP", true, Session);
                     Session.GetHabbo().GetBadgeComponent().GiveBadge("ACH_VipClub12", true, Session);
                     Session.GetHabbo().GetBadgeComponent().GiveBadge("ES28A", true, Session);
                     Session.GetHabbo().GetBadgeComponent().GiveBadge("ES551", true, Session);
@@ -455,10 +486,8 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 }
             }
 
-            if (Amount < 1 || Amount > 100)
-            {
+            if (Amount < 1 || Amount > 100 || !Item.HaveOffer)
                 Amount = 1;
-            }
 
             int AmountPurchase = Item.Amount > 1 ? Item.Amount : Amount;
             int TotalCreditsCost = Amount > 1 ? ((Item.CostCredits * Amount) - ((int)Math.Floor((double)Amount / 6) * Item.CostCredits)) : Item.CostCredits;
@@ -475,9 +504,29 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
             int LimitedEditionSells = 0;
             int LimitedEditionStack = 0;
 
+            if (Item.Data.InteractionType == InteractionType.NORMAL_SKATES)
+            {
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RbTagA", 1);
+            }
+
+            if (Item.Data.InteractionType == InteractionType.ICE_SKATES)
+            {
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_TagA", 1);
+            }
+
+            if (Item.Data.InteractionType == InteractionType.MUSIC_DISC)
+            {
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_MusicCollector", 1);
+            }
 
             if (Item.IsLimited)
             {
+                if (Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
+                {
+                    StarBlueServer.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("advice", "O staff " + Session.GetHabbo().Username + " tentou comprar um Raro LTD.", ""));
+                    return;
+                }
+
                 if (Item.LimitedEditionStack <= Item.LimitedEditionSells)
                 {
                     Session.SendMessage(new LTDSoldAlertComposer());
@@ -496,8 +545,6 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     LimitedEditionStack = Item.LimitedEditionStack;
                 }
             }
-
-
 
             if (Item.CostCredits > 0)
             {
@@ -528,10 +575,10 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
             if (Item.PredesignedId > 0 && StarBlueServer.GetGame().GetCatalog().GetPredesignedRooms().predesignedRoom.ContainsKey((uint)Item.PredesignedId))
             {
                 #region SELECT ROOM AND CREATE NEW
-                var predesigned = StarBlueServer.GetGame().GetCatalog().GetPredesignedRooms().predesignedRoom[(uint)Item.PredesignedId];
-                var decoration = predesigned.RoomDecoration;
+                HabboHotel.Catalog.PredesignedRooms.PredesignedRooms predesigned = StarBlueServer.GetGame().GetCatalog().GetPredesignedRooms().predesignedRoom[(uint)Item.PredesignedId];
+                string[] decoration = predesigned.RoomDecoration;
 
-                var createRoom = StarBlueServer.GetGame().GetRoomManager().CreateRoom(Session, Session.GetHabbo().Username + "'s room", "¡Una Sala pre-decorada!", predesigned.RoomModel, 1, 25, 1);
+                HabboHotel.Rooms.RoomData createRoom = StarBlueServer.GetGame().GetRoomManager().CreateRoom(Session, Session.GetHabbo().Username + "'s room", "¡Una Sala pre-decorada!", predesigned.RoomModel, 1, 25, 1);
 
                 createRoom.FloorThickness = int.Parse(decoration[0]);
                 createRoom.WallThickness = int.Parse(decoration[1]);
@@ -540,17 +587,17 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 createRoom.Wallpaper = decoration[4];
                 createRoom.Landscape = decoration[5];
                 createRoom.Floor = decoration[6];
-                var newRoom = StarBlueServer.GetGame().GetRoomManager().LoadRoom(createRoom.Id);
+                HabboHotel.Rooms.Room newRoom = StarBlueServer.GetGame().GetRoomManager().LoadRoom(createRoom.Id);
                 #endregion
 
                 #region CREATE FLOOR ITEMS
                 if (predesigned.FloorItems != null)
                 {
-                    foreach (var floorItems in predesigned.FloorItemData)
+                    foreach (HabboHotel.Catalog.PredesignedRooms.PredesignedFloorItems floorItems in predesigned.FloorItemData)
                     {
-                        using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
-                            dbClient.RunFastQuery("INSERT INTO items (id, user_id, room_id, base_item, extra_data, x, y, z, rot, wall_pos, limited_number, limited_stack) VALUES (null, " + Session.GetHabbo().Id + ", " + newRoom.RoomId + ", " + floorItems.BaseItem + ", '" + floorItems.ExtraData + "', " +
+                            dbClient.RunFastQuery("INSERT INTO items (id, user_id, room_id, base_item, extra_data, x, y, z, rot, wall_pos, limited_number, limited_stack) VALUES (null, " + Session.GetHabbo().Id + ", " + newRoom.Id + ", " + floorItems.BaseItem + ", '" + floorItems.ExtraData + "', " +
                                 floorItems.X + ", " + floorItems.Y + ", " + TextHandling.GetString(floorItems.Z) + ", " + floorItems.Rot + ", '', 0, 0);");
                         }
                     }
@@ -560,11 +607,11 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 #region CREATE WALL ITEMS
                 if (predesigned.WallItems != null)
                 {
-                    foreach (var wallItems in predesigned.WallItemData)
+                    foreach (HabboHotel.Catalog.PredesignedRooms.PredesignedWallItems wallItems in predesigned.WallItemData)
                     {
-                        using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
-                            dbClient.RunFastQuery("INSERT INTO items (id, user_id, room_id, base_item, extra_data, x, y, z, rot, wall_pos, limited_number, limited_stack) VALUES (null, " + Session.GetHabbo().Id + ", " + newRoom.RoomId + ", " + wallItems.BaseItem + ", '" + wallItems.ExtraData +
+                            dbClient.RunFastQuery("INSERT INTO items (id, user_id, room_id, base_item, extra_data, x, y, z, rot, wall_pos, limited_number, limited_stack) VALUES (null, " + Session.GetHabbo().Id + ", " + newRoom.Id + ", " + wallItems.BaseItem + ", '" + wallItems.ExtraData +
                                 "', 0, 0, 0, 0, '" + wallItems.WallCoord + "', 0, 0);");
                         }
                     }
@@ -582,19 +629,19 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 Session.SendMessage(new PurchaseOKComposer());
                 Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
                 StarBlueServer.GetGame().GetRoomManager().LoadRoom(newRoom.Id).GetRoomItemHandler().LoadFurniture();
-                var newFloorItems = newRoom.GetRoomItemHandler().GetFloor;
-                foreach (var roomItem in newFloorItems)
+                ICollection<Item> newFloorItems = newRoom.GetRoomItemHandler().GetFloor;
+                foreach (Item roomItem in newFloorItems)
                 {
                     newRoom.GetRoomItemHandler().SetFloorItem(roomItem, roomItem.GetX, roomItem.GetY, roomItem.GetZ);
                 }
 
-                var newWallItems = newRoom.GetRoomItemHandler().GetWall;
-                foreach (var roomItem in newWallItems)
+                ICollection<Item> newWallItems = newRoom.GetRoomItemHandler().GetWall;
+                foreach (Item roomItem in newWallItems)
                 {
                     newRoom.GetRoomItemHandler().SetWallItem(Session, roomItem);
                 }
 
-                Session.SendMessage(new FlatCreatedComposer(newRoom.Id, newRoom.Name));
+                Session.SendMessage(new FlatCreatedComposer(newRoom.Id, newRoom.RoomData.Name));
                 #endregion
                 return;
             }
@@ -629,12 +676,10 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     }
                     else if (thegroup.CreatorId != Session.GetHabbo().Id)
                     {
-                        Session.SendNotification("Solo el dueño del grupo puede comprar esto");
+                        Session.SendNotification("Somente o dono do grupo pode comprar um chat de grupo.");
                         return;
                     }
                     ExtraData = "" + groupID;
-
-
                     break;
 
                 case InteractionType.GUILD_FORUM:
@@ -643,20 +688,20 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                     int GpId;
                     if (!int.TryParse(ExtraData, out GpId))
                     {
-                        Session.SendNotification("Oopss! Some error when getting the group ID...");
+                        Session.SendNotification("Oopss! Aconteceu um erro ao coletar os dados do grupo.");
                         Session.SendMessage(new PurchaseOKComposer());
                         return;
                     }
                     if (!StarBlueServer.GetGame().GetGroupManager().TryGetGroup(GpId, out Gp))
                     {
-                        Session.SendNotification("Error! this group doesn't exists");
+                        Session.SendNotification("Erro! este grupo não existe.");
                         Session.SendMessage(new PurchaseOKComposer());
                         return;
                     }
 
                     if (Gp.CreatorId != Session.GetHabbo().Id)
                     {
-                        Session.SendNotification("¡Error! No eres el dueño del grupo así que no puedes crear el foro.\n\nPrimero el foro debe ser creado por el dueño del grupo...");
+                        Session.SendNotification("Erro! Você não é o proprietário do grupo, portanto não pode criar o fórum.\nPrimeiro o fórum deve ser criado pelo proprietário do grupo ...");
                         Session.SendMessage(new PurchaseOKComposer());
                         return;
                     }
@@ -667,8 +712,6 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
                 case InteractionType.GUILD_ITEM:
                 case InteractionType.GUILD_GATE:
-                case InteractionType.HCGATE:
-                case InteractionType.VIPGATE:
                     break;
 
                 case InteractionType.PINATA:
@@ -723,7 +766,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 case InteractionType.WALLPAPER:
                 case InteractionType.LANDSCAPE:
 
-                    Double Number = 0;
+                    double Number = 0;
 
                     try
                     {
@@ -733,7 +776,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                         }
                         else
                         {
-                            Number = Double.Parse(ExtraData, StarBlueServer.CultureInfo);
+                            Number = double.Parse(ExtraData, StarBlueServer.CultureInfo);
                         }
                     }
                     catch (Exception e)
@@ -1042,7 +1085,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
                         case InteractionType.DEAL:
                             {
-                                var DealItems = (from d in Page.Deals.Values.ToList() where d.Id == Item.Id select d);
+                                IEnumerable<CatalogDeal> DealItems = (from d in Page.Deals.Values.ToList() where d.Id == Item.Id select d);
                                 foreach (CatalogDeal DealItem in DealItems.ToList())
                                 {
                                     foreach (CatalogItem CatalogItem in DealItem.ItemDataList.ToList())
@@ -1062,7 +1105,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 
                     foreach (Item PurchasedItem in GeneratedGenericItems)
                     {
-                        if (Session.GetHabbo().GetInventoryComponent().TryAddItem(PurchasedItem))
+                        if (Session.GetHabbo().PurchasingItem == null && Session.GetHabbo().GetInventoryComponent().TryAddItem(PurchasedItem))
                         {
                             Session.SendMessage(new FurniListNotificationComposer(PurchasedItem.Id, 1));
                         }
@@ -1122,7 +1165,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                         Pet Pet = PetUtility.CreatePet(Session.GetHabbo().Id, PetData[0], Item.Data.BehaviourData, PetData[1], PetData[2]);
                         if (Pet != null)
                         {
-                            if (Session.GetHabbo().GetInventoryComponent().TryAddPet(Pet))
+                            if (Session.GetHabbo().PurchasingItem == null && Session.GetHabbo().GetInventoryComponent().TryAddPet(Pet))
                             {
                                 Pet.RoomId = 0;
                                 Pet.PlacedInRoom = false;
@@ -1139,18 +1182,41 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                                         Session.SendMessage(new FurniListNotificationComposer(Food.Id, 1));
                                     }
                                 }
+
+                                if (Item.Data.BehaviourData == 4)
+                                {
+                                    StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_BearBreeder", 1);
+                                }
+
+                                if (Item.Data.BehaviourData == 3)
+                                {
+                                    StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_TerrierBreeder", 1);
+                                }
                             }
                         }
                         break;
                     }
             }
 
-            if (Item.Badge != string.Empty)
+            if (Item.Badge != string.Empty && StarBlueServer.GetGame().GetBadgeManager().TryGetBadge(Item.Badge, out BadgeDefinition Badge) && (string.IsNullOrEmpty(Badge.RequiredRight) || Session.GetHabbo().GetPermissions().HasRight(Badge.RequiredRight)))
             {
-                Session.GetHabbo().GetBadgeComponent().GiveBadge(Item.Badge, true, Session);
+                Session.GetHabbo().GetBadgeComponent().GiveBadge(Badge.Code, true, Session);
             }
 
             Session.SendMessage(new PurchaseOKComposer(Item, Item.Data));
+
+            if (Session.GetHabbo().PurchasingItem != null && Session.GetHabbo().InRoom && NewItem != null)
+            {
+                Room Room = Session.GetHabbo().CurrentRoom;
+                NewItem.RoomId = Room.Id;
+                if (Room.GetRoomItemHandler().SetFloorItem(Session, NewItem, Session.GetHabbo().PurchasingItem[1], Session.GetHabbo().PurchasingItem[2], Session.GetHabbo().PurchasingItem[3], true, false, true))
+                {
+                    Session.GetHabbo().GetInventoryComponent().RemoveItem(Item.Id);
+                }
+
+                Session.GetHabbo().PurchasingItem = null;
+            }
+
             Session.SendMessage(new FurniListUpdateComposer());
         }
 

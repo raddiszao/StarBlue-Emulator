@@ -70,7 +70,6 @@ namespace StarBlue.HabboHotel.Items
         private Room _room;
         private static Random _random = new Random();
         private Dictionary<int, ThreeDCoord> _affectedPoints;
-        private Dictionary<int, ThreeDCoord> _oldAffectedTiles;
 
         private readonly bool mIsRoller;
         private readonly bool mIsWallItem;
@@ -82,6 +81,7 @@ namespace StarBlue.HabboHotel.Items
         internal bool Shoot = false;
         internal IComeDirection comeDirection;
         public MovementDirection MoveToDirMovement = MovementDirection.NONE;
+        public MovementState Movement = MovementState.NONE;
 
         public bool isBCitem;
 
@@ -114,7 +114,7 @@ namespace StarBlue.HabboHotel.Items
             }
         }
 
-        public Item(int Id, int RoomId, int BaseItem, string ExtraData, int X, int Y, Double Z, int Rot, int Userid, int Group, int limitedNumber, int limitedStack, string wallCoord, Room Room = null)
+        public Item(int Id, int RoomId, int BaseItem, string ExtraData, int X, int Y, double Z, int Rot, int Userid, int Group, int limitedNumber, int limitedStack, string wallCoord, Room Room = null)
         {
             if (StarBlueServer.GetGame().GetItemManager().GetItem(BaseItem, out ItemData Data))
             {
@@ -144,7 +144,6 @@ namespace StarBlue.HabboHotel.Items
 
                 UserID = Userid;
                 Username = StarBlueServer.GetUsernameById(Userid);
-
 
                 LimitedNo = limitedNumber;
                 LimitedTot = limitedStack;
@@ -212,7 +211,6 @@ namespace StarBlue.HabboHotel.Items
                 if (mIsFloorItem)
                 {
                     _affectedPoints = Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, GetX, GetY, Rot);
-                    _oldAffectedTiles = new Dictionary<int, ThreeDCoord>();
                 }
                 else if (mIsWallItem)
                 {
@@ -231,12 +229,6 @@ namespace StarBlue.HabboHotel.Items
         }
 
         public Dictionary<int, ThreeDCoord> GetAffectedTiles => _affectedPoints;
-
-        public Dictionary<int, ThreeDCoord> OldAffectedTiles
-        {
-            get => _oldAffectedTiles;
-            set => _oldAffectedTiles = value;
-        }
 
         public int GetX
         {
@@ -278,7 +270,7 @@ namespace StarBlue.HabboHotel.Items
         {
             get
             {
-                var toReturn = new List<Point>
+                List<Point> toReturn = new List<Point>
                 {
                     Coordinate
                 };
@@ -294,14 +286,22 @@ namespace StarBlue.HabboHotel.Items
 
         public List<Point> GetSides()
         {
-            var toReturn = new List<Point>
-            {
-                SquareBehind,
-                SquareInFront,
-                SquareLeft,
-                SquareRight,
-                Coordinate
-            };
+            var toReturn = new List<Point>();
+            toReturn.Add(SquareBehind);
+            toReturn.Add(SquareInFront);
+            toReturn.Add(SquareLeft);
+            toReturn.Add(SquareRight);
+            toReturn.Add(Coordinate);
+            return toReturn;
+        }
+
+        public List<Point> GetEscapeSides()
+        {
+            var toReturn = new List<Point>();
+            toReturn.Add(SquareEscapeBehind);
+            toReturn.Add(SquareEscapeInFront);
+            toReturn.Add(SquareEscapeLeft);
+            toReturn.Add(SquareEscapeRight);
             return toReturn;
         }
 
@@ -333,11 +333,133 @@ namespace StarBlue.HabboHotel.Items
         public bool IsFloorItem => mIsFloorItem;
         public bool IsBuilderItem => isBCitem;
 
-        public Point SquareInFront
+        public Point SquareLeftDiagonalFront
         {
             get
             {
                 var Sq = new Point(GetX, GetY);
+                if (Rotation == 0)
+                {
+                    Sq.Y--;
+                    Sq.X++;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.X++;
+                    Sq.Y--;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.Y++;
+                    Sq.X--;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.X--;
+                    Sq.Y++;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareRightDiagonalFront
+        {
+            get
+            {
+                var Sq = new Point(GetX, GetY);
+                if (Rotation == 0)
+                {
+                    Sq.Y--;
+                    Sq.X--;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.X++;
+                    Sq.Y++;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.Y++;
+                    Sq.X++;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.X--;
+                    Sq.Y--;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareRightDiagonalBehind
+        {
+            get
+            {
+                var Sq = new Point(GetX, GetY);
+
+                if (Rotation == 0)
+                {
+                    Sq.Y++;
+                    Sq.X--;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.X--;
+                    Sq.Y++;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.Y--;
+                    Sq.X++;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.X++;
+                    Sq.Y--;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareLeftDiagonalBehind
+        {
+            get
+            {
+                var Sq = new Point(GetX, GetY);
+
+                if (Rotation == 0)
+                {
+                    Sq.Y++;
+                    Sq.X++;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.X--;
+                    Sq.Y--;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.Y--;
+                    Sq.X--;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.X++;
+                    Sq.Y++;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareInFront
+        {
+            get
+            {
+                Point Sq = new Point(GetX, GetY);
 
                 if (Rotation == 0)
                 {
@@ -364,7 +486,7 @@ namespace StarBlue.HabboHotel.Items
         {
             get
             {
-                var Sq = new Point(GetX, GetY);
+                Point Sq = new Point(GetX, GetY);
 
                 if (Rotation == 0)
                 {
@@ -391,7 +513,7 @@ namespace StarBlue.HabboHotel.Items
         {
             get
             {
-                var Sq = new Point(GetX, GetY);
+                Point Sq = new Point(GetX, GetY);
 
                 if (Rotation == 0)
                 {
@@ -418,7 +540,7 @@ namespace StarBlue.HabboHotel.Items
         {
             get
             {
-                var Sq = new Point(GetX, GetY);
+                Point Sq = new Point(GetX, GetY);
 
                 if (Rotation == 0)
                 {
@@ -435,6 +557,113 @@ namespace StarBlue.HabboHotel.Items
                 else if (Rotation == 6)
                 {
                     Sq.Y--;
+                }
+                return Sq;
+            }
+        }
+
+        public Point SquareEscapeInFront
+        {
+            get
+            {
+                Point Sq = new Point(GetX, GetY);
+
+                if (Rotation == 0)
+                {
+                    Sq.Y++;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.X--;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.Y--;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.X++;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareEscapeBehind
+        {
+            get
+            {
+                Point Sq = new Point(GetX, GetY);
+
+                if (Rotation == 0)
+                {
+                    Sq.Y--;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.X++;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.Y++;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.X--;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareEscapeLeft
+        {
+            get
+            {
+                Point Sq = new Point(GetX, GetY);
+
+                if (Rotation == 0)
+                {
+                    Sq.X--;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.Y++;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.X++;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.Y--;
+                }
+
+                return Sq;
+            }
+        }
+
+        public Point SquareEscapeRight
+        {
+            get
+            {
+                Point Sq = new Point(GetX, GetY);
+
+                if (Rotation == 0)
+                {
+                    Sq.X++;
+                }
+                else if (Rotation == 2)
+                {
+                    Sq.Y--;
+                }
+                else if (Rotation == 4)
+                {
+                    Sq.X--;
+                }
+                else if (Rotation == 6)
+                {
+                    Sq.Y++;
                 }
                 return Sq;
             }
@@ -530,8 +759,8 @@ namespace StarBlue.HabboHotel.Items
                     case InteractionType.FREEZE_TILE:
                         return new InteractorFreezeTile();
 
-                    //case InteractionType.FOOTBALL:
-                    //  return new InteractorFootball();
+                    case InteractionType.FOOTBALL:
+                        return new InteractorBall();
 
                     case InteractionType.footballcounterblue:
                     case InteractionType.footballcountergreen:
@@ -608,23 +837,19 @@ namespace StarBlue.HabboHotel.Items
             }
         }
 
-        public void RegenerateBlock(string NewMode, Gamemap Tile)
+        public void RegenerateBlock(int Mode, Gamemap Tile)
         {
             try
             {
                 List<RoomUser> list = new List<RoomUser>();
 
-                if (!int.TryParse(NewMode, out int CurrentMode))
-                {
-                }
-
-                if (CurrentMode <= 0)
+                if (Mode <= 0)
                 {
                     foreach (RoomUser user in _room.GetGameMap().GetRoomUsers(new Point(GetX, GetY)))
                     {
-                        user.SqState = 0;
+                        user.SqState = 1;
                     }
-                    _room.GetGameMap().GameMap[GetX, GetY] = 0;
+                    _room.GetGameMap().GameMap[GetX, GetY] = 1;
                 }
             }
             catch
@@ -632,7 +857,7 @@ namespace StarBlue.HabboHotel.Items
             }
         }
 
-        public void SetState(int pX, int pY, Double pZ, Dictionary<int, ThreeDCoord> Tiles)
+        public void SetState(int pX, int pY, double pZ, Dictionary<int, ThreeDCoord> Tiles)
         {
             GetX = pX;
             GetY = pY;
@@ -671,26 +896,6 @@ namespace StarBlue.HabboHotel.Items
                     {
                         #region Group Gates
                         case InteractionType.GUILD_GATE:
-                            {
-                                if (ExtraData == "1")
-                                {
-                                    if (GetRoom().GetRoomUserManager().GetUserForSquare(GetX, GetY) == null)
-                                    {
-                                        ExtraData = "0";
-                                        UpdateState(false, true);
-                                    }
-                                    else
-                                    {
-                                        RequestUpdate(2, false);
-                                    }
-                                }
-                                break;
-                            }
-                        #endregion
-
-                        #region HC Gate
-                        case InteractionType.HCGATE:
-                        case InteractionType.VIPGATE:
                             {
                                 if (ExtraData == "1")
                                 {
@@ -880,7 +1085,6 @@ namespace StarBlue.HabboHotel.Items
                                             User.AllowOverride = true;
                                             keepDoorOpen = true;
 
-
                                             if (User.IsWalking && (User.GoalX != GetX || User.GoalY != GetY))
                                             {
                                                 User.ClearMovement(true);
@@ -888,8 +1092,6 @@ namespace StarBlue.HabboHotel.Items
 
                                             User.CanWalk = false;
                                             User.AllowOverride = true;
-
-
                                             User.MoveTo(Coordinate.X, Coordinate.Y, true);
                                         }
 
@@ -1095,7 +1297,6 @@ namespace StarBlue.HabboHotel.Items
                                 {
                                     User2 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
 
-
                                     if (User2 != null)
                                     {
 
@@ -1171,7 +1372,7 @@ namespace StarBlue.HabboHotel.Items
 
                                 if (ExtraData == "-1")
                                 {
-                                    var num = RandomNumber.GenerateRandom(1, 6);
+                                    int num = RandomNumber.GenerateRandom(1, 6);
                                     ExtraData = num.ToString();
                                 }
 
@@ -1231,7 +1432,6 @@ namespace StarBlue.HabboHotel.Items
                                     int randomDrink = GetBaseItem().VendingIds[RandomNumber.GenerateRandom(0, (GetBaseItem().VendingIds.Count - 1))];
                                     User.CarryItem(randomDrink);
                                 }
-
 
                                 InteractingUser = 0;
                                 ExtraData = "0";
@@ -1723,9 +1923,9 @@ namespace StarBlue.HabboHotel.Items
                 list.Add(new KeyValuePair<int, string>(_random.Next(), s));
             }
 
-            var sorted = from item in list
-                         orderby item.Key
-                         select item;
+            IOrderedEnumerable<KeyValuePair<int, string>> sorted = from item in list
+                                                                   orderby item.Key
+                                                                   select item;
 
             string[] result = new string[arr.Length];
 
@@ -1769,11 +1969,11 @@ namespace StarBlue.HabboHotel.Items
             {
                 if (IsFloorItem)
                 {
-                    GetRoom().SendMessage(new ObjectUpdateComposer(this, GetRoom().OwnerId));
+                    GetRoom().SendMessage(new ObjectUpdateComposer(this, GetRoom().RoomData.OwnerId));
                 }
                 else
                 {
-                    GetRoom().SendMessage(new ItemUpdateComposer(this, GetRoom().OwnerId));
+                    GetRoom().SendMessage(new ItemUpdateComposer(this, GetRoom().RoomData.OwnerId));
                 }
             }
         }
@@ -1836,6 +2036,26 @@ namespace StarBlue.HabboHotel.Items
                 GetRoom().AddUserToTent(Id, user, this);
             }
 
+            if (GetBaseItem().ItemName.StartsWith("sb_ramp"))
+            {
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_SkateBoardJump", 1);
+            }
+
+            if (GetBaseItem().ItemName.StartsWith("snowb_rail"))
+            {
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_Xm10QuestCompleted", 1);
+            }
+
+            if (GetBaseItem().ItemName.StartsWith("snowb_slope"))
+            {
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_Xm10QuestCompleted", 1);
+            }
+
+            if (GetBaseItem().ItemName.StartsWith("sb_rail"))
+            {
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_SkateBoardSlide", 1);
+            }
+
             //if (GetBaseItem().InteractionType == InteractionType.PRESSURE_TILE)
             //{
             //    this.ExtraData = "1";
@@ -1848,20 +2068,20 @@ namespace StarBlue.HabboHotel.Items
             //    UpdateState();
             // }
 
-            GetRoom().GetWired().TriggerEvent(Wired.WiredBoxType.TriggerWalkOnFurni, user.GetClient().GetHabbo(), this);
-            user.LastItem = this;
+            if (GetRoom().GetWired() != null)
+                GetRoom().GetWired().TriggerEvent(Wired.WiredBoxType.TriggerWalkOnFurni, user.GetClient().GetHabbo(), this);
         }
 
         public void UserWalksOffFurni(RoomUser user)
         {
-            if (user == null || user.GetClient() == null || user.GetClient().GetHabbo() == null)
+            if (user == null || user.GetClient() == null || user.GetClient().GetHabbo() == null || this == null)
             {
                 return;
             }
 
             if (GetBaseItem().InteractionType == InteractionType.TENT || GetBaseItem().InteractionType == InteractionType.TENT_SMALL)
             {
-                GetRoom().RemoveUserFromTent(Id, user, this);
+                GetRoom().RemoveUserFromTent(Id, user);
             }
 
             //if (GetBaseItem().InteractionType == InteractionType.PRESSURE_TILE)
@@ -1876,7 +2096,8 @@ namespace StarBlue.HabboHotel.Items
                 UpdateState();
             }
 
-            GetRoom().GetWired().TriggerEvent(Wired.WiredBoxType.TriggerWalkOffFurni, user.GetClient().GetHabbo(), this);
+            if (GetRoom().GetWired() != null)
+                GetRoom().GetWired().TriggerEvent(Wired.WiredBoxType.TriggerWalkOffFurni, user.GetClient().GetHabbo(), this);
         }
     }
 }

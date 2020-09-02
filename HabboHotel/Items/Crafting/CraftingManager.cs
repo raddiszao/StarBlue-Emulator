@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
+using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 
@@ -23,7 +23,7 @@ namespace StarBlue.HabboHotel.Items.Crafting
             {
                 CraftingRecipes.Clear();
                 dbClient.SetQuery("SELECT * FROM crafting_recipes");
-                var recipes = dbClient.GetTable();
+                DataTable recipes = dbClient.GetTable();
                 foreach (DataRow recipe in recipes.Rows)
                 {
                     CraftingRecipe value = new CraftingRecipe((string)recipe["id"], (string)recipe["items"], (string)recipe["result"], (int)recipe["type"]);
@@ -32,7 +32,7 @@ namespace StarBlue.HabboHotel.Items.Crafting
 
                 CraftableItems.Clear();
                 dbClient.SetQuery("SELECT * FROM crafting_items");
-                var items = dbClient.GetTable();
+                DataTable items = dbClient.GetTable();
                 foreach (DataRow item in items.Rows)
                 {
                     CraftableItems.Add((string)item["itemName"]);

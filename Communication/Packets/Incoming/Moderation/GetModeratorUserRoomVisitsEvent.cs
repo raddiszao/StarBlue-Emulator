@@ -1,5 +1,5 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Moderation;
+﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using System;
@@ -9,7 +9,7 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
-    class GetModeratorUserRoomVisitsEvent : IPacketEvent
+    internal class GetModeratorUserRoomVisitsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

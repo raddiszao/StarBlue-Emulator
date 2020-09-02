@@ -8,20 +8,38 @@
 
         public int X
         {
-            get => x;
-            set => x = value;
+            get
+            {
+                return this.x;
+            }
+            set
+            {
+                this.x = value;
+            }
         }
 
         public int Y
         {
-            get => y;
-            set => y = value;
+            get
+            {
+                return this.y;
+            }
+            set
+            {
+                this.y = value;
+            }
         }
 
         public double Z
         {
-            get => z;
-            set => z = value;
+            get
+            {
+                return this.z;
+            }
+            set
+            {
+                this.z = value;
+            }
         }
 
         public Vector3D() { }
@@ -35,7 +53,7 @@
 
         public Vector2D ToVector2D()
         {
-            return new Vector2D(x, y);
+            return new Vector2D(this.x, this.y);
         }
     }
 }

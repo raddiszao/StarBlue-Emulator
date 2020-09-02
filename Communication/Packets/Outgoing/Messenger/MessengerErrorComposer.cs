@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    class MessengerErrorComposer : ServerPacket
+    internal class MessengerErrorComposer : ServerPacket
     {
         public MessengerErrorComposer(int ErrorCode1, int ErrorCode2)
             : base(ServerPacketHeader.MessengerErrorMessageComposer)

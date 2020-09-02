@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Talents
 {
-    class TalentLevelUpComposer : ServerPacket
+    internal class TalentLevelUpComposer : ServerPacket
     {
         public TalentLevelUpComposer(Talent talent)
             : base(ServerPacketHeader.TalentLevelUpMessageComposer)

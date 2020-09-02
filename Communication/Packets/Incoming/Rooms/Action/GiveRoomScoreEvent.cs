@@ -1,12 +1,12 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Navigator;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
-    class GiveRoomScoreEvent : IPacketEvent
+    internal class GiveRoomScoreEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -21,7 +21,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
                 return;
             }
 
-            if (Session.GetHabbo().RatedRooms.Contains(Room.RoomId))
+            if (Session.GetHabbo().RatedRooms.Contains(Room.Id))
             {
                 return;
             }
@@ -30,14 +30,11 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
             switch (Rating)
             {
                 case -1:
-
-                    Room.Score--;
                     Room.RoomData.Score--;
                     break;
 
                 case 1:
 
-                    Room.Score++;
                     Room.RoomData.Score++;
                     break;
 
@@ -49,11 +46,11 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.RunFastQuery("UPDATE rooms SET score = '" + Room.Score + "' WHERE id = '" + Room.RoomId + "' LIMIT 1");
+                dbClient.RunFastQuery("UPDATE rooms SET score = '" + Room.RoomData.Score + "' WHERE id = '" + Room.Id + "' LIMIT 1");
             }
 
-            Session.GetHabbo().RatedRooms.Add(Room.RoomId);
-            Session.SendMessage(new RoomRatingComposer(Room.Score, !(Session.GetHabbo().RatedRooms.Contains(Room.RoomId) || Room.CheckRights(Session, true))));
+            Session.GetHabbo().RatedRooms.Add(Room.Id);
+            Session.SendMessage(new RoomRatingComposer(Room.RoomData.Score, !(Session.GetHabbo().RatedRooms.Contains(Room.Id) || Room.CheckRights(Session, true))));
         }
     }
 }

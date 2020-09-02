@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    class TradingConfirmedComposer : ServerPacket
+    internal class TradingConfirmedComposer : ServerPacket
     {
         public TradingConfirmedComposer(int UserId, bool Confirmed)
             : base(ServerPacketHeader.TradingConfirmedMessageComposer)

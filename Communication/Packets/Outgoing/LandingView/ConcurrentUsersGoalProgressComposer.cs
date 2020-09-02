@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    class ConcurrentUsersGoalProgressComposer : ServerPacket
+    internal class ConcurrentUsersGoalProgressComposer : ServerPacket
     {
         public ConcurrentUsersGoalProgressComposer(int UsersNow, int Type, int Goal)
             : base(ServerPacketHeader.ConcurrentUsersGoalProgressMessageComposer)

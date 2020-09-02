@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class ScrGetUserInfoEvent : IPacketEvent
+    internal class ScrGetUserInfoEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

@@ -1,17 +1,16 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using Newtonsoft.Json.Linq;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
+using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
-    class UseFurnitureEvent : IPacketEvent
+    internal class UseFurnitureEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -63,16 +62,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 return;
             }
 
-            if (Item.GetBaseItem().InteractionType == InteractionType.HCGATE)
-            {
-                return;
-            }
-
-            if (Item.GetBaseItem().InteractionType == InteractionType.VIPGATE)
-            {
-                return;
-            }
-
             if (Item.GetBaseItem().InteractionType == InteractionType.idol_chair)
             {
                 return;
@@ -99,7 +88,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                     Room.TonerData.Enabled = 0;
                 }
 
-                Room.SendMessage(new ObjectUpdateComposer(Item, Room.OwnerId));
+                Room.SendMessage(new ObjectUpdateComposer(Item, Room.RoomData.OwnerId));
 
                 Item.UpdateState();
 
@@ -115,7 +104,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 Session.SendMessage(new GnomeBoxComposer(Item.Id));
             }
 
-            Boolean Toggle = true;
+            bool Toggle = true;
             if (Item.GetBaseItem().InteractionType == InteractionType.WF_FLOOR_SWITCH_1 || Item.GetBaseItem().InteractionType == InteractionType.WF_FLOOR_SWITCH_2)
             {
                 RoomUser User = Item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
@@ -135,19 +124,19 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             Item.Interactor.OnTrigger(Session, Item, request, hasRights);
 
-            if (Session.GetHabbo().BuilderTool && Room.CheckRights(Session))
+            if (Session.GetHabbo().BuilderTool && hasRights)
             {
-                JObject WebEventData = new JObject(new JProperty("type", "buildertool-updatemobi"), new JProperty("data", new JObject(
-                    new JProperty("itemName", Item.GetBaseItem().ItemName),
-                    new JProperty("rotation", Item.Rotation),
-                    new JProperty("state", Item.ExtraData)
-                )));
-                StarBlueServer.GetGame().GetWebEventManager().SendDataDirect(Session, WebEventData.ToString());
+                Session.GetHabbo().SendWebPacket(new UpdateMobiComposer(Item.GetBaseItem().ItemName, Item.Rotation, Item.ExtraData));
             }
 
             if (Toggle)
             {
                 Item.GetRoom().GetWired().TriggerEvent(WiredBoxType.TriggerStateChanges, Session.GetHabbo(), Item);
+            }
+
+            if (Item.Data.AdjustableHeights.Count > 0 && hasRights)
+            {
+                Room.SendMessage(new UpdateStackMapMessageComposer(Room, Item.GetAffectedTiles));
             }
 
             StarBlueServer.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.EXPLORE_FIND_ITEM, Item.GetBaseItem().Id);

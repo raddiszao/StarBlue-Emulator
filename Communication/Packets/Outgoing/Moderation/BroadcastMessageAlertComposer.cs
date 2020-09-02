@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class BroadcastMessageAlertComposer : ServerPacket
+    internal class BroadcastMessageAlertComposer : ServerPacket
     {
         public BroadcastMessageAlertComposer(string Message, string URL = "")
             : base(ServerPacketHeader.BroadcastMessageAlertMessageComposer)

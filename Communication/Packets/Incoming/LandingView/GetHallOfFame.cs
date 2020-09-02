@@ -1,4 +1,4 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +25,7 @@ namespace StarBlue.Communication.Packets.Incoming.LandingView
 
                 foreach (DataRow Row in gUsersTable.Rows)
                 {
-                    var user = new UserCompetition(Row);
+                    UserCompetition user = new UserCompetition(Row);
                     if (!usersHof.Contains(user))
                     {
                         usersHof.Add(user);

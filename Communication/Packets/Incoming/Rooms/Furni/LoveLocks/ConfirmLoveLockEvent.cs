@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Furni.LoveLocks;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Furni.LoveLocks;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
 using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.LoveLocks
 {
-    class ConfirmLoveLockEvent : IPacketEvent
+    internal class ConfirmLoveLockEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -128,7 +128,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.LoveLocks
                     }
 
                     UserOne.GetClient().SendMessage(new LoveLockDialogueCloseMessageComposer(pId));
+                    StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(UserOne.GetClient(), "ACH_ValentinesQuestCompleted", 1);
                     UserTwo.GetClient().SendMessage(new LoveLockDialogueCloseMessageComposer(pId));
+                    StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(UserTwo.GetClient(), "ACH_ValentinesQuestCompleted", 1);
 
                     UserOne.CanWalk = true;
                     UserTwo.CanWalk = true;

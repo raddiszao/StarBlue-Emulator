@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Users
 {
-    class GetRelationshipsEvent : IPacketEvent
+    internal class GetRelationshipsEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -15,7 +15,7 @@ namespace StarBlue.Communication.Packets.Incoming.Users
                 return;
             }
 
-            var rand = new Random();
+            Random rand = new Random();
             Habbo.Relationships = Habbo.Relationships.OrderBy(x => rand.Next()).ToDictionary(item => item.Key, item => item.Value);
 
             int Loves = Habbo.Relationships.Count(x => x.Value.Type == 1);

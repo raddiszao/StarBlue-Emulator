@@ -2,7 +2,7 @@
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Moderation
 {
-    class ModerationRoomChatLog
+    internal class ModerationRoomChatLog
     {
         public int UserId { get; set; }
         public List<string> Chat { get; set; }

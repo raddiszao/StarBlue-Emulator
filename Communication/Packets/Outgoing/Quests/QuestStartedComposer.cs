@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.Quests;
 
 namespace StarBlue.Communication.Packets.Outgoing.Quests
 {
-    class QuestStartedComposer : ServerPacket
+    internal class QuestStartedComposer : ServerPacket
     {
         public QuestStartedComposer(GameClient Session, Quest Quest)
             : base(ServerPacketHeader.QuestStartedMessageComposer)

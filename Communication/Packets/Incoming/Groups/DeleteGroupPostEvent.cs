@@ -4,20 +4,20 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Groups
 {
-    class DeleteGroupPostEvent : IPacketEvent
+    internal class DeleteGroupPostEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            var forumId = Packet.PopInt();
-            var threadId = Packet.PopInt();
-            var postId = Packet.PopInt();
-            var deleteLevel = Packet.PopInt();
+            int forumId = Packet.PopInt();
+            int threadId = Packet.PopInt();
+            int postId = Packet.PopInt();
+            int deleteLevel = Packet.PopInt();
 
-            var forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(forumId);
+            HabboHotel.Groups.Forums.GroupForum forum = StarBlueServer.GetGame().GetGroupForumManager().GetForum(forumId);
 
-            var thread = forum.GetThread(threadId);
+            HabboHotel.Groups.Forums.GroupForumThread thread = forum.GetThread(threadId);
 
-            var post = thread.GetPost(postId);
+            HabboHotel.Groups.Forums.GroupForumThreadPost post = thread.GetPost(postId);
 
             post.DeletedLevel = deleteLevel / 10;
             post.DeleterId = Session.GetHabbo().Id;

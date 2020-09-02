@@ -1,8 +1,8 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class MoonwalkCommand : IChatCommand
+    internal class MoonwalkCommand : IChatCommand
     {
-        public string PermissionRequired => "user_vip";
+        public string PermissionRequired => "user_normal";
 
         public string Parameters => "";
 

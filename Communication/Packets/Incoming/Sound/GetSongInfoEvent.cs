@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Incoming.Sound
 {
-    class GetSongInfoEvent : IPacketEvent
+    internal class GetSongInfoEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

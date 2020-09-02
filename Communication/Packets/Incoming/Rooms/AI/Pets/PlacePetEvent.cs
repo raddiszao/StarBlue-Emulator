@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
 {
-    class PlacePetEvent : IPacketEvent
+    internal class PlacePetEvent : IPacketEvent
     {
         private static readonly ILog log = LogManager.GetLogger("StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.PlacePetEvent");
 
@@ -25,7 +25,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
                 return;
             }
 
-            if ((Room.AllowPets == 0 && !Room.CheckRights(Session, true)) || !Room.CheckRights(Session, true))
+            if (Room.RoomData.AllowPets == 0 && !Room.CheckRights(Session))
             {
                 Session.SendMessage(new RoomErrorNotifComposer(1));
                 return;
@@ -49,7 +49,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
 
             if (Pet.PlacedInRoom)
             {
-                Session.SendNotification("Esta mascota ya se encuentra en la sala?");
+                Session.SendNotification("Este mascote já se encontra no quarto.");
                 return;
             }
 
@@ -71,7 +71,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
             Pet.Y = Y;
 
             Pet.PlacedInRoom = true;
-            Pet.RoomId = Room.RoomId;
+            Pet.RoomId = Room.Id;
 
             List<RandomSpeech> RndSpeechList = new List<RandomSpeech>();
             RoomBot RoomBot = new RoomBot(Pet.PetId, Pet.RoomId, "pet", "freeroam", Pet.Name, "", Pet.Look, X, Y, 0, 0, 0, 0, 0, 0, ref RndSpeechList, "", 0, Pet.OwnerId, false, 0, false, 0);

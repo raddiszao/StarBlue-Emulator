@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class ClubGiftsComposer : ServerPacket
+    internal class ClubGiftsComposer : ServerPacket
     {
         public ClubGiftsComposer()
             : base(ServerPacketHeader.ClubGiftsMessageComposer)

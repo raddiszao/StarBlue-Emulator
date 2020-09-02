@@ -1,12 +1,12 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
 using System;
 using System.Data;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class ConvertDiamondsCommand : IChatCommand
+    internal class ConvertDiamondsCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

@@ -8,13 +8,12 @@ using System.Threading;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorSlotmachine : IFurniInteractor
+    internal class InteractorSlotmachine : IFurniInteractor
     {
-        string Rand1;
-        string Rand2;
-        string Rand3;
-
-        int paga;
+        private string Rand1;
+        private string Rand2;
+        private string Rand3;
+        private int paga;
 
         public void OnPlace(GameClient Session, Item Item)
         {

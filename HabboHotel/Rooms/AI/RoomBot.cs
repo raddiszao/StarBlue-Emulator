@@ -116,7 +116,7 @@ namespace StarBlue.HabboHotel.Rooms.AI
 
         public RandomSpeech GetRandomSpeech()
         {
-            var rand = new Random();
+            Random rand = new Random();
 
             if (RandomSpeech.Count < 1)
             {

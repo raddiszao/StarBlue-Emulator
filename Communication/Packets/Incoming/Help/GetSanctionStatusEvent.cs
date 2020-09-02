@@ -4,7 +4,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.Communication.Packets.Incoming.Help
 {
-    class GetSanctionStatusEvent : IPacketEvent
+    internal class GetSanctionStatusEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {

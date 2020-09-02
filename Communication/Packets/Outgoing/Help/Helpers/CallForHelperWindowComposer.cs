@@ -2,7 +2,7 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    class CallForHelperWindowComposer : ServerPacket
+    internal class CallForHelperWindowComposer : ServerPacket
     {
         public CallForHelperWindowComposer(bool IsHelper, int Category, string Message, int WaitTime)
             : base(ServerPacketHeader.CallForHelperWindowMessageComposer)

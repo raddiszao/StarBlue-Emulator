@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Incoming.Talents
 {
-    class PostQuizAnswersMessage : IPacketEvent
+    internal class PostQuizAnswersMessage : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -21,7 +21,7 @@ namespace StarBlue.Communication.Packets.Incoming.Talents
             int HabboQuestions = Packet.PopInt();
             List<int> errors = new List<int>(5);
 
-            var answer = new ServerPacket(ServerPacketHeader.PostQuizAnswersMessageComposer);
+            ServerPacket answer = new ServerPacket(ServerPacketHeader.PostQuizAnswersMessageComposer);
             answer.WriteString(HabboType);
             for (int i = 0; i < HabboQuestions; i++)
             {

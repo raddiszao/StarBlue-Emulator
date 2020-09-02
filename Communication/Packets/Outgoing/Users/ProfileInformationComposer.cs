@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    class ProfileInformationComposer : ServerPacket
+    internal class ProfileInformationComposer : ServerPacket
     {
         public ProfileInformationComposer(Habbo Data, GameClient Session)
             : base(ServerPacketHeader.ProfileInformationMessageComposer)

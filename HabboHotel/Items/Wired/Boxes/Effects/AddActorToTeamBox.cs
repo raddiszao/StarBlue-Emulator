@@ -4,11 +4,12 @@ using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Users;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class AddActorToTeamBox : IWiredItem
+    internal class AddActorToTeamBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -18,11 +19,17 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
 
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
+        public int TickCount { get; set; }
+        private int _delay = 0;
+        private Queue _queue;
+
         public AddActorToTeamBox(Room Instance, Item Item)
         {
             this.Instance = Instance;
             this.Item = Item;
-
+            TickCount = Delay;
+            _queue = new Queue();
             SetItems = new ConcurrentDictionary<int, Item>();
         }
 
@@ -30,18 +37,62 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         {
             int Unknown = Packet.PopInt();
             int Team = Packet.PopInt();
+            int Unknown3 = Packet.PopInt();
+            string Unknown2 = Packet.PopString();
+            Delay = Packet.PopInt();
 
             StringData = Team.ToString();
         }
 
+        public bool OnCycle()
+        {
+            if (_queue.Count == 0)
+            {
+                _queue.Clear();
+                TickCount = Delay;
+                return true;
+            }
+
+            while (_queue.Count > 0)
+            {
+                Habbo Player = (Habbo)_queue.Dequeue();
+                if (Player == null || Player.CurrentRoom != Instance)
+                {
+                    continue;
+                }
+
+                AddActor(Player);
+            }
+
+            TickCount = Delay;
+            return true;
+        }
+
         public bool Execute(params object[] Params)
         {
-            if (Params.Length == 0 || Instance == null || String.IsNullOrEmpty(StringData))
+            if (Params.Length != 1)
             {
                 return false;
             }
 
             Habbo Player = (Habbo)Params[0];
+            if (Player == null)
+            {
+                return false;
+            }
+
+            TickCount = Delay;
+            _queue.Enqueue(Player);
+            return true;
+        }
+
+        public bool AddActor(Habbo Player)
+        {
+            if (Instance == null || string.IsNullOrEmpty(StringData))
+            {
+                return false;
+            }
+
             if (Player == null)
             {
                 return false;

@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Quests
 {
-    class QuestAbortedComposer : ServerPacket
+    internal class QuestAbortedComposer : ServerPacket
     {
         public QuestAbortedComposer()
             : base(ServerPacketHeader.QuestAbortedMessageComposer)

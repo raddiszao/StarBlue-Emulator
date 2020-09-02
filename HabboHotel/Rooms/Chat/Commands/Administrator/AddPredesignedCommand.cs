@@ -1,10 +1,11 @@
-﻿using StarBlue.HabboHotel.Catalog.PredesignedRooms;
+﻿using StarBlue.Database.Interfaces;
+using StarBlue.HabboHotel.Catalog.PredesignedRooms;
 using System.Linq;
 using System.Text;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
-    class AddPredesignedCommand : IChatCommand
+    internal class AddPredesignedCommand : IChatCommand
     {
         public string PermissionRequired => "user_17";
         public string Parameters => "";
@@ -24,11 +25,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 
             StringBuilder itemAmounts = new StringBuilder(), floorItemsData = new StringBuilder(), wallItemsData = new StringBuilder(),
                 decoration = new StringBuilder();
-            var floorItems = Room.GetRoomItemHandler().GetFloor;
-            var wallItems = Room.GetRoomItemHandler().GetWall;
-            foreach (var roomItem in floorItems)
+            System.Collections.Generic.ICollection<Items.Item> floorItems = Room.GetRoomItemHandler().GetFloor;
+            System.Collections.Generic.ICollection<Items.Item> wallItems = Room.GetRoomItemHandler().GetWall;
+            foreach (Items.Item roomItem in floorItems)
             {
-                var itemCount = floorItems.Count(item => item.BaseItem == roomItem.BaseItem);
+                int itemCount = floorItems.Count(item => item.BaseItem == roomItem.BaseItem);
                 if (!itemAmounts.ToString().Contains(roomItem.BaseItem + "," + itemCount + ";"))
                 {
                     itemAmounts.Append(roomItem.BaseItem + "," + itemCount + ";");
@@ -37,9 +38,9 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                 floorItemsData.Append(roomItem.BaseItem + "$$$$" + roomItem.GetX + "$$$$" + roomItem.GetY + "$$$$" + roomItem.GetZ +
                     "$$$$" + roomItem.Rotation + "$$$$" + roomItem.ExtraData + ";");
             }
-            foreach (var roomItem in wallItems)
+            foreach (Items.Item roomItem in wallItems)
             {
-                var itemCount = wallItems.Count(item => item.BaseItem == roomItem.BaseItem);
+                int itemCount = wallItems.Count(item => item.BaseItem == roomItem.BaseItem);
                 if (!itemAmounts.ToString().Contains(roomItem.BaseItem + "," + itemCount + ";"))
                 {
                     itemAmounts.Append(roomItem.BaseItem + "," + itemCount + ";");
@@ -52,11 +53,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                 Room.RoomData.Model.WallHeight + ";" + Room.RoomData.Hidewall + ";" + Room.RoomData.Wallpaper + ";" +
                 Room.RoomData.Landscape + ";" + Room.RoomData.Floor);
 
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("INSERT INTO catalog_predesigned_rooms(room_model,flooritems,wallitems,catalogitems,room_id,room_decoration) VALUES('" + Room.RoomData.ModelName +
                     "', '" + floorItemsData + "', '" + wallItemsData + "', '" + itemAmounts + "', " + Room.Id + ", '" + decoration + "');");
-                var predesignedId = (uint)dbClient.InsertQuery();
+                uint predesignedId = (uint)dbClient.InsertQuery();
 
                 StarBlueServer.GetGame().GetCatalog().GetPredesignedRooms().predesignedRoom.Add(predesignedId,
                     new PredesignedRooms(predesignedId, (uint)Room.Id, Room.RoomData.ModelName,

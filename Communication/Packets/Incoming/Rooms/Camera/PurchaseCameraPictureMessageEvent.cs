@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
+﻿using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Camera;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 
@@ -75,8 +75,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
                 dbClient.AddParameter("timestamp2", StarBlueServer.GetUnixTimestamp());
                 dbClient.RunQuery();
             }
-
-
         }
     }
 }

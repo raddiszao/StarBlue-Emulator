@@ -5,7 +5,7 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
 {
-    class RespectPetEvent : IPacketEvent
+    internal class RespectPetEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -57,7 +57,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
                 ThisUser.CarryItemID = 999999999;
                 ThisUser.CarryTimer = 5;
 
-                if (Room.RespectNotificationsEnabled)
+                if (Room.RoomData.RespectNotificationsEnabled && !Room.RoomData.RoomMuted)
                 {
                     Room.SendMessage(new RespectPetNotificationMessageComposer(TargetUser.GetClient().GetHabbo(), TargetUser));
                 }

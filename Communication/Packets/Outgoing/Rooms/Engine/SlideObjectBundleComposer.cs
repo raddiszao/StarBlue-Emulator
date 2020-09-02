@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
+﻿using System;
+
+namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    class SlideObjectBundleComposer : ServerPacket
+    internal class SlideObjectBundleComposer : ServerPacket
     {
         public SlideObjectBundleComposer(int FromX, int FromY, double FromZ, int ToX, int ToY, double ToZ, int RollerId, int AvatarId, int ItemId)
             : base(ServerPacketHeader.SlideObjectBundleMessageComposer)
@@ -24,8 +26,8 @@
                 base.WriteInteger(AvatarId);
             }
 
-            base.WriteDouble(FromZ);
-            base.WriteDouble(ToZ);
+            base.WriteDouble(Convert.ToDouble(FromZ.ToString().Replace(',', '.')));
+            base.WriteDouble(Convert.ToDouble(ToZ.ToString().Replace(',', '.')));
 
             if (IsItem)
             {

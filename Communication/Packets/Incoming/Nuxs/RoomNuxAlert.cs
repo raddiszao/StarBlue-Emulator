@@ -1,13 +1,14 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Nux;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Database.Interfaces;
 
 namespace StarBlue.Communication.Packets.Incoming.Nuxs
 {
-    class RoomNuxAlert : IPacketEvent
+    internal class RoomNuxAlert : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
-            var habbo = Session.GetHabbo();
+            HabboHotel.Users.Habbo habbo = Session.GetHabbo();
 
             if (habbo == null)
             {
@@ -62,7 +63,7 @@ namespace StarBlue.Communication.Packets.Incoming.Nuxs
             if (habbo.PassedNuxNavigator && habbo.PassedNuxCatalog && habbo.PassedNuxItems && habbo.PassedNuxMMenu && habbo.PassedNuxChat && habbo.PassedNuxCredits && habbo.PassedNuxDuckets)
             {
                 habbo._NUX = false;
-                using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
                     dbClient.RunFastQuery("UPDATE users SET nux_user = 'false' WHERE id = " + Session.GetHabbo().Id + ";");
                 }

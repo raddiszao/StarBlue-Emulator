@@ -3,12 +3,12 @@ using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
+using StarBlue.HabboHotel.Users.Messenger;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class ApplyClothesBox : IWiredItem
+    internal class ApplyClothesBox : IWiredItem
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -45,7 +45,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 return false;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            if (string.IsNullOrEmpty(StringData))
             {
                 return false;
             }
@@ -87,6 +87,24 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
             User.GetClient().SendWhisper("Olá!", 1);
             User.GetClient().SendMessage(new AvatarAspectUpdateMessageComposer(User.GetClient().GetHabbo().Look, User.GetClient().GetHabbo().Gender));
+
+            foreach (HabboHotel.Users.Messenger.MessengerBuddy buddy in Player.GetMessenger().GetFriends())
+            {
+                if (buddy.client == null)
+                {
+                    continue;
+                }
+
+                Habbo _habbo = StarBlueServer.GetHabboById(buddy.UserId);
+                if (_habbo != null && _habbo.GetMessenger() != null)
+                {
+                    if (_habbo.GetMessenger().GetFriendsIds().TryGetValue(Player.Id, out MessengerBuddy value))
+                    {
+                        value.mLook = Figure;
+                        _habbo.GetMessenger().UpdateFriend(Player.Id, Player.GetClient(), true);
+                    }
+                }
+            }
 
             //User.BotData.Look = Figure;
             //User.BotData.Gender = "M";

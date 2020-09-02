@@ -1,15 +1,15 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Campaigns;
+﻿using StarBlue.Communication.Packets.Outgoing.Campaigns;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Users;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Incoming.Calendar
 {
-    class OpenCalendarBoxEvent : IPacketEvent
+    internal class OpenCalendarBoxEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -100,7 +100,7 @@ namespace StarBlue.Communication.Packets.Incoming.Calendar
 
                 case "vip":
                     {
-                        var IsVIP = Session.GetHabbo().GetClubManager().HasSubscription("club_vip");
+                        bool IsVIP = Session.GetHabbo().GetClubManager().HasSubscription("club_vip");
                         if (IsVIP)
                         {
                             Session.SendMessage(new AlertNotificationHCMessageComposer(4));

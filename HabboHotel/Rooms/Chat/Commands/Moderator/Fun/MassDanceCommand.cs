@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
 {
-    class MassDanceCommand : IChatCommand
+    internal class MassDanceCommand : IChatCommand
     {
         public string PermissionRequired => "user_12";
         public string Parameters => "[DANCEID]";

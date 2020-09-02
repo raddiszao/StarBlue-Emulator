@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired
 {
-    static class WiredBoxTypeUtility
+    internal static class WiredBoxTypeUtility
     {
         public static WiredBoxType FromWiredId(int Id)
         {
@@ -153,8 +153,6 @@ namespace StarBlue.HabboHotel.Items.Wired
                     return WiredBoxType.ConditionNotWearingClothes;
                 case 78:
                     return WiredBoxType.TriggerAtGivenTime;
-                case 79:
-                    return WiredBoxType.EffectMoveUser;
                 case 80:
                     return WiredBoxType.EffectTimerReset;
                 case 81:
@@ -209,6 +207,26 @@ namespace StarBlue.HabboHotel.Items.Wired
                     return WiredBoxType.TriggerUserAfk;
                 case 106:
                     return WiredBoxType.EffectMoveUserTiles;
+                case 107:
+                    return WiredBoxType.ConditionActorNotAfk;
+                case 108:
+                    return WiredBoxType.ConditionActorIsAfk;
+                case 109:
+                    return WiredBoxType.ConditionActorNotDancing;
+                case 110:
+                    return WiredBoxType.ConditionActorIsDancing;
+                case 111:
+                    return WiredBoxType.EffectActionDimmer;
+                case 112:
+                    return WiredBoxType.EffectCloseDices;
+                case 113:
+                    return WiredBoxType.AddonAnyConditionValid;
+                case 114:
+                    return WiredBoxType.EffectMoveFurniToAwayUser;
+                case 115:
+                    return WiredBoxType.EffectGiveScoreTeam;
+                case 117:
+                    return WiredBoxType.AddonUnseen;
             }
         }
 
@@ -225,14 +243,16 @@ namespace StarBlue.HabboHotel.Items.Wired
                 case WiredBoxType.ConditionFurniHasUsers:
                 case WiredBoxType.TotalUsersCoincidence:
                 case WiredBoxType.ConditionTriggererOnFurni:
+                case WiredBoxType.EffectGiveUserFreeze:
                 case WiredBoxType.EffectTimerReset:
+                case WiredBoxType.EffectGiveUserFastwalk:
+                case WiredBoxType.EffectRegenerateMaps:
                     return 1;
                 case WiredBoxType.EffectMatchPosition:
                 case WiredBoxType.TriggerAtGivenTime:
                     return 3;
                 case WiredBoxType.EffectMoveAndRotate:
                 case WiredBoxType.TriggerStateChanges:
-                case WiredBoxType.EffectMoveUser:
                     return 4;
                 case WiredBoxType.ConditionUserCountInRoom:
                     return 5;
@@ -254,11 +274,12 @@ namespace StarBlue.HabboHotel.Items.Wired
                 case WiredBoxType.EffectProgressUserAchievement:
                 case WiredBoxType.ConditionFurniHasFurni:
                 case WiredBoxType.EffectSendYouTubeVideo:
+                case WiredBoxType.EffectActionDimmer:
                     return 7;
                 case WiredBoxType.TriggerGameStarts:
                 case WiredBoxType.TriggerGameEnds:
-                case WiredBoxType.EffectTeleportToFurni:
                 case WiredBoxType.EffectTeleportAll:
+                case WiredBoxType.EffectCloseDices:
                 case WiredBoxType.EffectToggleFurniState:
                 case WiredBoxType.EffectRaiseFurni:
                 case WiredBoxType.EffectLowerFurni:
@@ -269,12 +290,9 @@ namespace StarBlue.HabboHotel.Items.Wired
                 case WiredBoxType.EffectGiveUserDuckets:
                 case WiredBoxType.EffectGiveUserCredits:
                 case WiredBoxType.EffectRoomForward:
-                case WiredBoxType.EffectGiveUserFreeze:
-                case WiredBoxType.EffectGiveUserFastwalk:
                 case WiredBoxType.EffectGiveUserEnable:
                 case WiredBoxType.EffectGiveUserDance:
                 case WiredBoxType.EffectGiveUserHanditem:
-                case WiredBoxType.EffectRegenerateMaps:
                 case WiredBoxType.EffectKickUser:
                 case WiredBoxType.EffectSetRollerSpeed:
                     return 7;
@@ -284,9 +302,9 @@ namespace StarBlue.HabboHotel.Items.Wired
                 case WiredBoxType.ConditionIsGroupMember:
                     return 10;
                 case WiredBoxType.TriggerUserFurniCollision:
-
                 case WiredBoxType.ConditionIsWearingBadge:
                 case WiredBoxType.EffectMoveFurniToNearestUser:
+                case WiredBoxType.EffectMoveFurniToAwayUser:
                     return 11;
                 case WiredBoxType.ConditionIsWearingFX:
                 case WiredBoxType.EffectMoveFurniFromNearestUser:
@@ -295,6 +313,7 @@ namespace StarBlue.HabboHotel.Items.Wired
                 case WiredBoxType.ConditionDontMatchStateAndPosition:
                     return 13;
                 case WiredBoxType.ConditionFurniHasNoUsers:
+                case WiredBoxType.EffectGiveScoreTeam:
                 case WiredBoxType.TriggerBotReachedAvatar:
                     return 14;
                 case WiredBoxType.ConditionTriggererNotOnFurni:
@@ -311,7 +330,10 @@ namespace StarBlue.HabboHotel.Items.Wired
                 case WiredBoxType.EffectMuteTriggerer:
                     return 20;
                 case WiredBoxType.ConditionIsNotGroupMember:
-                case WiredBoxType.EffectTeleportBotToFurniBox:
+                case WiredBoxType.ConditionActorIsDancing:
+                case WiredBoxType.ConditionActorNotDancing:
+                case WiredBoxType.ConditionActorIsAfk:
+                case WiredBoxType.ConditionActorNotAfk:
                     return 21;
                 case WiredBoxType.ConditionIsNotWearingBadge:
                 case WiredBoxType.ConditionActorHasHandItemBox:
@@ -326,6 +348,7 @@ namespace StarBlue.HabboHotel.Items.Wired
                 case WiredBoxType.ConditionWearingClothes:
                 case WiredBoxType.ConditionNotWearingClothes:
                 case WiredBoxType.EffectBotMovesToFurniBox:
+                case WiredBoxType.EffectTeleportBotToFurniBox:
                     return 22;
                 case WiredBoxType.ConditionIsNotWearingFX:
                 case WiredBoxType.EffectBotCommunicatesToAllBox:

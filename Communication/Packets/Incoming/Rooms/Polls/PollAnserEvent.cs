@@ -1,6 +1,6 @@
 ﻿//using StarBlue.Utilities;
 //using StarBlue.HabboHotel.Rooms;
-//using Database_Manager.Database.Session_Details.Interfaces;
+//using StarBlue.Database.Interfaces;
 //using StarBlue.HabboHotel.GameClients;
 //using StarBlue.HabboHotel.Rooms.Polls;
 //using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;

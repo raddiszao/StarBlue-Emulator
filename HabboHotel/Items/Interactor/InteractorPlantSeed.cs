@@ -1,10 +1,9 @@
 ﻿using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
-using System;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {
-    class InteractorPlantSeed : IFurniInteractor
+    internal class InteractorPlantSeed : IFurniInteractor
     {
         public void OnPlace(GameClient Session, Item Item)
         {
@@ -33,14 +32,14 @@ namespace StarBlue.HabboHotel.Items.Interactor
                 return;
             }
 
-            var tick = int.Parse(Item.ExtraData);
+            int tick = int.Parse(Item.ExtraData);
             if (Gamemap.TileDistance(Actor.X, Actor.Y, Item.GetX, Item.GetY) < 2)
             {
                 tick++;
                 Item.ExtraData = tick.ToString();
                 Item.UpdateState(true, true);
                 int X = Item.GetX, Y = Item.GetY, Rot = Item.Rotation;
-                Double Z = Item.GetZ;
+                double Z = Item.GetZ;
                 if (tick >= 12)
                 {
                     Item.ExtraData = "0";

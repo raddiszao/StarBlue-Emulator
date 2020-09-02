@@ -2,12 +2,12 @@
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
-using System;
+using System.Collections;
 using System.Collections.Concurrent;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 {
-    class BotGivesHandItemBox : IWiredItem
+    internal class BotGivesHandItemBox : IWiredItem, IWiredCycle
     {
         public Room Instance { get; set; }
         public Item Item { get; set; }
@@ -16,12 +16,18 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
         public string StringData { get; set; }
         public bool BoolData { get; set; }
         public string ItemsData { get; set; }
+        public int Delay { get => _delay; set { _delay = value; TickCount = value + 1; } }
+        public int TickCount { get; set; }
+        private int _delay = 0;
+        private Queue _queue;
 
         public BotGivesHandItemBox(Room Instance, Item Item)
         {
             this.Instance = Instance;
             this.Item = Item;
             SetItems = new ConcurrentDictionary<int, Item>();
+            TickCount = Delay;
+            _queue = new Queue();
         }
 
         public void HandleSave(ClientPacket Packet)
@@ -29,6 +35,8 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             int Unknown = Packet.PopInt();
             int DrinkID = Packet.PopInt();
             string BotName = Packet.PopString();
+            int Unknown2 = Packet.PopInt();
+            Delay = Packet.PopInt();
 
             if (SetItems.Count > 0)
             {
@@ -38,19 +46,54 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             StringData = BotName.ToString() + ";" + DrinkID.ToString();
         }
 
-        public bool Execute(params object[] Params)
+        public bool OnCycle()
         {
-            if (Params == null || Params.Length == 0)
+            if (_queue.Count == 0)
             {
-                return false;
+                _queue.Clear();
+                TickCount = Delay;
+                return true;
             }
 
-            if (String.IsNullOrEmpty(StringData))
+            while (_queue.Count > 0)
+            {
+                Habbo Player = (Habbo)_queue.Dequeue();
+                if (Player == null || Player.CurrentRoom != Instance)
+                {
+                    continue;
+                }
+
+                BotGiveHandItem(Player);
+            }
+
+            TickCount = Delay;
+            return true;
+        }
+
+        public bool Execute(params object[] Params)
+        {
+            if (Params.Length != 1)
             {
                 return false;
             }
 
             Habbo Player = (Habbo)Params[0];
+            if (Player == null)
+            {
+                return false;
+            }
+
+            TickCount = Delay;
+            _queue.Enqueue(Player);
+            return true;
+        }
+
+        public bool BotGiveHandItem(Habbo Player)
+        {
+            if (string.IsNullOrEmpty(StringData))
+            {
+                return false;
+            }
 
             if (Player == null)
             {
@@ -81,15 +124,13 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
                 {
                     string[] Data = StringData.Split(';');
 
-
                     if (!int.TryParse(Data[1], out int DrinkId))
                     {
                         return false;
                     }
 
-                    User.CarryItem(DrinkId);
+                    Actor.CarryItem(DrinkId);
                     Player.GetClient().SendMessage(new WhisperComposer(User.VirtualId, "Aqui está sua bebida, " + Player.GetClient().GetHabbo().Username + "!", 0, 31));
-
                     User.MoveTo(Actor.SquareBehind.X, Actor.SquareBehind.Y);
                 }
             }

@@ -39,7 +39,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                 Thread.Sleep(2000);
                 roomUserByHabbo.ApplyEffect(53);
                 Thread.Sleep(2000);
-                switch (new Random().Next(1, 4))
+                switch (new Random().Next(1, 3))
                 {
                     case 1:
                         Room.SendMessage(new ChatComposer(roomUserByHabbo.VirtualId, "Ei, por que eu sinto que estou voando? Porque eu voei da casa de caralho e fui pra o céu, hahahaha", 0, 6), false);
@@ -49,7 +49,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                         Room.SendMessage(new ChatComposer(roomUserByHabbo.VirtualId, "YWTF! Eu sinto que meu rosto é grosso, faz sooool bro !!", 0, 6), false);
                         break;
                     default:
-                        Room.SendMessage(new ChatComposer(roomUserByHabbo.VirtualId, "Hehehe voy muy drogado necesito cagar, me gusta es un caramelo :D", 0, 6), false);
+                        Room.SendMessage(new ChatComposer(roomUserByHabbo.VirtualId, "Hehehe voy muy drogado, me gusta es un caramelo :D", 0, 6), false);
                         break;
                 }
                 Thread.Sleep(2000);

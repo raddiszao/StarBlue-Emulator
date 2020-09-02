@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Session
 {
-    class RoomReadyComposer : ServerPacket
+    internal class RoomReadyComposer : ServerPacket
     {
         public RoomReadyComposer(int RoomId, string Model)
             : base(ServerPacketHeader.RoomReadyMessageComposer)

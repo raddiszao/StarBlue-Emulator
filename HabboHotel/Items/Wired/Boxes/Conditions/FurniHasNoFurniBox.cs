@@ -1,13 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
 using StarBlue.HabboHotel.Rooms;
-using System;
+using StarBlue.HabboHotel.Rooms.PathFinding;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 {
-    class FurniHasNoFurniBox : IWiredItem
+    internal class FurniHasNoFurniBox : IWiredItem
     {
         public Room Instance { get; set; }
 
@@ -56,71 +55,55 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
 
         public bool Execute(params object[] Params)
         {
-            return BoolData ? AllFurniHaveNotFurniOn() : SomeFurniHaveNotFurniOn();
-        }
+            if (SetItems.Count == 0)
+                return false;
 
-        public bool AllFurniHaveNotFurniOn()
-        {
-            foreach (Item Item in SetItems.Values.ToList())
-            {
-                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item))
-                {
-                    continue;
-                }
-
-                bool NoFurni = false;
-                List<Item> Items = Instance.GetGameMap().GetAllRoomItemForSquare(Item.GetX, Item.GetY);
-                if (!(Items.Where(x => x.GetZ >= Item.GetZ).Count() > 1))
-                {
-                    NoFurni = true;
-                }
-
-                if (!NoFurni)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return BoolData ? !AllFurniHaveNotFurniOn() : !SomeFurniHaveNotFurniOn();
         }
 
         public bool SomeFurniHaveNotFurniOn()
         {
+            bool HasFurni = false;
+            Gamemap map = Instance.GetGameMap();
             foreach (Item Item in SetItems.Values.ToList())
             {
-                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item)) //Si el Furni esta en la sala
-                {
+                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item))
                     continue;
-                }
 
-                bool NoFurni = false;
-                foreach (String I in ItemsData.Split(';'))
+                foreach (ThreeDCoord coord in Item.GetAffectedTiles.Values)
                 {
-                    if (String.IsNullOrEmpty(I))
-                    {
-                        continue;
-                    }
+                    if (!map.ValidTile(coord.X, coord.Y))
+                        return false;
 
-                    Item II = Instance.GetRoomItemHandler().GetItem(Convert.ToInt32(I));
-
-                    if (II == null)
-                    {
-                        continue;
-                    }
-
-                    List<Item> Items = Instance.GetGameMap().GetAllRoomItemForSquare(II.GetX, II.GetY);
-                    if (!(Items.Where(x => x.GetZ >= Item.GetZ).Count() > 1))
-                    {
-                        NoFurni = true;
-                        break;
-                    }
-
-                }
-                if (!NoFurni)
-                {
-                    return false;
+                    if (map.Model.SqFloorHeight[coord.X, coord.Y] + map.ItemHeightMap[coord.X, coord.Y] > Item.TotalHeight)
+                        HasFurni = true;
                 }
             }
+
+            if (HasFurni)
+                return true;
+
+            return false;
+        }
+
+        public bool AllFurniHaveNotFurniOn()
+        {
+            Gamemap map = Instance.GetGameMap();
+            foreach (Item Item in SetItems.Values.ToList())
+            {
+                if (Item == null || !Instance.GetRoomItemHandler().GetFloor.Contains(Item))
+                    continue;
+
+                foreach (ThreeDCoord coord in Item.GetAffectedTiles.Values)
+                {
+                    if (!map.ValidTile(coord.X, coord.Y))
+                        return false;
+
+                    if (map.Model.SqFloorHeight[coord.X, coord.Y] + map.ItemHeightMap[coord.X, coord.Y] > Item.TotalHeight)
+                        return true;
+                }
+            }
+
             return true;
         }
     }

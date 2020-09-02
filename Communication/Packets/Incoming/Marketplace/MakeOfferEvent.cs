@@ -1,13 +1,13 @@
 ﻿
-using Database_Manager.Database.Session_Details.Interfaces;
 using StarBlue.Communication.Packets.Outgoing.Marketplace;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog.Utilities;
 using StarBlue.HabboHotel.Items;
 
 
 namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
-    class MakeOfferEvent : IPacketEvent
+    internal class MakeOfferEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

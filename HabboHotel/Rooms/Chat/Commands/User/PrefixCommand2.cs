@@ -1,6 +1,8 @@
-﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
+﻿using StarBlue.Database.Interfaces;
+
+namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class PrefixCommand2 : IChatCommand
+    internal class PrefixCommand2 : IChatCommand
     {
         public string PermissionRequired => "user_1";
         public string Parameters => "%remove%";
@@ -38,7 +40,7 @@
                 return;
             }
 
-            using (var dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.RunFastQuery("UPDATE `users` SET `tag` = '" + Session.GetHabbo()._tag + "' WHERE `id` = '" + Session.GetHabbo().Id + "' LIMIT 1");
 

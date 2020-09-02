@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class SetChessGameCommand : IChatCommand
+    internal class SetChessGameCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
 

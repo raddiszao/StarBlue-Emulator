@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
 {
-    class FollowCommand : IChatCommand
+    internal class FollowCommand : IChatCommand
     {
         public string PermissionRequired => "user_normal";
         public string Parameters => "[USUARIO]";
@@ -48,13 +48,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User.Fun
                 return;
             }
 
-            if (TargetClient.GetHabbo().CurrentRoom.Access != RoomAccess.OPEN && !Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
+            if (TargetClient.GetHabbo().CurrentRoom.RoomData.Access != RoomAccess.OPEN && !Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
             {
                 Session.SendWhisper("Oops, o usuário está em um quarto fechado com uma campainha ou senha, você não pode segui-lo!", 34);
                 return;
             }
 
-            Session.GetHabbo().PrepareRoom(TargetClient.GetHabbo().CurrentRoom.RoomId, "");
+            Session.GetHabbo().PrepareRoom(TargetClient.GetHabbo().CurrentRoom.Id, "");
         }
     }
 }

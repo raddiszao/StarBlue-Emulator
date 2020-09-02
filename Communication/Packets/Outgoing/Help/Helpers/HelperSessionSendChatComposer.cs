@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    class HelperSessionSendChatComposer : ServerPacket
+    internal class HelperSessionSendChatComposer : ServerPacket
     {
         public HelperSessionSendChatComposer(int senderId, string message)
             : base(ServerPacketHeader.HelperSessionSendChatMessageComposer)

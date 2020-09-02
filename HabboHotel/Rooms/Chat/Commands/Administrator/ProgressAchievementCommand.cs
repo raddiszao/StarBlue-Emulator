@@ -3,7 +3,7 @@ using StarBlue.HabboHotel.GameClients;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
-    class ProgressAchievementCommand : IChatCommand
+    internal class ProgressAchievementCommand : IChatCommand
     {
         public string PermissionRequired => "user_17";
 

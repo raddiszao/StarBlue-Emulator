@@ -1,8 +1,8 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
+﻿using StarBlue.Database.Interfaces;
 
 namespace StarBlue.Communication.Packets.Incoming.LandingView
 {
-    class VoteCommunityGoalVS : IPacketEvent
+    internal class VoteCommunityGoalVS : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

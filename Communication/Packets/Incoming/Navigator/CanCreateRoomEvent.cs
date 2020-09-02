@@ -3,7 +3,7 @@ using StarBlue.Communication.Packets.Outgoing.Navigator;
 
 namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
-    class CanCreateRoomEvent : IPacketEvent
+    internal class CanCreateRoomEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {

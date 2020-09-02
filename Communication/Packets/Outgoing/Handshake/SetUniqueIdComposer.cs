@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    class SetUniqueIdComposer : ServerPacket
+    internal class SetUniqueIdComposer : ServerPacket
     {
         public SetUniqueIdComposer(string Id)
             : base(ServerPacketHeader.SetUniqueIdMessageComposer)

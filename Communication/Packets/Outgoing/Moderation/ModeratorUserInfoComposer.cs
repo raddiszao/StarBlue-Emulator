@@ -3,7 +3,7 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    class ModeratorUserInfoComposer : ServerPacket
+    internal class ModeratorUserInfoComposer : ServerPacket
     {
         public ModeratorUserInfoComposer(DataRow User, DataRow Info)
             : base(ServerPacketHeader.ModeratorUserInfoMessageComposer)

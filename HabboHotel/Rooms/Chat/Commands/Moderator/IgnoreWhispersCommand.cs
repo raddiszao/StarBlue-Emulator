@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
-    class IgnoreWhispersCommand : IChatCommand
+    internal class IgnoreWhispersCommand : IChatCommand
     {
         public string PermissionRequired => "user_7";
 

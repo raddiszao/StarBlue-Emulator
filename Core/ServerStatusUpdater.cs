@@ -1,11 +1,8 @@
 ﻿using log4net;
 using StarBlue.Communication.Packets.Incoming.LandingView;
-using StarBlue.HabboHotel.GameClients;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -15,7 +12,7 @@ namespace StarBlue.Core
     {
         private static ILog log = LogManager.GetLogger("StarBlue.Core.ServerStatusUpdatear");
 
-        private const int UPDATE_IN_SECS = 15;
+        private const int UPDATE_IN_SECS = 12;
 
         private Timer _timer;
         private Timer _hofTimer;
@@ -29,8 +26,8 @@ namespace StarBlue.Core
         public void Init()
         {
             memoryStream = new MemoryStream();
-            _timer = new Timer(new TimerCallback(OnTick), null, TimeSpan.FromSeconds(UPDATE_IN_SECS), TimeSpan.FromSeconds(UPDATE_IN_SECS));
-            _hofTimer = new Timer(new TimerCallback(HofUpdate), null, TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(25));
+            _timer = new Timer(new TimerCallback(UpdateOnlineUsers), null, TimeSpan.FromSeconds(UPDATE_IN_SECS), TimeSpan.FromSeconds(UPDATE_IN_SECS));
+            _hofTimer = new Timer(new TimerCallback(HofUpdate), null, TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(15));
 
             Console.Title = "STARBLUE SERVER - [0] USERS - [0] ROOMS - [0] UPTIME";
 
@@ -42,12 +39,7 @@ namespace StarBlue.Core
             GetHallOfFame.Load();
         }
 
-        public void OnTick(object Obj)
-        {
-            UpdateOnlineUsers();
-        }
-
-        private void UpdateOnlineUsers()
+        private void UpdateOnlineUsers(object Obj)
         {
             memoryStream.Flush();
             GC.Collect(GC.MaxGeneration);
@@ -57,13 +49,10 @@ namespace StarBlue.Core
 
             TimeSpan Uptime = DateTime.Now - StarBlueServer.ServerStarted;
 
-            List<GameClient> RunningClients = StarBlueServer.GetGame().GetClientManager().GetClients.ToList().
-               Where(Client => Client != null).
-               Where(Client => Client.LoggingOut != true).
-               Where(Client => Client.GetHabbo() != null).ToList();
-            int UsersOnline = Convert.ToInt32(StarBlueServer.GetGame().GetClientManager().Count);
+            int RunningClients = StarBlueServer.GetGame().GetWebClientManager().GetClients.Count;
+            int UsersOnline = StarBlueServer.GetGame().GetClientManager().Count;
             int RoomCount = StarBlueServer.GetGame().GetRoomManager().Count;
-            Console.Title = "STARBLUE SERVER - [" + RunningClients.Count + "] WEBSOCKETS [" + UsersOnline + "] USERS - [" + RoomCount + "] ROOMS - [" + Uptime.Days + "] DAYS [" + Uptime.Hours + "] HOURS";
+            Console.Title = "STARBLUE SERVER - [" + RunningClients + "] WEBSOCKETS [" + UsersOnline + "] USERS - [" + RoomCount + "] ROOMS - [" + Uptime.Days + "] DAYS [" + Uptime.Hours + "] HOURS";
 
         }
 

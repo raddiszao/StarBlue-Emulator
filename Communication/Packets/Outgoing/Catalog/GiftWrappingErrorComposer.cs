@@ -1,6 +1,6 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    class GiftWrappingErrorComposer : ServerPacket
+    internal class GiftWrappingErrorComposer : ServerPacket
     {
         public GiftWrappingErrorComposer()
             : base(ServerPacketHeader.GiftWrappingErrorMessageComposer)

@@ -1,10 +1,10 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using log4net;
+﻿using log4net;
 using StarBlue.Communication.ConnectionManager;
 using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Handshake;
 using StarBlue.Communication.Packets.Outgoing.Notifications;
 using StarBlue.Core;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Users.Messenger;
 using System;
@@ -46,12 +46,6 @@ namespace StarBlue.HabboHotel.GameClients
 
             clientPingStopwatch = new Stopwatch();
             clientPingStopwatch.Start();
-        }
-
-        public void OnCycle()
-        {
-            TestClientConnections();
-            HandleTimeouts();
         }
 
         public GameClient GetClientByUserID(int userID)
@@ -505,9 +499,9 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        private void TestClientConnections()
+        public void TestClientConnections()
         {
-            if (clientPingStopwatch.ElapsedMilliseconds >= 30000)
+            if (clientPingStopwatch.ElapsedMilliseconds >= 50000)
             {
                 clientPingStopwatch.Restart();
 
@@ -550,31 +544,23 @@ namespace StarBlue.HabboHotel.GameClients
                     }
 
                 }
-                catch (Exception)
+                catch
                 {
-
                 }
-            }
-        }
 
-        private void HandleTimeouts()
-        {
-            if (timedOutConnections.Count > 0)
-            {
-                lock (timedOutConnections.SyncRoot)
+                if (timedOutConnections.Count > 0)
                 {
-                    while (timedOutConnections.Count > 0)
+                    lock (timedOutConnections.SyncRoot)
                     {
-                        GameClient client = null;
-
-                        if (timedOutConnections.Count > 0)
+                        while (timedOutConnections.Count > 0)
                         {
-                            client = (GameClient)timedOutConnections.Dequeue();
-                        }
+                            GameClient client = null;
 
-                        if (client != null)
-                        {
-                            client.Disconnect();
+                            if (timedOutConnections.Count > 0)
+                                client = (GameClient)timedOutConnections.Dequeue();
+
+                            if (client != null)
+                                client.Disconnect();
                         }
                     }
                 }

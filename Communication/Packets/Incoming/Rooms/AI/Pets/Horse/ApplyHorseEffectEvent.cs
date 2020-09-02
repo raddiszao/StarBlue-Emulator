@@ -1,15 +1,15 @@
-﻿using Database_Manager.Database.Session_Details.Interfaces;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog.Utilities;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 {
-    class ApplyHorseEffectEvent : IPacketEvent
+    internal class ApplyHorseEffectEvent : IPacketEvent
     {
         public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
         {
@@ -79,6 +79,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 
                 //We only want to use this if we're successful. 
                 Room.GetRoomItemHandler().RemoveFurniture(Session, Item.Id, false);
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_HorseRider", 1);
             }
             else if (Item.Data.InteractionType == InteractionType.HORSE_SADDLE_2)
             {
@@ -91,6 +92,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 
                 //We only want to use this if we're successful. 
                 Room.GetRoomItemHandler().RemoveFurniture(Session, Item.Id, false);
+                StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_HorseRider", 1);
             }
             else if (Item.Data.InteractionType == InteractionType.HORSE_HAIRSTYLE)
             {
