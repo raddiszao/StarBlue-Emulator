@@ -72,7 +72,7 @@ namespace StarBlue.HabboHotel.Users.Messenger
             }
         }
 
-        public void Serialize(ServerPacket Message, GameClient Session)
+        public void Serialize(Composer Message, GameClient Session)
         {
             Relationship Relationship = null;
 

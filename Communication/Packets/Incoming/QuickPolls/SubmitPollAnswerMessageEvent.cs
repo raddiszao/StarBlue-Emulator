@@ -10,7 +10,7 @@ namespace StarBlue.Communication.Packets.Incoming.QuickPolls
 {
     internal class SubmitPollAnswerMessageEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int pollId = Packet.PopInt();
             int questionId = Packet.PopInt();

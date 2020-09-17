@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.WebSocket
+﻿using StarBlue.Communication.WebSocket;
+
+namespace StarBlue.Communication.Packets.Outgoing.WebSocket
 {
-    internal class AboutServerComposer : ServerPacket
+    internal class AboutServerComposer : WebComposer
     {
         public AboutServerComposer(int onlines, int rooms, string lastUpdate, string upTime) : base(6)
         {

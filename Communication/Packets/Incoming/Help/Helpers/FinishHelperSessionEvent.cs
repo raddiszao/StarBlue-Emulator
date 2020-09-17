@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
     internal class FinishHelperSessionEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             bool Voted = Packet.PopBoolean();
             IHelperElement Element = HelperToolsManager.GetElement(Session);

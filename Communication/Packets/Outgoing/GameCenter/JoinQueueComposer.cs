@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    internal class JoinQueueComposer : ServerPacket
+    internal class JoinQueueComposer : MessageComposer
     {
+        private int GameId { get; }
+
         public JoinQueueComposer(int GameId)
-            : base(ServerPacketHeader.JoinQueueMessageComposer)
+            : base(Composers.JoinQueueMessageComposer)
         {
-            base.WriteInteger(GameId);
+            this.GameId = GameId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(GameId);
         }
     }
 }

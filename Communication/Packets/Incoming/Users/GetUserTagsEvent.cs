@@ -6,12 +6,12 @@ namespace StarBlue.Communication.Packets.Incoming.Users
 {
     internal class GetUserTagsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int UserId = Packet.PopInt();
             GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(UserId);
 
-            Session.SendMessage(new UserTagsComposer(UserId, TargetClient));
+            Session.SendMessage(new UserTagsComposer(UserId));
         }
     }
 }

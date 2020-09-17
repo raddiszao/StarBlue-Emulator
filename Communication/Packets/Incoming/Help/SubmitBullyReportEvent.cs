@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Help
 {
     internal class SubmitBullyReportEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             //0 = sent, 1 = blocked, 2 = no chat, 3 = already reported.
             if (Session == null)

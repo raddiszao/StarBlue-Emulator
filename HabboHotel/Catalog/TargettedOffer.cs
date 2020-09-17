@@ -1,4 +1,5 @@
 ﻿using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Database.Interfaces;
 using System.Collections.Generic;
 
@@ -77,30 +78,9 @@ namespace StarBlue.HabboHotel.Catalog
             }
         }
 
-        internal ServerPacket Serialize()
+        internal MessageComposer Serialize()
         {
-            ServerPacket message = new ServerPacket(ServerPacketHeader.openBoxTargetedOffert);
-            message.WriteInteger(Open ? 4 : 1);
-            message.WriteInteger(Id);
-            message.WriteString(Code);
-            message.WriteString(Code);
-            message.WriteInteger(int.Parse(Price[0]));
-            message.WriteInteger(int.Parse(Price[1]));
-            message.WriteInteger(MoneyCode(MoneyType));
-            message.WriteInteger(Limit);
-            message.WriteInteger(Time);
-            message.WriteString(Title);
-            message.WriteString(Description);
-            message.WriteString(Image);
-            message.WriteString(Icon);
-            message.WriteInteger(0);
-            message.WriteInteger(Products.Count);
-            foreach (TargetedItems product in Products)
-            {
-                message.WriteString(string.Empty);
-            }
-
-            return message;
+            return new OpenBoxTargetedOffer(Open, Id, Code, Price, MoneyCode(MoneyType), Limit, Time, Title, Image, Description, Icon, Products);
         }
     }
 

@@ -3,17 +3,28 @@ using StarBlue.HabboHotel.Groups;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class GroupFurniSettingsComposer : ServerPacket
+    internal class GroupFurniSettingsComposer : MessageComposer
     {
+        public Group Group { get; }
+        public int ItemId { get; }
+        public int UserId { get; }
+
         public GroupFurniSettingsComposer(Group Group, int ItemId, int UserId)
-            : base(ServerPacketHeader.GroupFurniSettingsMessageComposer)
+            : base(Composers.GroupFurniSettingsMessageComposer)
         {
-            base.WriteInteger(ItemId);//Item Id
-            base.WriteInteger(Group.Id);//Group Id?
-            base.WriteString(Group.Name);
-            base.WriteInteger(Group.RoomId);//RoomId
-            base.WriteBoolean(Group.IsMember(UserId));//Member?
-            base.WriteBoolean(Group.ForumEnabled);//Has a forum
+            this.Group = Group;
+            this.ItemId = ItemId;
+            this.UserId = UserId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ItemId);//Item Id
+            packet.WriteInteger(Group.Id);//Group Id?
+            packet.WriteString(Group.Name);
+            packet.WriteInteger(Group.RoomId);//RoomId
+            packet.WriteBoolean(Group.IsMember(UserId));//Member?
+            packet.WriteBoolean(Group.ForumEnabled);//Has a forum
         }
     }
 }

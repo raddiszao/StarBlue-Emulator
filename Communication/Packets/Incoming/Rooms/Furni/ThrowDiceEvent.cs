@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
     internal class ThrowDiceEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Room Room = Session.GetHabbo().CurrentRoom;
             if (Room == null)
@@ -14,20 +14,15 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             }
 
             Item Item = Room.GetRoomItemHandler().GetItem(Packet.PopInt());
-            if (Item == null)
+            if (Item == null && Item.Data.InteractionType != InteractionType.DICE)
             {
                 return;
             }
 
-            bool hasRights = false;
-            if (Room.CheckRights(Session, false, true))
+            if (!Item.ExtraData.Equals("-1"))
             {
-                hasRights = true;
+                Item.Interactor.OnTrigger(Session, Item, 0, Room.CheckRights(Session, false, true));
             }
-
-            int request = Packet.PopInt();
-
-            Item.Interactor.OnTrigger(Session, Item, request, hasRights);
         }
     }
 }

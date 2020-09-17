@@ -7,88 +7,155 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    internal class FriendListUpdateComposer : ServerPacket
+    internal class FriendListUpdateComposer : MessageComposer
     {
-        public FriendListUpdateComposer(int FriendId)
-            : base(ServerPacketHeader.FriendListUpdateMessageComposer)
+        public int FriendId { get; }
+
+        public GameClient Session { get; }
+        public MessengerBuddy Buddy { get; }
+
+        public Group Group { get; }
+
+        public int State { get; }
+        public bool GroupUpdateState { get; }
+        public bool UpdateFriend { get; }
+        public bool SerializeBuddy { get; }
+
+        public override void Compose(Composer packet)
         {
-            base.WriteInteger(1);//Category Count
-            base.WriteInteger(1);
-            base.WriteString("Grupos");
-            base.WriteInteger(1);//Updates Count
-            base.WriteInteger(-1);//Update
-            base.WriteInteger(FriendId);
+            if (Group != null && !GroupUpdateState)
+            {
+                packet.WriteInteger(1);//Category Count
+                packet.WriteInteger(1);
+                packet.WriteString("Grupos");
+                packet.WriteInteger(1);//Updates Count
+                packet.WriteInteger(-1);//Update
+                packet.WriteInteger(Group.Id);
+            }
+            else if (Group != null && GroupUpdateState)
+            {
+                packet.WriteInteger(1);//Category Count
+                packet.WriteInteger(1);
+                packet.WriteString("Grupos");
+                packet.WriteInteger(1);//Updates Count
+
+                packet.WriteInteger(State);//Update
+                packet.WriteInteger(-Group.Id);
+                packet.WriteString(Group.Name);
+                packet.WriteInteger(0);
+
+                packet.WriteBoolean(true);
+                packet.WriteBoolean(false);
+
+                packet.WriteString(Group.Badge);//Habbo.IsOnline ? Habbo.Look : "");
+                packet.WriteInteger(1); // categoryid
+                packet.WriteString("");
+                packet.WriteString(string.Empty); // Facebook username
+                packet.WriteString(string.Empty);
+                packet.WriteBoolean(true); // Allows offline messaging
+                packet.WriteBoolean(false); // ?
+                packet.WriteBoolean(false); // Uses phone
+                packet.WriteShort(0);
+            }
+            else if (Session != null && Buddy != null && !SerializeBuddy)
+            {
+                packet.WriteInteger(1);//Category Count
+                packet.WriteInteger(1);
+                packet.WriteString("Grupos");
+                packet.WriteInteger(1);//Updates Count
+                packet.WriteInteger(0);//Update
+
+                Relationship Relationship = Session.GetHabbo().Relationships.FirstOrDefault(x => x.Value.UserId == Convert.ToInt32(Buddy.UserId)).Value;
+                int y = Relationship == null ? 0 : Relationship.Type;
+
+                packet.WriteInteger(Buddy.UserId);
+                packet.WriteString(Buddy.mUsername);
+                packet.WriteInteger(1);
+                if (!Buddy.mAppearOffline || Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
+                {
+                    packet.WriteBoolean(Buddy.IsOnline);
+                }
+                else
+                {
+                    packet.WriteBoolean(false);
+                }
+
+                if (!Buddy.mHideInroom || Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
+                {
+                    packet.WriteBoolean(Buddy.InRoom);
+                }
+                else
+                {
+                    packet.WriteBoolean(false);
+                }
+
+                packet.WriteString("");//Habbo.IsOnline ? Habbo.Look : "");
+                packet.WriteInteger(0); // categoryid
+                packet.WriteString(string.Empty);
+                packet.WriteString(string.Empty); // Facebook username
+                packet.WriteString(string.Empty);
+                packet.WriteBoolean(true); // Allows offline messaging
+                packet.WriteBoolean(false); // ?
+                packet.WriteBoolean(false); // Uses phone
+                packet.WriteShort(y);
+            }
+            else if (UpdateFriend)
+            {
+                packet.WriteInteger(1);//Category Count
+                packet.WriteInteger(1);
+                packet.WriteString("Grupos");
+                packet.WriteInteger(1);//Updates Count
+                packet.WriteInteger(-1);//Update
+                packet.WriteInteger(FriendId);
+            }
+            else
+            {
+                packet.WriteInteger(1); // category count
+                packet.WriteInteger(1);
+                packet.WriteString("Grupos");
+                packet.WriteInteger(1); // number of updates
+                packet.WriteInteger(0); // don't know
+                if (Buddy != null && Session != null && SerializeBuddy)
+                {
+                    Buddy.Serialize(packet, Session);
+                }
+            }
+        }
+
+        public FriendListUpdateComposer(Group Group)
+            : base(Composers.FriendListUpdateMessageComposer)
+        {
+            this.Group = Group;
+        }
+
+        public FriendListUpdateComposer(int FriendId)
+            : base(Composers.FriendListUpdateMessageComposer)
+        {
+            this.FriendId = FriendId;
+            this.UpdateFriend = true;
         }
 
         public FriendListUpdateComposer(Group Group, int State)
-           : base(ServerPacketHeader.FriendListUpdateMessageComposer)
+           : base(Composers.FriendListUpdateMessageComposer)
         {
-            base.WriteInteger(1);//Category Count
-            base.WriteInteger(1);
-            base.WriteString("Grupos");
-            base.WriteInteger(1);//Updates Count
-
-            base.WriteInteger(State);//Update
-            base.WriteInteger(-Group.Id);
-            base.WriteString(Group.Name);
-            base.WriteInteger(0);
-
-            base.WriteBoolean(true);
-            base.WriteBoolean(false);
-
-            base.WriteString(Group.Badge);//Habbo.IsOnline ? Habbo.Look : "");
-            base.WriteInteger(1); // categoryid
-            base.WriteString("");
-            base.WriteString(string.Empty); // Facebook username
-            base.WriteString(string.Empty);
-            base.WriteBoolean(true); // Allows offline messaging
-            base.WriteBoolean(false); // ?
-            base.WriteBoolean(false); // Uses phone
-            base.WriteShort(0);
+            this.Group = Group;
+            this.State = State;
+            this.GroupUpdateState = true;
         }
 
         public FriendListUpdateComposer(GameClient Session, MessengerBuddy Buddy)
-            : base(ServerPacketHeader.FriendListUpdateMessageComposer)
+            : base(Composers.FriendListUpdateMessageComposer)
         {
-            base.WriteInteger(1);//Category Count
-            base.WriteInteger(1);
-            base.WriteString("Grupos");
-            base.WriteInteger(1);//Updates Count
-            base.WriteInteger(0);//Update
+            this.Session = Session;
+            this.Buddy = Buddy;
+        }
 
-            Relationship Relationship = Session.GetHabbo().Relationships.FirstOrDefault(x => x.Value.UserId == Convert.ToInt32(Buddy.UserId)).Value;
-            int y = Relationship == null ? 0 : Relationship.Type;
-
-            base.WriteInteger(Buddy.UserId);
-            base.WriteString(Buddy.mUsername);
-            base.WriteInteger(1);
-            if (!Buddy.mAppearOffline || Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
-            {
-                base.WriteBoolean(Buddy.IsOnline);
-            }
-            else
-            {
-                base.WriteBoolean(false);
-            }
-
-            if (!Buddy.mHideInroom || Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
-            {
-                base.WriteBoolean(Buddy.InRoom);
-            }
-            else
-            {
-                base.WriteBoolean(false);
-            }
-
-            base.WriteString("");//Habbo.IsOnline ? Habbo.Look : "");
-            base.WriteInteger(0); // categoryid
-            base.WriteString(string.Empty);
-            base.WriteString(string.Empty); // Facebook username
-            base.WriteString(string.Empty);
-            base.WriteBoolean(true); // Allows offline messaging
-            base.WriteBoolean(false); // ?
-            base.WriteBoolean(false); // Uses phone
-            base.WriteShort(y);
+        public FriendListUpdateComposer(GameClient Session, MessengerBuddy Buddy, bool Serialize)
+            : base(Composers.FriendListUpdateMessageComposer)
+        {
+            this.Session = Session;
+            this.Buddy = Buddy;
+            this.SerializeBuddy = Serialize;
         }
     }
 }

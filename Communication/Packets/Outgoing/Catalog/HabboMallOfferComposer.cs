@@ -1,12 +1,16 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    internal class HabboMallOfferComposer : ServerPacket
+    internal class HabboMallOfferComposer : MessageComposer
     {
         public HabboMallOfferComposer()
-            : base(ServerPacketHeader.HabboMallOfferComposer)
+            : base(Composers.HabboMallOfferComposer)
         {
-            base.WriteString("Test");
-            base.WriteString("imagen");
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("Test");
+            packet.WriteString("imagen");
         }
     }
 }

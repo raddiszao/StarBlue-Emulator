@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class RemoveGroupFavouriteEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Session.GetHabbo().GetStats().FavouriteGroupId = 0;
 
@@ -15,7 +15,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 RoomUser User = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
                 if (User != null)
                 {
-                    Session.GetHabbo().CurrentRoom.SendMessage(new UpdateFavouriteGroupComposer(Session.GetHabbo().Id, null, User.VirtualId));
+                    Session.GetHabbo().CurrentRoom.SendMessage(new UpdateFavouriteGroupComposer(null, User.VirtualId));
                 }
 
                 Session.GetHabbo().CurrentRoom.SendMessage(new RefreshFavouriteGroupComposer(Session.GetHabbo().Id));

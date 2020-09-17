@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Chat
 {
-    public class UserTypingComposer : ServerPacket
+    public class UserTypingComposer : MessageComposer
     {
+        private int VirtualId { get; }
+        private bool Typing { get; }
+
         public UserTypingComposer(int VirtualId, bool Typing)
-            : base(ServerPacketHeader.UserTypingMessageComposer)
+            : base(Composers.UserTypingMessageComposer)
         {
-            base.WriteInteger(VirtualId);
-            base.WriteInteger(Typing ? 1 : 0);
+            this.VirtualId = VirtualId;
+            this.Typing = Typing;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(VirtualId);
+            packet.WriteInteger(Typing ? 1 : 0);
         }
     }
 }

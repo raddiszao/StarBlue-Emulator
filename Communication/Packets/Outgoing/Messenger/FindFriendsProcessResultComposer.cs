@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    internal class FindFriendsProcessResultComposer : ServerPacket
+    internal class FindFriendsProcessResultComposer : MessageComposer
     {
+        public bool Found { get; }
+
         public FindFriendsProcessResultComposer(bool Found)
-            : base(ServerPacketHeader.FindFriendsProcessResultMessageComposer)
+            : base(Composers.FindFriendsProcessResultMessageComposer)
         {
-            base.WriteBoolean(Found);
+            this.Found = Found;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(Found);
         }
     }
 }

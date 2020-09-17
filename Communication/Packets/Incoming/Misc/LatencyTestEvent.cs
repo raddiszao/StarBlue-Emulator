@@ -4,9 +4,9 @@ namespace StarBlue.Communication.Packets.Incoming.Misc
 {
     internal class LatencyTestEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
-            Session.SendMessage(new LatencyTestComposer(Packet.PopInt()));
+            Session.SendMessage(new PingMessageComposer());
         }
     }
 }

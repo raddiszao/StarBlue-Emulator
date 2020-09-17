@@ -26,7 +26,7 @@ namespace StarBlue.Core.FigureData
 
             try
             {
-                XDocument Doc = XDocument.Load(@"figuredata.xml");
+                XDocument Doc = XDocument.Load(@"./config/figuredata.xml");
 
                 var data = (from item in Doc.Descendants("sets") from tItem in Doc.Descendants("settype") select new { Part = tItem.Elements("set"), Type = tItem.Attribute("type"), });
                 foreach (var item in data.ToList())

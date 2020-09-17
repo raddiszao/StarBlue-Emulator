@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Purse
 {
     internal class GetCreditsInfoEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             Session.SendMessage(new CreditBalanceComposer(Session.GetHabbo().Credits));
             Session.SendMessage(new ActivityPointsComposer(Session.GetHabbo().Duckets, Session.GetHabbo().Diamonds, Session.GetHabbo().GOTWPoints));

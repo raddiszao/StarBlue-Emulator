@@ -119,7 +119,7 @@ namespace StarBlue.HabboHotel.Catalog
             return obj;
         }
 
-        internal void SerializeClub(ServerPacket Message, GameClients.GameClient Session)
+        internal void SerializeClub(Composer Message, GameClients.GameClient Session)
         {
             Message.WriteInteger(Id);
             Message.WriteString(Name);

@@ -3,27 +3,45 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    internal class HabboGroupBadgesComposer : ServerPacket
+    internal class HabboGroupBadgesComposer : MessageComposer
     {
+        private Dictionary<int, string> Badges { get; }
+        private Group Group { get; }
+
         public HabboGroupBadgesComposer(Dictionary<int, string> Badges)
-            : base(ServerPacketHeader.HabboGroupBadgesMessageComposer)
+            : base(Composers.HabboGroupBadgesMessageComposer)
         {
-            base.WriteInteger(Badges.Count);
-            foreach (KeyValuePair<int, string> Badge in Badges)
+            this.Badges = Badges;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            if (Badges != null)
             {
-                base.WriteInteger(Badge.Key);
-                base.WriteString(Badge.Value);
+                packet.WriteInteger(Badges.Count);
+                foreach (KeyValuePair<int, string> badge in Badges)
+                {
+                    packet.WriteInteger(badge.Key);
+                    packet.WriteString(badge.Value);
+                }
+            }
+            else if (Group != null)
+            {
+                packet.WriteInteger(1); //count
+
+                packet.WriteInteger(Group.Id);
+                packet.WriteString(Group.Badge);
+            }
+            else
+            {
+                packet.WriteInteger(0);
             }
         }
 
         public HabboGroupBadgesComposer(Group Group)
-            : base(ServerPacketHeader.HabboGroupBadgesMessageComposer)
+            : base(Composers.HabboGroupBadgesMessageComposer)
         {
-            base.WriteInteger(1);//count
-            {
-                base.WriteInteger(Group.Id);
-                base.WriteString(Group.Badge);
-            }
+            this.Group = Group;
         }
     }
 }

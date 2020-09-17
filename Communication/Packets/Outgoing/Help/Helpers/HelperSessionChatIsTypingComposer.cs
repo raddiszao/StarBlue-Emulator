@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class HelperSessionChatIsTypingComposer : ServerPacket
+    internal class HelperSessionChatIsTypingComposer : MessageComposer
     {
+        private bool typing { get; }
+
         public HelperSessionChatIsTypingComposer(bool typing)
-            : base(ServerPacketHeader.HelperSessionChatIsTypingMessageComposer)
+            : base(Composers.HelperSessionChatIsTypingMessageComposer)
         {
-            base.WriteBoolean(typing);
+            this.typing = typing;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(typing);
         }
     }
 }

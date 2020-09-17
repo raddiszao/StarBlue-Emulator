@@ -9,7 +9,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class SetGroupFavouriteEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null)
             {
@@ -43,7 +43,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                     RoomUser User = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
                     if (User != null)
                     {
-                        Session.GetHabbo().CurrentRoom.SendMessage(new UpdateFavouriteGroupComposer(Session.GetHabbo().Id, Group, User.VirtualId));
+                        Session.GetHabbo().CurrentRoom.SendMessage(new UpdateFavouriteGroupComposer(Group, User.VirtualId));
                     }
                 }
             }

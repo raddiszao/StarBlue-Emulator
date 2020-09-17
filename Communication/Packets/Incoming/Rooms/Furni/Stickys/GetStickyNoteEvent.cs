@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni.Stickys
 {
     internal class GetStickyNoteEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {

@@ -9,7 +9,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
     internal class SubmitNewTicketEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null)
             {
@@ -58,7 +58,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
             }
 
             StarBlueServer.GetGame().GetClientManager().ModAlert("A new support ticket has been submitted!");
-            StarBlueServer.GetGame().GetClientManager().SendMessage(new ModeratorSupportTicketComposer(Session.GetHabbo().Id, Ticket), "mod_tool");
+            StarBlueServer.GetGame().GetClientManager().SendMessage(new ModeratorSupportTicketComposer(Ticket), "mod_tool");
         }
     }
 }

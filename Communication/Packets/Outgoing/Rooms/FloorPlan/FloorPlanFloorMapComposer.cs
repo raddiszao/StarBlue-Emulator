@@ -5,10 +5,17 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.FloorPlan
 {
-    internal class FloorPlanFloorMapComposer : ServerPacket
+    internal class FloorPlanFloorMapComposer : MessageComposer
     {
+        private ICollection<Item> Items { get; }
+
         public FloorPlanFloorMapComposer(ICollection<Item> Items)
-            : base(ServerPacketHeader.FloorPlanFloorMapMessageComposer)
+            : base(Composers.FloorPlanFloorMapMessageComposer)
+        {
+            this.Items = Items;
+        }
+
+        public override void Compose(Composer packet)
         {
             List<ThreeDCoord> Tiles = new List<ThreeDCoord>();
             foreach (Item Item in Items.ToList())
@@ -19,11 +26,11 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.FloorPlan
                 }
             }
 
-            base.WriteInteger(Tiles.Count);
+            packet.WriteInteger(Tiles.Count);
             foreach (ThreeDCoord Tile in Tiles)
             {
-                base.WriteInteger(Tile.X);
-                base.WriteInteger(Tile.Y);
+                packet.WriteInteger(Tile.X);
+                packet.WriteInteger(Tile.Y);
             }
         }
     }

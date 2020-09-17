@@ -3,20 +3,27 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    internal class GameListComposer : ServerPacket
+    internal class GameListComposer : MessageComposer
     {
+        private ICollection<GameData> Games { get; }
+
         public GameListComposer(ICollection<GameData> Games)
-            : base(ServerPacketHeader.GameListMessageComposer)
+            : base(Composers.GameListMessageComposer)
         {
-            base.WriteInteger(StarBlueServer.GetGame().GetGameDataManager().GetCount());//Game count
+            this.Games = Games;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(StarBlueServer.GetGame().GetGameDataManager().GetCount());//Game count
             foreach (GameData Game in Games)
             {
-                base.WriteInteger(Game.GameId);
-                base.WriteString(Game.GameName);
-                base.WriteString(Game.ColourOne);
-                base.WriteString(Game.ColourTwo);
-                base.WriteString(Game.ResourcePath);
-                base.WriteString(Game.StringThree);
+                packet.WriteInteger(Game.GameId);
+                packet.WriteString(Game.GameName);
+                packet.WriteString(Game.ColourOne);
+                packet.WriteString(Game.ColourTwo);
+                packet.WriteString(Game.ResourcePath);
+                packet.WriteString(Game.StringThree);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.FloorPlan
 {
     internal class SaveFloorPlanModelEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {
@@ -82,7 +82,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.FloorPlan
             int DoorDirection = Packet.PopInt();
             int WallThick = Packet.PopInt();
             int FloorThick = Packet.PopInt();
-            int WallHeight = Packet.PopInt();
+            int WallHeight = Packet.RemainingLength() >= 4 ? Packet.PopInt() : 0;
 
             int DoorZ = 0;
 

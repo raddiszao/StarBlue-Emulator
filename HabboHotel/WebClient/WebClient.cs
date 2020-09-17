@@ -1,12 +1,11 @@
 ﻿using StarBlue.Communication;
 using StarBlue.Communication.ConnectionManager;
-using StarBlue.Communication.Packets.Incoming;
-using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.WebSocket;
 using StarBlue.Communication.WebSocket;
 using StarBlue.Core;
 using StarBlue.Database.Interfaces;
-using StarBlueServer.Communication;
+using StarBlue.HabboHotel.GameClients;
+using StarBlue.HabboHotel.Users.Messenger.FriendBar;
 using System;
 using System.Data;
 
@@ -48,6 +47,12 @@ namespace StarBlue.HabboHotel.WebClient
             StarBlueServer.GetGame().GetWebClientManager().LogClonesOut(UserId);
             StarBlueServer.GetGame().GetWebClientManager().RegisterClient(this, UserId);
             this.SendPacket(new AuthOkComposer());
+
+            GameClient Client = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(this.UserId);
+            if (Client == null)
+                return;
+
+            this.SendPacket(new ChangeEmojiStateComposer(Client.GetHabbo().FriendbarState == FriendBarState.CLOSED ? "close" : "open"));
         }
 
         private void SwitchParserRequest()
@@ -60,7 +65,7 @@ namespace StarBlue.HabboHotel.WebClient
             this._connection.parser.handlePacketData(packet);
         }
 
-        private void parser_onNewPacket(ClientPacket Message)
+        private void parser_onNewPacket(MessageWebEvent Message)
         {
             try
             {
@@ -93,7 +98,7 @@ namespace StarBlue.HabboHotel.WebClient
                 this._connection.Dispose();
         }
 
-        public void SendPacket(IServerPacket Message)
+        public void SendPacket(WebComposer Message)
         {
             if (Message == null || this.GetConnection() == null) return;
 

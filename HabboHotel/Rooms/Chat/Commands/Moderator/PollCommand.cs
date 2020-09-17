@@ -1,6 +1,5 @@
 ﻿using StarBlue.HabboHotel.GameClients;
-using System.Threading;
-using System.Threading.Tasks;
+using StarBlue.Utilities;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
@@ -9,9 +8,15 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
+            if (!Room.CheckRights(Session, false, true))
+            {
+                Session.SendWhisper("Somente pessoas com direitos ou donos podem usar este comando.", 34);
+                return;
+            }
+
             if (Params.Length <= 2)
             {
-                Session.SendWhisper("Por favor coloque os valores válidos. [tempo, pergunta]");
+                Session.SendWhisper("Por favor coloque os valores válidos. [tempo em minutos, pergunta]");
             }
             else
             {
@@ -26,11 +31,14 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                 {
                     Room.endQuestion();
                 }
-                else if (time != -1 || time != 0)
+                else if (time > 0)
                 {
                     Room.startQuestion(quest);
-                    time = time * 864000;
-                    Task t = Task.Factory.StartNew(() => TaskStopQuestion(Room, time));
+
+                    Threading threading = new Threading();
+                    threading.SetMinutes(time);
+                    threading.SetAction(() => Room.endQuestion());
+                    threading.Start();
                 }
                 else
                 {
@@ -39,19 +47,13 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             }
         }
 
-        public void TaskStopQuestion(Room room, int time)
-        {
-            Thread.Sleep(time);
-            room.endQuestion();
-        }
-
         public string Description =>
             "Realizar uma enquete rápida.";
 
         public string Parameters =>
-            "[TEMPO] [PERGUNTA]";
+            "[TEMPO EM MINUTOS] [PERGUNTA]";
 
         public string PermissionRequired =>
-            "user_12";
+            "user_normal";
     }
 }

@@ -1,76 +1,29 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    internal class CommunityGoalComposer : ServerPacket
+    internal class CommunityGoalComposer : MessageComposer
     {
         public CommunityGoalComposer()
-            : base(ServerPacketHeader.CommunityGoalComposer)
+            : base(Composers.CommunityGoalComposer)
+        {
+        }
+
+        public override void Compose(Composer packet)
         {
             int VOTE_LONG = StarBlueServer.GetGame().GetCommunityGoalVS().GetLeftVotes();
             int VOTE_SHORT = StarBlueServer.GetGame().GetCommunityGoalVS().GetRightVotes();
 
-            base.WriteBoolean(false); // Achieved?
-            base.WriteInteger(0); // personalContributionScore (Si no es 0 no se muestran los botones)
-            base.WriteInteger(0); // User Rank
-            base.WriteInteger(1); // totalAmount Parts | En cuantas partes se divide la votación.
-                                  //base.WriteInteger(getCommunityHighestAchievedLevel(VOTE_LONG, VOTE_SHORT)); // communityHighestAchievedLevel (nivel en el que está la flecha. De -3 a 3)
-            base.WriteInteger(2);
-            base.WriteInteger(VOTE_LONG > VOTE_SHORT ? -1 : 1); // scoreRemainingUntilNextLevel (puntuación restante hasta el siguiente nivel)
-            base.WriteInteger(getPercentCompletionTowardsNextLevel(VOTE_LONG, VOTE_SHORT)); // percentCompletionTowardsNextLevel (porcentaje completado hasta el siguiente nivel)
-            base.WriteString(StarBlueServer.GetGame().GetCommunityGoalVS().GetName());
-            base.WriteInteger(0); // countdown_widget | 0 = disable, > 0 = enable
-            base.WriteInteger(0); // Número de premios disponibles.
-            // base.WriteInteger(2); // Número de ganadores (ganador 1, 2, 3...)
-        }
-
-        public CommunityGoalComposer(bool Whats) : base(ServerPacketHeader.CommunityGoalComposer)
-        {
-            base.WriteBoolean(true); //Achieved?
-            base.WriteInteger(3); //User Amount
-            base.WriteInteger(1); //User Rank
-            base.WriteInteger(12); //Total Amount
-
-            base.WriteInteger(3);
-
-            base.WriteInteger(3); // Puntos que faltan para el siguiente nivel
-            base.WriteInteger(30); // Porcentaje antes del siguiente nivel
-            base.WriteString("avidPizzaEater");
-            base.WriteInteger(-1); //Timer
-            base.WriteInteger(1); //Rank Count
-            base.WriteInteger(1); //Rank level
-        }
-
-        public CommunityGoalComposer(bool Whats, int Hola) : base(ServerPacketHeader.CommunityGoalComposer)
-        {
-            base.WriteBoolean(false); //Achieved?
-            base.WriteInteger(-1); //User Amount
-            base.WriteInteger(0); //User Rank
-            base.WriteInteger(0); //Total Amount
-
-            base.WriteInteger(0);
-
-            base.WriteInteger(0); // Puntos que faltan para el siguiente nivel
-            base.WriteInteger(0); // Porcentaje antes del siguiente nivel
-            base.WriteString("tourdefrance17CommunityGoal");
-            base.WriteInteger(10000); //Timer
-            base.WriteInteger(0); //Rank Count
-            base.WriteInteger(0); //Rank level
-        }
-
-        public CommunityGoalComposer(bool Whats, int Hola, string Pene) : base(ServerPacketHeader.CommunityGoalComposer)
-        {
-            base.WriteBoolean(false); //Achieved?
-            base.WriteInteger(0); //User Amount
-            base.WriteInteger(0); //User Rank
-            base.WriteInteger(0); //Total Amount
-
-            base.WriteInteger(0);
-
-            base.WriteInteger(0); // Puntos que faltan para el siguiente nivel
-            base.WriteInteger(0); // Porcentaje antes del siguiente nivel
-            base.WriteString("tourdefrance17CommunityGoal");
-            base.WriteInteger(10000); //Timer
-            base.WriteInteger(0); //Rank Count
-            base.WriteInteger(0); //Rank level
+            packet.WriteBoolean(false); // Achieved?
+            packet.WriteInteger(0); // personalContributionScore (Si no es 0 no se muestran los botones)
+            packet.WriteInteger(0); // User Rank
+            packet.WriteInteger(1); // totalAmount Parts | En cuantas partes se divide la votación.
+                                    //packet.WriteInteger(getCommunityHighestAchievedLevel(VOTE_LONG, VOTE_SHORT)); // communityHighestAchievedLevel (nivel en el que está la flecha. De -3 a 3)
+            packet.WriteInteger(2);
+            packet.WriteInteger(VOTE_LONG > VOTE_SHORT ? -1 : 1); // scoreRemainingUntilNextLevel (puntuación restante hasta el siguiente nivel)
+            packet.WriteInteger(getPercentCompletionTowardsNextLevel(VOTE_LONG, VOTE_SHORT)); // percentCompletionTowardsNextLevel (porcentaje completado hasta el siguiente nivel)
+            packet.WriteString(StarBlueServer.GetGame().GetCommunityGoalVS().GetName());
+            packet.WriteInteger(0); // countdown_widget | 0 = disable, > 0 = enable
+            packet.WriteInteger(0); // Número de premios disponibles.
+            // packet.WriteInteger(2); // Número de ganadores (ganador 1, 2, 3...)
         }
 
         private int[] array1 = { -3, -2, -1, 0, 1, 2, 3 };

@@ -27,19 +27,15 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             this.SetItems = new ConcurrentDictionary<int, Item>();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
-            int score = Packet.PopInt();
-            int times = Packet.PopInt();
-            int team = Packet.PopInt();
             string Unknown3 = Packet.PopString();
             int Unknown4 = Packet.PopInt();
             int Delay = Packet.PopInt();
             this.counter = 0;
             this.TickCount = 0;
             this.Delay = Delay * 500;
-            this.StringData = Convert.ToString(score + ";" + times + ";" + team);
         }
 
         public bool OnCycle()

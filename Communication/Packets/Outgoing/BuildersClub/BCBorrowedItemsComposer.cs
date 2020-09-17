@@ -1,11 +1,16 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.BuildersClub
 {
-    internal class BCBorrowedItemsComposer : ServerPacket
+    internal class BCBorrowedItemsComposer : MessageComposer
     {
         public BCBorrowedItemsComposer()
-            : base(ServerPacketHeader.BCBorrowedItemsMessageComposer)
+            : base(Composers.BCBorrowedItemsMessageComposer)
         {
-            base.WriteInteger(0);
+
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);
         }
     }
 }

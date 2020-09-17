@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Quests
 {
     internal class GetDailyQuestEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int UsersOnline = StarBlueServer.GetGame().GetClientManager().Count;
 

@@ -1,11 +1,15 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    public class RecyclerRewardsComposer : ServerPacket
+    public class RecyclerRewardsComposer : MessageComposer
     {
         public RecyclerRewardsComposer()
-            : base(ServerPacketHeader.RecyclerRewardsMessageComposer)
+            : base(Composers.RecyclerRewardsMessageComposer)
         {
-            base.WriteInteger(0);// Count of items
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);// Count of items
         }
     }
 }

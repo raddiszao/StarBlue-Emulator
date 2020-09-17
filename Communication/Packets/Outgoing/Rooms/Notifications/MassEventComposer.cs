@@ -1,12 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 {
-    internal class MassEventComposer : ServerPacket
+    internal class MassEventComposer : MessageComposer
     {
-        public MassEventComposer(string Message)
-            : base(ServerPacketHeader.MassEventComposer)
+        private string Message { get; }
 
+        public MassEventComposer(string Message)
+            : base(Composers.MassEventComposer)
         {
-            base.WriteString(Message);
+            this.Message = Message;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Message);
         }
     }
 }

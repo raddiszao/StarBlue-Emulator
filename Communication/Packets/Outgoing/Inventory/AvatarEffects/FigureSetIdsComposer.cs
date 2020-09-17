@@ -4,21 +4,28 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
-    internal class FigureSetIdsComposer : ServerPacket
+    internal class FigureSetIdsComposer : MessageComposer
     {
+        public ICollection<ClothingParts> ClothingParts { get; }
+
         public FigureSetIdsComposer(ICollection<ClothingParts> ClothingParts)
-            : base(ServerPacketHeader.FigureSetIdsMessageComposer)
+            : base(Composers.FigureSetIdsMessageComposer)
         {
-            base.WriteInteger(ClothingParts.Count);
+            this.ClothingParts = ClothingParts;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ClothingParts.Count);
             foreach (ClothingParts Part in ClothingParts.ToList())
             {
-                base.WriteInteger(Part.PartId);
+                packet.WriteInteger(Part.PartId);
             }
 
-            base.WriteInteger(ClothingParts.Count);
+            packet.WriteInteger(ClothingParts.Count);
             foreach (ClothingParts Part in ClothingParts.ToList())
             {
-                base.WriteString(Part.Part);
+                packet.WriteString(Part.Part);
             }
         }
     }

@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class HelperSessionSendChatComposer : ServerPacket
+    internal class HelperSessionSendChatComposer : MessageComposer
     {
+        private int senderId { get; }
+        private string message { get; }
+
         public HelperSessionSendChatComposer(int senderId, string message)
-            : base(ServerPacketHeader.HelperSessionSendChatMessageComposer)
+            : base(Composers.HelperSessionSendChatMessageComposer)
         {
-            base.WriteString(message);
-            base.WriteInteger(senderId);
+            this.senderId = senderId;
+            this.message = message;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(message);
+            packet.WriteInteger(senderId);
         }
     }
 }

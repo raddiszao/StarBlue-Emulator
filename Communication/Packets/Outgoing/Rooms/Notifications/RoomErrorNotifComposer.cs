@@ -1,11 +1,17 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 {
-    internal class RoomErrorNotifComposer : ServerPacket
+    internal class RoomErrorNotifComposer : MessageComposer
     {
+        public int Error { get; }
         public RoomErrorNotifComposer(int Error)
-            : base(ServerPacketHeader.RoomErrorNotifMessageComposer)
+            : base(Composers.RoomErrorNotifMessageComposer)
         {
-            base.WriteInteger(Error);
+            this.Error = Error;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Error);
         }
     }
 }

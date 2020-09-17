@@ -10,7 +10,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
     internal class JoinPlayerQueueEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if ((Session == null) || (Session.GetHabbo() == null))
             {
@@ -44,7 +44,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                             dbClient.RunFastQuery("INSERT INTO user_auth_ticket(user_id, auth_ticket) VALUES ('" + HabboID +
                                               "', '" +
                                               SSOTicket + "')");
-                            Session.SendMessage(new LoadGameComposer(GameData, SSOTicket, Session));
+                            Session.SendMessage(new LoadGameComposer(SSOTicket));
                         }
                         else
                         {
@@ -53,7 +53,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                             foreach (DataRow dRow in data.Rows)
                             {
                                 object SSOTicket = dRow["auth_ticket"];
-                                Session.SendMessage(new LoadGameComposer(GameData, (string)SSOTicket, Session));
+                                Session.SendMessage(new LoadGameComposer((string)SSOTicket));
                             }
                         }
 
@@ -86,7 +86,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                             dbClient.RunFastQuery("INSERT INTO user_auth_ticket(user_id, auth_ticket) VALUES ('" + HabboID +
                                               "', '" +
                                               SSOTicket + "')");
-                            Session.SendMessage(new LoadGameComposer(GameData, SSOTicket, Session));
+                            Session.SendMessage(new LoadGameComposer(SSOTicket));
                         }
                         else
                         {
@@ -95,7 +95,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
                             foreach (DataRow dRow in data.Rows)
                             {
                                 object SSOTicket = dRow["auth_ticket"];
-                                Session.SendMessage(new LoadGameComposer(GameData, (string)SSOTicket, Session));
+                                Session.SendMessage(new LoadGameComposer((string)SSOTicket));
                             }
                         }
                     }

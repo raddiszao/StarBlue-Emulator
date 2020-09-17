@@ -6,13 +6,20 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class ModeratorUserChatlogComposer : ServerPacket
+    internal class ModeratorUserChatlogComposer : MessageComposer
     {
+        private int UserId { get; }
+
         public ModeratorUserChatlogComposer(int UserId)
-            : base(ServerPacketHeader.ModeratorUserChatlogMessageComposer)
+            : base(Composers.ModeratorUserChatlogMessageComposer)
         {
-            base.WriteInteger(UserId);
-            base.WriteString(StarBlueServer.GetGame().GetClientManager().GetNameById(UserId));
+            this.UserId = UserId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(UserId);
+            packet.WriteString(StarBlueServer.GetGame().GetClientManager().GetNameById(UserId));
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT room_id,entry_timestamp,exit_timestamp FROM user_roomvisits WHERE `user_id` = " + UserId + " ORDER BY entry_timestamp DESC LIMIT 5");
@@ -20,7 +27,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
 
                 if (Visits != null)
                 {
-                    base.WriteInteger(Visits.Rows.Count);
+                    packet.WriteInteger(Visits.Rows.Count);
                     foreach (DataRow Visit in Visits.Rows)
                     {
                         string RoomName = "Unknown";
@@ -32,14 +39,14 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
                             RoomName = Room.RoomData.Name;
                         }
 
-                        base.WriteByte(1);
-                        base.WriteShort(2);//Count
-                        base.WriteString("roomName");
-                        base.WriteByte(2);
-                        base.WriteString(RoomName); // room name
-                        base.WriteString("roomId");
-                        base.WriteByte(1);
-                        base.WriteInteger(Convert.ToInt32(Visit["room_id"]));
+                        packet.WriteByte(1);
+                        packet.WriteShort(2);//Count
+                        packet.WriteString("roomName");
+                        packet.WriteByte(2);
+                        packet.WriteString(RoomName); // room name
+                        packet.WriteString("roomId");
+                        packet.WriteByte(1);
+                        packet.WriteInteger(Convert.ToInt32(Visit["room_id"]));
 
                         DataTable Chatlogs = null;
                         if ((double)Visit["exit_timestamp"] <= 0)
@@ -52,7 +59,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
 
                         if (Chatlogs != null)
                         {
-                            base.WriteShort(Chatlogs.Rows.Count);
+                            packet.WriteShort(Chatlogs.Rows.Count);
                             foreach (DataRow Log in Chatlogs.Rows)
                             {
                                 UserCache Habbo = StarBlueServer.GetGame().GetCacheManager().GenerateUser(Convert.ToInt32(Log["user_id"]));
@@ -65,22 +72,22 @@ namespace StarBlue.Communication.Packets.Outgoing.Moderation
                                 DateTime dDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
                                 dDateTime = dDateTime.AddSeconds(Convert.ToInt32(Log["timestamp"])).ToLocalTime();
 
-                                base.WriteString(dDateTime.Hour + ":" + dDateTime.Minute);
-                                base.WriteInteger(Habbo.Id);
-                                base.WriteString(Habbo.Username);
-                                base.WriteString(string.IsNullOrWhiteSpace(Convert.ToString(Log["message"])) ? "*stemen*" : Convert.ToString(Log["message"]));
-                                base.WriteBoolean(false);
+                                packet.WriteString(dDateTime.Hour + ":" + dDateTime.Minute);
+                                packet.WriteInteger(Habbo.Id);
+                                packet.WriteString(Habbo.Username);
+                                packet.WriteString(string.IsNullOrWhiteSpace(Convert.ToString(Log["message"])) ? "*stemen*" : Convert.ToString(Log["message"]));
+                                packet.WriteBoolean(false);
                             }
                         }
                         else
                         {
-                            base.WriteInteger(0);
+                            packet.WriteInteger(0);
                         }
                     }
                 }
                 else
                 {
-                    base.WriteInteger(0);
+                    packet.WriteInteger(0);
                 }
             }
         }

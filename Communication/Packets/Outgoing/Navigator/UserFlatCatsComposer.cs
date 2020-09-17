@@ -4,21 +4,30 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class UserFlatCatsComposer : ServerPacket
+    internal class UserFlatCatsComposer : MessageComposer
     {
+        private ICollection<SearchResultList> Categories { get; }
+        private int Rank { get; }
+
         public UserFlatCatsComposer(ICollection<SearchResultList> Categories, int Rank)
-            : base(ServerPacketHeader.UserFlatCatsMessageComposer)
+            : base(Composers.UserFlatCatsMessageComposer)
         {
-            base.WriteInteger(Categories.Count);
+            this.Categories = Categories;
+            this.Rank = Rank;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Categories.Count);
             foreach (SearchResultList Cat in Categories)
             {
-                base.WriteInteger(Cat.Id);
-                base.WriteString(Cat.PublicName);
-                base.WriteBoolean(Cat.RequiredRank <= Rank);
-                base.WriteBoolean(false);
-                base.WriteString("");
-                base.WriteString("");
-                base.WriteBoolean(false);
+                packet.WriteInteger(Cat.Id);
+                packet.WriteString(Cat.PublicName);
+                packet.WriteBoolean(Cat.RequiredRank <= Rank);
+                packet.WriteBoolean(false);
+                packet.WriteString("");
+                packet.WriteString("");
+                packet.WriteBoolean(false);
             }
         }
     }

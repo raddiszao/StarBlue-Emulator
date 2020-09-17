@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     internal class AssignRightsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null)
             {

@@ -1,11 +1,17 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    internal class RoomSettingsSavedComposer : ServerPacket
+    internal class RoomSettingsSavedComposer : MessageComposer
     {
+        public int RoomId { get; }
         public RoomSettingsSavedComposer(int roomID)
-            : base(ServerPacketHeader.RoomSettingsSavedMessageComposer)
+            : base(Composers.RoomSettingsSavedMessageComposer)
         {
-            base.WriteInteger(roomID);
+            this.RoomId = roomID;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Polls
 {
     internal class PollStartEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient session, ClientPacket packet)
+        public void Parse(HabboHotel.GameClients.GameClient session, MessageEvent packet)
         {
             int pollId = packet.PopInt();
 

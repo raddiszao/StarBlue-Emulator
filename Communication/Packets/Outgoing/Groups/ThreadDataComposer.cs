@@ -2,19 +2,28 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class ThreadDataComposer : ServerPacket
+    internal class ThreadDataComposer : MessageComposer
     {
-        public ThreadDataComposer(GroupForumThread Thread, int StartIndex, int MaxLength)
-            : base(ServerPacketHeader.ThreadDataMessageComposer)
+        private GroupForumThread Thread { get; }
+        private int StartIndex { get; }
+
+        public ThreadDataComposer(GroupForumThread Thread, int StartIndex)
+            : base(Composers.ThreadDataMessageComposer)
         {
-            base.WriteInteger(Thread.ParentForum.Id);
-            base.WriteInteger(Thread.Id);
-            base.WriteInteger(StartIndex);
-            base.WriteInteger(Thread.Posts.Count); //Messages count
+            this.Thread = Thread;
+            this.StartIndex = StartIndex;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Thread.ParentForum.Id);
+            packet.WriteInteger(Thread.Id);
+            packet.WriteInteger(StartIndex);
+            packet.WriteInteger(Thread.Posts.Count); //Messages count
 
             foreach (GroupForumThreadPost Post in Thread.Posts)
             {
-                Post.SerializeData(this);
+                Post.SerializeData(packet);
             }
 
         }

@@ -29,7 +29,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             SetItems = new ConcurrentDictionary<int, Item>();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             SetItems.Clear();
             int Unknown = Packet.PopInt();

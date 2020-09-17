@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.WebSocket
+﻿using StarBlue.Communication.WebSocket;
+
+namespace StarBlue.Communication.Packets.Outgoing.WebSocket
 {
-    internal class YoutubeVideoComposer : ServerPacket
+    internal class YoutubeVideoComposer : WebComposer
     {
         public YoutubeVideoComposer(string VideoId, string VideoBy) : base(2)
         {

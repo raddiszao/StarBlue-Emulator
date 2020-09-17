@@ -11,7 +11,7 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
     internal class GetOffersEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             int MinCost = Packet.PopInt();
             int MaxCost = Packet.PopInt();
@@ -116,7 +116,7 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
                 }
             }
 
-            Session.SendMessage(new MarketPlaceOffersComposer(MinCost, MaxCost, dictionary, dictionary2));
+            Session.SendMessage(new MarketPlaceOffersComposer(dictionary, dictionary2));
         }
     }
 }

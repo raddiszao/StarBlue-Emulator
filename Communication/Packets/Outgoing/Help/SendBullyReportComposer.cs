@@ -1,11 +1,16 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help
 {
-    internal class SendBullyReportComposer : ServerPacket
+    internal class SendBullyReportComposer : MessageComposer
     {
         public SendBullyReportComposer()
-            : base(ServerPacketHeader.SendBullyReportMessageComposer)
+            : base(Composers.SendBullyReportMessageComposer)
         {
-            base.WriteInteger(0);//0-3, sends 0 on Habbo for this purpose.
+
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);//0-3, sends 0 on Habbo for this purpose.
         }
     }
 }

@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    internal class GnomeBoxComposer : ServerPacket
+    internal class GnomeBoxComposer : MessageComposer
     {
+        public int ItemId { get; }
+
         public GnomeBoxComposer(int ItemId)
-            : base(ServerPacketHeader.GnomeBoxMessageComposer)
+            : base(Composers.GnomeBoxMessageComposer)
         {
-            base.WriteInteger(ItemId);
+            this.ItemId = ItemId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ItemId);
         }
     }
 }

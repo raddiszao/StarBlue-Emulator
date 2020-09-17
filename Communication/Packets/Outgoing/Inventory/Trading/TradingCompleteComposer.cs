@@ -1,10 +1,15 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    internal class TradingCompleteComposer : ServerPacket
+    internal class TradingCompleteComposer : MessageComposer
     {
         public TradingCompleteComposer()
-            : base(ServerPacketHeader.TradingCompleteMessageComposer)
+            : base(Composers.TradingCompleteMessageComposer)
         {
+        }
+
+        public override void Compose(Composer packet)
+        {
+
         }
     }
 }

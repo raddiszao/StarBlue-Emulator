@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     internal class GetCameraPriceEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
 
         }

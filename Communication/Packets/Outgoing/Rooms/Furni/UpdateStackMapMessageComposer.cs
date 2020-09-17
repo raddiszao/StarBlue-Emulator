@@ -4,45 +4,56 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    internal class UpdateStackMapMessageComposer : ServerPacket
+    internal class UpdateStackMapMessageComposer : MessageComposer
     {
+        private Room Room { get; }
+        private Dictionary<int, ThreeDCoord> Tiles { get; }
+        private bool HeightIsZero { get; }
+
         public UpdateStackMapMessageComposer(Room Room, Dictionary<int, ThreeDCoord> Tiles, bool HeightIsZero = false)
-            : base(ServerPacketHeader.UpdateStackMapMessageComposer)
+            : base(Composers.UpdateStackMapMessageComposer)
+        {
+            this.Room = Room;
+            this.Tiles = Tiles;
+            this.HeightIsZero = HeightIsZero;
+        }
+
+        public override void Compose(Composer packet)
         {
             if (Tiles.Count > 127)
             {
-                base.WriteByte(127);
+                packet.WriteByte(127);
                 for (int i = 0; i < 127; i++)
                 {
                     Tiles.TryGetValue(i, out ThreeDCoord Tile);
-                    base.WriteByte(Tile.X);
-                    base.WriteByte(Tile.Y);
+                    packet.WriteByte(Tile.X);
+                    packet.WriteByte(Tile.Y);
                     try
                     {
                         short Height = (short)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
-                        base.WriteShort((short)(HeightIsZero ? 0 : (Height > short.MaxValue ? short.MaxValue : Height)));
+                        packet.WriteShort((short)(HeightIsZero ? 0 : (Height > short.MaxValue ? short.MaxValue : Height)));
                     }
                     catch
                     {
-                        base.WriteShort(0);
+                        packet.WriteShort(0);
                     }
                 }
             }
             else
             {
-                base.WriteByte(Tiles.Count);
+                packet.WriteByte(Tiles.Count);
                 foreach (ThreeDCoord Tile in Tiles.Values)
                 {
-                    base.WriteByte(Tile.X);
-                    base.WriteByte(Tile.Y);
+                    packet.WriteByte(Tile.X);
+                    packet.WriteByte(Tile.Y);
                     try
                     {
                         ushort Height = (ushort)(Room.GetGameMap().SqAbsoluteHeight(Tile.X, Tile.Y) * 256);
-                        base.WriteUnsignedShort((ushort)(Height > ushort.MaxValue ? ushort.MaxValue : Height));
+                        packet.WriteShort(Height);
                     }
                     catch
                     {
-                        base.WriteShort(0);
+                        packet.WriteShort(0);
                     }
                 }
             }

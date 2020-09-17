@@ -1,11 +1,15 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class NavigatorCollapsedCategoriesComposer : ServerPacket
+    internal class NavigatorCollapsedCategoriesComposer : MessageComposer
     {
         public NavigatorCollapsedCategoriesComposer()
-            : base(ServerPacketHeader.NavigatorCollapsedCategoriesMessageComposer)
+            : base(Composers.NavigatorCollapsedCategoriesMessageComposer)
         {
-            base.WriteInteger(0);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);
         }
     }
 }

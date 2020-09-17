@@ -1,11 +1,15 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Camera
 {
-    public class SendRoomThumbnailAlertMessageComposer : ServerPacket
+    public class SendRoomThumbnailAlertMessageComposer : MessageComposer
     {
         public SendRoomThumbnailAlertMessageComposer()
-            : base(ServerPacketHeader.SendRoomThumbnailAlertMessageComposer)
+            : base(Composers.SendRoomThumbnailAlertMessageComposer)
         {
 
+        }
+
+        public override void Compose(Composer packet)
+        {
         }
     }
 }

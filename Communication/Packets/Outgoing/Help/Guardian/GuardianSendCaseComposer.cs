@@ -2,20 +2,29 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class GuardianSendCaseComposer : ServerPacket
+    internal class GuardianSendCaseComposer : MessageComposer
     {
+        private int seconds { get; }
+        private Habbo reported { get; }
+
         public GuardianSendCaseComposer(int seconds, Habbo reported)
-            : base(ServerPacketHeader.GuardianSendCaseMessageComposer)
+            : base(Composers.GuardianSendCaseMessageComposer)
         {
-            base.WriteInteger(1); // length
-            base.WriteInteger(3); // type: Bully
-            base.WriteInteger(15); // timer sec
-            base.WriteBoolean(false); // false = usuario, true = null
+            this.seconds = seconds;
+            this.reported = reported;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(1); // length
+            packet.WriteInteger(3); // type: Bully
+            packet.WriteInteger(15); // timer sec
+            packet.WriteBoolean(false); // false = usuario, true = null
             //if (user != null)
             //{
-            base.WriteString(reported.Username);
-            base.WriteString(reported.Look);
-            base.WriteString((reported.CurrentRoom == null) ? "" : reported.CurrentRoom.RoomData.Name);
+            packet.WriteString(reported.Username);
+            packet.WriteString(reported.Look);
+            packet.WriteString((reported.CurrentRoom == null) ? "" : reported.CurrentRoom.RoomData.Name);
             //}
         }
     }

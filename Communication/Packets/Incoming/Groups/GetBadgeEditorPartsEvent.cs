@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class GetBadgeEditorPartsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Session.SendMessage(new BadgeEditorPartsComposer(
                 StarBlueServer.GetGame().GetGroupManager().Bases,

@@ -1,14 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Campaigns
 {
-    internal class CampaignCalendarDataComposer : ServerPacket
+    internal class CampaignCalendarDataComposer : MessageComposer
     {
+        private bool[] OpenedBoxes { get; }
+
         public CampaignCalendarDataComposer(bool[] OpenedBoxes)
-            : base(ServerPacketHeader.CampaignCalendarDataMessageComposer)
+            : base(Composers.CampaignCalendarDataMessageComposer)
         {
-            base.WriteString(StarBlueServer.GetGame().GetCalendarManager().GetCampaignName()); // NOMBRE DE LA CAMPAÑA.
-            base.WriteString("asd"); // NO TIENE FUNCIÓN EN LA SWF.
-            base.WriteInteger(StarBlueServer.GetGame().GetCalendarManager().GetUnlockDays()); // DÍAS ACTUAL (DESBLOQUEADOS).
-            base.WriteInteger(StarBlueServer.GetGame().GetCalendarManager().GetTotalDays()); // DÍAS TOTALES.
+            this.OpenedBoxes = OpenedBoxes;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(StarBlueServer.GetGame().GetCalendarManager().GetCampaignName()); // NOMBRE DE LA CAMPAÑA.
+            packet.WriteString("asd"); // NO TIENE FUNCIÓN EN LA SWF.
+            packet.WriteInteger(StarBlueServer.GetGame().GetCalendarManager().GetUnlockDays()); // DÍAS ACTUAL (DESBLOQUEADOS).
+            packet.WriteInteger(StarBlueServer.GetGame().GetCalendarManager().GetTotalDays()); // DÍAS TOTALES.
             int OpenedCount = 0;
             int LateCount = 0;
 
@@ -30,17 +37,17 @@
                 }
             }
             // CAJAS ABIERTAS HASTA EL MOMENTO.
-            base.WriteInteger(OpenedCount);
+            packet.WriteInteger(OpenedCount);
             for (int i = 0; i < OpenedBoxes.Length; i++)
             {
                 if (OpenedBoxes[i])
                 {
-                    base.WriteInteger(i);
+                    packet.WriteInteger(i);
                 }
             }
 
             // CAJAS QUE SE HAN PASADO DE FECHA.
-            base.WriteInteger(LateCount);
+            packet.WriteInteger(LateCount);
             for (int i = 0; i < OpenedBoxes.Length; i++)
             {
                 // DÍA ACTUAL (EVITAMOS)
@@ -51,7 +58,7 @@
 
                 if (!OpenedBoxes[i])
                 {
-                    base.WriteInteger(i);
+                    packet.WriteInteger(i);
                 }
             }
         }

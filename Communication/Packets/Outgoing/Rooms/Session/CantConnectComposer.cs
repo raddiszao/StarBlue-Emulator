@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Session
 {
-    internal class CantConnectComposer : ServerPacket
+    internal class CantConnectComposer : MessageComposer
     {
+        private int Error { get; }
+
         public CantConnectComposer(int Error)
-            : base(ServerPacketHeader.CantConnectMessageComposer)
+            : base(Composers.CantConnectMessageComposer)
         {
-            base.WriteInteger(Error);
+            this.Error = Error;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Error);
         }
     }
 }

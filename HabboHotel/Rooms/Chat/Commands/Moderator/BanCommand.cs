@@ -48,7 +48,10 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             }
             else
             {
-                Expire = (StarBlueServer.GetUnixTimestamp() + (Convert.ToDouble(Hours) * 3600));
+                if (!double.TryParse(Hours, out double ParsedHours))
+                    return;
+
+                Expire = (StarBlueServer.GetUnixTimestamp() + (Convert.ToDouble(ParsedHours) * 3600));
             }
 
             string Reason = null;

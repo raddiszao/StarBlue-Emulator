@@ -12,7 +12,7 @@ namespace StarBlue.HabboHotel.Items.Wired
         ConcurrentDictionary<int, Item> SetItems { get; set; }
         string StringData { get; set; }
         bool BoolData { get; set; }
-        void HandleSave(ClientPacket Packet);
+        void HandleSave(MessageEvent Packet);
         bool Execute(params object[] Params);
         string ItemsData { get; set; }
     }

@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
     internal class DiceOffEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Room Room = Session.GetHabbo().CurrentRoom;
             if (Room == null)

@@ -21,7 +21,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Conditions
             SetItems = new ConcurrentDictionary<int, Item>();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             int CountOne = Packet.PopInt();

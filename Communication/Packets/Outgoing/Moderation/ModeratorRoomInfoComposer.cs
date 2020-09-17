@@ -3,27 +3,36 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class ModeratorRoomInfoComposer : ServerPacket
+    internal class ModeratorRoomInfoComposer : MessageComposer
     {
-        public ModeratorRoomInfoComposer(RoomData Data, bool OwnerInRoom)
-            : base(ServerPacketHeader.ModeratorRoomInfoMessageComposer)
-        {
-            base.WriteInteger(Data.Id);
-            base.WriteInteger(Data.UsersNow);
-            base.WriteBoolean(OwnerInRoom); // owner in room
-            base.WriteInteger(Data.OwnerId);
-            base.WriteString(Data.OwnerName);
-            base.WriteBoolean(Data != null);
-            base.WriteString(Data.Name);
-            base.WriteString(Data.Description);
+        private RoomData Data { get; }
+        private bool OwnerInRoom { get; }
 
-            base.WriteInteger(Data.Tags.Count);
+        public ModeratorRoomInfoComposer(RoomData Data, bool OwnerInRoom)
+            : base(Composers.ModeratorRoomInfoMessageComposer)
+        {
+            this.Data = Data;
+            this.OwnerInRoom = OwnerInRoom;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Data.Id);
+            packet.WriteInteger(Data.UsersNow);
+            packet.WriteBoolean(OwnerInRoom); // owner in room
+            packet.WriteInteger(Data.OwnerId);
+            packet.WriteString(Data.OwnerName);
+            packet.WriteBoolean(Data != null);
+            packet.WriteString(Data.Name);
+            packet.WriteString(Data.Description);
+
+            packet.WriteInteger(Data.Tags.Count);
             foreach (string Tag in Data.Tags)
             {
-                base.WriteString(Tag);
+                packet.WriteString(Tag);
             }
 
-            base.WriteBoolean(false);
+            packet.WriteBoolean(false);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     internal class GetClubGiftsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
 
             Session.SendMessage(new ClubGiftsComposer());

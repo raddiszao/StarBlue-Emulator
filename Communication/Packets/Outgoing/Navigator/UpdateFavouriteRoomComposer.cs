@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    public class UpdateFavouriteRoomComposer : ServerPacket
+    public class UpdateFavouriteRoomComposer : MessageComposer
     {
+        private int RoomId { get; }
+        private bool Added { get; }
+
         public UpdateFavouriteRoomComposer(int RoomId, bool Added)
-            : base(ServerPacketHeader.UpdateFavouriteRoomMessageComposer)
+            : base(Composers.UpdateFavouriteRoomMessageComposer)
         {
-            base.WriteInteger(RoomId);
-            base.WriteBoolean(Added);
+            this.RoomId = RoomId;
+            this.Added = Added;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
+            packet.WriteBoolean(Added);
         }
     }
 }

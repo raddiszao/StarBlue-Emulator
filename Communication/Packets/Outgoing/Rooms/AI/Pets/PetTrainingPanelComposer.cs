@@ -2,37 +2,44 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.AI.Pets
 {
-    internal class PetTrainingPanelComposer : ServerPacket
+    internal class PetTrainingPanelComposer : MessageComposer
     {
+        private Pet pet { get; }
+
         public PetTrainingPanelComposer(Pet pet)
-            : base(ServerPacketHeader.PetTrainingPanelMessageComposer)
+            : base(Composers.PetTrainingPanelMessageComposer)
         {
-            base.WriteInteger(pet.PetId);//Pet Id for sure.
+            this.pet = pet;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(pet.PetId);//Pet Id for sure.
 
             //Commands available to be done.
-            base.WriteInteger(7);//Count
+            packet.WriteInteger(7);//Count
             {
-                //base.WriteInteger(pet.Type);//Breed?
-                base.WriteInteger(1);
-                base.WriteInteger(2);
-                base.WriteInteger(3);
-                base.WriteInteger(4);
-                base.WriteInteger(5);
-                base.WriteInteger(6);
-                base.WriteInteger(7);
+                //packet.WriteInteger(pet.Type);//Breed?
+                packet.WriteInteger(1);
+                packet.WriteInteger(2);
+                packet.WriteInteger(3);
+                packet.WriteInteger(4);
+                packet.WriteInteger(5);
+                packet.WriteInteger(6);
+                packet.WriteInteger(7);
             }
 
             //Commands that can be used NOW. (Level ups give you new commands etc).
-            base.WriteInteger(7);//Count
+            packet.WriteInteger(7);//Count
             {
-                //base.WriteInteger(pet.Type);//Breed?
-                base.WriteInteger(1);
-                base.WriteInteger(2);
-                base.WriteInteger(3);
-                base.WriteInteger(4);
-                base.WriteInteger(5);
-                base.WriteInteger(6);
-                base.WriteInteger(7);
+                //packet.WriteInteger(pet.Type);//Breed?
+                packet.WriteInteger(1);
+                packet.WriteInteger(2);
+                packet.WriteInteger(3);
+                packet.WriteInteger(4);
+                packet.WriteInteger(5);
+                packet.WriteInteger(6);
+                packet.WriteInteger(7);
             }
         }
 

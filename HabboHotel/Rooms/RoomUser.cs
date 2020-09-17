@@ -5,6 +5,7 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using StarBlue.Communication.WebSocket;
 using StarBlue.HabboHotel.Camera;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
@@ -13,7 +14,6 @@ using StarBlue.HabboHotel.Rooms.Games.Freeze;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.PathFinding;
 using StarBlue.HabboHotel.Users;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -248,7 +248,6 @@ namespace StarBlue.HabboHotel.Rooms
             {
                 IsAsleep = false;
                 GetRoom().SendMessage(new SleepComposer(this, false));
-                ApplyEffect(0);
             }
         }
 
@@ -403,7 +402,6 @@ namespace StarBlue.HabboHotel.Rooms
             return false;
         }
 
-
         public void OnChat(int Colour, string Message, bool Shout)
         {
             if (GetClient() == null || GetClient().GetHabbo() == null || mRoom == null)
@@ -421,7 +419,7 @@ namespace StarBlue.HabboHotel.Rooms
                 string[] Params = Message.Split(' ');
                 string To = Params[0].Split('@')[1];
 
-                ServerPacket MentionPacket = new MentionUserComposer(mRoom.RoomData.Name, mRoom.RoomData.Id, Message, GetClient().GetHabbo().Username, GetClient().GetHabbo().Look);
+                WebComposer MentionPacket = new MentionUserComposer(mRoom.RoomData.Name, mRoom.RoomData.Id, Message, GetClient().GetHabbo().Username, GetClient().GetHabbo().Look);
 
                 if (GetClient().GetHabbo().Rank >= 14 && (To == "everyone" || To == "here"))
                 {
@@ -473,7 +471,7 @@ namespace StarBlue.HabboHotel.Rooms
                 ColouredMessage = "@" + GetClient().GetHabbo().chatColour + "@" + Message;
             }
 
-            ServerPacket Packet = null;
+            MessageComposer Packet = null;
             if (Shout)
             {
                 Packet = new ShoutComposer(VirtualId, ColouredMessage, StarBlueServer.GetGame().GetChatManager().GetEmotions().GetEmotionsForText(Message), Colour);
@@ -718,6 +716,27 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
+        public int GetX()
+        {
+            if (mRoom == null)
+                return X;
+
+            if (mRoom.RoomData.RoomBlockingEnabled == 0 && SetStep)
+                return SetX;
+
+            return X;
+        }
+
+        public int GetY()
+        {
+            if (mRoom == null)
+                return Y;
+
+            if (mRoom.RoomData.RoomBlockingEnabled == 0 && SetStep)
+                return SetY;
+
+            return Y;
+        }
 
         public void MoveTo(Point c)
         {

@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.WebSocket
+﻿using StarBlue.Communication.WebSocket;
+
+namespace StarBlue.Communication.Packets.Outgoing.WebSocket
 {
-    internal class BuilderToolComposer : ServerPacket
+    internal class BuilderToolComposer : WebComposer
     {
         public BuilderToolComposer(bool stack, string stackValue, bool state, int stateValue, bool rotation, int rotationValue) : base(7)
         {

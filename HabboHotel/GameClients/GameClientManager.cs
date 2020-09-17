@@ -1,7 +1,6 @@
-﻿using log4net;
-using StarBlue.Communication.ConnectionManager;
+﻿using DotNetty.Transport.Channels;
+using log4net;
 using StarBlue.Communication.Packets.Outgoing;
-using StarBlue.Communication.Packets.Outgoing.Handshake;
 using StarBlue.Communication.Packets.Outgoing.Notifications;
 using StarBlue.Core;
 using StarBlue.Database.Interfaces;
@@ -22,7 +21,7 @@ namespace StarBlue.HabboHotel.GameClients
     {
         private static readonly ILog log = LogManager.GetLogger("StarBlue.HabboHotel.GameClients.GameClientManager");
 
-        public ConcurrentDictionary<int, GameClient> _clients;
+        private ConcurrentDictionary<IChannelId, GameClient> _clients;
 
         private Dictionary<int, GameClient> guides;
         private Dictionary<int, GameClient> alphas;
@@ -36,7 +35,7 @@ namespace StarBlue.HabboHotel.GameClients
 
         public GameClientManager()
         {
-            _clients = new ConcurrentDictionary<int, GameClient>();
+            _clients = new ConcurrentDictionary<IChannelId, GameClient>();
             _userIDRegister = new ConcurrentDictionary<int, GameClient>();
             _usernameRegister = new ConcurrentDictionary<string, GameClient>();
 
@@ -78,9 +77,9 @@ namespace StarBlue.HabboHotel.GameClients
             return null;
         }
 
-        public bool TryGetClient(int ClientId, out GameClient Client)
+        public bool TryGetClient(IChannelId ClientId, out GameClient Client)
         {
-            return _clients.TryGetValue(ClientId, out Client);
+            return this._clients.TryGetValue(ClientId, out Client);
         }
 
         public bool UpdateClientUsername(GameClient Client, string OldUsername, string NewUsername)
@@ -147,25 +146,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void RepeatAlert(ServerPacket Message, int Exclude = 0)
-        {
-            foreach (GameClient client in GetClients.ToList())
-            {
-                if (client == null || client.GetHabbo() == null)
-                {
-                    continue;
-                }
-
-                if (client.GetHabbo().Rank < 4 || client.GetHabbo().Id == Exclude)
-                {
-                    continue;
-                }
-
-                client.SendMessage(Message);
-            }
-        }
-
-        public void StaffAlert1(ServerPacket Message, int Exclude = 0)
+        public void StaffAlert1(MessageComposer Message, int Exclude = 0)
         {
             foreach (GameClient client in GetClients.ToList())
             {
@@ -183,7 +164,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void StaffAlert2(ServerPacket Message, int Exclude = 0)
+        public void StaffAlert2(MessageComposer Message, int Exclude = 0)
         {
             foreach (GameClient client in GetClients.ToList())
             {
@@ -201,7 +182,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void StaffAlert(ServerPacket Message, int Exclude = 0)
+        public void StaffAlert(MessageComposer Message, int Exclude = 0)
         {
             foreach (GameClient client in GetClients.ToList())
             {
@@ -219,7 +200,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void ManagerAlert(ServerPacket Message, int Exclude = 0)
+        public void ManagerAlert(MessageComposer Message, int Exclude = 0)
         {
             foreach (GameClient client in GetClients.ToList())
             {
@@ -237,7 +218,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void GroupChatAlert(ServerPacket Message, Group Group, int Exclude = 0)
+        public void GroupChatAlert(MessageComposer Message, Group Group, int Exclude = 0)
         {
             foreach (GameClient client in GetClients.ToList())
             {
@@ -255,7 +236,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void GuideAlert(ServerPacket Message, int Exclude = 0)
+        public void GuideAlert(MessageComposer Message, int Exclude = 0)
         {
             foreach (GameClient client in GetClients.ToList())
             {
@@ -273,7 +254,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void MsgAlert2(ServerPacket Message, int Exclude = 0)
+        public void MsgAlert2(MessageComposer Message, int Exclude = 0)
         {
             foreach (GameClient client in GetClients.ToList())
             {
@@ -352,12 +333,7 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        internal IEnumerable<GameClient> GetClientsById(List<int> getAllMembers)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SendMessage(ServerPacket Packet, string fuse = "")
+        public void SendMessage(MessageComposer Packet, string fuse = "")
         {
             foreach (GameClient Client in _clients.Values.ToList())
             {
@@ -378,32 +354,28 @@ namespace StarBlue.HabboHotel.GameClients
             }
         }
 
-        public void CreateAndStartClient(int clientID, ConnectionInformation connection)
+        public void CreateAndStartClient(IChannelHandlerContext connection)
         {
-            GameClient Client = new GameClient(clientID, connection);
-            if (_clients.TryAdd(Client.ConnectionID, Client))
+            GameClient Client = new GameClient(connection);
+            if (this._clients.TryAdd(connection.Channel.Id, Client))
             {
-                Client.StartConnection();
+                //Hmmmmm?
             }
             else
             {
-                connection.Dispose();
+                Client.Dispose();
             }
         }
 
-        public void DisposeConnection(int clientID)
+        public void DisposeConnection(IChannelId clientID)
         {
             if (!TryGetClient(clientID, out GameClient Client))
-            {
                 return;
-            }
 
             if (Client != null)
-            {
                 Client.Dispose();
-            }
 
-            _clients.TryRemove(clientID, out Client);
+            this._clients.TryRemove(clientID, out Client);
         }
 
         public void LogClonesOut(int UserID)
@@ -444,12 +416,10 @@ namespace StarBlue.HabboHotel.GameClients
 
         public void CloseAll()
         {
-            foreach (GameClient client in GetClients.ToList())
+            foreach (GameClient client in this.GetClients.ToList())
             {
                 if (client == null)
-                {
                     continue;
-                }
 
                 if (client.GetHabbo() != null)
                 {
@@ -459,8 +429,9 @@ namespace StarBlue.HabboHotel.GameClients
                         {
                             dbClient.RunFastQuery(client.GetHabbo().GetQueryString);
                         }
+
                         Console.Clear();
-                        log.Info("<<- SERVER SHUTDOWN ->> SAVING ITEMS");
+                        log.Info("<<- SERVER SHUTDOWN ->> INVENTORY IS SAVING");
                     }
                     catch
                     {
@@ -468,103 +439,36 @@ namespace StarBlue.HabboHotel.GameClients
                 }
             }
 
+            log.Info("Done saving users inventory!");
+            log.Info("Closing server connections...");
             try
             {
-                foreach (GameClient client in GetClients.ToList())
+                foreach (GameClient client in this.GetClients.ToList())
                 {
-                    if (client == null || client.GetConnection() == null)
-                    {
+                    if (client == null)
                         continue;
-                    }
 
                     try
                     {
-                        client.GetConnection().Dispose();
+                        client.Dispose();
                     }
-                    catch { }
-
-                    Console.Clear();
-                    log.Info("<<- SERVER SHUTDOWN ->> FECHANDO CONEXÕES");
-
+                    catch
+                    {
+                    }
                 }
+
+                Console.Clear();
+                log.Info("<<- SERVER SHUTDOWN ->> CLOSING CONNECTIONS");
             }
             catch (Exception e)
             {
-                Logging.LogCriticalException(e.ToString());
+                Logging.HandleException(e, "");
             }
 
-            if (_clients.Count > 0)
-            {
-                _clients.Clear();
-            }
-        }
+            if (this._clients.Count > 0)
+                this._clients.Clear();
 
-        public void TestClientConnections()
-        {
-            if (clientPingStopwatch.ElapsedMilliseconds >= 50000)
-            {
-                clientPingStopwatch.Restart();
-
-                try
-                {
-                    List<GameClient> ToPing = new List<GameClient>();
-
-                    foreach (GameClient client in _clients.Values.ToList())
-                    {
-                        if (client.PingCount < 6)
-                        {
-                            client.PingCount++;
-
-                            ToPing.Add(client);
-                        }
-                        else
-                        {
-                            lock (timedOutConnections.SyncRoot)
-                            {
-                                timedOutConnections.Enqueue(client);
-                            }
-                        }
-                    }
-
-                    DateTime start = DateTime.Now;
-
-                    foreach (GameClient Client in ToPing.ToList())
-                    {
-                        try
-                        {
-                            Client.SendMessage(new PongComposer());
-                        }
-                        catch
-                        {
-                            lock (timedOutConnections.SyncRoot)
-                            {
-                                timedOutConnections.Enqueue(Client);
-                            }
-                        }
-                    }
-
-                }
-                catch
-                {
-                }
-
-                if (timedOutConnections.Count > 0)
-                {
-                    lock (timedOutConnections.SyncRoot)
-                    {
-                        while (timedOutConnections.Count > 0)
-                        {
-                            GameClient client = null;
-
-                            if (timedOutConnections.Count > 0)
-                                client = (GameClient)timedOutConnections.Dequeue();
-
-                            if (client != null)
-                                client.Disconnect();
-                        }
-                    }
-                }
-            }
+            log.Info("Connections closed!");
         }
 
         public int Count => _clients.Count;

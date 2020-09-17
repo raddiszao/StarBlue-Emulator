@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help
 {
-    internal class SubmitBullyReportComposer : ServerPacket
+    internal class SubmitBullyReportComposer : MessageComposer
     {
+        public int Result { get; }
+
         public SubmitBullyReportComposer(int Result)
-            : base(ServerPacketHeader.SubmitBullyReportMessageComposer)
+            : base(Composers.SubmitBullyReportMessageComposer)
         {
-            base.WriteInteger(Result);
+            this.Result = Result;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Result);
         }
     }
 }

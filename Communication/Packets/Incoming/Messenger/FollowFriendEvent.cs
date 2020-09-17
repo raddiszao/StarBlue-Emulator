@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
     internal class FollowFriendEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || Session.GetHabbo().GetMessenger() == null)
             {

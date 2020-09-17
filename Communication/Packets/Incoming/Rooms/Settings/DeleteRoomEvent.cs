@@ -11,7 +11,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 {
     internal class DeleteRoomEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || Session.GetHabbo().UsersRooms == null)
             {

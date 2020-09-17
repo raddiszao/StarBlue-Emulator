@@ -10,7 +10,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
 {
     public class PurchaseCameraPictureMessageEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket paket)
+        public void Parse(GameClient Session, MessageEvent paket)
         {
             if (!Session.GetHabbo().lastPhotoPreview.Contains("-"))
             {

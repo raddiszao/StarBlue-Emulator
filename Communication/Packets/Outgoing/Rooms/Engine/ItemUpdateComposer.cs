@@ -3,32 +3,41 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class ItemUpdateComposer : ServerPacket
+    internal class ItemUpdateComposer : MessageComposer
     {
+        public Item Item { get; }
+        public int UserId { get; }
+
         public ItemUpdateComposer(Item Item, int UserId)
-            : base(ServerPacketHeader.ItemUpdateMessageComposer)
+            : base(Composers.ItemUpdateMessageComposer)
         {
-            WriteWallItem(Item, UserId);
+            this.Item = Item;
+            this.UserId = UserId;
         }
 
-        private void WriteWallItem(Item Item, int UserId)
+        public override void Compose(Composer packet)
         {
-            WriteString(Item.Id.ToString());
-            WriteInteger(Item.GetBaseItem().SpriteId);
-            WriteString(Item.wallCoord);
+            WriteWallItem(Item, UserId, packet);
+        }
+
+        private void WriteWallItem(Item Item, int UserId, Composer packet)
+        {
+            packet.WriteString(Item.Id.ToString());
+            packet.WriteInteger(Item.GetBaseItem().SpriteId);
+            packet.WriteString(Item.wallCoord);
             switch (Item.GetBaseItem().InteractionType)
             {
                 case InteractionType.POSTIT:
-                    WriteString(Item.ExtraData.Split(' ')[0]);
+                    packet.WriteString(Item.ExtraData.Split(' ')[0]);
                     break;
 
                 default:
-                    WriteString(Item.ExtraData);
+                    packet.WriteString(Item.ExtraData);
                     break;
             }
-            WriteInteger(-1);
-            WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0);
-            WriteInteger(UserId);
+            packet.WriteInteger(-1);
+            packet.WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0);
+            packet.WriteInteger(UserId);
         }
     }
 }

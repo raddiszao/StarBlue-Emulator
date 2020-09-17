@@ -1,22 +1,27 @@
-﻿using StarBlue.HabboHotel.GameClients;
-using StarBlue.HabboHotel.Users.Badges;
+﻿using StarBlue.HabboHotel.Users.Badges;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Badges
 {
-    internal class BadgesComposer : ServerPacket
+    internal class BadgesComposer : MessageComposer
     {
-        public BadgesComposer(GameClient Session)
-            : base(ServerPacketHeader.BadgesMessageComposer)
+        public ICollection<Badge> Badges { get; }
+
+        public BadgesComposer(ICollection<Badge> Badges)
+            : base(Composers.BadgesMessageComposer)
+        {
+            this.Badges = Badges;
+        }
+
+        public override void Compose(Composer packet)
         {
             List<Badge> EquippedBadges = new List<Badge>();
 
-            base.WriteInteger(Session.GetHabbo().GetBadgeComponent().Count);
-            foreach (Badge Badge in Session.GetHabbo().GetBadgeComponent().GetBadges().ToList())
+            packet.WriteInteger(Badges.Count);
+            foreach (Badge Badge in Badges)
             {
-                base.WriteInteger(1);
-                base.WriteString(Badge.Code);
+                packet.WriteInteger(1);
+                packet.WriteString(Badge.Code);
 
                 if (Badge.Slot > 0)
                 {
@@ -24,11 +29,11 @@ namespace StarBlue.Communication.Packets.Outgoing.Inventory.Badges
                 }
             }
 
-            base.WriteInteger(EquippedBadges.Count);
+            packet.WriteInteger(EquippedBadges.Count);
             foreach (Badge Badge in EquippedBadges)
             {
-                base.WriteInteger(Badge.Slot);
-                base.WriteString(Badge.Code);
+                packet.WriteInteger(Badge.Slot);
+                packet.WriteString(Badge.Code);
             }
         }
     }

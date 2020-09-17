@@ -2,19 +2,26 @@
 using System.Collections.Generic;
 namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    internal class PromotableRoomsComposer : ServerPacket
+    internal class PromotableRoomsComposer : MessageComposer
     {
+        private ICollection<RoomData> Rooms { get; }
+
         public PromotableRoomsComposer(ICollection<RoomData> Rooms)
-            : base(ServerPacketHeader.PromotableRoomsMessageComposer)
+            : base(Composers.PromotableRoomsMessageComposer)
         {
-            base.WriteBoolean(true);
-            base.WriteInteger(Rooms.Count);//Count
+            this.Rooms = Rooms;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(true);
+            packet.WriteInteger(Rooms.Count);//Count
 
             foreach (RoomData Data in Rooms)
             {
-                base.WriteInteger(Data.Id);
-                base.WriteString(Data.Name);
-                base.WriteBoolean(false);
+                packet.WriteInteger(Data.Id);
+                packet.WriteString(Data.Name);
+                packet.WriteBoolean(false);
             }
         }
     }

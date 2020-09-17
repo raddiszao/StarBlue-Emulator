@@ -4,41 +4,48 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    internal class FurniListAddComposer : ServerPacket
+    internal class FurniListAddComposer : MessageComposer
     {
+        public Item Item { get; }
+
         public FurniListAddComposer(Item Item)
-            : base(ServerPacketHeader.FurniListAddMessageComposer)
+            : base(Composers.FurniListAddMessageComposer)
         {
-            base.WriteInteger(Item.Id);
-            base.WriteString(Item.GetBaseItem().Type.ToString().ToUpper());
-            base.WriteInteger(Item.Id);
-            base.WriteInteger(Item.GetBaseItem().SpriteId);
+            this.Item = Item;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Item.Id);
+            packet.WriteString(Item.GetBaseItem().Type.ToString().ToUpper());
+            packet.WriteInteger(Item.Id);
+            packet.WriteInteger(Item.GetBaseItem().SpriteId);
 
             if (Item.LimitedNo > 0)
             {
-                base.WriteInteger(1);
-                base.WriteInteger(256);
-                base.WriteString(Item.ExtraData);
-                base.WriteInteger(Item.LimitedNo);
-                base.WriteInteger(Item.LimitedTot);
+                packet.WriteInteger(1);
+                packet.WriteInteger(256);
+                packet.WriteString(Item.ExtraData);
+                packet.WriteInteger(Item.LimitedNo);
+                packet.WriteInteger(Item.LimitedTot);
             }
             else
             {
-                ItemBehaviourUtility.GenerateExtradata(Item, this);
+                ItemBehaviourUtility.GenerateExtradata(Item, packet);
             }
 
-            base.WriteBoolean(Item.GetBaseItem().AllowEcotronRecycle);
-            base.WriteBoolean(Item.GetBaseItem().AllowTrade);
-            base.WriteBoolean(Item.LimitedNo == 0 ? Item.GetBaseItem().AllowInventoryStack : false);
-            base.WriteBoolean(ItemUtility.IsRare(Item));
-            base.WriteInteger(-1);//Seconds to expiration.
-            base.WriteBoolean(true);
-            base.WriteInteger(-1);//Item RoomId
+            packet.WriteBoolean(Item.GetBaseItem().AllowEcotronRecycle);
+            packet.WriteBoolean(Item.GetBaseItem().AllowTrade);
+            packet.WriteBoolean(Item.LimitedNo == 0 ? Item.GetBaseItem().AllowInventoryStack : false);
+            packet.WriteBoolean(ItemUtility.IsRare(Item));
+            packet.WriteInteger(-1);//Seconds to expiration.
+            packet.WriteBoolean(true);
+            packet.WriteInteger(-1);//Item RoomId
 
             if (!Item.IsWallItem)
             {
-                base.WriteString(string.Empty);
-                base.WriteInteger(0);
+                packet.WriteString(string.Empty);
+                packet.WriteInteger(0);
             }
         }
     }

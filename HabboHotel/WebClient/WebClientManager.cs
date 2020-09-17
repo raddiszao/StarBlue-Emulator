@@ -1,5 +1,5 @@
 ﻿using StarBlue.Communication.ConnectionManager;
-using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Communication.WebSocket;
 using StarBlue.Core;
 using System;
 using System.Collections.Concurrent;
@@ -44,7 +44,7 @@ namespace StarBlue.HabboHotel.WebClient
             return this._clients.TryGetValue(ClientId, out Client);
         }
 
-        public void SendMessage(IServerPacket Packet)
+        public void SendMessage(WebComposer Packet)
         {
             foreach (WebClient Client in this._clients.Values.ToList())
             {
@@ -90,11 +90,6 @@ namespace StarBlue.HabboHotel.WebClient
                 _userIDRegister[userID] = client.ConnectionID;
             else
                 _userIDRegister.TryAdd(userID, client.ConnectionID);
-
-            /*using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
-            {
-                queryreactor.RunQuery("UPDATE users SET web_online = '1' WHERE id = " + userID);
-            }*/
         }
 
         public void UnregisterClient(int userid, string username)

@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 {
-    internal class GetGuestRoomResultMessageComposer : ServerPacket
+    internal class GetGuestRoomResultMessageComposer : MessageComposer
     {
+        private int RoomId { get; }
+
         public GetGuestRoomResultMessageComposer(int roomId)
-            : base(ServerPacketHeader.GetGuestRoomResultMessageComposer)
+            : base(Composers.GetGuestRoomResultMessageComposer)
         {
-            base.WriteInteger(roomId);
+            this.RoomId = roomId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
         }
     }
 }

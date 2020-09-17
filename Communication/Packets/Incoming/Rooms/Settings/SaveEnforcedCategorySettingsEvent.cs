@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 {
     internal class SaveEnforcedCategorySettingsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!StarBlueServer.GetGame().GetRoomManager().TryGetRoom(Packet.PopInt(), out Room Room))
             {

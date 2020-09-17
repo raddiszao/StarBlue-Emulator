@@ -5,25 +5,36 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Talents
 {
-    internal class TalentTrackComposer : ServerPacket
+    internal class TalentTrackComposer : MessageComposer
     {
+        private GameClient session { get; }
+        private string trackType { get; }
+        private List<Talent> talents { get; }
+
         public TalentTrackComposer(GameClient session, string trackType, List<Talent> talents)
-            : base(ServerPacketHeader.TalentTrackMessageComposer)
+            : base(Composers.TalentTrackMessageComposer)
         {
-            base.WriteString(trackType);
-            base.WriteInteger(talents.Count);
+            this.session = session;
+            this.trackType = trackType;
+            this.talents = talents;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(trackType);
+            packet.WriteInteger(talents.Count);
 
             int failLevel = -1;
 
             foreach (Talent current in talents)
             {
-                base.WriteInteger(current.Level);
+                packet.WriteInteger(current.Level);
                 int nm = failLevel == -1 ? 1 : 0; // TODO What does this mean?
-                base.WriteInteger(nm);
+                packet.WriteInteger(nm);
 
                 List<Talent> children = StarBlueServer.GetGame().GetTalentManager().GetTalents(trackType, current.Id);
 
-                base.WriteInteger(children.Count);
+                packet.WriteInteger(children.Count);
 
                 foreach (Talent child in children)
                 {
@@ -45,14 +56,14 @@ namespace StarBlue.Communication.Packets.Outgoing.Talents
                                ? 2
                                : 1;
 
-                    base.WriteInteger(child.GetAchievement().Id);
-                    base.WriteInteger(0); // TODO Magic constant
+                    packet.WriteInteger(child.GetAchievement().Id);
+                    packet.WriteInteger(0); // TODO Magic constant
 
-                    base.WriteString(child.AchievementGroup + child.AchievementLevel);
-                    base.WriteInteger(num);
+                    packet.WriteString(child.AchievementGroup + child.AchievementLevel);
+                    packet.WriteInteger(num);
 
-                    base.WriteInteger(achievment != null ? achievment.Progress : 0);
-                    base.WriteInteger(child.GetAchievement() == null ? 0
+                    packet.WriteInteger(achievment != null ? achievment.Progress : 0);
+                    packet.WriteInteger(child.GetAchievement() == null ? 0
                         : child.GetAchievement().Levels[child.AchievementLevel].Requirement);
 
                     if (num != 2 && failLevel == -1)
@@ -61,22 +72,22 @@ namespace StarBlue.Communication.Packets.Outgoing.Talents
                     }
                 }
 
-                base.WriteInteger(0); // TODO Magic constant
+                packet.WriteInteger(0); // TODO Magic constant
 
                 // TODO Type should be enum?
                 if (current.Type == "citizenship" && current.Level == 4)
                 {
-                    base.WriteInteger(2);
-                    base.WriteString("HABBO_CLUB_VIP_7_DAYS");
-                    base.WriteInteger(7);
-                    base.WriteString(current.Prize); // TODO Hardcoded stuff
-                    base.WriteInteger(0);
+                    packet.WriteInteger(2);
+                    packet.WriteString("HABBO_CLUB_VIP_7_DAYS");
+                    packet.WriteInteger(7);
+                    packet.WriteString(current.Prize); // TODO Hardcoded stuff
+                    packet.WriteInteger(0);
                 }
                 else
                 {
-                    base.WriteInteger(1);
-                    base.WriteString(current.Prize);
-                    base.WriteInteger(0);
+                    packet.WriteInteger(1);
+                    packet.WriteString(current.Prize);
+                    packet.WriteInteger(0);
                 }
             }
         }

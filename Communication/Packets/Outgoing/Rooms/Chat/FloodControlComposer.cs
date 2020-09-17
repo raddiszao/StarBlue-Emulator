@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Chat
 {
-    public class FloodControlComposer : ServerPacket
+    public class FloodControlComposer : MessageComposer
     {
+        private int floodTime { get; }
+
         public FloodControlComposer(int floodTime)
-            : base(ServerPacketHeader.FloodControlMessageComposer)
+            : base(Composers.FloodControlMessageComposer)
         {
-            base.WriteInteger(floodTime);
+            this.floodTime = floodTime;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(floodTime);
         }
     }
 }

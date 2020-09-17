@@ -13,7 +13,6 @@ using StarBlue.HabboHotel.Rooms.AI;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.PathFinding;
 using StarBlue.HabboHotel.Users;
-using StarBlue.Messages;
 using StarBlue.Utilities;
 using System;
 using System.Collections.Concurrent;
@@ -277,7 +276,6 @@ namespace StarBlue.HabboHotel.Rooms
                 }
             }
 
-            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
             if (!Session.GetHabbo().Spectating)
             {
                 _room.SendMessage(new UsersComposer(User));
@@ -285,28 +283,26 @@ namespace StarBlue.HabboHotel.Rooms
                 if (_room.CheckRights(Session, true))
                 {
                     User.SetStatus("flatctrl", "useradmin");
-                    message.appendResponse(new YouAreOwnerComposer());
-                    message.appendResponse(new YouAreControllerComposer(4));
+                    Session.SendMessage(new YouAreOwnerComposer());
+                    Session.SendMessage(new YouAreControllerComposer(4));
                 }
                 else if (_room.CheckRights(Session, false) && _room.RoomData.Group == null)
                 {
                     User.SetStatus("flatctrl", "1");
-                    message.appendResponse(new YouAreControllerComposer(1));
+                    Session.SendMessage(new YouAreControllerComposer(1));
                 }
                 else if (_room.RoomData.Group != null && _room.CheckRights(Session, false, true))
                 {
                     User.SetStatus("flatctrl", "3");
-                    message.appendResponse(new YouAreControllerComposer(3));
+                    Session.SendMessage(new YouAreControllerComposer(3));
                 }
                 else
                 {
-                    message.appendResponse(new YouAreNotControllerComposer());
+                    Session.SendMessage(new YouAreNotControllerComposer());
                 }
 
                 User.UpdateNeeded = true;
             }
-
-            message.sendResponse();
 
             if (_room.ForSale && _room.SalePrice > 0 && (_room.GetRoomUserManager().GetRoomUserByHabbo(_room.RoomData.OwnerName) != null))
             {
@@ -446,7 +442,8 @@ namespace StarBlue.HabboHotel.Rooms
                     using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                     {
                         dbClient.RunFastQuery("UPDATE user_roomvisits SET exit_timestamp = '" + StarBlueServer.GetUnixTimestamp() + "' WHERE room_id = '" + _room.Id + "' AND user_id = '" + Habbo.Id + "' ORDER BY exit_timestamp DESC LIMIT 1");
-                        dbClient.RunFastQuery("UPDATE `rooms` SET `users_now` = '" + _room.RoomData.UsersNow + "' WHERE `id` = '" + _room.Id + "' LIMIT 1");
+                        if (_room.RoomData != null)
+                            dbClient.RunFastQuery("UPDATE `rooms` SET `users_now` = '" + _room.RoomData.UsersNow + "' WHERE `id` = '" + _room.Id + "' LIMIT 1");
                     }
 
                     if (User != null)
@@ -539,7 +536,10 @@ namespace StarBlue.HabboHotel.Rooms
 
         private void RemoveRoomUser(RoomUser user)
         {
-            _room.GetGameMap().GameMap[user.SetStep ? user.SetX : user.X, user.SetStep ? user.SetY : user.Y] = user.SqState;
+            int X = user.GetX();
+            int Y = user.GetY();
+            if (_room.GetGameMap().ValidTile(X, Y))
+                _room.GetGameMap().GameMap[X, Y] = user.SqState;
             _room.GetGameMap().RemoveUserFromMap(user, new Point(user.X, user.Y));
             _room.SendMessage(new UserRemoveComposer(user.VirtualId));
 
@@ -868,7 +868,6 @@ namespace StarBlue.HabboHotel.Rooms
                         }
 
                         User.IsAsleep = true;
-                        User.ApplyEffect(517);
                         _room.SendMessage(new SleepComposer(User, true));
                     }
 
@@ -906,10 +905,8 @@ namespace StarBlue.HabboHotel.Rooms
 
                     if (User.SetStep)
                     {
-                        if (gameMap.IsValidStep2(User, new Vector2D(User.X, User.Y), new Vector2D(User.SetX, User.SetY), (User.GoalX == User.SetX && User.GoalY == User.SetY), User.AllowOverride) || User.RidingHorse)
+                        if (gameMap.IsValidStep2(User, new Vector2D(User.X, User.Y), new Vector2D(User.SetX, User.SetY), (User.GoalX == User.SetX && User.GoalY == User.SetY), User.AllowOverride, true) || User.RidingHorse)
                         {
-                            UpdateUserEffect(User, User.SetX, User.SetY);
-
                             if (!User.RidingHorse && User.GetClient() != null)
                                 _room.GetGameMap().UpdateUserMovement(new Point(User.Coordinate.X, User.Coordinate.Y), new Point(User.SetX, User.SetY), User);
 
@@ -930,16 +927,6 @@ namespace StarBlue.HabboHotel.Rooms
                                 User.X = User.SetX;
                                 User.Y = User.SetY;
                                 User.Z = User.SetZ;
-                            }
-
-                            if (User.UserToVendingMachine != null)
-                            {
-                                if (Gamemap.TileDistance(User.X, User.Y, User.UserToVendingMachine.GetX, User.UserToVendingMachine.GetY) == 2)
-                                {
-                                    User.UserToVendingMachine.RequestUpdate(2, true);
-                                    User.UserToVendingMachine.ExtraData = "1";
-                                    User.UserToVendingMachine.UpdateState(false, true);
-                                }
                             }
 
                             if (!User.IsBot && User.RidingHorse)
@@ -1036,10 +1023,21 @@ namespace StarBlue.HabboHotel.Rooms
                                         User.CarryItem(randomDrink);
                                     }
 
-                                    User.UserToVendingMachine.InteractingUser = 0;
-                                    User.UserToVendingMachine.ExtraData = "0";
+                                    User.UserToVendingMachine.RequestUpdate(2, true);
+                                    User.UserToVendingMachine.ExtraData = "1";
                                     User.UserToVendingMachine.UpdateState(false, true);
-                                    User.UserToVendingMachine = null;
+
+
+                                    Threading threading = new Threading();
+                                    threading.SetSeconds(1);
+                                    threading.SetAction(() =>
+                                    {
+                                        User.UserToVendingMachine.InteractingUser = 0;
+                                        User.UserToVendingMachine.ExtraData = "0";
+                                        User.UserToVendingMachine.UpdateState(false, true);
+                                        User.UserToVendingMachine = null;
+                                    });
+                                    threading.Start();
                                 }
                             }
 
@@ -1172,7 +1170,7 @@ namespace StarBlue.HabboHotel.Rooms
                                     if (_room.GotSoccer())
                                         _room.GetSoccer().OnUserWalk(User);
 
-                                    //updated = true;
+                                    UpdateUserEffect(User, User.SetX, User.SetY);
 
                                     if (User.RidingHorse && User.IsPet == false && !User.IsBot)
                                     {
@@ -1237,11 +1235,6 @@ namespace StarBlue.HabboHotel.Rooms
                     {
                         userCounter++;
                     }
-
-                    //if (!updated)
-                    // {
-                    //     UpdateUserEffect(User, User.X, User.Y);
-                    // }
                 }
 
                 foreach (RoomUser toRemove in ToRemove.ToList())

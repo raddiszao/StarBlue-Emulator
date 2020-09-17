@@ -21,15 +21,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator.Fun
                     continue;
                 }
 
-                if (!Client.GetHabbo().InRoom)
-                {
-                    Client.GetConnection().Dispose();
-                }
-                else if (Client.GetHabbo().InRoom)
-                {
-                    Client.GetConnection().Dispose();
-                }
-
+                Client.Dispose();
                 Client.SendNotification("O hotel dará um pequeno reinicio, para aplicar todas as alterações dentro do Hotel. \n\nVoltaremos em seguida :)\n\n\n- " + Session.GetHabbo().Username + "");
             }
 

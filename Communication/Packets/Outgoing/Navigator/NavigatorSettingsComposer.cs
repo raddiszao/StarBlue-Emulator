@@ -1,12 +1,19 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class NavigatorSettingsComposer : ServerPacket
+    internal class NavigatorSettingsComposer : MessageComposer
     {
+        private int HomeRoom { get; }
+
         public NavigatorSettingsComposer(int Homeroom)
-            : base(ServerPacketHeader.NavigatorSettingsMessageComposer)
+            : base(Composers.NavigatorSettingsMessageComposer)
         {
-            base.WriteInteger(Homeroom);
-            base.WriteInteger(Homeroom);
+            this.HomeRoom = Homeroom;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(HomeRoom);
+            packet.WriteInteger(HomeRoom);
         }
     }
 }

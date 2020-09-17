@@ -1,5 +1,6 @@
 ﻿using log4net;
 using Newtonsoft.Json;
+using StarBlue.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace StarBlue.Communication.ConnectionManager
 {
@@ -36,7 +36,6 @@ namespace StarBlue.Communication.ConnectionManager
 
             this.connectionListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.connectionListener.NoDelay = true;
-            this.connectionListener.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
             try
             {
                 this.connectionListener.Bind((EndPoint)new IPEndPoint(IPAddress.Any, portID));
@@ -44,6 +43,7 @@ namespace StarBlue.Communication.ConnectionManager
                 this.connectionListener.BeginAccept(new AsyncCallback(this.newConnectionRequest), (object)this.connectionListener);
                 this.connectionListener.SendBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
                 this.connectionListener.ReceiveBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
+                log.Info(">> WebSocket Server listening on " + this.connectionListener.LocalEndPoint.ToString().Split(new char[1] { ':' })[0] + ":" + portID + ".");
             }
             catch (Exception ex)
             {
@@ -78,7 +78,6 @@ namespace StarBlue.Communication.ConnectionManager
             {
                 Socket dataStream = this.connectionListener.EndAccept(iAr);
                 dataStream.NoDelay = true;
-                //dataStream.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
 
                 string Ip = dataStream.RemoteEndPoint.ToString().Split(new char[1] { ':' })[0];
 
@@ -117,7 +116,10 @@ namespace StarBlue.Communication.ConnectionManager
                 else
                 {
                     this.suspiciousAttack = true;
-                    Task t = Task.Factory.StartNew(() => disableSuspiciousAttack(10 * 60 * 1000));
+                    Threading threading = new Threading();
+                    threading.SetMinutes(10);
+                    threading.SetAction(() => disableSuspiciousAttack());
+                    threading.Start();
                 }
             }
             catch
@@ -129,10 +131,8 @@ namespace StarBlue.Communication.ConnectionManager
             }
         }
 
-        public void disableSuspiciousAttack(int time)
+        public void disableSuspiciousAttack()
         {
-            Thread.Sleep(time);
-
             this.suspiciousAttack = false;
             this.blockedIps.Clear();
         }

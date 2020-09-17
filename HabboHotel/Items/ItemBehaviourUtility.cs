@@ -10,7 +10,7 @@ namespace StarBlue.HabboHotel.Items
 {
     internal static class ItemBehaviourUtility
     {
-        public static void GenerateExtradata(Item Item, ServerPacket Message)
+        public static void GenerateExtradata(Item Item, Composer Message)
         {
             switch (Item.GetBaseItem().InteractionType)
             {
@@ -195,10 +195,10 @@ namespace StarBlue.HabboHotel.Items
                     break;
 
                 case InteractionType.BACKGROUND:
-                    Message.WriteInteger(0);
-                    Message.WriteInteger(1);
-                    if (!string.IsNullOrEmpty(Item.ExtraData))
+                    if (!string.IsNullOrEmpty(Item.ExtraData) && Item.ExtraData.Length > 5)
                     {
+                        Message.WriteInteger(0);
+                        Message.WriteInteger(1);
                         Message.WriteInteger(Item.ExtraData.Split(Convert.ToChar(9)).Length / 2);
 
                         for (int i = 0; i <= Item.ExtraData.Split(Convert.ToChar(9)).Length - 1; i++)
@@ -209,6 +209,8 @@ namespace StarBlue.HabboHotel.Items
                     else
                     {
                         Message.WriteInteger(0);
+                        Message.WriteInteger(0);
+                        Message.WriteString("");
                     }
                     break;
 
@@ -319,9 +321,10 @@ namespace StarBlue.HabboHotel.Items
                     Message.WriteInteger(2);
                     Message.WriteInteger(4);
 
-                    string[] BadgeData = Item.ExtraData.Split(Convert.ToChar(9));
                     if (Item.ExtraData.Contains(Convert.ToChar(9).ToString()))
                     {
+                        string[] BadgeData = Item.ExtraData.Split(Convert.ToChar(9));
+
                         Message.WriteString("0");//No idea
                         Message.WriteString(BadgeData[0]);//Badge name
                         Message.WriteString(BadgeData[1]);//Owner
@@ -330,9 +333,9 @@ namespace StarBlue.HabboHotel.Items
                     else
                     {
                         Message.WriteString("0");//No idea
-                        Message.WriteString("DEV");//Badge name
-                        Message.WriteString("Sledmore");//Owner
-                        Message.WriteString("13-13-1337");//Date
+                        Message.WriteString(Item.ExtraData);//Badge name
+                        Message.WriteString("");//Owner
+                        Message.WriteString("");//Date
                     }
                     break;
 
@@ -342,8 +345,9 @@ namespace StarBlue.HabboHotel.Items
                     Message.WriteInteger(1);
 
                     Message.WriteString("THUMBNAIL_URL");
-                    //Message.WriteString("http://img.youtube.com/vi/" + StarBlueServer.GetGame().GetTelevisionManager().TelevisionList.OrderBy(x => Guid.NewGuid()).FirstOrDefault().YouTubeId + "/3.jpg");
-                    Message.WriteString("");
+                    Message.WriteString((string.IsNullOrEmpty(Item.ExtraData)) ? "" : "https://cdn.wibbo.me/youtubethumbnail.php?videoid=" + Item.ExtraData); //"https://i1.ytimg.com/vi/" + Item.ExtraData + "/default.jpg")
+                    Message.WriteString("VideoId");
+                    Message.WriteString(Item.ExtraData);
                     break;
 
                 case InteractionType.LOVELOCK:
@@ -379,7 +383,7 @@ namespace StarBlue.HabboHotel.Items
             }
         }
 
-        public static void GenerateWallExtradata(Item Item, ServerPacket Message)
+        public static void GenerateWallExtradata(Item Item, Composer Message)
         {
             switch (Item.GetBaseItem().InteractionType)
             {

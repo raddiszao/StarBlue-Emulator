@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
     internal class GetGameListingEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             ICollection<GameData> Games = StarBlueServer.GetGame().GetGameDataManager().GameData;
 

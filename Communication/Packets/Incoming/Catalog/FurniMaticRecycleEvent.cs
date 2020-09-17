@@ -1,5 +1,4 @@
-﻿using StarBlue.Communication.Packets.Outgoing;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
@@ -9,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     internal class FurniMaticRecycleEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null)
             {
@@ -62,10 +61,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 Session.SendMessage(new FurniListUpdateComposer());
             }
 
-            ServerPacket response = new ServerPacket(ServerPacketHeader.FurniMaticReceiveItem);
-            response.WriteInteger(1);
-            response.WriteInteger(GiveItem.Id); // received item id
-            Session.SendMessage(response);
+            Session.SendMessage(new FurniMaticReceiveItem(GiveItem.Id));
         }
     }
 }

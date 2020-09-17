@@ -1,12 +1,16 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    internal class MaximizedTargettedOfferComposer : ServerPacket
+    internal class MaximizedTargettedOfferComposer : MessageComposer
     {
         public MaximizedTargettedOfferComposer()
-            : base(ServerPacketHeader.MaximizedTargettedOfferComposer)
+            : base(Composers.MaximizedTargettedOfferComposer)
         {
-            base.WriteInteger(1);
-            base.WriteInteger(1);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(1);
+            packet.WriteInteger(1);
         }
     }
 }

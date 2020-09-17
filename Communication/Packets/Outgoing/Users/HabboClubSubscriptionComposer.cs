@@ -1,19 +1,23 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    internal class HabboClubSubscriptionComposer : ServerPacket
+    internal class HabboClubSubscriptionComposer : MessageComposer
     {
-        public HabboClubSubscriptionComposer() : base(ServerPacketHeader.HabboClubSubscriptionComposer)
+        public HabboClubSubscriptionComposer() : base(Composers.HabboClubSubscriptionComposer)
         {
-            base.WriteString("club_habbo");
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(2);
-            base.WriteBoolean(false);
-            base.WriteBoolean(false);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("club_habbo");
+            packet.WriteInteger(0);
+            packet.WriteInteger(0);
+            packet.WriteInteger(0);
+            packet.WriteInteger(2);
+            packet.WriteBoolean(false);
+            packet.WriteBoolean(false);
+            packet.WriteInteger(0);
+            packet.WriteInteger(0);
+            packet.WriteInteger(0);
         }
     }
 }

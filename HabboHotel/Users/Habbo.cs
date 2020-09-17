@@ -1,10 +1,10 @@
-﻿using StarBlue.Communication.Packets.Outgoing;
-using StarBlue.Communication.Packets.Outgoing.Handshake;
+﻿using StarBlue.Communication.Packets.Outgoing.Handshake;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Navigator;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
+using StarBlue.Communication.WebSocket;
 using StarBlue.Core;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Achievements;
@@ -29,7 +29,6 @@ using StarBlue.HabboHotel.Users.Polls;
 using StarBlue.HabboHotel.Users.Process;
 using StarBlue.HabboHotel.Users.Relationships;
 using StarBlue.HabboHotel.Users.UserDataManagement;
-using StarBlue.Messages;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -41,7 +40,6 @@ namespace StarBlue.HabboHotel.Users
 {
     public class Habbo
     {
-        //Prefijos 
         public string _tag;
         public string _tagcolor;
         public string _nameColor;
@@ -1671,7 +1669,7 @@ namespace StarBlue.HabboHotel.Users
             }
         }
 
-        public bool SendWebPacket(IServerPacket Message)
+        public bool SendWebPacket(WebComposer Message)
         {
             StarBlue.HabboHotel.WebClient.WebClient ClientWeb = StarBlueServer.GetGame().GetWebClientManager().GetClientByUserID(this.Id);
             if (ClientWeb != null)
@@ -1728,8 +1726,7 @@ namespace StarBlue.HabboHotel.Users
                 return;
             }
 
-            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
-            message.appendResponse(new OpenConnectionComposer());
+            Session.SendMessage(new OpenConnectionComposer());
 
             if (!Room.CheckRights(Session, false, true) && !this.IsTeleporting && !this.IsHopping)
             {
@@ -1737,16 +1734,14 @@ namespace StarBlue.HabboHotel.Users
                 {
                     if (Room.UserCount > 0)
                     {
-                        message.appendResponse(new DoorbellComposer(""));
+                        Session.SendMessage(new DoorbellComposer(""));
                         Room.SendMessage(new DoorbellComposer(this.Username), true);
-                        message.sendResponse();
                         return;
                     }
                     else
                     {
-                        message.appendResponse(new FlatAccessDeniedComposer(""));
-                        message.appendResponse(new CloseConnectionComposer(Session));
-                        message.sendResponse();
+                        Session.SendMessage(new FlatAccessDeniedComposer(""));
+                        Session.SendMessage(new CloseConnectionComposer(Session));
                         return;
                     }
                 }
@@ -1754,29 +1749,28 @@ namespace StarBlue.HabboHotel.Users
                 {
                     if (Password.ToLower() != Room.RoomData.Password.ToLower() || string.IsNullOrWhiteSpace(Password))
                     {
-                        message.appendResponse(new GenericErrorComposer(-100002));
-                        message.appendResponse(new CloseConnectionComposer(Session));
-                        message.sendResponse();
+                        Session.SendMessage(new GenericErrorComposer(-100002));
+                        Session.SendMessage(new CloseConnectionComposer(Session));
                         return;
                     }
                 }
             }
 
-            message.appendResponse(new RoomReadyComposer(Room.Id, Room.RoomData.ModelName));
+            Session.SendQueue(new RoomReadyComposer(Room.Id, Room.RoomData.ModelName));
 
             if (Room.RoomData.Wallpaper != "0.0")
             {
-                message.appendResponse(new RoomPropertyComposer("wallpaper", Room.RoomData.Wallpaper));
+                Session.SendQueue(new RoomPropertyComposer("wallpaper", Room.RoomData.Wallpaper));
             }
 
             if (Room.RoomData.Floor != "0.0")
             {
-                message.appendResponse(new RoomPropertyComposer("floor", Room.RoomData.Floor));
+                Session.SendQueue(new RoomPropertyComposer("floor", Room.RoomData.Floor));
             }
 
-            message.appendResponse(new RoomPropertyComposer("landscape", Room.RoomData.Landscape));
-            message.appendResponse(new RoomRatingComposer(Room.RoomData.Score, !(this.RatedRooms.Contains(Room.Id) || Room.RoomData.OwnerId == this.Id)));
-            message.sendResponse();
+            Session.SendQueue(new RoomPropertyComposer("landscape", Room.RoomData.Landscape));
+            Session.SendQueue(new RoomRatingComposer(Room.RoomData.Score, !(this.RatedRooms.Contains(Room.Id) || Room.RoomData.OwnerId == this.Id)));
+            Session.Flush();
         }
 
         public void InitCalendar()
@@ -1825,22 +1819,21 @@ namespace StarBlue.HabboHotel.Users
                 return false;
             }
 
-            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
-            message.appendResponse(new RoomReadyComposer(Room.Id, Room.RoomData.ModelName));
+            Session.SendQueue(new RoomReadyComposer(Room.Id, Room.RoomData.ModelName));
 
             if (Room.RoomData.Wallpaper != "0.0")
             {
-                message.appendResponse(new RoomPropertyComposer("wallpaper", Room.RoomData.Wallpaper));
+                Session.SendQueue(new RoomPropertyComposer("wallpaper", Room.RoomData.Wallpaper));
             }
 
             if (Room.RoomData.Floor != "0.0")
             {
-                message.appendResponse(new RoomPropertyComposer("floor", Room.RoomData.Floor));
+                Session.SendQueue(new RoomPropertyComposer("floor", Room.RoomData.Floor));
             }
 
-            message.appendResponse(new RoomPropertyComposer("landscape", Room.RoomData.Landscape));
-            message.appendResponse(new RoomRatingComposer(Room.RoomData.Score, !(this.RatedRooms.Contains(Room.Id) || Room.RoomData.OwnerId == this.Id)));
-            message.sendResponse();
+            Session.SendQueue(new RoomPropertyComposer("landscape", Room.RoomData.Landscape));
+            Session.SendQueue(new RoomRatingComposer(Room.RoomData.Score, !(this.RatedRooms.Contains(Room.Id) || Room.RoomData.OwnerId == this.Id)));
+            Session.Flush();
 
             return true;
         }

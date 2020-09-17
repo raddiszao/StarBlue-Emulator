@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Stickys
 {
-    internal class StickyNoteComposer : ServerPacket
+    internal class StickyNoteComposer : MessageComposer
     {
+        public string ItemId { get; }
+        public string ExtraData { get; }
+
         public StickyNoteComposer(string ItemId, string Extradata)
-            : base(ServerPacketHeader.StickyNoteMessageComposer)
+            : base(Composers.StickyNoteMessageComposer)
         {
-            base.WriteString(ItemId);
-            base.WriteString(Extradata);
+            this.ItemId = ItemId;
+            this.ExtraData = Extradata;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(ItemId);
+            packet.WriteString(ExtraData);
         }
     }
 }

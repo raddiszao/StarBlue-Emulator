@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
     internal class CancelCallForHelperEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             HelperCase call = HelperToolsManager.GetCall(Session);
             HelperToolsManager.RemoveCall(call);

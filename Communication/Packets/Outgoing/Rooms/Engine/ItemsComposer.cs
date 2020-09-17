@@ -4,43 +4,53 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class ItemsComposer : ServerPacket
+    internal class ItemsComposer : MessageComposer
     {
+        public Item[] Objects { get; }
+        public int OwnerId { get; }
+        public string OwnerName { get; }
+
         public ItemsComposer(Item[] Objects, Room Room)
-            : base(ServerPacketHeader.ItemsMessageComposer)
+            : base(Composers.ItemsMessageComposer)
         {
+            this.Objects = Objects;
+            this.OwnerId = Room.RoomData.OwnerId;
+            this.OwnerName = Room.RoomData.OwnerName;
+        }
 
-            base.WriteInteger(1);
-            base.WriteInteger(Room.RoomData.OwnerId);
-            base.WriteString(Room.RoomData.OwnerName);
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(1);
+            packet.WriteInteger(OwnerId);
+            packet.WriteString(OwnerName);
 
-            base.WriteInteger(Objects.Length);
+            packet.WriteInteger(Objects.Length);
 
             foreach (Item Item in Objects)
             {
-                WriteWallItem(Item, Room.RoomData.OwnerId);
+                WriteWallItem(Item, OwnerId, packet);
             }
         }
 
-        private void WriteWallItem(Item Item, int UserId)
+        private void WriteWallItem(Item Item, int UserId, Composer packet)
         {
-            base.WriteString(Item.Id.ToString());
-            base.WriteInteger(Item.Data.SpriteId);
+            packet.WriteString(Item.Id.ToString());
+            packet.WriteInteger(Item.Data.SpriteId);
 
             try
             {
-                base.WriteString(Item.wallCoord);
+                packet.WriteString(Item.wallCoord);
             }
             catch
             {
-                base.WriteString("");
+                packet.WriteString("");
             }
 
-            ItemBehaviourUtility.GenerateWallExtradata(Item, this);
+            ItemBehaviourUtility.GenerateWallExtradata(Item, packet);
 
-            base.WriteInteger(-1);
-            base.WriteInteger((Item.Data.Modes > 1) ? 1 : 0);
-            base.WriteInteger(UserId);
+            packet.WriteInteger(-1);
+            packet.WriteInteger((Item.Data.Modes > 1) ? 1 : 0);
+            packet.WriteInteger(UserId);
         }
     }
 }

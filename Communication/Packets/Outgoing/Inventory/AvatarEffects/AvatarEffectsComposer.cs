@@ -3,21 +3,28 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
-    internal class AvatarEffectsComposer : ServerPacket
+    internal class AvatarEffectsComposer : MessageComposer
     {
+        public ICollection<AvatarEffect> Effects { get; }
+
         public AvatarEffectsComposer(ICollection<AvatarEffect> Effects)
-            : base(ServerPacketHeader.AvatarEffectsMessageComposer)
+            : base(Composers.AvatarEffectsMessageComposer)
         {
-            base.WriteInteger(Effects.Count);
+            this.Effects = Effects;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Effects.Count);
 
             foreach (AvatarEffect Effect in Effects)
             {
-                base.WriteInteger(Effect.SpriteId);//Effect Id
-                base.WriteInteger(0);//Type, 0 = Hand, 1 = Full
-                base.WriteInteger((int)Effect.Duration);
-                base.WriteInteger(Effect.Activated ? Effect.Quantity - 1 : Effect.Quantity);
-                base.WriteInteger(Effect.Activated ? (int)Effect.TimeLeft : -1);
-                base.WriteBoolean(false);//Permanent
+                packet.WriteInteger(Effect.SpriteId);//Effect Id
+                packet.WriteInteger(0);//Type, 0 = Hand, 1 = Full
+                packet.WriteInteger((int)Effect.Duration);
+                packet.WriteInteger(Effect.Activated ? Effect.Quantity - 1 : Effect.Quantity);
+                packet.WriteInteger(Effect.Activated ? (int)Effect.TimeLeft : -1);
+                packet.WriteBoolean(false);//Permanent
             }
         }
     }

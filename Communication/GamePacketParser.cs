@@ -1,5 +1,5 @@
 ﻿using StarBlue.Communication.ConnectionManager;
-using StarBlue.Communication.Packets.Incoming;
+using StarBlue.Communication.WebSocket;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.Utilities;
 using System;
@@ -33,15 +33,10 @@ namespace StarBlue.Communication
                 {
                     if (Data[0] == 60 && Data[1] == 112)
                     {
-                        this.currentClient.GetConnection().SendData(Encoding.Default.GetBytes(GetXmlPolicy()));
+                        this.currentClient.SendMessage(Encoding.Default.GetBytes(GetXmlPolicy()));
 
                         return;
                     }
-                }
-
-                if (currentClient != null && currentClient.RC4Client != null && !deciphered)
-                {
-                    currentClient.RC4Client.Decrypt(ref Data);
                 }
 
                 if (this._halfDataRecieved)
@@ -80,7 +75,7 @@ namespace StarBlue.Communication
                         byte[] Content = new byte[Packet.Length - 2];
                         Buffer.BlockCopy(Packet, 2, Content, 0, Packet.Length - 2);
 
-                        ClientPacket Message = new ClientPacket(Header, Content);
+                        MessageWebEvent Message = new MessageWebEvent(Header, Content);
                         OnNewPacket.Invoke(Message);
                     }
 
@@ -119,6 +114,6 @@ namespace StarBlue.Communication
             return new GamePacketParser(this.currentClient);
         }
 
-        public delegate void HandlePacket(ClientPacket message);
+        public delegate void HandlePacket(MessageWebEvent message);
     }
 }

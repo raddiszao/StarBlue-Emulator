@@ -5,9 +5,9 @@ namespace StarBlue.Communication.Packets.Incoming.Handshake
 {
     public class SSOTicketEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
-            if (Session == null || Session.RC4Client == null || Session.GetHabbo() != null)
+            if (Session == null || Session.GetHabbo() != null)
             {
                 return;
             }

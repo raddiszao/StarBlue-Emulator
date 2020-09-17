@@ -6,23 +6,23 @@
 
 //namespace StarBlue.Communication.Packets.Outgoing.Rooms.Polls.Questions
 //{
-//    class QuestionParserComposer : ServerPacket
+//    class QuestionParserComposer : MessageComposer
 //    {
 //        public QuestionParserComposer()
 //            : base(ServerPacketHeader.QuestionParserMessageComposer)
 //        {
-//            base.WriteString("MATCHING_POLL");
-//            base.WriteInteger(2686);//??
-//            base.WriteInteger(10016);//???
-//            base.WriteInteger(60);//Duration
-//            base.WriteInteger(10016);
-//            base.WriteInteger(9);
-//            base.WriteInteger(6);
-//            base.WriteString("MAFIA WARS: WEAPONS VOTE");
-//            base.WriteInteger(0);
-//            base.WriteInteger(6);
-//            base.WriteInteger(0);
-//            base.WriteInteger(0);
+//            packet.WriteString("MATCHING_POLL");
+//            packet.WriteInteger(2686);//??
+//            packet.WriteInteger(10016);//???
+//            packet.WriteInteger(60);//Duration
+//            packet.WriteInteger(10016);
+//            packet.WriteInteger(9);
+//            packet.WriteInteger(6);
+//            packet.WriteString("MAFIA WARS: WEAPONS VOTE");
+//            packet.WriteInteger(0);
+//            packet.WriteInteger(6);
+//            packet.WriteInteger(0);
+//            packet.WriteInteger(0);
 //        }
 //    }
 //}

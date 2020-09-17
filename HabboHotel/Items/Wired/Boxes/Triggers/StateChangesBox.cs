@@ -24,7 +24,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
             SetItems = new ConcurrentDictionary<int, Item>();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             string Unknown2 = Packet.PopString();
@@ -110,7 +110,8 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
                 if (Instance != null)
                 {
                     Instance.GetWired().OnEvent(RandomBox.Item);
-                    Instance.GetWired().OnEvent(SelectedBox.Item);
+                    if (SelectedBox != null)
+                        Instance.GetWired().OnEvent(SelectedBox.Item);
                 }
             }
             else

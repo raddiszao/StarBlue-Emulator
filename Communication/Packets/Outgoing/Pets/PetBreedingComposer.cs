@@ -1,58 +1,62 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Pets
 {
-    internal class PetBreedingComposer : ServerPacket
+    internal class PetBreedingComposer : MessageComposer
     {
         public PetBreedingComposer()
-            : base(ServerPacketHeader.PetBreedingMessageComposer)
+            : base(Composers.PetBreedingMessageComposer)
         {
-            base.WriteInteger(219005779);//An Id?
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(219005779);//An Id?
             {
                 //Pet 1.
-                base.WriteInteger(2169464);//Pet Id
-                base.WriteString("Tes");
-                base.WriteInteger(69);//Level
-                base.WriteString("1 22 F2E5CC");//Breed/figure?
-                base.WriteString("Sledmore");//Owner
+                packet.WriteInteger(2169464);//Pet Id
+                packet.WriteString("Tes");
+                packet.WriteInteger(69);//Level
+                packet.WriteString("1 22 F2E5CC");//Breed/figure?
+                packet.WriteString("Sledmore");//Owner
 
                 //Pet 2.
-                base.WriteInteger(2169465);
-                base.WriteString("Testy");
-                base.WriteInteger(1337);
-                base.WriteString("1 0 D4D4D4");
-                base.WriteString("Sledmore");
+                packet.WriteInteger(2169465);
+                packet.WriteString("Testy");
+                packet.WriteInteger(1337);
+                packet.WriteString("1 0 D4D4D4");
+                packet.WriteString("Sledmore");
 
-                base.WriteInteger(4);//Count
+                packet.WriteInteger(4);//Count
                 {
-                    base.WriteInteger(1);
-                    base.WriteInteger(3);
-                    base.WriteInteger(18);
-                    base.WriteInteger(19);
-                    base.WriteInteger(20);
-                    base.WriteInteger(3);
-                    base.WriteInteger(6);
-                    base.WriteInteger(12);
-                    base.WriteInteger(13);
-                    base.WriteInteger(14);
-                    base.WriteInteger(15);
-                    base.WriteInteger(16);
-                    base.WriteInteger(17);
-                    base.WriteInteger(4);
-                    base.WriteInteger(5);
-                    base.WriteInteger(7);
-                    base.WriteInteger(8);
-                    base.WriteInteger(9);
-                    base.WriteInteger(10);
-                    base.WriteInteger(11);
-                    base.WriteInteger(92);
-                    base.WriteInteger(6);
-                    base.WriteInteger(1);
-                    base.WriteInteger(2);
-                    base.WriteInteger(3);
-                    base.WriteInteger(4);
-                    base.WriteInteger(5);
-                    base.WriteInteger(6);
+                    packet.WriteInteger(1);
+                    packet.WriteInteger(3);
+                    packet.WriteInteger(18);
+                    packet.WriteInteger(19);
+                    packet.WriteInteger(20);
+                    packet.WriteInteger(3);
+                    packet.WriteInteger(6);
+                    packet.WriteInteger(12);
+                    packet.WriteInteger(13);
+                    packet.WriteInteger(14);
+                    packet.WriteInteger(15);
+                    packet.WriteInteger(16);
+                    packet.WriteInteger(17);
+                    packet.WriteInteger(4);
+                    packet.WriteInteger(5);
+                    packet.WriteInteger(7);
+                    packet.WriteInteger(8);
+                    packet.WriteInteger(9);
+                    packet.WriteInteger(10);
+                    packet.WriteInteger(11);
+                    packet.WriteInteger(92);
+                    packet.WriteInteger(6);
+                    packet.WriteInteger(1);
+                    packet.WriteInteger(2);
+                    packet.WriteInteger(3);
+                    packet.WriteInteger(4);
+                    packet.WriteInteger(5);
+                    packet.WriteInteger(6);
                 }
-                base.WriteInteger(28);
+                packet.WriteInteger(28);
             }
         }
     }

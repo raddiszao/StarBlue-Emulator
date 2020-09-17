@@ -19,7 +19,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
             double Minutes = Session.GetHabbo().GetStats().OnlineTime / 60;
             double Hours = Minutes / 60;
             int OnlineTime = Convert.ToInt32(Hours);
-            string s = OnlineTime == 1 ? "" : "s";
 
             DataRow UserInfo = null;
 
@@ -42,7 +41,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 
             List.AppendLine("Info personal:\n");
             List.AppendLine("Rank: " + Session.GetHabbo().Rank + "");
-            List.AppendLine("Tempo online: " + OnlineTime + " Horas" + s + "");
+            List.AppendLine("Tempo online: " + OnlineTime + " Hora" + (Convert.ToInt32(Hours) == 1 ? "" : "s") + "");
             List.AppendLine("Respeitos: " + Session.GetHabbo().GetStats().Respect + "");
 
 

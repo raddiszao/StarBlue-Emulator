@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     public class GetRecyclerRewardsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             Session.SendMessage(new RecyclerRewardsComposer());
         }

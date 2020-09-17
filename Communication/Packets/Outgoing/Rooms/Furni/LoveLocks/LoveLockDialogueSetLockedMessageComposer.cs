@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.LoveLocks
 {
-    internal class LoveLockDialogueSetLockedMessageComposer : ServerPacket
+    class LoveLockDialogueSetLockedMessageComposer : MessageComposer
     {
+        public int ItemId { get; }
+
         public LoveLockDialogueSetLockedMessageComposer(int ItemId)
-            : base(ServerPacketHeader.LoveLockDialogueSetLockedMessageComposer)
+            : base(Composers.LoveLockDialogueSetLockedMessageComposer)
         {
-            base.WriteInteger(ItemId);
+            this.ItemId = ItemId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ItemId);
         }
     }
 }

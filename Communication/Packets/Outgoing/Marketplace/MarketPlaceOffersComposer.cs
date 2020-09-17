@@ -3,33 +3,42 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Marketplace
 {
-    internal class MarketPlaceOffersComposer : ServerPacket
+    internal class MarketPlaceOffersComposer : MessageComposer
     {
-        public MarketPlaceOffersComposer(int MinCost, int MaxCost, Dictionary<int, MarketOffer> dictionary, Dictionary<int, int> dictionary2)
-            : base(ServerPacketHeader.MarketPlaceOffersMessageComposer)
+        public Dictionary<int, MarketOffer> Offers { get; }
+        public Dictionary<int, int> Dictionary2 { get; }
+
+        public MarketPlaceOffersComposer(Dictionary<int, MarketOffer> dictionary, Dictionary<int, int> dictionary2)
+            : base(Composers.MarketPlaceOffersMessageComposer)
         {
-            base.WriteInteger(dictionary.Count);
-            if (dictionary.Count > 0)
+            this.Offers = dictionary;
+            this.Dictionary2 = dictionary2;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Offers.Count);
+            if (Offers.Count > 0)
             {
-                foreach (KeyValuePair<int, MarketOffer> pair in dictionary)
+                foreach (KeyValuePair<int, MarketOffer> pair in Offers)
                 {
-                    base.WriteInteger(pair.Value.OfferID);
-                    base.WriteInteger(1);//State
-                    base.WriteInteger(1);
-                    base.WriteInteger(pair.Value.SpriteId);
+                    packet.WriteInteger(pair.Value.OfferID);
+                    packet.WriteInteger(1);//State
+                    packet.WriteInteger(1);
+                    packet.WriteInteger(pair.Value.SpriteId);
 
-                    base.WriteInteger(256);
-                    base.WriteString("");
-                    base.WriteInteger(pair.Value.LimitedNumber);
-                    base.WriteInteger(pair.Value.LimitedStack);
+                    packet.WriteInteger(256);
+                    packet.WriteString("");
+                    packet.WriteInteger(pair.Value.LimitedNumber);
+                    packet.WriteInteger(pair.Value.LimitedStack);
 
-                    base.WriteInteger(pair.Value.TotalPrice);
-                    base.WriteInteger(0);
-                    base.WriteInteger(StarBlueServer.GetGame().GetCatalog().GetMarketplace().AvgPriceForSprite(pair.Value.SpriteId));
-                    base.WriteInteger(dictionary2[pair.Value.SpriteId]);
+                    packet.WriteInteger(pair.Value.TotalPrice);
+                    packet.WriteInteger(0);
+                    packet.WriteInteger(StarBlueServer.GetGame().GetCatalog().GetMarketplace().AvgPriceForSprite(pair.Value.SpriteId));
+                    packet.WriteInteger(Dictionary2[pair.Value.SpriteId]);
                 }
             }
-            base.WriteInteger(dictionary.Count);//Item count to show how many were found.
+            packet.WriteInteger(Offers.Count);//Item count to show how many were found.
         }
     }
 }

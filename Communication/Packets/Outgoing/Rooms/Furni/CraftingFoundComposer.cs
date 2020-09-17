@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    internal class CraftingFoundComposer : ServerPacket
+    internal class CraftingFoundComposer : MessageComposer
     {
+        private int count { get; }
+        private bool found { get; }
+
         public CraftingFoundComposer(int count, bool found)
-            : base(ServerPacketHeader.CraftingFoundMessageComposer) //resultado
+            : base(Composers.CraftingFoundMessageComposer) //resultado
         {
-            base.WriteInteger(count); //hay mas?
-            base.WriteBoolean(found); //encontrado
+            this.count = count;
+            this.found = found;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(count); //hay mas?
+            packet.WriteBoolean(found); //encontrado
         }
     }
 }

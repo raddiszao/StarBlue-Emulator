@@ -1,10 +1,14 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 {
-    internal class HCGiftsAlertComposer : ServerPacket
+    internal class HCGiftsAlertComposer : MessageComposer
     {
-        public HCGiftsAlertComposer() : base(ServerPacketHeader.HCGiftsAlertComposer)
+        public HCGiftsAlertComposer() : base(Composers.HCGiftsAlertComposer)
         {
-            base.WriteInteger(1);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(1);
         }
     }
 }

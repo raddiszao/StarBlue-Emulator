@@ -2,19 +2,23 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    internal class LimitedCountdownExtendedComposer : ServerPacket
+    internal class LimitedCountdownExtendedComposer : MessageComposer
     {
         public LimitedCountdownExtendedComposer()
-            : base(ServerPacketHeader.LimitedCountdownExtendedComposer)
+            : base(Composers.LimitedCountdownExtendedComposer)
+        {
+        }
+
+        public override void Compose(Composer packet)
         {
             string date = "20/01/2018 21:00:00.0";
             DateTime.TryParse(date, out DateTime fechilla);
             TimeSpan diff = fechilla - DateTime.Now;
 
-            base.WriteInteger(Convert.ToInt32(diff.TotalSeconds)); // Total Seconds
-            base.WriteInteger(-1); // PageID
-            base.WriteInteger(0); // ItemID
-            base.WriteString("throne"); // Productdata IMG
+            packet.WriteInteger(Convert.ToInt32(diff.TotalSeconds)); // Total Seconds
+            packet.WriteInteger(-1); // PageID
+            packet.WriteInteger(0); // ItemID
+            packet.WriteString("throne"); // Productdata IMG
         }
     }
 }

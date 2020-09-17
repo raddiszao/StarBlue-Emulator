@@ -7,20 +7,27 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class HeightMapComposer : ServerPacket
+    internal class HeightMapComposer : MessageComposer
     {
+        private Room Room { get; }
+
         public HeightMapComposer(Room Room)
-            : base(ServerPacketHeader.HeightMapMessageComposer)
+            : base(Composers.HeightMapMessageComposer)
+        {
+            this.Room = Room;
+        }
+
+        public override void Compose(Composer packet)
         {
             var map = Room.GetGameMap();
-            base.WriteInteger(map.Model.MapSizeX);
-            base.WriteInteger(map.Model.MapSizeX * map.Model.MapSizeY);
+            packet.WriteInteger(map.Model.MapSizeX);
+            packet.WriteInteger(map.Model.MapSizeX * map.Model.MapSizeY);
             for (var y = 0; y < map.Model.MapSizeY; y++)
             {
                 for (var x = 0; x < map.Model.MapSizeX; x++)
                 {
                     if (map.Model.SqState[x, y] == SquareState.BLOCKED)
-                        WriteShort(16384);
+                        packet.WriteShort(16384);
                     else
                     {
                         List<Item> items = map.GetCoordinatedItems(new Point(x, y));
@@ -35,7 +42,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
                             {
                                 if (map.HasStackTool(Point.X, Point.Y) && item.Data.InteractionType != InteractionType.STACKTOOL)
                                 {
-                                    base.WriteShort(0);
+                                    packet.WriteShort(0);
                                     itemOnMagicTile = true;
                                     break;
                                 }
@@ -47,11 +54,11 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
                             try
                             {
                                 ushort Height = (ushort)(map.SqAbsoluteHeight(x, y) * 256);
-                                base.WriteUnsignedShort((ushort)(Height > ushort.MaxValue ? ushort.MaxValue : Height));
+                                packet.WriteShort(Height);
                             }
                             catch
                             {
-                                base.WriteShort(0);
+                                packet.WriteShort(0);
                             }
                         }
                     }

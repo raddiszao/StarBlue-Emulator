@@ -3,35 +3,54 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class GroupMembersComposer : ServerPacket
+    internal class GroupMembersComposer : MessageComposer
     {
-        public GroupMembersComposer(Group Group, ICollection<GroupMember> Members, int MembersCount, int Page, bool Admin, int ReqType, string SearchVal)
-            : base(ServerPacketHeader.GroupMembersMessageComposer)
-        {
-            base.WriteInteger(Group.Id);
-            base.WriteString(Group.Name);
-            base.WriteInteger(Group.RoomId);
-            base.WriteString(Group.Badge);
-            base.WriteInteger(MembersCount);
+        public Group Group { get; }
+        public ICollection<GroupMember> Members { get; }
+        public int MembersCount { get; }
+        public int Page { get; }
+        public bool Admin { get; }
+        public int ReqType { get; }
+        public string SearchVal { get; }
 
-            base.WriteInteger(Members.Count);
+        public GroupMembersComposer(Group Group, ICollection<GroupMember> Members, int MembersCount, int Page, bool Admin, int ReqType, string SearchVal)
+            : base(Composers.GroupMembersMessageComposer)
+        {
+            this.Group = Group;
+            this.Members = Members;
+            this.MembersCount = MembersCount;
+            this.Page = Page;
+            this.Admin = Admin;
+            this.ReqType = ReqType;
+            this.SearchVal = SearchVal;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Group.Id);
+            packet.WriteString(Group.Name);
+            packet.WriteInteger(Group.RoomId);
+            packet.WriteString(Group.Badge);
+            packet.WriteInteger(MembersCount);
+
+            packet.WriteInteger(Members.Count);
             if (MembersCount > 0)
             {
                 foreach (GroupMember Data in Members)
                 {
-                    base.WriteInteger(Group.CreatorId == Data.Id ? 0 : Group.IsAdmin(Data.Id) ? 1 : Group.IsMember(Data.Id) ? 2 : 3);
-                    base.WriteInteger(Data.Id);
-                    base.WriteString(Data.Username);
-                    base.WriteString(Data.Look);
-                    base.WriteString(Data.JoinedTime);
+                    packet.WriteInteger(Group.CreatorId == Data.Id ? 0 : Group.IsAdmin(Data.Id) ? 1 : Group.IsMember(Data.Id) ? 2 : 3);
+                    packet.WriteInteger(Data.Id);
+                    packet.WriteString(Data.Username);
+                    packet.WriteString(Data.Look);
+                    packet.WriteString(Data.JoinedTime);
                 }
             }
 
-            base.WriteBoolean(Admin);
-            base.WriteInteger(14);
-            base.WriteInteger(Page);
-            base.WriteInteger(ReqType);
-            base.WriteString(SearchVal);
+            packet.WriteBoolean(Admin);
+            packet.WriteInteger(14);
+            packet.WriteInteger(Page);
+            packet.WriteInteger(ReqType);
+            packet.WriteString(SearchVal);
         }
     }
 }

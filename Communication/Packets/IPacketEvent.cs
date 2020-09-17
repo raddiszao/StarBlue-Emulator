@@ -5,6 +5,6 @@ namespace StarBlue.Communication.Packets
 {
     public interface IPacketEvent
     {
-        void Parse(GameClient Session, ClientPacket Packet);
+        void Parse(GameClient Session, MessageEvent Packet);
     }
 }

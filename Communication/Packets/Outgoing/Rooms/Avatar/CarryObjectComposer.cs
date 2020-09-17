@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Avatar
 {
-    internal class CarryObjectComposer : ServerPacket
+    internal class CarryObjectComposer : MessageComposer
     {
+        private int virtualID { get; }
+        private int itemID { get; }
+
         public CarryObjectComposer(int virtualID, int itemID)
-            : base(ServerPacketHeader.CarryObjectMessageComposer)
+            : base(Composers.CarryObjectMessageComposer)
         {
-            base.WriteInteger(virtualID);
-            base.WriteInteger(itemID);
+            this.virtualID = virtualID;
+            this.itemID = itemID;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(virtualID);
+            packet.WriteInteger(itemID);
         }
     }
 }

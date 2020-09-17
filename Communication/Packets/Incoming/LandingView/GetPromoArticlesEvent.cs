@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.LandingView
 {
     internal class GetPromoArticlesEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             ICollection<Promotion> LandingPromotions = StarBlueServer.GetGame().GetLandingManager().GetPromotionItems();
 

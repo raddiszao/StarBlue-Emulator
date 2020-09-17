@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    internal class TradingErrorComposer : ServerPacket
+    internal class TradingErrorComposer : MessageComposer
     {
+        public int Error { get; }
+        public string Username { get; }
+
         public TradingErrorComposer(int Error, string Username)
-            : base(ServerPacketHeader.TradingErrorMessageComposer)
+            : base(Composers.TradingErrorMessageComposer)
         {
-            base.WriteInteger(Error);
-            base.WriteString(Username);
+            this.Error = Error;
+            this.Username = Username;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Error);
+            packet.WriteString(Username);
         }
     }
 }

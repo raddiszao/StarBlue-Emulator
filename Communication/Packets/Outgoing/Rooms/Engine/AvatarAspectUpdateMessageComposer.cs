@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class AvatarAspectUpdateMessageComposer : ServerPacket
+    internal class AvatarAspectUpdateMessageComposer : MessageComposer
     {
+        private string Figure { get; }
+        private string Gender { get; }
+
         public AvatarAspectUpdateMessageComposer(string Figure, string Gender)
-            : base(ServerPacketHeader.AvatarAspectUpdateMessageComposer)
+            : base(Composers.AvatarAspectUpdateMessageComposer)
         {
-            base.WriteString(Figure);
-            base.WriteString(Gender);
+            this.Figure = Figure;
+            this.Gender = Gender;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Figure);
+            packet.WriteString(Gender);
 
         }
     }

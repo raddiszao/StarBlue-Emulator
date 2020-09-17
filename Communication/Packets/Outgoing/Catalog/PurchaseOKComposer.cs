@@ -3,66 +3,63 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    public class PurchaseOKComposer : ServerPacket
+    public class PurchaseOKComposer : MessageComposer
     {
+        private CatalogItem Item { get; }
+        private ItemData BaseItem { get; }
+
         public PurchaseOKComposer(CatalogItem Item, ItemData BaseItem)
-            : base(ServerPacketHeader.PurchaseOKMessageComposer)
+            : base(Composers.PurchaseOKMessageComposer)
         {
-            base.WriteInteger(BaseItem.Id);
-            base.WriteString(BaseItem.ItemName);
-            base.WriteBoolean(false);
-            base.WriteInteger(Item.CostCredits);
-            base.WriteInteger(Item.CostPixels);
-            base.WriteInteger(0);
-            base.WriteBoolean(true);
-            base.WriteInteger(1);
-            base.WriteString(BaseItem.Type.ToString().ToLower());
-            base.WriteInteger(BaseItem.SpriteId);
-            base.WriteString("");
-            base.WriteInteger(1);
-            base.WriteInteger(0);
-            base.WriteString("");
-            base.WriteInteger(1);
+            this.Item = Item;
+            this.BaseItem = BaseItem;
         }
 
-        public PurchaseOKComposer(BCCatalogItem Item, ItemData BaseItem)
-            : base(ServerPacketHeader.PurchaseOKMessageComposer)
+        public override void Compose(Composer packet)
         {
-            base.WriteInteger(BaseItem.Id);
-            base.WriteString(BaseItem.ItemName);
-            base.WriteBoolean(false);
-            base.WriteInteger(Item.CostCredits);
-            base.WriteInteger(Item.CostPixels);
-            base.WriteInteger(0);
-            base.WriteBoolean(true);
-            base.WriteInteger(1);
-            base.WriteString(BaseItem.Type.ToString().ToLower());
-            base.WriteInteger(BaseItem.SpriteId);
-            base.WriteString("");
-            base.WriteInteger(1);
-            base.WriteInteger(0);
-            base.WriteString("");
-            base.WriteInteger(1);
+            if (this.Item == null)
+            {
+                packet.WriteInteger(0);
+                packet.WriteString("");
+                packet.WriteBoolean(false);
+                packet.WriteInteger(0);
+                packet.WriteInteger(0);
+                packet.WriteInteger(0);
+                packet.WriteBoolean(true);
+                packet.WriteInteger(1);
+                packet.WriteString("s");
+                packet.WriteInteger(0);
+                packet.WriteString("");
+                packet.WriteInteger(1);
+                packet.WriteInteger(0);
+                packet.WriteString("");
+                packet.WriteInteger(1);
+            }
+            else
+            {
+                packet.WriteInteger(BaseItem.Id);
+                packet.WriteString(BaseItem.ItemName);
+                packet.WriteBoolean(false);
+                packet.WriteInteger(Item.CostCredits);
+                packet.WriteInteger(Item.CostPixels);
+                packet.WriteInteger(0);
+                packet.WriteBoolean(true);
+                packet.WriteInteger(1);
+                packet.WriteString(BaseItem.Type.ToString().ToLower());
+                packet.WriteInteger(BaseItem.SpriteId);
+                packet.WriteString("");
+                packet.WriteInteger(1);
+                packet.WriteInteger(0);
+                packet.WriteString("");
+                packet.WriteInteger(1);
+            }
         }
 
         public PurchaseOKComposer()
-            : base(ServerPacketHeader.PurchaseOKMessageComposer)
+            : base(Composers.PurchaseOKMessageComposer)
         {
-            base.WriteInteger(0);
-            base.WriteString("");
-            base.WriteBoolean(false);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteBoolean(true);
-            base.WriteInteger(1);
-            base.WriteString("s");
-            base.WriteInteger(0);
-            base.WriteString("");
-            base.WriteInteger(1);
-            base.WriteInteger(0);
-            base.WriteString("");
-            base.WriteInteger(1);
+            this.Item = null;
+            this.BaseItem = null;
         }
     }
 }

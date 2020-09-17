@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
     internal class GetNavigatorFlatsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             ICollection<SearchResultList> Categories = StarBlueServer.GetGame().GetNavigator().GetEventCategories();
 

@@ -210,7 +210,7 @@ namespace StarBlue.HabboHotel.Items
         {
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("INSERT INTO `room_items_toner` (`id`, `data1`, `data2`, `data3`, `enabled`) VALUES (@id, 0, 0, 0, '0')");
+                dbClient.SetQuery("INSERT IGNORE INTO `room_items_toner` (`id`, `data1`, `data2`, `data3`, `enabled`) VALUES (@id, 0, 0, 0, '0')");
                 dbClient.AddParameter("id", Item.Id);
                 dbClient.RunQuery();
             }

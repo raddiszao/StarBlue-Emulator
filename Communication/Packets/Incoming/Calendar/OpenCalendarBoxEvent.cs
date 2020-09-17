@@ -11,7 +11,7 @@ namespace StarBlue.Communication.Packets.Incoming.Calendar
 {
     internal class OpenCalendarBoxEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             string CampaignName = Packet.PopString();
             int CampaignDay = Packet.PopInt(); // INDEX VALUE.
@@ -46,7 +46,6 @@ namespace StarBlue.Communication.Packets.Incoming.Calendar
 
             Session.GetHabbo().calendarGift[CampaignDay] = true;
 
-            // PACKET PARA ACTUALIZAR?
             Session.SendMessage(new CalendarPrizesComposer(StarBlueServer.GetGame().GetCalendarManager().GetCampaignDay(CampaignDay + 1)));
             Session.SendMessage(new CampaignCalendarDataComposer(Session.GetHabbo().calendarGift));
 

@@ -504,17 +504,9 @@ namespace StarBlue.HabboHotel.Users.Messenger
             }
         }
 
-        public ServerPacket SerializeUpdate(MessengerBuddy friend)
+        public MessageComposer SerializeUpdate(MessengerBuddy friend)
         {
-            ServerPacket Packet = new ServerPacket(ServerPacketHeader.FriendListUpdateMessageComposer);
-            Packet.WriteInteger(1); // category count
-            Packet.WriteInteger(1);
-            Packet.WriteString("Grupos");
-            Packet.WriteInteger(1); // number of updates
-            Packet.WriteInteger(0); // don't know
-
-            friend.Serialize(Packet, GetClient());
-            return Packet;
+            return new FriendListUpdateComposer(GetClient(), friend, true);
         }
 
         public void BroadcastAchievement(int UserId, MessengerEventTypes Type, string Data)

@@ -12,7 +12,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class DeleteGroupEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!StarBlueServer.GetGame().GetGroupManager().TryGetGroup(Packet.PopInt(), out Group Group))
             {

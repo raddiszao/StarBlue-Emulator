@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class FlatAccessDeniedComposer : ServerPacket
+    internal class FlatAccessDeniedComposer : MessageComposer
     {
+        private string Username { get; }
+
         public FlatAccessDeniedComposer(string Username)
-            : base(ServerPacketHeader.FlatAccessDeniedMessageComposer)
+            : base(Composers.FlatAccessDeniedMessageComposer)
         {
-            base.WriteString(Username);
+            this.Username = Username;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Username);
         }
     }
 }

@@ -7,10 +7,23 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    internal class BuddyListComposer : ServerPacket
+    internal class BuddyListComposer : MessageComposer
     {
-        public BuddyListComposer(ICollection<MessengerBuddy> Friends, Habbo Player)
-            : base(ServerPacketHeader.BuddyListMessageComposer)
+        public ICollection<MessengerBuddy> Friends { get; }
+        public Habbo Player { get; }
+        public int Pages { get; }
+        public int Page { get; }
+
+        public BuddyListComposer(ICollection<MessengerBuddy> friends, Habbo player, int pages = 1, int page = 0)
+            : base(Composers.BuddyListMessageComposer)
+        {
+            this.Friends = friends;
+            this.Pages = pages;
+            this.Player = player;
+            this.Page = page;
+        }
+
+        public override void Compose(Composer packet)
         {
             int friendCount = Friends.Count;
             if (Player._guidelevel >= 1)
@@ -23,75 +36,67 @@ namespace StarBlue.Communication.Packets.Outgoing.Messenger
                 friendCount++;
             }
 
-            base.WriteInteger(1);
-            base.WriteInteger(0);
+            packet.WriteInteger(this.Pages);
+            packet.WriteInteger(this.Page);
             List<HabboHotel.Groups.Group> groups = StarBlueServer.GetGame().GetGroupManager().GetGroupsForUser(Player.Id).Where(c => c.HasChat).ToList();
-            base.WriteInteger(friendCount + groups.Count);
+            packet.WriteInteger(friendCount + groups.Count);
 
             foreach (HabboHotel.Groups.Group gp in groups.ToList())
             {
-                base.WriteInteger(int.MinValue + gp.Id);
-                base.WriteString(gp.Name);
-                base.WriteInteger(1);//Gender.
-                base.WriteBoolean(true);
-                base.WriteBoolean(false);
-                base.WriteString(gp.Badge);
-                base.WriteInteger(1); // category id
-                base.WriteString(string.Empty);
-                base.WriteString("Chat de Grupo");//Alternative name?
-                base.WriteString(string.Empty);
-                base.WriteBoolean(true);
-                base.WriteBoolean(false);
-                base.WriteBoolean(false);//Pocket Habbo user.
-                base.WriteShort(0);
-
-                ServerPacket group = new ServerPacket(ServerPacketHeader.FriendListUpdateMessageComposer);
-                group.WriteInteger(1);//Category Count
-                group.WriteInteger(1);
-                group.WriteString("Grupos");
-                group.WriteInteger(1);//Updates Count
-                group.WriteInteger(-1);//Update
-                group.WriteInteger(gp.Id);
-                Player.GetClient().SendMessage(group);
+                packet.WriteInteger(int.MinValue + gp.Id);
+                packet.WriteString(gp.Name);
+                packet.WriteInteger(1);//Gender.
+                packet.WriteBoolean(true);
+                packet.WriteBoolean(false);
+                packet.WriteString(gp.Badge);
+                packet.WriteInteger(1); // category id
+                packet.WriteString(string.Empty);
+                packet.WriteString("Chat de Grupo");//Alternative name?
+                packet.WriteString(string.Empty);
+                packet.WriteBoolean(true);
+                packet.WriteBoolean(false);
+                packet.WriteBoolean(false);//Pocket Habbo user.
+                packet.WriteShort(0);
+                Player.GetClient().SendMessage(new FriendListUpdateComposer(gp));
             }
 
             foreach (MessengerBuddy Friend in Friends.ToList())
             {
                 Relationship Relationship = Player.Relationships.FirstOrDefault(x => x.Value.UserId == Convert.ToInt32(Friend.UserId)).Value;
 
-                base.WriteInteger(Friend.Id);
-                base.WriteString(Friend.mUsername);
-                base.WriteInteger(1);//Gender.
-                base.WriteBoolean(Friend.IsOnline);
-                base.WriteBoolean(Friend.IsOnline && Friend.InRoom);
-                base.WriteString(Friend.IsOnline ? Friend.mLook : string.Empty);
-                base.WriteInteger(0); // category id
-                base.WriteString(string.Empty);
-                base.WriteString(string.Empty);//Alternative name?
-                base.WriteString(string.Empty);
-                base.WriteBoolean(true);
-                base.WriteBoolean(false);
-                base.WriteBoolean(false);//Pocket Habbo user.
-                base.WriteShort(Relationship == null ? 0 : Relationship.Type);
+                packet.WriteInteger(Friend.Id);
+                packet.WriteString(Friend.mUsername);
+                packet.WriteInteger(1);//Gender.
+                packet.WriteBoolean(Friend.IsOnline);
+                packet.WriteBoolean(Friend.IsOnline && Friend.InRoom);
+                packet.WriteString(Friend.IsOnline ? Friend.mLook : string.Empty);
+                packet.WriteInteger(0); // category id
+                packet.WriteString(string.Empty);
+                packet.WriteString(string.Empty);//Alternative name?
+                packet.WriteString(string.Empty);
+                packet.WriteBoolean(true);
+                packet.WriteBoolean(false);
+                packet.WriteBoolean(false);//Pocket Habbo user.
+                packet.WriteShort(Relationship == null ? 0 : Relationship.Type);
             }
 
             #region Custom Chats
             if (Player.Rank >= 5)
             {
-                base.WriteInteger(int.MinValue);
-                base.WriteString("Chat Staff");
-                base.WriteInteger(1);
-                base.WriteBoolean(true);
-                base.WriteBoolean(false);
-                base.WriteString("chatstaff");
-                base.WriteInteger(1);
-                base.WriteString(string.Empty);
-                base.WriteString("Chat Staff");
-                base.WriteString(string.Empty);
-                base.WriteBoolean(true);
-                base.WriteBoolean(false);
-                base.WriteBoolean(false);
-                base.WriteShort(0);
+                packet.WriteInteger(int.MinValue);
+                packet.WriteString("Chat Staff");
+                packet.WriteInteger(1);
+                packet.WriteBoolean(true);
+                packet.WriteBoolean(false);
+                packet.WriteString("chatstaff");
+                packet.WriteInteger(1);
+                packet.WriteString(string.Empty);
+                packet.WriteString("Chat Staff");
+                packet.WriteString(string.Empty);
+                packet.WriteBoolean(true);
+                packet.WriteBoolean(false);
+                packet.WriteBoolean(false);
+                packet.WriteShort(0);
             }
             #endregion
 

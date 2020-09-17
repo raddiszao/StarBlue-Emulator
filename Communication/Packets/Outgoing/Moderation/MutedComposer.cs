@@ -2,12 +2,19 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class MutedComposer : ServerPacket
+    internal class MutedComposer : MessageComposer
     {
+        private double TimeMuted { get; }
+
         public MutedComposer(double TimeMuted)
-            : base(ServerPacketHeader.MutedMessageComposer)
+            : base(Composers.MutedMessageComposer)
         {
-            base.WriteInteger(Convert.ToInt32(TimeMuted));
+            this.TimeMuted = TimeMuted;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Convert.ToInt32(TimeMuted));
         }
     }
 }

@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Avatar
 {
     internal class GetWardrobeEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Session.SendMessage(new WardrobeComposer(Session.GetHabbo().Id));
         }

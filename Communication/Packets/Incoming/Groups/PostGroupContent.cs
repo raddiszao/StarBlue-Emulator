@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class PostGroupContentEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int ForumId = Packet.PopInt();
             int ThreadId = Packet.PopInt();
@@ -34,7 +34,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 
                 Session.SendMessage(new ThreadCreatedComposer(Session, Thread));
 
-                Session.SendMessage(new ThreadDataComposer(Thread, 0, 2000));
+                Session.SendMessage(new ThreadDataComposer(Thread, 0));
 
                 //Session.SendMessage(new PostUpdatedComposer(Session, Post));
                 //Session.SendMessage(new ThreadReplyComposer(Session, Post));
@@ -64,7 +64,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 }
 
                 HabboHotel.Groups.Forums.GroupForumThreadPost Post = Thread.CreatePost(Session.GetHabbo().Id, Message);
-                Session.SendMessage(new ThreadReplyComposer(Session, Post));
+                Session.SendMessage(new ThreadReplyComposer(Post));
                 StarBlueServer.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_Forum", 1);
             }
 

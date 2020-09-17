@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.LandingView
 {
     internal class RefreshCampaignEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace StarBlue.Communication.Packets.Incoming.LandingView
                     }
 
                     string[] data = parser[i].Split(',');
-                    campaingName = data[1];
+                    campaingName = data.Length > 1 ? data[1] : "";
                 }
                 Session.SendMessage(new CampaignComposer(parseCampaings, campaingName));
 

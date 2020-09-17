@@ -1,10 +1,8 @@
 ﻿using log4net;
-using MySql.Data.MySqlClient;
-using StarBlue.Communication.ConnectionManager;
 using StarBlue.Communication.Encryption;
 using StarBlue.Communication.Encryption.Keys;
-using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
+using StarBlue.Communication.WebSocket;
 using StarBlue.Core;
 using StarBlue.Core.FigureData;
 using StarBlue.Core.Language;
@@ -17,6 +15,7 @@ using StarBlue.HabboHotel.Cache;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Users;
 using StarBlue.HabboHotel.Users.UserDataManagement;
+using StarBlue.Network;
 using StarBlue.Utilities;
 using System;
 using System.Collections.Concurrent;
@@ -33,7 +32,7 @@ namespace StarBlue
 {
     public static class StarBlueServer
     {
-        private static readonly ILog log = LogManager.GetLogger("StarBlue.StarBlueServer");
+        private static readonly ILog log = LogManager.GetLogger(typeof(StarBlueServer));
 
         public const string PrettyVersion = "StarBlue Server";
         public const string PrettyBuild = "2.0";
@@ -41,8 +40,8 @@ namespace StarBlue
 
         public static ConfigurationData _configuration;
         private static Encoding _defaultEncoding;
-        private static ConnectionHandling _connectionManager;
         private static Game _game;
+        private static NetworkBootstrap _bootstrap;
         private static FigureDataManager _figureManager;
         private static LanguageManager _languageManager;
         private static DatabaseManager _datebasemanager;
@@ -71,19 +70,17 @@ namespace StarBlue
 
         public static void Initialize()
         {
-            string w_file = "StarBlue.exe";
-            string w_directory = Directory.GetCurrentDirectory();
-            LastUpdate = Convert.ToString(File.GetLastWriteTime(Path.Combine(w_directory, w_file)));
+            LastUpdate = Convert.ToString(File.GetLastWriteTime(Path.Combine(Directory.GetCurrentDirectory(), "StarBlue.exe")));
 
             Console.SetWindowSize(97, 43);
-            _configuration = new ConfigurationData(Path.Combine(Application.StartupPath, @"config.ini"));
+            _configuration = new ConfigurationData(Path.Combine(Application.StartupPath, @"./config/config.ini"));
             HotelName = Convert.ToString(GetConfig().data["hotel.name"]);
 
             ServerStarted = DateTime.Now;
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine();
-            Console.WriteLine("StarBlue Server ~ " + PrettyBuild + ".");
-            Console.WriteLine(@"© 2020 - Server of " + HotelName + " Hotel.");
+            Console.WriteLine("  " + PrettyVersion + " ~ " + PrettyBuild + ".");
+            Console.WriteLine(@"  " + "© 2020 - Server of " + HotelName + " Hotel.");
             Console.WriteLine();
             Console.WriteLine(@"_________________________________________________________________________________________________");
             Console.WriteLine();
@@ -95,23 +92,27 @@ namespace StarBlue
             try
             {
                 _datebasemanager = new DatabaseManager(uint.Parse(GetConfig().data["db.pool.maxsize"]), uint.Parse(GetConfig().data["db.pool.minsize"]), GetConfig().data["db.hostname"], uint.Parse(GetConfig().data["db.port"]), GetConfig().data["db.username"], GetConfig().data["db.password"], GetConfig().data["db.name"]);
+                bool DatabaseConnected = _datebasemanager.IsConnected();
 
                 int TryCount = 0;
-                while (!_datebasemanager.IsConnected())
+                while (!DatabaseConnected)
                 {
                     TryCount++;
+                    Logging.WriteLine("Failed to connect to the specified MySQL server.");
                     Thread.Sleep(5000);
 
                     if (TryCount > 10)
                     {
-                        Logging.WriteLine("Failed to connect to the specified MySQL server.");
                         Console.ReadKey(true);
                         Environment.Exit(1);
                         return;
                     }
                 }
 
-                Console.WriteLine("");
+                if (DatabaseConnected)
+                {
+                    log.Info(">> Connection to MySQL server was successfully.");
+                }
 
                 //Reset our statistics first.
                 using (IQueryAdapter dbClient = GetDatabaseManager().GetQueryReactor())
@@ -136,17 +137,15 @@ namespace StarBlue
                 _rankManager = new RankManager();
                 _rankManager.Init();
 
-                _webSocketManager = new WebSocketManager(527, int.Parse(GetConfig().data["game.tcp.conlimit"]));
-
-                //Accept connections.
-                _connectionManager = new ConnectionHandling(int.Parse(GetConfig().data["game.tcp.port"]), int.Parse(GetConfig().data["game.tcp.conperip"]));
-
                 _game = new Game();
                 _game.StartGameLoop();
 
-                TimeSpan TimeUsed = DateTime.Now - ServerStarted;
+                _webSocketManager = new WebSocketManager(527, int.Parse(GetConfig().data["game.tcp.conperip"]));
 
-                Console.WriteLine();
+                _bootstrap = new NetworkBootstrap(GetConfig().data["game.tcp.bindip"], GetConfig().data["game.tcp.port"].Split(','));
+                _bootstrap.InitAsync().Wait();
+
+                TimeSpan TimeUsed = DateTime.Now - ServerStarted;
                 Logging.WriteLine(">> STARBLUE SERVER -> OK! (" + TimeUsed.Seconds + " s, " + TimeUsed.Milliseconds + " ms)", ConsoleColor.DarkGray);
             }
             catch (KeyNotFoundException e)
@@ -366,7 +365,7 @@ namespace StarBlue
             }
         }
 
-        public static Habbo GetHabboByUsername(String UserName)
+        public static Habbo GetHabboByUsername(string UserName)
         {
             try
             {
@@ -401,13 +400,14 @@ namespace StarBlue
             GetGame().StopGameLoop();
             Thread.Sleep(2500);
 
-            GetConnectionManager().Destroy();//Stop listening.
             GetGame().GetPacketManager().UnregisterAll();//Unregister the packets.
             GetGame().GetPacketManager().WaitForAllToComplete();
             GetGame().GetClientManager().CloseAll();//Close all connections
             GetGame().GetRoomManager().Dispose();//Stop the game loop.
             GetGame().GetWebClientManager().CloseAll();
             _webSocketManager.destroy();
+            _bootstrap.Shutdown().Wait();
+            _bootstrap.ShutdownWorkers();
             GetGame().GetCacheManager().Dispose();
 
             using (IQueryAdapter dbClient = _datebasemanager.GetQueryReactor())
@@ -447,11 +447,6 @@ namespace StarBlue
         public static Encoding GetDefaultEncoding()
         {
             return _defaultEncoding;
-        }
-
-        public static ConnectionHandling GetConnectionManager()
-        {
-            return _connectionManager;
         }
 
         public static Game GetGame()

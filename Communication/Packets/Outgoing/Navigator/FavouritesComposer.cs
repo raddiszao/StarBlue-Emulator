@@ -2,17 +2,24 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class FavouritesComposer : ServerPacket
+    internal class FavouritesComposer : MessageComposer
     {
+        private ArrayList favouriteIDs { get; }
+
         public FavouritesComposer(ArrayList favouriteIDs)
-            : base(ServerPacketHeader.FavouritesMessageComposer)
+            : base(Composers.FavouritesMessageComposer)
         {
-            base.WriteInteger(50);
-            base.WriteInteger(favouriteIDs.Count);
+            this.favouriteIDs = favouriteIDs;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(50);
+            packet.WriteInteger(favouriteIDs.Count);
 
             foreach (int Id in favouriteIDs.ToArray())
             {
-                base.WriteInteger(Id);
+                packet.WriteInteger(Id);
             }
         }
     }

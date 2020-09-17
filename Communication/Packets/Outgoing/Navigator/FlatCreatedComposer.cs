@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class FlatCreatedComposer : ServerPacket
+    internal class FlatCreatedComposer : MessageComposer
     {
+        private int roomID { get; }
+        private string roomName { get; }
+
         public FlatCreatedComposer(int roomID, string roomName)
-            : base(ServerPacketHeader.FlatCreatedMessageComposer)
+            : base(Composers.FlatCreatedMessageComposer)
         {
-            base.WriteInteger(roomID);
-            base.WriteString(roomName);
+            this.roomID = roomID;
+            this.roomName = roomName;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(roomID);
+            packet.WriteString(roomName);
         }
     }
 }

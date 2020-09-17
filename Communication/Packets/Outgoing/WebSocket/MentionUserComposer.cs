@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.WebSocket
+﻿using StarBlue.Communication.WebSocket;
+
+namespace StarBlue.Communication.Packets.Outgoing.WebSocket
 {
-    internal class MentionUserComposer : ServerPacket
+    internal class MentionUserComposer : WebComposer
     {
         public MentionUserComposer(string roomName, int roomId, string message, string userBy, string userByLook) : base(3)
         {

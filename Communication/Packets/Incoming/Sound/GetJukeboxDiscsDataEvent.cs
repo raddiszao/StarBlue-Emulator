@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Sound
 {
     internal class GetJukeboxDiscsDataEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int songslen = Packet.PopInt();
             List<TraxMusicData> Songs = new List<TraxMusicData>();

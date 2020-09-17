@@ -1,10 +1,14 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
 {
-    internal class HideWiredConfigComposer : ServerPacket
+    internal class HideWiredConfigComposer : MessageComposer
     {
         public HideWiredConfigComposer()
-            : base(ServerPacketHeader.HideWiredConfigMessageComposer)
+            : base(Composers.HideWiredConfigMessageComposer)
         {
+        }
+        public override void Compose(Composer packet)
+        {
+
         }
     }
 }

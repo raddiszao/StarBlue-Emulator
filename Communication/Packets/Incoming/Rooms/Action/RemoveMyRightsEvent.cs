@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     internal class RemoveMyRightsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {

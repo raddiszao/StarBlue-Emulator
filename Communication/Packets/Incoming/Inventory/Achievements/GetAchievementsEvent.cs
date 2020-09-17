@@ -5,9 +5,9 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Achievements
 {
     internal class GetAchievementsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
-            Session.SendMessage(new AchievementsComposer(Session, StarBlueServer.GetGame().GetAchievementManager()._achievements.Values.ToList()));
+            Session.SendMessage(new AchievementsComposer(Session.GetHabbo(), StarBlueServer.GetGame().GetAchievementManager()._achievements.Values.ToList()));
         }
     }
 }

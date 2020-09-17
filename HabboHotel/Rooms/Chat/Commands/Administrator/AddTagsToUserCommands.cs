@@ -36,7 +36,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
                 foreach (RoomUser RoomUser in Room.GetRoomUserManager().GetRoomUsers())
                 {
 
-                    RoomUser.GetClient().SendMessage(new UserTagsComposer(TargetClient.GetHabbo().Id, TargetClient));
+                    RoomUser.GetClient().SendMessage(new UserTagsComposer(TargetClient.GetHabbo().Id));
                 }
             }
         }

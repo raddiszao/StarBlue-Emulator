@@ -3,18 +3,29 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class GroupMembershipRequestedComposer : ServerPacket
+    internal class GroupMembershipRequestedComposer : MessageComposer
     {
+        public int GroupId { get; }
+        public Habbo Habbo { get; }
+        public int Type { get; }
+
         public GroupMembershipRequestedComposer(int GroupId, Habbo Habbo, int Type)
-            : base(ServerPacketHeader.GroupMembershipRequestedMessageComposer)
+            : base(Composers.GroupMembershipRequestedMessageComposer)
         {
-            base.WriteInteger(GroupId);//GroupId
-            base.WriteInteger(Type);//Type?
+            this.GroupId = GroupId;
+            this.Habbo = Habbo;
+            this.Type = Type;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(GroupId);//GroupId
+            packet.WriteInteger(Type);//Type?
             {
-                base.WriteInteger(Habbo.Id);//UserId
-                base.WriteString(Habbo.Username);
-                base.WriteString(Habbo.Look);
-                base.WriteString(string.Empty);
+                packet.WriteInteger(Habbo.Id);//UserId
+                packet.WriteString(Habbo.Username);
+                packet.WriteString(Habbo.Look);
+                packet.WriteString(string.Empty);
             }
         }
     }

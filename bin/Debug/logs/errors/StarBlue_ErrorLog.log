@@ -63,3 +63,1002 @@ Thread: 1
 Erro no comando [restart]: System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
    em StarBlue.Core.ConsoleCommandHandler.InvokeCommand(String inputData) na E:\BKP\Desktop\StarBlue Emulator\Core\ConsoleCommandHandler.cs:linha 50
 
+Date/Time: 2020-09-07 09:25:39,245
+Thread: 9
+Uma conexão estabelecida foi anulada pelo software no computador host
+
+Date/Time: 2020-09-07 09:25:39,882
+Thread: 11
+negative pre-adjustment length field: -51309970
+
+Date/Time: 2020-09-07 09:25:39,884
+Thread: 11
+negative pre-adjustment length field: -1523628777
+
+Date/Time: 2020-09-07 09:25:53,058
+Thread: 14
+Adjusted frame length exceeds 500000: 2005941344 - discarded
+
+Date/Time: 2020-09-07 09:26:09,036
+Thread: 11
+Adjusted frame length exceeds 500000: 1194785493 - discarded
+
+Date/Time: 2020-09-07 09:37:51,326
+Thread: 11
+Adjusted frame length exceeds 500000: 1841425432 - discarded
+
+Date/Time: 2020-09-07 09:43:02,819
+Thread: 11
+Adjusted frame length exceeds 500000: 1841398609 - discarded
+
+Date/Time: 2020-09-07 09:43:33,173
+Thread: 11
+Adjusted frame length exceeds 500000: 1075240248 - discarded
+
+Date/Time: 2020-09-07 10:24:20,238
+Thread: 8
+Uma conexão estabelecida foi anulada pelo software no computador host
+
+Date/Time: 2020-09-07 11:16:56,917
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:16:56,920
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:17:05,683
+Thread: 14
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:17:05,684
+Thread: 14
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:18:05,596
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:18:05,598
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:19:11,921
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:21:22,033
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-07 11:22:39,272
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(4) + length(262144033) exceeds writerIndex(52): UnpooledSlicedByteBuffer(ridx: 4, widx: 52, cap: 52/52, unwrapped: InstrumentedUnpooledHeapByteBuffer(ridx: 56, widx: 56, cap: 56))
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 19
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 11:22:39,342
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(0) + length(4) exceeds writerIndex(2): UnpooledSlicedByteBuffer(ridx: 0, widx: 2, cap: 2/2, unwrapped: InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024))
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 15
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 18:53:03,823
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(4) + length(262144033) exceeds writerIndex(52): UnpooledSlicedByteBuffer(ridx: 4, widx: 52, cap: 52/52, unwrapped: InstrumentedUnpooledHeapByteBuffer(ridx: 56, widx: 56, cap: 56))
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 19
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 18:53:03,887
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(0) + length(4) exceeds writerIndex(2): UnpooledSlicedByteBuffer(ridx: 0, widx: 2, cap: 2/2, unwrapped: InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024))
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 15
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 18:56:08,407
+Thread: 11
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -1671931136
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 18:56:08,415
+Thread: 11
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1481693574 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 20:37:12,562
+Thread: 11
+Adjusted frame length exceeds 500000: 1474084217 - discarded
+
+Date/Time: 2020-09-07 20:51:11,906
+Thread: 11
+Adjusted frame length exceeds 500000: 727974859 - discarded
+
+Date/Time: 2020-09-07 20:51:57,324
+Thread: 11
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1922749785 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 23:04:52,995
+Thread: 11
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1254607671 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 23:08:00,508
+Thread: 11
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -636940244
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 23:08:00,522
+Thread: 11
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1423229592 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 23:09:15,881
+Thread: 11
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -990196264
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 23:09:15,890
+Thread: 11
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 375027936 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 23:13:09,052
+Thread: 9
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-07 23:13:26,904
+Thread: 11
+System.IndexOutOfRangeException: readerIndex(6) + length(401) exceeds writerIndex(119): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 119, cap: 119)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopString() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 22
+   em StarBlue.Communication.Packets.Incoming.Misc.ClientVariablesEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Misc\ClientVariablesEvent.cs:linha 9
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext ctx, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 32
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-07 23:13:53,018
+Thread: 14
+System.IndexOutOfRangeException: readerIndex(6) + length(401) exceeds writerIndex(119): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 119, cap: 119)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopString() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 22
+   em StarBlue.Communication.Packets.Incoming.Misc.ClientVariablesEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Misc\ClientVariablesEvent.cs:linha 9
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext ctx, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 32
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-08 11:03:31,088
+Thread: 9
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-08 11:06:13,186
+Thread: 11
+DotNetty.Codecs.DecoderException: EncryptionDecoder.Decode() did not read anything but decoded a message.
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-08 11:06:13,219
+Thread: 11
+DotNetty.Codecs.DecoderException: EncryptionDecoder.Decode() did not read anything but decoded a message.
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-08 11:06:19,862
+Thread: 11
+DotNetty.Codecs.DecoderException: EncryptionDecoder.Decode() did not read anything but decoded a message.
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-08 17:17:53,793
+Thread: 9
+Uma conexão estabelecida foi anulada pelo software no computador host
+
+Date/Time: 2020-09-09 15:11:02,307
+Thread: 19
+Uma conexão estabelecida foi anulada pelo software no computador host
+
+Date/Time: 2020-09-09 15:11:47,968
+Thread: 20
+Uma conexão estabelecida foi anulada pelo software no computador host
+
+Date/Time: 2020-09-09 15:14:26,999
+Thread: 21
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-09 15:14:27,018
+Thread: 21
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-09 15:15:44,580
+Thread: 19
+Uma conexão estabelecida foi anulada pelo software no computador host
+
+Date/Time: 2020-09-09 15:16:54,468
+Thread: 9
+Uma conexão estabelecida foi anulada pelo software no computador host
+
+Date/Time: 2020-09-09 15:17:19,165
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-09 15:17:19,174
+Thread: 11
+Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada.
+
+Date/Time: 2020-09-09 15:19:04,526
+Thread: 9
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-09 15:19:23,148
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(52) exceeds writerIndex(56): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 56, cap: 56)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 18
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:19:23,251
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(2) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 18
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:22:11,810
+Thread: 9
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-09 15:22:33,373
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(56) + length(2) exceeds writerIndex(56): InstrumentedUnpooledHeapByteBuffer(ridx: 56, widx: 56, cap: 1024)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadShort()
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 45
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:22:33,446
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(2) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadShort()
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 45
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:25:17,067
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(52) exceeds writerIndex(56): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 56, cap: 56)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 20
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:25:17,171
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(2) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 20
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:26:33,184
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(52) exceeds writerIndex(56): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 56, cap: 56)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 20
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:26:33,251
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(2) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 20
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:26:55,409
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(52) exceeds writerIndex(56): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 56, cap: 56)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 20
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:26:55,443
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(6) + length(2) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadBytes(Int32 length)
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 20
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:27:51,496
+Thread: 11
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(0) + length(4) exceeds writerIndex(2): UnpooledSlicedByteBuffer(ridx: 0, widx: 2, cap: 2/2, unwrapped: InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 1024))
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 15
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.MessageToMessageDecoder`1.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:29:02,349
+Thread: 11
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -1040408450
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:29:02,359
+Thread: 11
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -702752375
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 15:29:16,283
+Thread: 11
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -1565800407
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 16:29:17,115
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 16
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-09 16:29:17,148
+Thread: 20
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 16
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-09 19:03:10,042
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-09 19:50:51,390
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-09 19:55:55,321
+Thread: 21
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: O índice estava fora dos limites da matriz.
+   em DotNetty.Buffers.EmptyByteBuffer.ReadShort()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket..ctor(IByteBuffer buf) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 15
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 44
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 19:58:03,347
+Thread: 21
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: readerIndex(0) + length(2) exceeds writerIndex(1): InstrumentedUnpooledHeapByteBuffer(ridx: 0, widx: 1, cap: 1)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadShort()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket..ctor(IByteBuffer buf) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 15
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 45
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 19:58:03,442
+Thread: 21
+DotNetty.Codecs.DecoderException: Exceção do tipo 'DotNetty.Codecs.DecoderException' foi acionada. ---> System.IndexOutOfRangeException: O índice estava fora dos limites da matriz.
+   em DotNetty.Buffers.EmptyByteBuffer.ReadShort()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket..ctor(IByteBuffer buf) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 15
+   em StarBlue.Network.Codec.GameDecoder.Decode(IChannelHandlerContext context, IByteBuffer message, List`1 output) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameDecoder.cs:linha 45
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-09 20:01:27,033
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-09 20:03:59,812
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-09 20:09:58,110
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-10 10:53:05,946
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 57
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 10:53:05,946
+Thread: 21
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 57
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 10:53:05,947
+Thread: 20
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 57
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 10:53:05,961
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelInactive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 72
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelInactive()
+
+Date/Time: 2020-09-10 10:53:06,174
+Thread: 21
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext ctx, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 83
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-10 10:53:06,180
+Thread: 21
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext ctx, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 83
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-10 12:25:35,633
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-10 12:30:15,568
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 56
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 12:30:19,171
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-10 12:54:05,589
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-10 13:04:25,164
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 35
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:04:27,964
+Thread: 20
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 35
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:04:43,097
+Thread: 21
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 35
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:04:46,597
+Thread: 22
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 35
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:23:03,578
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 63
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:23:36,337
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 63
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:23:37,124
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelInactive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 76
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelInactive()
+
+Date/Time: 2020-09-10 13:23:46,439
+Thread: 24
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 44
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:23:46,439
+Thread: 18
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 44
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:23:57,622
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 44
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:23:57,633
+Thread: 20
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 44
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 13:23:57,658
+Thread: 21
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 44
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 16:17:27,014
+Thread: 20
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 15
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 16:17:27,015
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelActive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 15
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelActive()
+
+Date/Time: 2020-09-10 16:17:27,025
+Thread: 19
+System.NullReferenceException: Referência de objeto não definida para uma instância de um objeto.
+   em StarBlue.Network.NetworkChannelHandler.ChannelInactive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 20
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelInactive()
+
+Date/Time: 2020-09-10 18:29:39,587
+Thread: 20
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-10 22:24:03,369
+Thread: 20
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-11 09:46:18,938
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(55) + length(4) exceeds writerIndex(55): InstrumentedUnpooledHeapByteBuffer(ridx: 55, widx: 55, cap: 55)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Groups.PurchaseGroupEvent.Parse(GameClient session, ClientPacket packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Groups\PurchaseGroupEvent.cs:linha 48
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 34
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 09:47:16,796
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(55) + length(4) exceeds writerIndex(55): InstrumentedUnpooledHeapByteBuffer(ridx: 55, widx: 55, cap: 55)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Groups.PurchaseGroupEvent.Parse(GameClient session, ClientPacket packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Groups\PurchaseGroupEvent.cs:linha 48
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 34
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 09:49:11,844
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(52) + length(4) exceeds writerIndex(52): InstrumentedUnpooledHeapByteBuffer(ridx: 52, widx: 52, cap: 52)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Groups.PurchaseGroupEvent.Parse(GameClient session, ClientPacket packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Groups\PurchaseGroupEvent.cs:linha 48
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 34
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 13:10:00,584
+Thread: 15
+System.InvalidOperationException: Uma tarefa só pode ser descartada se estiver em estado de conclusão (RanToCompletion, Faulted ou Canceled).
+   em System.Threading.Tasks.Task.Dispose(Boolean disposing)
+   em System.Threading.Tasks.Task.Dispose()
+   em StarBlue.HabboHotel.GameClients.GameClient.Dispose() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 582
+   em StarBlue.HabboHotel.GameClients.GameClientManager.DisposeConnection(IChannelId clientID) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClientManager.cs:linha 377
+   em StarBlue.Network.NetworkChannelHandler.ChannelInactive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 26
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelInactive()
+
+Date/Time: 2020-09-11 13:10:02,985
+Thread: 16
+System.InvalidOperationException: Uma tarefa só pode ser descartada se estiver em estado de conclusão (RanToCompletion, Faulted ou Canceled).
+   em System.Threading.Tasks.Task.Dispose(Boolean disposing)
+   em System.Threading.Tasks.Task.Dispose()
+   em StarBlue.HabboHotel.GameClients.GameClient.Dispose() na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 582
+   em StarBlue.HabboHotel.GameClients.GameClientManager.DisposeConnection(IChannelId clientID) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClientManager.cs:linha 377
+   em StarBlue.Network.NetworkChannelHandler.ChannelInactive(IChannelHandlerContext context) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 26
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelInactive()
+
+Date/Time: 2020-09-11 14:21:09,522
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:21:10,185
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:21:11,001
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:21:11,936
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:21:13,133
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:21:15,701
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:21:16,871
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:21:32,418
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:23:18,287
+Thread: 17
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 28
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:28:44,937
+Thread: 16
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:29:19,216
+Thread: 16
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-11 14:30:02,387
+Thread: 16
+System.IndexOutOfRangeException: readerIndex(6) + length(4) exceeds writerIndex(6): InstrumentedUnpooledHeapByteBuffer(ridx: 6, widx: 6, cap: 6)
+   em DotNetty.Buffers.ThrowHelper.ThrowIndexOutOfRangeException_ReaderIndex(Int32 minimumReadableBytes, Int32 readerIndex, Int32 writerIndex, AbstractByteBuffer buf)
+   em DotNetty.Buffers.AbstractByteBuffer.ReadInt()
+   em StarBlue.Communication.Packets.Incoming.ClientPacket.PopInt() na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\ClientPacket.cs:linha 29
+   em StarBlue.Communication.Packets.Incoming.Rooms.Furni.ThrowDiceEvent.Parse(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Incoming\Rooms\Furni\ThrowDiceEvent.cs:linha 30
+   em StarBlue.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\PacketManager.cs:linha 165
+   em StarBlue.Network.NetworkChannelHandler.ChannelRead0(IChannelHandlerContext context, ClientPacket msg) na E:\BKP\Desktop\StarBlue Emulator\Network\NetworkChannelHandler.cs:linha 37
+   em DotNetty.Transport.Channels.SimpleChannelInboundHandler`1.ChannelRead(IChannelHandlerContext ctx, Object msg)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-12 00:47:46,778
+Thread: 15
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-14 23:59:54,884
+Thread: 15
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-15 00:11:09,656
+Thread: 15
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1014001520 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-15 00:11:28,248
+Thread: 16
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1014001520 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-15 00:11:50,401
+Thread: 17
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1014001520 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-15 00:16:05,066
+Thread: 15
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-15 00:21:58,233
+Thread: 15
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-15 00:38:57,617
+Thread: 19
+System.Net.Sockets.SocketException (0x80004005): Uma conexão estabelecida foi anulada pelo software no computador host
+   em DotNetty.Transport.Channels.Sockets.SocketChannelAsyncOperation.Validate()
+   em DotNetty.Transport.Channels.Sockets.AbstractSocketByteChannel.SocketByteChannelUnsafe.FinishRead(SocketChannelAsyncOperation operation)
+
+Date/Time: 2020-09-15 00:41:26,151
+Thread: 21
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -1048310105
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-15 00:41:26,158
+Thread: 21
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -1420054836
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-15 00:42:20,239
+Thread: 21
+DotNetty.Codecs.CorruptedFrameException: negative pre-adjustment length field: -1153647196
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+
+Date/Time: 2020-09-15 00:43:20,257
+Thread: 21
+DotNetty.Codecs.TooLongFrameException: Adjusted frame length exceeds 500000: 1128632730 - discarded
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Fail(Int64 frameLength)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.FailIfNecessary(Boolean firstDetectionOfTooLongFrame)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input)
+   em DotNetty.Codecs.LengthFieldBasedFrameDecoder.Decode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.CallDecode(IChannelHandlerContext context, IByteBuffer input, List`1 output)
+   em DotNetty.Codecs.ByteToMessageDecoder.ChannelRead(IChannelHandlerContext context, Object message)
+   em DotNetty.Transport.Channels.AbstractChannelHandlerContext.InvokeChannelRead(Object msg)
+

@@ -2,21 +2,28 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class ItemAddComposer : ServerPacket
+    internal class ItemAddComposer : MessageComposer
     {
+        public Item Item { get; }
+
         public ItemAddComposer(Item Item)
-            : base(ServerPacketHeader.ItemAddMessageComposer)
+            : base(Composers.ItemAddMessageComposer)
         {
-            base.WriteString(Item.Id.ToString());
-            base.WriteInteger(Item.GetBaseItem().SpriteId);
-            base.WriteString(Item.wallCoord != null ? Item.wallCoord : string.Empty);
+            this.Item = Item;
+        }
 
-            ItemBehaviourUtility.GenerateWallExtradata(Item, this);
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Item.Id.ToString());
+            packet.WriteInteger(Item.GetBaseItem().SpriteId);
+            packet.WriteString(Item.wallCoord != null ? Item.wallCoord : string.Empty);
 
-            base.WriteInteger(-1);
-            base.WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0); // Type New R63 ('use bottom')
-            base.WriteInteger(Item.UserID);
-            base.WriteString(Item.Username);
+            ItemBehaviourUtility.GenerateWallExtradata(Item, packet);
+
+            packet.WriteInteger(-1);
+            packet.WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0); // Type New R63 ('use bottom')
+            packet.WriteInteger(Item.UserID);
+            packet.WriteString(Item.Username);
         }
     }
 }

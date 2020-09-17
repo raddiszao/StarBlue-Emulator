@@ -1,4 +1,0 @@
-
-Bug during user login: System.NullReferenceException: Refer?ncia de objeto n?o definida para uma inst?ncia de um objeto.
-   em StarBlue.HabboHotel.GameClients.GameClient.TryAuthenticate(String AuthTicket) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\GameClients\GameClient.cs:linha 465
-

@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Messenger
 {
     internal class GetBuddyRequestsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             ICollection<MessengerRequest> Requests = Session.GetHabbo().GetMessenger().GetRequests().ToList();
 

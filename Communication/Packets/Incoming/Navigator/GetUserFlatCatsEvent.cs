@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
     public class GetUserFlatCatsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (Session == null)
             {

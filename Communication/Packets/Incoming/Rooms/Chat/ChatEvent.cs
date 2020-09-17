@@ -14,7 +14,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 {
     public class ChatEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || !Session.GetHabbo().InRoom)
             {

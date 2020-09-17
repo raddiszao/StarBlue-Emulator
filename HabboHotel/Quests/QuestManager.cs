@@ -200,7 +200,7 @@ namespace StarBlue.HabboHotel.Quests
             return null;
         }
 
-        public void GetList(GameClient Session, ClientPacket Message)
+        public void GetList(GameClient Session, MessageEvent Message)
         {
             Dictionary<string, int> UserQuestGoals = new Dictionary<string, int>();
             Dictionary<string, Quest> UserQuests = new Dictionary<string, Quest>();
@@ -280,7 +280,7 @@ namespace StarBlue.HabboHotel.Quests
             Session.SendMessage(new QuestStartedComposer(Session, Quest));
         }
 
-        public void GetCurrentQuest(GameClient Session, ClientPacket Message)
+        public void GetCurrentQuest(GameClient Session, MessageEvent Message)
         {
             if (!Session.GetHabbo().InRoom)
             {
@@ -306,7 +306,7 @@ namespace StarBlue.HabboHotel.Quests
             Session.SendMessage(new QuestStartedComposer(Session, NextQuest));
         }
 
-        public void CancelQuest(GameClient Session, ClientPacket Message)
+        public void CancelQuest(GameClient Session, MessageEvent Message)
         {
             Quest Quest = GetQuest(Session.GetHabbo().GetStats().QuestID);
             if (Quest == null)

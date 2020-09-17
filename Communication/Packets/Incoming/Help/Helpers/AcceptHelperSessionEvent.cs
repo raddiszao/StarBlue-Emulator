@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
     internal class AcceptHelperSessionEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             bool Accepted = Packet.PopBoolean();
             HabboHelper Helper = HelperToolsManager.GetHelper(Session);

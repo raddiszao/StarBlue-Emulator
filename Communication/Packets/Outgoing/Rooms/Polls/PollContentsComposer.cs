@@ -2,37 +2,44 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Polls
 {
-    internal class PollContentsComposer : ServerPacket
+    internal class PollContentsComposer : MessageComposer
     {
-        public PollContentsComposer(RoomPoll poll)
-            : base(ServerPacketHeader.PollContentsMessageComposer)
-        {
-            base.WriteInteger(poll.Id);
-            base.WriteString(poll.Headline);
-            base.WriteString(poll.CompletionMessage);
+        private RoomPoll poll { get; }
 
-            base.WriteInteger(poll.Questions.Count);
+        public PollContentsComposer(RoomPoll poll)
+            : base(Composers.PollContentsMessageComposer)
+        {
+            this.poll = poll;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(poll.Id);
+            packet.WriteString(poll.Headline);
+            packet.WriteString(poll.CompletionMessage);
+
+            packet.WriteInteger(poll.Questions.Count);
             foreach (RoomPollQuestion question in poll.Questions.Values)
             {
-                base.WriteInteger(question.Id);
-                base.WriteInteger(question.SeriesOrder);
-                base.WriteInteger(RoomPollQuestionTypeUtility.GetQuestionType(question.Type));
-                base.WriteString(question.Question);
+                packet.WriteInteger(question.Id);
+                packet.WriteInteger(question.SeriesOrder);
+                packet.WriteInteger(RoomPollQuestionTypeUtility.GetQuestionType(question.Type));
+                packet.WriteString(question.Question);
 
-                base.WriteInteger(0); // ??
-                base.WriteInteger(question.MinimumSlections);// Min selections
+                packet.WriteInteger(0); // ??
+                packet.WriteInteger(question.MinimumSlections);// Min selections
 
-                base.WriteInteger(question.Selections.Count);
+                packet.WriteInteger(question.Selections.Count);
                 foreach (RoomPollQuestionSelection Selection in question.Selections.Values)
                 {
-                    base.WriteString(Selection.Value);
-                    base.WriteString(Selection.Text);
-                    base.WriteInteger(Selection.Id);
+                    packet.WriteString(Selection.Value);
+                    packet.WriteString(Selection.Text);
+                    packet.WriteInteger(Selection.Id);
                 }
 
-                base.WriteInteger(0);//??
+                packet.WriteInteger(0);//??
             }
-            base.WriteBoolean(true);//No idea
+            packet.WriteBoolean(true);//No idea
         }
     }
 }

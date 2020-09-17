@@ -3,57 +3,64 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    public class UserPerksComposer : ServerPacket
+    public class UserPerksComposer : MessageComposer
     {
+        private Habbo Habbo { get; }
+
         public UserPerksComposer(Habbo Habbo)
-            : base(ServerPacketHeader.UserPerksMessageComposer)
+            : base(Composers.UserPerksMessageComposer)
         {
-            base.WriteInteger(14); // Count
-            base.WriteString("USE_GUIDE_TOOL");
-            base.WriteString("");
-            base.WriteBoolean(Habbo.Rank > 3 || Habbo._guidelevel > 0);
-            base.WriteString("NAVIGATOR_ROOM_THUMBNAIL_CAMERA");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("GIVE_GUIDE_TOURS");
-            base.WriteString("requirement.unfulfilled.helper_le");
-            base.WriteBoolean(true);
-            base.WriteString("JUDGE_CHAT_REVIEWS");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("VOTE_IN_COMPETITIONS");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("CALL_ON_HELPERS");
-            base.WriteString("true"); // ??
-            base.WriteBoolean(true);
-            base.WriteString("CITIZEN");
-            base.WriteString("");
-            base.WriteBoolean(true);
-            base.WriteString("TRADE");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("HEIGHTMAP_EDITOR_BETA");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("BUILDER_AT_WORK");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("NAVIGATOR_PHASE_ONE_2014");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("CAMERA");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("NAVIGATOR_PHASE_TWO_2014");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("MOUSE_ZOOM");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
-            base.WriteString("HABBO_CLUB_OFFER_BETA");
-            base.WriteString(""); // ??
-            base.WriteBoolean(true);
+            this.Habbo = Habbo;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(14); // Count
+            packet.WriteString("USE_GUIDE_TOOL");
+            packet.WriteString("");
+            packet.WriteBoolean(Habbo.Rank > 3 || Habbo._guidelevel > 0);
+            packet.WriteString("NAVIGATOR_ROOM_THUMBNAIL_CAMERA");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("GIVE_GUIDE_TOURS");
+            packet.WriteString("requirement.unfulfilled.helper_le");
+            packet.WriteBoolean(true);
+            packet.WriteString("JUDGE_CHAT_REVIEWS");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("VOTE_IN_COMPETITIONS");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("CALL_ON_HELPERS");
+            packet.WriteString("true"); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("CITIZEN");
+            packet.WriteString("");
+            packet.WriteBoolean(true);
+            packet.WriteString("TRADE");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("HEIGHTMAP_EDITOR_BETA");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("BUILDER_AT_WORK");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("NAVIGATOR_PHASE_ONE_2014");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("CAMERA");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("NAVIGATOR_PHASE_TWO_2014");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("MOUSE_ZOOM");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
+            packet.WriteString("HABBO_CLUB_OFFER_BETA");
+            packet.WriteString(""); // ??
+            packet.WriteBoolean(true);
         }
     }
 }

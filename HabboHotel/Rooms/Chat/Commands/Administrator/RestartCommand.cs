@@ -1,5 +1,4 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {

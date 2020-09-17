@@ -435,7 +435,7 @@ namespace StarBlue.HabboHotel.Rooms.Trading
             SendMessageToUsers(new TradingClosedComposer(UserId));
         }
 
-        public void SendMessageToUsers(ServerPacket Message)
+        public void SendMessageToUsers(MessageComposer Message)
         {
             foreach (TradeUser User in Users.ToList())
             {

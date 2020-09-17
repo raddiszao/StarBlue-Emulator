@@ -2,15 +2,22 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    internal class CraftingRecipeComposer : ServerPacket
+    internal class CraftingRecipeComposer : MessageComposer
     {
-        public CraftingRecipeComposer(CraftingRecipe recipe) : base(ServerPacketHeader.CraftingRecipeMessageComposer)
+        private CraftingRecipe recipe { get; }
+
+        public CraftingRecipeComposer(CraftingRecipe recipe) : base(Composers.CraftingRecipeMessageComposer)
         {
-            base.WriteInteger(recipe.ItemsNeeded.Count);
+            this.recipe = recipe;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(recipe.ItemsNeeded.Count);
             foreach (System.Collections.Generic.KeyValuePair<string, int> item in recipe.ItemsNeeded)
             {
-                base.WriteInteger(item.Value);
-                base.WriteString(item.Key);
+                packet.WriteInteger(item.Value);
+                packet.WriteString(item.Key);
             }
         }
     }

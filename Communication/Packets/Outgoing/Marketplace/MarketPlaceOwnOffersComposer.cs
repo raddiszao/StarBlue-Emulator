@@ -5,10 +5,17 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Outgoing.Marketplace
 {
-    internal class MarketPlaceOwnOffersComposer : ServerPacket
+    internal class MarketPlaceOwnOffersComposer : MessageComposer
     {
+        public int UserId { get; }
+
         public MarketPlaceOwnOffersComposer(int UserId)
-            : base(ServerPacketHeader.MarketPlaceOwnOffersMessageComposer)
+            : base(Composers.MarketPlaceOwnOffersMessageComposer)
+        {
+            this.UserId = UserId;
+        }
+
+        public override void Compose(Composer packet)
         {
             int i = 0;
             DataTable table = null;
@@ -20,37 +27,37 @@ namespace StarBlue.Communication.Packets.Outgoing.Marketplace
                 dbClient.SetQuery("SELECT SUM(asking_price) FROM catalog_marketplace_offers WHERE state = '2' AND user_id = '" + UserId + "'");
                 i = dbClient.GetInteger();
 
-                base.WriteInteger(i);
+                packet.WriteInteger(i);
                 if (table != null)
                 {
-                    base.WriteInteger(table.Rows.Count);
+                    packet.WriteInteger(table.Rows.Count);
                     foreach (DataRow row in table.Rows)
                     {
-                        int num2 = Convert.ToInt32(Math.Floor(((((double)row["timestamp"]) + 172800.0) - StarBlueServer.GetUnixTimestamp()) / 60.0));
+                        int num2 = Convert.ToInt32(Math.Floor((double)(((((double)row["timestamp"]) + 172800.0) - StarBlueServer.GetUnixTimestamp()) / 60.0)));
                         int num3 = int.Parse(row["state"].ToString());
                         if ((num2 <= 0) && (num3 != 2))
                         {
                             num3 = 3;
                             num2 = 0;
                         }
-                        base.WriteInteger(Convert.ToInt32(row["offer_id"]));
-                        base.WriteInteger(num3);
-                        base.WriteInteger(1);
-                        base.WriteInteger(Convert.ToInt32(row["sprite_id"]));
+                        packet.WriteInteger(Convert.ToInt32(row["offer_id"]));
+                        packet.WriteInteger(num3);
+                        packet.WriteInteger(1);
+                        packet.WriteInteger(Convert.ToInt32(row["sprite_id"]));
 
-                        base.WriteInteger(256);
-                        base.WriteString("");
-                        base.WriteInteger(Convert.ToInt32(row["limited_number"]));
-                        base.WriteInteger(Convert.ToInt32(row["limited_stack"]));
+                        packet.WriteInteger(256);
+                        packet.WriteString("");
+                        packet.WriteInteger(Convert.ToInt32(row["limited_number"]));
+                        packet.WriteInteger(Convert.ToInt32(row["limited_stack"]));
 
-                        base.WriteInteger(Convert.ToInt32(row["total_price"]));
-                        base.WriteInteger(num2);
-                        base.WriteInteger(Convert.ToInt32(row["sprite_id"]));
+                        packet.WriteInteger(Convert.ToInt32(row["total_price"]));
+                        packet.WriteInteger(num2);
+                        packet.WriteInteger(Convert.ToInt32(row["sprite_id"]));
                     }
                 }
                 else
                 {
-                    base.WriteInteger(0);
+                    packet.WriteInteger(0);
                 }
             }
         }

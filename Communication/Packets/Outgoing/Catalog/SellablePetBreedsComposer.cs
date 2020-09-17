@@ -4,21 +4,32 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    public class SellablePetBreedsComposer : ServerPacket
+    public class SellablePetBreedsComposer : MessageComposer
     {
-        public SellablePetBreedsComposer(string PetType, int PetId, ICollection<PetRace> Races)
-            : base(ServerPacketHeader.SellablePetBreedsMessageComposer)
-        {
-            base.WriteString(PetType);
+        public string PetType { get; }
+        public int PetId { get; }
+        public ICollection<PetRace> Races { get; }
 
-            base.WriteInteger(Races.Count);
+        public SellablePetBreedsComposer(string PetType, int PetId, ICollection<PetRace> Races)
+            : base(Composers.SellablePetBreedsMessageComposer)
+        {
+            this.PetType = PetType;
+            this.PetId = PetId;
+            this.Races = Races;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(PetType);
+
+            packet.WriteInteger(Races.Count);
             foreach (PetRace Race in Races.ToList())
             {
-                base.WriteInteger(PetId);
-                base.WriteInteger(Race.PrimaryColour);
-                base.WriteInteger(Race.SecondaryColour);
-                base.WriteBoolean(Race.HasPrimaryColour);
-                base.WriteBoolean(Race.HasSecondaryColour);
+                packet.WriteInteger(PetId);
+                packet.WriteInteger(Race.PrimaryColour);
+                packet.WriteInteger(Race.SecondaryColour);
+                packet.WriteBoolean(Race.HasPrimaryColour);
+                packet.WriteBoolean(Race.HasSecondaryColour);
             }
 
 

@@ -32,7 +32,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             _toKick = new Queue();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             if (SetItems.Count > 0)
             {

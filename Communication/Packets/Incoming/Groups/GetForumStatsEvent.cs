@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class GetForumStatsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int GroupForumId = Packet.PopInt();
 

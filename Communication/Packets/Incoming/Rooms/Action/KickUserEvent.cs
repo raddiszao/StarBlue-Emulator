@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     internal class KickUserEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Room Room = Session.GetHabbo().CurrentRoom;
             if (Room == null || Room.RoomData.WhoCanKick != 2 && (Room.RoomData.WhoCanKick != 1 || !Room.CheckRights(Session, false, true)) && !Room.CheckRights(Session, true))

@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
     internal class PickTicketEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || !Session.GetHabbo().GetPermissions().HasRight("mod_tool"))
             {
@@ -21,7 +21,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
             }
 
             Ticket.Moderator = Session.GetHabbo();
-            StarBlueServer.GetGame().GetClientManager().SendMessage(new ModeratorSupportTicketComposer(Session.GetHabbo().Id, Ticket), "mod_tool");
+            StarBlueServer.GetGame().GetClientManager().SendMessage(new ModeratorSupportTicketComposer(Ticket), "mod_tool");
         }
     }
 }

@@ -4,15 +4,19 @@ using System.Data;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Nux
 {
-    internal class NuxItemListComposer : ServerPacket
+    internal class NuxItemListComposer : MessageComposer
     {
-        public NuxItemListComposer() : base(ServerPacketHeader.NuxItemListComposer)
+        public NuxItemListComposer() : base(Composers.NuxItemListComposer)
         {
-            base.WriteInteger(1); // Número de páginas.
+        }
 
-            base.WriteInteger(1); // ELEMENTO 1
-            base.WriteInteger(3); // ELEMENTO 2
-            base.WriteInteger(3); // Número total de premios:
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(1); // Número de páginas.
+
+            packet.WriteInteger(1); // ELEMENTO 1
+            packet.WriteInteger(3); // ELEMENTO 2
+            packet.WriteInteger(3); // Número total de premios:
 
             using (IQueryAdapter dbQuery = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
@@ -21,10 +25,10 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Nux
 
                 foreach (DataRow Row in gUsersTable.Rows)
                 {
-                    base.WriteString(Convert.ToString(Row["image"])); // image.library.url + string
-                    base.WriteInteger(1); // items:
-                    base.WriteString(Convert.ToString(Row["title"])); // item_name (product_x_name)
-                    base.WriteString(""); // can be null
+                    packet.WriteString(Convert.ToString(Row["image"])); // image.library.url + string
+                    packet.WriteInteger(1); // items:
+                    packet.WriteString(Convert.ToString(Row["title"])); // item_name (product_x_name)
+                    packet.WriteString(""); // can be null
                 }
             }
         }

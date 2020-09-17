@@ -2,16 +2,23 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class PopularRoomTagsResultComposer : ServerPacket
+    internal class PopularRoomTagsResultComposer : MessageComposer
     {
+        private ICollection<KeyValuePair<string, int>> Tags { get; }
+
         public PopularRoomTagsResultComposer(ICollection<KeyValuePair<string, int>> Tags)
-            : base(ServerPacketHeader.PopularRoomTagsResultMessageComposer)
+            : base(Composers.PopularRoomTagsResultMessageComposer)
         {
-            base.WriteInteger(Tags.Count);
+            this.Tags = Tags;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Tags.Count);
             foreach (KeyValuePair<string, int> tag in Tags)
             {
-                base.WriteString(tag.Key);
-                base.WriteInteger(tag.Value);
+                packet.WriteString(tag.Key);
+                packet.WriteInteger(tag.Value);
             }
         }
     }

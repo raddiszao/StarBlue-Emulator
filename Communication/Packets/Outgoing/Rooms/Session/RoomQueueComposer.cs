@@ -1,28 +1,35 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Session
 {
-    public class RoomQueueComposer : ServerPacket
+    public class RoomQueueComposer : MessageComposer
     {
-        public RoomQueueComposer(int UsersQueued)
-            : base(ServerPacketHeader.RoomQueueComposer)
-        {
-            base.WriteInteger(2); // 1: Solo Cola; 2: Cola con Opción Espectador
-            {
-                base.WriteString("visitors");
-                base.WriteInteger(2); // 1: Cola para Modo Espectador; 2: Cola normal
+        private int UsersQueued { get; }
 
-                base.WriteInteger(1);
+        public RoomQueueComposer(int UsersQueued)
+            : base(Composers.RoomQueueComposer)
+        {
+            this.UsersQueued = UsersQueued;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(2); // 1: Solo Cola; 2: Cola con Opción Espectador
+            {
+                packet.WriteString("visitors");
+                packet.WriteInteger(2); // 1: Cola para Modo Espectador; 2: Cola normal
+
+                packet.WriteInteger(1);
                 {
-                    base.WriteString("visitors");
-                    base.WriteInteger(UsersQueued); // tu puesto en la cola
+                    packet.WriteString("visitors");
+                    packet.WriteInteger(UsersQueued); // tu puesto en la cola
                 }
 
-                base.WriteString("spectators");
-                base.WriteInteger(1); // Bool para boton espectador
+                packet.WriteString("spectators");
+                packet.WriteInteger(1); // Bool para boton espectador
 
-                base.WriteInteger(1);
+                packet.WriteInteger(1);
                 {
-                    base.WriteString("spectators");
-                    base.WriteInteger(0); // specs?
+                    packet.WriteString("spectators");
+                    packet.WriteInteger(0); // specs?
                 }
             }
         }

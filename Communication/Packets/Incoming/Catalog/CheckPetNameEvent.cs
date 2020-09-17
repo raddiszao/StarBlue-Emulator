@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     public class CheckPetNameEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             string PetName = Packet.PopString();
             if (PetName.Length < 2)

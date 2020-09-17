@@ -5,13 +5,24 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    internal class GameAchievementListComposer : ServerPacket
+    internal class GameAchievementListComposer : MessageComposer
     {
+        private GameClient Session { get; }
+        private ICollection<Achievement> Achievements { get; }
+        private int GameId { get; }
+
         public GameAchievementListComposer(GameClient Session, ICollection<Achievement> Achievements, int GameId)
-            : base(ServerPacketHeader.GameAchievementListMessageComposer)
+            : base(Composers.GameAchievementListMessageComposer)
         {
-            base.WriteInteger(GameId);
-            base.WriteInteger(Achievements.Count);
+            this.Session = Session;
+            this.Achievements = Achievements;
+            this.GameId = GameId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(GameId);
+            packet.WriteInteger(Achievements.Count);
             foreach (Achievement Ach in Achievements.ToList())
             {
                 UserAchievement UserData = Session.GetHabbo().GetAchievementData(Ach.GroupName);
@@ -19,21 +30,21 @@ namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 
                 AchievementLevel TargetLevelData = Ach.Levels[TargetLevel];
 
-                base.WriteInteger(Ach.Id); // ach id
-                base.WriteInteger(TargetLevel); // target level
-                base.WriteString(Ach.GroupName + TargetLevel); // badge
-                base.WriteInteger(TargetLevelData.Requirement); // requirement
-                base.WriteInteger(TargetLevelData.Requirement); // requirement
-                base.WriteInteger(TargetLevelData.RewardPixels); // pixels
-                base.WriteInteger(0); // ach score
-                base.WriteInteger(UserData != null ? UserData.Progress : 0); // Current progress
-                base.WriteBoolean(UserData != null ? (UserData.Level >= Ach.Levels.Count) : false); // Set 100% completed(??)
-                base.WriteString(Ach.Category);
-                base.WriteString("basejump");
-                base.WriteInteger(0); // total levels
-                base.WriteInteger(0);
+                packet.WriteInteger(Ach.Id); // ach id
+                packet.WriteInteger(TargetLevel); // target level
+                packet.WriteString(Ach.GroupName + TargetLevel); // badge
+                packet.WriteInteger(TargetLevelData.Requirement); // requirement
+                packet.WriteInteger(TargetLevelData.Requirement); // requirement
+                packet.WriteInteger(TargetLevelData.RewardPixels); // pixels
+                packet.WriteInteger(0); // ach score
+                packet.WriteInteger(UserData != null ? UserData.Progress : 0); // Current progress
+                packet.WriteBoolean(UserData != null ? (UserData.Level >= Ach.Levels.Count) : false); // Set 100% completed(??)
+                packet.WriteString(Ach.Category);
+                packet.WriteString("basejump");
+                packet.WriteInteger(0); // total levels
+                packet.WriteInteger(0);
             }
-            base.WriteString("");
+            packet.WriteString("");
         }
     }
 }

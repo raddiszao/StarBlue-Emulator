@@ -3,4 +3,5 @@
     internal class GroupForumDataMessageComposer
     {
     }
+
 }

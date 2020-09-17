@@ -1,5 +1,4 @@
-﻿using StarBlue.Communication.Packets.Outgoing;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Rooms;
@@ -12,7 +11,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
 {
     internal class SaveBotActionEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {
@@ -60,16 +59,12 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Bots
                 #region Copy Looks (1)
                 case 1:
                     {
-                        ServerPacket UserChangeComposer = new ServerPacket(ServerPacketHeader.UserChangeMessageComposer);
-                        UserChangeComposer.WriteInteger(Bot.VirtualId);
-                        UserChangeComposer.WriteString(Session.GetHabbo().Look);
-                        UserChangeComposer.WriteString(Session.GetHabbo().Gender);
-                        UserChangeComposer.WriteString(Bot.BotData.Motto);
-                        UserChangeComposer.WriteInteger(0);
-                        Room.SendMessage(UserChangeComposer);
-                        //Change the defaults
                         Bot.BotData.Look = Session.GetHabbo().Look;
                         Bot.BotData.Gender = Session.GetHabbo().Gender;
+
+                        UserChangeComposer userChangeComposer = new UserChangeComposer(Bot.VirtualId, Bot.BotData);
+
+                        Room.SendMessage(userChangeComposer);
                         using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                         {
                             dbClient.SetQuery("UPDATE `bots` SET `look` = @look, `gender` = '" + Session.GetHabbo().Gender + "' WHERE `id` = '" + Bot.BotData.Id + "' LIMIT 1");

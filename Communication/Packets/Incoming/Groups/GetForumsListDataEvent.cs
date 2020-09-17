@@ -10,7 +10,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class GetForumsListDataEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int int1 = Packet.PopInt(); // View Order ID
             int int2 = Packet.PopInt(); // Forum List Index

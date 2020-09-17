@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     internal class LetUserInEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
 
             if (!StarBlueServer.GetGame().GetRoomManager().TryGetRoom(Session.GetHabbo().CurrentRoomId, out Room Room))

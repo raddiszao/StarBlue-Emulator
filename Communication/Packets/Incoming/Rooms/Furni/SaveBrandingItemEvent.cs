@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
     internal class SaveBrandingItemEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || !Session.GetHabbo().InRoom)
             {
@@ -34,6 +34,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
             if (Item.Data.InteractionType == InteractionType.BACKGROUND)
             {
                 int Data = Packet.PopInt();
+                if (Data != 10 && Data != 8)
+                    return;
+
                 string BrandData = "state" + Convert.ToChar(9) + "0";
 
                 for (int i = 1; i <= Data; i++)

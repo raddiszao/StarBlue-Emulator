@@ -1,9 +1,8 @@
-﻿using System;
-using System.Data;
-using ConsoleWriter;
-
+﻿using ConsoleWriter;
 using MySql.Data.MySqlClient;
 using StarBlue.Database.Interfaces;
+using System;
+using System.Data;
 
 namespace StarBlue.Database.Adapter
 {

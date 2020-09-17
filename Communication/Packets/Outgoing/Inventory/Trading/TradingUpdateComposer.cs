@@ -5,10 +5,17 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    internal class TradingUpdateComposer : ServerPacket
+    internal class TradingUpdateComposer : MessageComposer
     {
-        public TradingUpdateComposer(Trade Trade)
-            : base(ServerPacketHeader.TradingUpdateMessageComposer)
+        public Trade Trade { get; }
+
+        public TradingUpdateComposer(Trade trade)
+            : base(Composers.TradingUpdateMessageComposer)
+        {
+            this.Trade = trade;
+        }
+
+        public override void Compose(Composer packet)
         {
             if (Trade.Users.Count() < 2)
             {
@@ -17,44 +24,44 @@ namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 
             foreach (TradeUser user in Trade.Users)
             {
-                base.WriteInteger(user.GetClient().GetHabbo().Id);
-                base.WriteInteger(user.OfferedItems.Count);
+                packet.WriteInteger(user.GetClient().GetHabbo().Id);
+                packet.WriteInteger(user.OfferedItems.Count);
 
-                SerializeUserItems(user);
-
-                base.WriteInteger(user.OfferedItems.Count);
-                base.WriteInteger(0);
-
-            }
-
-
-        }
-        private void SerializeUserItems(TradeUser User)
-        {
-            //base.WriteInteger(User.OfferedItems.Count);//While
-            foreach (Item Item in User.OfferedItems.ToList())
-            {
-                base.WriteInteger(Item.Id);
-                base.WriteString(Item.Data.Type.ToString().ToUpper());
-                base.WriteInteger(Item.Id);
-                base.WriteInteger(Item.Data.SpriteId);
-                base.WriteInteger(1);
-                base.WriteBoolean(true);
-
-                //Func called _SafeStr_15990
-                base.WriteInteger(0);
-                base.WriteString("");
-
-                //end Func called
-                base.WriteInteger(0);
-                base.WriteInteger(0);
-                base.WriteInteger(0);
-                if (Item.Data.Type.ToString().ToUpper() == "S")
+                foreach (Item Item in user.OfferedItems.ToList())
                 {
-                    base.WriteInteger(0);
-                }
-            }
+                    packet.WriteInteger(Item.Id);
+                    packet.WriteString(Item.Data.Type.ToString().ToUpper());
+                    packet.WriteInteger(Item.Id);
+                    packet.WriteInteger(Item.Data.SpriteId);
+                    packet.WriteInteger(0);//Not sure.
+                    if (Item.LimitedNo > 0)
+                    {
+                        packet.WriteBoolean(false);//Stackable
+                        packet.WriteInteger(256);
+                        packet.WriteString("");
+                        packet.WriteInteger(Item.LimitedNo);
+                        packet.WriteInteger(Item.LimitedTot);
+                    }
+                    else
+                    {
+                        packet.WriteBoolean(true);//Stackable
+                        packet.WriteInteger(0);
+                        packet.WriteString("");
+                    }
 
+                    packet.WriteInteger(0);
+                    packet.WriteInteger(0);
+                    packet.WriteInteger(0);
+                    if (Item.Data.Type.ToString().ToUpper() == "S")
+                    {
+                        packet.WriteInteger(0);
+                    }
+                }
+
+                packet.WriteInteger(user.OfferedItems.Count);
+                packet.WriteInteger(0);
+
+            }
         }
     }
 }

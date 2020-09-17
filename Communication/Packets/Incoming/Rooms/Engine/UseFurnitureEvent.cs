@@ -1,18 +1,20 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
 using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using StarBlue.Core;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
+using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
     internal class UseFurnitureEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || !Session.GetHabbo().InRoom)
             {
@@ -27,7 +29,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             int itemID = Packet.PopInt();
             Item Item = Room.GetRoomItemHandler().GetItem(itemID);
-            if (Item == null)
+            if (Item == null || Item.Data.InteractionType == InteractionType.DICE)
             {
                 return;
             }
@@ -119,8 +121,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 }
             }
 
-            string oldData = Item.ExtraData;
-            int request = Packet.PopInt();
+            int request = Packet.RemainingLength() >= 4 ? Packet.PopInt() : 0;
 
             Item.Interactor.OnTrigger(Session, Item, request, hasRights);
 
@@ -140,7 +141,6 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             }
 
             StarBlueServer.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.EXPLORE_FIND_ITEM, Item.GetBaseItem().Id);
-
         }
     }
 }

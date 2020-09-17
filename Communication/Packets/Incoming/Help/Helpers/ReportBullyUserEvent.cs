@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.Help.Helpers
 {
     internal class ReportBullyUserEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             //int userId = Packet.PopInt();
             //int roomId = Packet.PopInt();

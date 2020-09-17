@@ -14,7 +14,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     internal class CheckGnomeNameEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || !Session.GetHabbo().InRoom)
             {

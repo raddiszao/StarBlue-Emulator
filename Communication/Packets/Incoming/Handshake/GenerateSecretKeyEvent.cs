@@ -1,26 +1,26 @@
 ﻿
 using StarBlue.Communication.Encryption;
-using StarBlue.Communication.Encryption.Crypto.Prng;
 using StarBlue.Communication.Packets.Outgoing.Handshake;
+using StarBlue.HabboHotel.GameClients;
+using StarBlue.Network.Codec;
 
 namespace StarBlue.Communication.Packets.Incoming.Handshake
 {
     public class GenerateSecretKeyEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient session, MessageEvent packet)
         {
-            string CipherPublickey = Packet.PopString();
+            string cipherPublickey = packet.PopString();
 
-            BigInteger SharedKey = HabboEncryptionV2.CalculateDiffieHellmanSharedKey(CipherPublickey);
-            if (SharedKey != 0)
+            BigInteger sharedKey = HabboEncryptionV2.CalculateDiffieHellmanSharedKey(cipherPublickey);
+            if (sharedKey != 0)
             {
-                Session.RC4Client = new ARC4(SharedKey.getBytes());
-                Session.SendMessage(new SecretKeyComposer(HabboEncryptionV2.GetRsaDiffieHellmanPublicKey()));
+                session.SendMessage(new SecretKeyComposer(HabboEncryptionV2.GetRsaDiffieHellmanPublicKey()));
+                session.GetChannel().Channel.Pipeline.AddFirst("gameCrypto", new EncryptionDecoder(sharedKey.getBytes()));
             }
             else
             {
-                Session.SendNotification("Ocorreu um erro, inicie a sessão novamente.");
-                return;
+                session.SendNotification("There was an error logging you in, please try again!");
             }
         }
     }

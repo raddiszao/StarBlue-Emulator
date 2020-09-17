@@ -1,9 +1,14 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class CloseHelperSessionComposer : ServerPacket
+    internal class CloseHelperSessionComposer : MessageComposer
     {
         public CloseHelperSessionComposer()
-            : base(ServerPacketHeader.CloseHelperSessionMessageComposer)
-        { }
+            : base(Composers.CloseHelperSessionMessageComposer)
+        {
+        }
+
+        public override void Compose(Composer packet)
+        {
+        }
     }
 }

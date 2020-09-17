@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
     internal class NewNavigatorSearchEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient session, ClientPacket packet)
+        public void Parse(HabboHotel.GameClients.GameClient session, MessageEvent packet)
         {
             string Category = packet.PopString();
             string Search = packet.PopString();

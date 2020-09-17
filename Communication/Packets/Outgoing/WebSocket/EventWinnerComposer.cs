@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.WebSocket
+﻿using StarBlue.Communication.WebSocket;
+
+namespace StarBlue.Communication.Packets.Outgoing.WebSocket
 {
-    internal class EventWinnerComposer : ServerPacket
+    internal class EventWinnerComposer : WebComposer
     {
         public EventWinnerComposer(string roomName, string winner) : base(9)
         {

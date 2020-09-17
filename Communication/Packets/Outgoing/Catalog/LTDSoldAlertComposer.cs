@@ -1,11 +1,15 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    public class LTDSoldAlertComposer : ServerPacket
+    public class LTDSoldAlertComposer : MessageComposer
     {
         public LTDSoldAlertComposer()
-            : base(ServerPacketHeader.LTDSoldAlertComposer)
+            : base(Composers.LTDSoldAlertComposer)
         {
-            base.WriteInteger(0);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);
         }
     }
 }

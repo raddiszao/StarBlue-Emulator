@@ -5,9 +5,9 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Badges
 {
     internal class GetBadgesEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
-            Session.SendMessage(new BadgesComposer(Session));
+            Session.SendMessage(new BadgesComposer(Session.GetHabbo().GetBadgeComponent().GetBadges()));
         }
     }
 }

@@ -3,12 +3,19 @@ using System;
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    internal class ScrSendUserInfoComposer : ServerPacket
+    internal class ScrSendUserInfoComposer : MessageComposer
     {
+        private Habbo habbo { get; }
+
         public ScrSendUserInfoComposer(Habbo habbo)
-            : base(ServerPacketHeader.ScrSendUserInfoMessageComposer)
+            : base(Composers.ScrSendUserInfoMessageComposer)
         {
-            base.WriteString("habbo_club");
+            this.habbo = habbo;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("habbo_club");
 
             if (habbo.GetClubManager().HasSubscription("habbo_vip"))
             {
@@ -22,27 +29,27 @@ namespace StarBlue.Communication.Packets.Outgoing.Users
                 {
                     MonthsLeft--;
                 }
-                base.WriteInteger(TotalDaysLeft - (MonthsLeft * 31));
-                base.WriteInteger(2); // ??
-                base.WriteInteger(MonthsLeft);
-                base.WriteInteger(1); // type
-                base.WriteBoolean(true);
-                base.WriteBoolean(true);
-                base.WriteInteger(0);
-                base.WriteInteger(Convert.ToInt32(TimeLeft)); // days i have on hc
-                base.WriteInteger(Convert.ToInt32(TimeLeft)); // days i have on vip
+                packet.WriteInteger(TotalDaysLeft - (MonthsLeft * 31));
+                packet.WriteInteger(2); // ??
+                packet.WriteInteger(MonthsLeft);
+                packet.WriteInteger(1); // type
+                packet.WriteBoolean(true);
+                packet.WriteBoolean(true);
+                packet.WriteInteger(0);
+                packet.WriteInteger(Convert.ToInt32(TimeLeft)); // days i have on hc
+                packet.WriteInteger(Convert.ToInt32(TimeLeft)); // days i have on vip
             }
             else
             {
-                base.WriteInteger(0);
-                base.WriteInteger(0); // ??
-                base.WriteInteger(0);
-                base.WriteInteger(0); // type
-                base.WriteBoolean(false);
-                base.WriteBoolean(true);
-                base.WriteInteger(0);
-                base.WriteInteger(100); // days i have on hc
-                base.WriteInteger(100); // days i have on vip
+                packet.WriteInteger(0);
+                packet.WriteInteger(0); // ??
+                packet.WriteInteger(0);
+                packet.WriteInteger(0); // type
+                packet.WriteBoolean(false);
+                packet.WriteBoolean(true);
+                packet.WriteInteger(0);
+                packet.WriteInteger(100); // days i have on hc
+                packet.WriteInteger(100); // days i have on vip
             }
         }
     }

@@ -2,10 +2,17 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Sound
 {
-    internal class SetJukeboxNowPlayingComposer : ServerPacket
+    internal class SetJukeboxNowPlayingComposer : MessageComposer
     {
+        private Room room { get; }
+
         public SetJukeboxNowPlayingComposer(Room room)
-            : base(ServerPacketHeader.SetJukeboxNowPlayingMessageComposer)
+            : base(Composers.SetJukeboxNowPlayingMessageComposer)
+        {
+            this.room = room;
+        }
+
+        public override void Compose(Composer packet)
         {
             HabboHotel.Rooms.TraxMachine.RoomTraxManager trax = room.GetTraxManager();
             if (trax.IsPlaying && trax.ActualSongData != null)
@@ -15,19 +22,19 @@ namespace StarBlue.Communication.Packets.Outgoing.Sound
                 HabboHotel.Rooms.TraxMachine.TraxMusicData actualmusic = trax.GetMusicByItem(actualmusicitem);
                 int musicindex = trax.GetMusicIndex(actualmusicitem);
                 int anteriorlength = trax.AnteriorMusic != null ? trax.AnteriorMusic.Length : 0;
-                base.WriteInteger(actualmusic.Id); // songid
-                base.WriteInteger(musicindex);
-                base.WriteInteger(actualmusic.Id); // songid
-                base.WriteInteger((int)((trax.TotalPlayListLength) * 1000.0));
-                base.WriteInteger((int)(trax.ActualSongTimePassed * 1000.0));
+                packet.WriteInteger(actualmusic.Id); // songid
+                packet.WriteInteger(musicindex);
+                packet.WriteInteger(actualmusic.Id); // songid
+                packet.WriteInteger((int)((trax.TotalPlayListLength) * 1000.0));
+                packet.WriteInteger((int)(trax.ActualSongTimePassed * 1000.0));
             }
             else
             {
-                base.WriteInteger(-1);
-                base.WriteInteger(-1);
-                base.WriteInteger(-1);
-                base.WriteInteger(-1);
-                base.WriteInteger(-1);
+                packet.WriteInteger(-1);
+                packet.WriteInteger(-1);
+                packet.WriteInteger(-1);
+                packet.WriteInteger(-1);
+                packet.WriteInteger(-1);
 
             }
         }

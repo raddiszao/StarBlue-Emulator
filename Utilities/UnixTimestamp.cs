@@ -10,20 +10,20 @@ namespace StarBlue.Utilities
         /// <returns>Unix Timestamp.</returns>
         public static double GetNow()
         {
-            TimeSpan ts = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0));
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0);
             return ts.TotalSeconds;
         }
 
         /// <summary>
         /// Converts the Unix Timestamp to a DateTime object.
         /// </summary>
-        /// <param name="Timestamp">Unix Timestamp.</param>
+        /// <param name="timestamp">Unix Timestamp.</param>
         /// <returns>DateTime object.</returns>
-        public static DateTime FromUnixTimestamp(double Timestamp)
+        public static DateTime FromUnixTimestamp(double timestamp)
         {
-            DateTime DT = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            DT = DT.AddSeconds(Timestamp);
-            return DT;
+            DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            dt = dt.AddSeconds(timestamp);
+            return dt;
         }
     }
 }

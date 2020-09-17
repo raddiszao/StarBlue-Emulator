@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
     internal class GetPlayableGamesEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             int GameId = Packet.PopInt();
 

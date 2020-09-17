@@ -2,10 +2,17 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    internal class CraftableProductsComposer : ServerPacket
+    internal class CraftableProductsComposer : MessageComposer
     {
+        private Item item { get; }
+
         public CraftableProductsComposer(Item item)
-            : base(ServerPacketHeader.CraftableProductsMessageComposer)
+            : base(Composers.CraftableProductsMessageComposer)
+        {
+            this.item = item;
+        }
+
+        public override void Compose(Composer packet)
         {
             int total = 0;
             HabboHotel.Items.Crafting.CraftingManager crafting = StarBlueServer.GetGame().GetCraftingManager();
@@ -17,19 +24,19 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
                     total = count;
                 }
             }
-            base.WriteInteger(total); //crafting.CraftingRecipes.Count
+            packet.WriteInteger(total); //crafting.CraftingRecipes.Count
             foreach (HabboHotel.Items.Crafting.CraftingRecipe recipe in crafting.CraftingRecipes.Values)
             {
                 if (recipe.Type == item.GetBaseItem().Id)
                 {
-                    base.WriteString(recipe.Result);
-                    base.WriteString(recipe.Result);
+                    packet.WriteString(recipe.Result);
+                    packet.WriteString(recipe.Result);
                 }
             }
-            base.WriteInteger(crafting.CraftableItems.Count);
+            packet.WriteInteger(crafting.CraftableItems.Count);
             foreach (string itemName in crafting.CraftableItems)
             {
-                base.WriteString(itemName);
+                packet.WriteString(itemName);
             }
         }
     }

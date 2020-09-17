@@ -40,7 +40,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
             Item.UpdateState(false, true);
             Item.RequestUpdate(2, true);
 
-            if (Item.GetBaseItem().WiredType == WiredBoxType.AddonRandomEffect || Item.GetBaseItem().WiredType == WiredBoxType.AddonAnyConditionValid)
+            if (Item.GetBaseItem().WiredType == WiredBoxType.AddonRandomEffect || Item.GetBaseItem().WiredType == WiredBoxType.AddonAnyConditionValid || Item.GetBaseItem().WiredType == WiredBoxType.AddonUnseen)
             {
                 return;
             }

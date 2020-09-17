@@ -1,11 +1,15 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class OpenHelpToolComposer : ServerPacket
+    internal class OpenHelpToolComposer : MessageComposer
     {
         public OpenHelpToolComposer()
-            : base(ServerPacketHeader.OpenHelpToolMessageComposer)
+            : base(Composers.OpenHelpToolMessageComposer)
         {
-            base.WriteInteger(0);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);
         }
     }
 }

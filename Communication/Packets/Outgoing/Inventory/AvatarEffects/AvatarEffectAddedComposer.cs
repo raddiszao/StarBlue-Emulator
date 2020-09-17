@@ -1,14 +1,23 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
-    internal class AvatarEffectAddedComposer : ServerPacket
+    internal class AvatarEffectAddedComposer : MessageComposer
     {
+        public int SpriteId { get; }
+        public int Duration { get; }
+
         public AvatarEffectAddedComposer(int SpriteId, int Duration)
-            : base(ServerPacketHeader.AvatarEffectAddedMessageComposer)
+            : base(Composers.AvatarEffectAddedMessageComposer)
         {
-            base.WriteInteger(SpriteId);
-            base.WriteInteger(0);//Types
-            base.WriteInteger(Duration);
-            base.WriteBoolean(false);//Permanent
+            this.SpriteId = SpriteId;
+            this.Duration = Duration;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(SpriteId);
+            packet.WriteInteger(0);//Types
+            packet.WriteInteger(Duration);
+            packet.WriteBoolean(false);//Permanent
         }
     }
 }

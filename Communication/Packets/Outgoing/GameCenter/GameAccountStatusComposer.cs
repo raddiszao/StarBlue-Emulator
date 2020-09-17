@@ -1,13 +1,20 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    internal class GameAccountStatusComposer : ServerPacket
+    internal class GameAccountStatusComposer : MessageComposer
     {
+        private int GameId { get; }
+
         public GameAccountStatusComposer(int GameID)
-            : base(ServerPacketHeader.GameAccountStatusMessageComposer)
+            : base(Composers.GameAccountStatusMessageComposer)
         {
-            base.WriteInteger(GameID);
-            base.WriteInteger(100); // Games Left
-            base.WriteInteger(0);//Was 16?
+            this.GameId = GameID;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(GameId);
+            packet.WriteInteger(100); // Games Left
+            packet.WriteInteger(0);//Was 16?
         }
     }
 }

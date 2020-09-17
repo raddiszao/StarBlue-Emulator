@@ -1,13 +1,22 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Notifications
 {
-    internal class HotelWillCloseInMinutesAndBackInComposer : ServerPacket
+    internal class HotelWillCloseInMinutesAndBackInComposer : MessageComposer
     {
+        private int CloseIn { get; }
+        private int OpenIn { get; }
+
         public HotelWillCloseInMinutesAndBackInComposer(int CloseIn, int OpenIn)
-            : base(ServerPacketHeader.HotelWillCloseInMinutesAndBackInComposer)
+            : base(Composers.HotelWillCloseInMinutesAndBackInComposer)
         {
-            base.WriteBoolean(true);
-            base.WriteInteger(CloseIn);
-            base.WriteInteger(OpenIn);
+            this.CloseIn = CloseIn;
+            this.OpenIn = OpenIn;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(true);
+            packet.WriteInteger(CloseIn);
+            packet.WriteInteger(OpenIn);
         }
     }
 }

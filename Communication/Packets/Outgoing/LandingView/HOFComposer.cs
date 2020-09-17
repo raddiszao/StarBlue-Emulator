@@ -3,22 +3,26 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    internal class HOFComposer : ServerPacket
+    internal class HOFComposer : MessageComposer
     {
         public HOFComposer()
-            : base(ServerPacketHeader.HOFComposer)
+            : base(Composers.HOFComposer)
         {
-            base.WriteString("halloffame");
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("halloffame");
 
             List<UserCompetition> usersHof = GetHallOfFame.getHofUsers();
-            base.WriteInteger(usersHof.Count);
+            packet.WriteInteger(usersHof.Count);
             foreach (UserCompetition user in usersHof)
             {
-                base.WriteInteger(user.userId); //userID
-                base.WriteString(user.userName);//userName
-                base.WriteString(user.Look);//Look
-                base.WriteInteger(user.Rank); //rank
-                base.WriteInteger(user.Score);//?
+                packet.WriteInteger(user.userId); //userID
+                packet.WriteString(user.userName);//userName
+                packet.WriteString(user.Look);//Look
+                packet.WriteInteger(user.Rank); //rank
+                packet.WriteInteger(user.Score);//?
             }
         }
     }

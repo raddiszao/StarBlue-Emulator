@@ -2,26 +2,33 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    public class UserRightsComposer : ServerPacket
+    public class UserRightsComposer : MessageComposer
     {
+        private Habbo habbo { get; }
+
         public UserRightsComposer(Habbo habbo)
-            : base(ServerPacketHeader.UserRightsMessageComposer)
+            : base(Composers.UserRightsMessageComposer)
+        {
+            this.habbo = habbo;
+        }
+
+        public override void Compose(Composer packet)
         {
             if (habbo.GetClubManager().HasSubscription("habbo_vip"))
             {
-                base.WriteInteger(2);
+                packet.WriteInteger(2);
             }
             else if (habbo.GetClubManager().HasSubscription("habbo_club"))
             {
-                base.WriteInteger(1);
+                packet.WriteInteger(1);
             }
             else
             {
-                base.WriteInteger(0);
+                packet.WriteInteger(0);
             }
 
-            base.WriteInteger(habbo.Rank);
-            base.WriteBoolean(habbo.Rank > 3);//Is an ambassador
+            packet.WriteInteger(habbo.Rank);
+            packet.WriteBoolean(habbo.Rank > 3);//Is an ambassador
         }
     }
 }

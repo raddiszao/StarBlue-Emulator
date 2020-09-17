@@ -1,13 +1,22 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    internal class CheckGnomeNameComposer : ServerPacket
+    internal class CheckGnomeNameComposer : MessageComposer
     {
+        private string PetName { get; }
+        private int ErrorId { get; }
+
         public CheckGnomeNameComposer(string PetName, int ErrorId)
-            : base(ServerPacketHeader.CheckGnomeNameMessageComposer)
+            : base(Composers.CheckGnomeNameMessageComposer)
         {
-            base.WriteInteger(0);
-            base.WriteInteger(ErrorId);
-            base.WriteString(PetName);
+            this.PetName = PetName;
+            this.ErrorId = ErrorId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);
+            packet.WriteInteger(ErrorId);
+            packet.WriteString(PetName);
         }
     }
 }

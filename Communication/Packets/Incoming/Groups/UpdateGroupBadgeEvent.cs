@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class UpdateGroupBadgeEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             int GroupId = Packet.PopInt();
             if (!StarBlueServer.GetGame().GetGroupManager().TryGetGroup(GroupId, out Group Group))
@@ -20,10 +20,11 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 
             int Count = Packet.PopInt();
             string Badge = "";
-            for (int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i += 3)
             {
                 Badge += BadgePartUtility.WorkBadgeParts(i == 0, Packet.PopInt().ToString(), Packet.PopInt().ToString(), Packet.PopInt().ToString());
             }
+
             Group.Badge = (string.IsNullOrWhiteSpace(Badge) ? "b05114s06114" : Badge);
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
@@ -32,6 +33,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 dbClient.AddParameter("groupId", Group.Id);
                 dbClient.RunQuery();
             }
+
             Session.SendMessage(new GroupInfoComposer(Group, Session));
         }
     }

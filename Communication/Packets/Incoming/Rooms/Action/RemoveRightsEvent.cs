@@ -9,7 +9,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     internal class RemoveRightsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {
@@ -56,7 +56,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
                         Room.UsersWithRights.Remove(UserId);
                     }
 
-                    Session.SendMessage(new FlatControllerRemovedComposer(Room, UserId));
+                    Session.SendMessage(new FlatControllerRemovedComposer(Room.Id, UserId));
                 }
             }
         }

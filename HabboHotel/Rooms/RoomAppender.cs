@@ -5,7 +5,7 @@ namespace StarBlue.HabboHotel.Rooms
 {
     internal static class RoomAppender
     {
-        public static void WriteRoom(ServerPacket Packet, RoomData Data, RoomPromotion Promotion, bool NewNavigator = false)
+        public static void WriteRoom(Composer Packet, RoomData Data, RoomPromotion Promotion, bool NewNavigator = false)
         {
             Packet.WriteInteger(Data.Id);
             Packet.WriteString(Data.Name);

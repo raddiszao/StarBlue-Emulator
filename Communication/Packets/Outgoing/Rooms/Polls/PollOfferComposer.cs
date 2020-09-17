@@ -2,15 +2,22 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Polls
 {
-    internal class PollOfferComposer : ServerPacket
+    internal class PollOfferComposer : MessageComposer
     {
+        private RoomPoll poll { get; }
+
         public PollOfferComposer(RoomPoll poll)
-            : base(ServerPacketHeader.PollOfferMessageComposer)
+            : base(Composers.PollOfferMessageComposer)
         {
-            base.WriteInteger(poll.Id);
-            base.WriteString(RoomPollTypeUtility.GetRoomPollType(poll.Type).ToUpper());
-            base.WriteString(poll.Headline);
-            base.WriteString(poll.Summary);
+            this.poll = poll;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(poll.Id);
+            packet.WriteString(RoomPollTypeUtility.GetRoomPollType(poll.Type).ToUpper());
+            packet.WriteString(poll.Headline);
+            packet.WriteString(poll.Summary);
         }
     }
 }

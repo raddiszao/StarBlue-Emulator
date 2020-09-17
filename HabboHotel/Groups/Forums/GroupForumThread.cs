@@ -182,7 +182,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
             return Posts.LastOrDefault();
         }
 
-        public void SerializeData(GameClient Session, ServerPacket Packet)
+        public void SerializeData(GameClient Session, Composer Packet)
         {
             GroupForumThreadPost lastpost = GetLastMessage();
             bool isn = lastpost == null;

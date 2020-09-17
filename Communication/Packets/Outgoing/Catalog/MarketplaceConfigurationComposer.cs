@@ -1,18 +1,22 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    public class MarketplaceConfigurationComposer : ServerPacket
+    public class MarketplaceConfigurationComposer : MessageComposer
     {
         public MarketplaceConfigurationComposer()
-            : base(ServerPacketHeader.MarketplaceConfigurationMessageComposer)
+            : base(Composers.MarketplaceConfigurationMessageComposer)
         {
-            base.WriteBoolean(true);
-            base.WriteInteger(1);//Min price.
-            base.WriteInteger(0);//1?
-            base.WriteInteger(0);//5?
-            base.WriteInteger(1);
-            base.WriteInteger(99999999);//Max price.
-            base.WriteInteger(48);
-            base.WriteInteger(7);//Days.
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(true);
+            packet.WriteInteger(1);//Min price.
+            packet.WriteInteger(0);//1?
+            packet.WriteInteger(0);//5?
+            packet.WriteInteger(1);
+            packet.WriteInteger(99999999);//Max price.
+            packet.WriteInteger(48);
+            packet.WriteInteger(7);//Days.
         }
     }
 }

@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class NewGroupInfoComposer : ServerPacket
+    internal class NewGroupInfoComposer : MessageComposer
     {
+        public int RoomId { get; }
+        public int GroupId { get; }
+
         public NewGroupInfoComposer(int RoomId, int GroupId)
-            : base(ServerPacketHeader.NewGroupInfoMessageComposer)
+            : base(Composers.NewGroupInfoMessageComposer)
         {
-            base.WriteInteger(RoomId);
-            base.WriteInteger(GroupId);
+            this.RoomId = RoomId;
+            this.GroupId = GroupId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
+            packet.WriteInteger(GroupId);
         }
     }
 }

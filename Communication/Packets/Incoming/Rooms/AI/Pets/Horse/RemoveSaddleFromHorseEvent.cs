@@ -15,7 +15,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 {
     internal class RemoveSaddleFromHorseEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {

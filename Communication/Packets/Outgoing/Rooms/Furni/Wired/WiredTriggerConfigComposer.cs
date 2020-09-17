@@ -5,49 +5,58 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
 {
-    internal class WiredTriggerConfigComposer : ServerPacket
+    internal class WiredTriggerConfigComposer : MessageComposer
     {
-        public WiredTriggerConfigComposer(IWiredItem Box, List<int> BlockedItems)
-            : base(ServerPacketHeader.WiredTriggerConfigMessageComposer)
-        {
-            base.WriteBoolean(false);
-            base.WriteInteger(20);
+        public IWiredItem Box { get; }
+        public List<int> BlockedItems { get; }
 
-            base.WriteInteger(Box.SetItems.Count);
+        public WiredTriggerConfigComposer(IWiredItem box, List<int> blockedItems)
+            : base(Composers.WiredTriggerConfigMessageComposer)
+        {
+            this.Box = box;
+            this.BlockedItems = blockedItems;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(false);
+            packet.WriteInteger(20);
+
+            packet.WriteInteger(Box.SetItems.Count);
             foreach (Item Item in Box.SetItems.Values.ToList())
             {
-                base.WriteInteger(Item.Id);
+                packet.WriteInteger(Item.Id);
             }
 
-            base.WriteInteger(Box.Item.GetBaseItem().SpriteId);
-            base.WriteInteger(Box.Item.Id);
-            base.WriteString(Box.StringData);
+            packet.WriteInteger(Box.Item.GetBaseItem().SpriteId);
+            packet.WriteInteger(Box.Item.Id);
+            packet.WriteString(Box.StringData);
 
-            base.WriteInteger(Box is IWiredCycle ? 1 : 0);
+            packet.WriteInteger(Box is IWiredCycle ? 1 : 0);
             if (Box is IWiredCycle)
             {
                 IWiredCycle Cycle = (IWiredCycle)Box;
                 if (Box.Type == WiredBoxType.TriggerRepeat)
                 {
-                    base.WriteInteger(Cycle.Delay / 500);
+                    packet.WriteInteger(Cycle.Delay / 500);
                 }
                 else if (Box.Type == WiredBoxType.TriggerLongRepeat)
                 {
-                    base.WriteInteger(Cycle.Delay / 500 / 10000);
+                    packet.WriteInteger(Cycle.Delay / 500 / 10000);
                 }
                 else
                 {
-                    base.WriteInteger(Cycle.Delay);
+                    packet.WriteInteger(Cycle.Delay);
                 }
             }
-            base.WriteInteger(0);
-            base.WriteInteger(WiredBoxTypeUtility.GetWiredId(Box.Type));
-            base.WriteInteger(BlockedItems.Count());
+            packet.WriteInteger(0);
+            packet.WriteInteger(WiredBoxTypeUtility.GetWiredId(Box.Type));
+            packet.WriteInteger(BlockedItems.Count());
             if (BlockedItems.Count() > 0)
             {
                 foreach (int Id in BlockedItems.ToList())
                 {
-                    base.WriteInteger(Id);
+                    packet.WriteInteger(Id);
                 }
             }
         }

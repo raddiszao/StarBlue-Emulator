@@ -1,11 +1,17 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    internal class RoomMuteSettingsComposer : ServerPacket
+    internal class RoomMuteSettingsComposer : MessageComposer
     {
+        public bool Status { get; }
         public RoomMuteSettingsComposer(bool Status)
-            : base(ServerPacketHeader.RoomMuteSettingsMessageComposer)
+            : base(Composers.RoomMuteSettingsMessageComposer)
         {
-            base.WriteBoolean(Status);
+            this.Status = Status;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(Status);
         }
     }
 }

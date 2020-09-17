@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.GameCenter
 {
     internal class Game2GetWeeklyLeaderboardEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int GameId = Packet.PopInt();
             int weekNum = new GregorianCalendar(GregorianCalendarTypes.Localized).GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);

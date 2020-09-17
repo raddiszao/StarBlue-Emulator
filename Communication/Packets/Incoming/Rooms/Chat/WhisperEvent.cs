@@ -1,9 +1,9 @@
-﻿using StarBlue.Communication.Packets.Outgoing;
-using StarBlue.Communication.Packets.Outgoing.Messenger;
+﻿using StarBlue.Communication.Packets.Outgoing.Messenger;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using StarBlue.Communication.WebSocket;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
@@ -18,7 +18,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 {
     public class WhisperEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {
@@ -80,7 +80,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
                 string[] Params2 = Message.Split(' ');
                 string To = Params2[0].Split('@')[1];
 
-                ServerPacket MentionPacket = new MentionUserComposer(Room.RoomData.Name, Room.RoomData.Id, Message, Session.GetHabbo().Username, Session.GetHabbo().Look);
+                WebComposer MentionPacket = new MentionUserComposer(Room.RoomData.Name, Room.RoomData.Id, Message, Session.GetHabbo().Username, Session.GetHabbo().Look);
 
                 if (Session.GetHabbo().Rank >= 14 && (To == "everyone" || To == "here"))
                 {

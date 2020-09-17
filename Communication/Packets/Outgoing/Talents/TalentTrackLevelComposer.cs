@@ -1,13 +1,17 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Talents
 {
-    internal class TalentTrackLevelComposer : ServerPacket
+    internal class TalentTrackLevelComposer : MessageComposer
     {
         public TalentTrackLevelComposer()
-            : base(ServerPacketHeader.TalentTrackLevelMessageComposer)
+            : base(Composers.TalentTrackLevelMessageComposer)
         {
-            base.WriteString("citizenship");
-            base.WriteInteger(0);
-            base.WriteInteger(4);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("citizenship");
+            packet.WriteInteger(0);
+            packet.WriteInteger(4);
         }
     }
 }

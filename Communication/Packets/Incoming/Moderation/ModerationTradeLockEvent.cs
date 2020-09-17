@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
 {
     internal class ModerationTradeLockEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null || !Session.GetHabbo().GetPermissions().HasRight("mod_trade_lock"))
             {
@@ -16,8 +16,6 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
             int UserId = Packet.PopInt();
             string Message = Packet.PopString();
             double Days = (Packet.PopInt() / 1440);
-            string Unknown1 = Packet.PopString();
-            string Unknown2 = Packet.PopString();
 
             double Length = (StarBlueServer.GetUnixTimestamp() + (Days * 86400));
 
@@ -52,7 +50,7 @@ namespace StarBlue.Communication.Packets.Incoming.Moderation
             if (Habbo.GetClient() != null)
             {
                 Habbo.TradingLockExpiry = Length;
-                Habbo.GetClient().SendNotification("Você não pode trocar por  " + Days + " dia(s)!\r\rRazão:\r\r" + Message);
+                Habbo.GetClient().SendNotification("Você não pode realizar trocas por  " + Days + " dia(s)!\r\rRazão:\r\r" + Message);
             }
         }
     }

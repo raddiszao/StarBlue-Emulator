@@ -1,5 +1,5 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
-using StarBlue.Communication.Packets.Outgoing;
+using StarBlue.Communication.Packets.Outgoing.Nux;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
 using System.Collections;
@@ -37,7 +37,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             _queue = new Queue();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             string Message = Packet.PopString();
@@ -103,10 +103,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
 
             string Message = StringData;
-
-            ServerPacket notif = new ServerPacket(ServerPacketHeader.NuxAlertMessageComposer);
-            notif.WriteString("habbopages/salas/tutoriales/" + Message);
-            Player.GetClient().SendMessage(notif);
+            Player.GetClient().SendMessage(new NuxAlertComposer("habbopages/salas/tutoriales/" + Message));
             return true;
         }
     }

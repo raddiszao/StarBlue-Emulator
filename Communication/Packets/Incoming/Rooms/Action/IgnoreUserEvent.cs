@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     internal class IgnoreUserEvent : IPacketEvent
     {
-        public void Parse(GameClient session, ClientPacket packet)
+        public void Parse(GameClient session, MessageEvent packet)
         {
             if (!session.GetHabbo().InRoom)
             {

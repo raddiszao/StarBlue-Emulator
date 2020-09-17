@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    internal class GenericErrorComposer : ServerPacket
+    internal class GenericErrorComposer : MessageComposer
     {
+        private int errorId { get; }
+
         public GenericErrorComposer(int errorId)
-            : base(ServerPacketHeader.GenericErrorMessageComposer)
+            : base(Composers.GenericErrorMessageComposer)
         {
-            base.WriteInteger(errorId);
+            this.errorId = errorId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(errorId);
         }
     }
 }

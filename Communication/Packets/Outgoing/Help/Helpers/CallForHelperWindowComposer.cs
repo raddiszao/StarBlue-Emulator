@@ -2,25 +2,47 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class CallForHelperWindowComposer : ServerPacket
+    internal class CallForHelperWindowComposer : MessageComposer
     {
+        private bool IsHelper { get; }
+        private int Category { get; }
+        private string Message { get; }
+        private int WaitTime { get; }
+        private HelperCase Case { get; }
+
+
         public CallForHelperWindowComposer(bool IsHelper, int Category, string Message, int WaitTime)
-            : base(ServerPacketHeader.CallForHelperWindowMessageComposer)
+            : base(Composers.CallForHelperWindowMessageComposer)
         {
-            base.WriteBoolean(IsHelper);
-            base.WriteInteger(Category);
-            base.WriteString(Message);
-            base.WriteInteger(WaitTime);
+            this.IsHelper = IsHelper;
+            this.Category = Category;
+            this.Message = Message;
+            this.WaitTime = WaitTime;
         }
 
         public CallForHelperWindowComposer(bool IsHelper, HelperCase Case)
-            : base(ServerPacketHeader.CallForHelperWindowMessageComposer)
+            : base(Composers.CallForHelperWindowMessageComposer)
         {
-            base.WriteBoolean(IsHelper);
-            base.WriteInteger((int)Case.Type);
-            base.WriteString(Case.Message);
-            base.WriteInteger(Case.ReamingToExpire);
+            this.IsHelper = IsHelper;
+            this.Case = Case;
         }
 
+        public override void Compose(Composer packet)
+        {
+            if (Case == null)
+            {
+                packet.WriteBoolean(IsHelper);
+                packet.WriteInteger(Category);
+                packet.WriteString(Message);
+                packet.WriteInteger(WaitTime);
+            }
+            else
+            {
+                packet.WriteBoolean(IsHelper);
+                packet.WriteInteger((int)Case.Type);
+                packet.WriteString(Case.Message);
+                packet.WriteInteger(Case.ReamingToExpire);
+            }
+        }
     }
 }

@@ -2,28 +2,35 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Talents
 {
-    internal class TalentLevelUpComposer : ServerPacket
+    internal class TalentLevelUpComposer : MessageComposer
     {
+        private Talent talent { get; }
+
         public TalentLevelUpComposer(Talent talent)
-            : base(ServerPacketHeader.TalentLevelUpMessageComposer)
+            : base(Composers.TalentLevelUpMessageComposer)
         {
-            base.WriteString(talent.Type);
-            base.WriteInteger(talent.Level);
-            base.WriteInteger(0);
+            this.talent = talent;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(talent.Type);
+            packet.WriteInteger(talent.Level);
+            packet.WriteInteger(0);
 
             if (talent.Type == "citizenship" && talent.Level == 4)
             {
-                base.WriteInteger(2);
-                base.WriteString("HABBO_CLUB_VIP_7_DAYS");
-                base.WriteInteger(7);
-                base.WriteString(talent.Prize);
-                base.WriteInteger(0);
+                packet.WriteInteger(2);
+                packet.WriteString("HABBO_CLUB_VIP_7_DAYS");
+                packet.WriteInteger(7);
+                packet.WriteString(talent.Prize);
+                packet.WriteInteger(0);
             }
             else
             {
-                base.WriteInteger(1);
-                base.WriteString(talent.Prize);
-                base.WriteInteger(0);
+                packet.WriteInteger(1);
+                packet.WriteString(talent.Prize);
+                packet.WriteInteger(0);
             }
         }
     }

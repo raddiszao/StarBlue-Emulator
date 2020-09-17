@@ -1,4 +1,5 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
+using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Poll;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Polls;
@@ -9,16 +10,16 @@ using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Rooms.Polls;
 using StarBlue.HabboHotel.Users;
-using StarBlue.Messages;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {
     internal class GetRoomEntryDataEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Habbo Habbo = Session.GetHabbo();
             if (Session == null || Habbo == null)
@@ -46,37 +47,74 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 return;
             }
 
-            Room.SendObjects(Session);
+            ICollection<RoomUser> RoomUsers = Room.GetRoomUserManager().GetUserList();
+            Session.SendQueue(new HeightMapComposer(Room));
+            Session.SendQueue(new FloorHeightMapComposer(Room.GetGameMap().Model.GetRelativeHeightmap(), Room.GetGameMap().StaticModel.WallHeight));
+            Session.SendQueue(new UsersComposer(RoomUsers.Where(x => x != null).ToList()));
+
+            foreach (RoomUser User in RoomUsers.ToList())
+            {
+                if (User == null)
+                {
+                    continue;
+                }
+
+                if (User.IsBot && User.BotData.DanceId > 0)
+                {
+                    Session.SendQueue(new DanceComposer(User, User.BotData.DanceId));
+                }
+                else if (!User.IsBot && !User.IsPet && User.IsDancing)
+                {
+                    Session.SendQueue(new DanceComposer(User, User.DanceId));
+                }
+
+                if (User.IsAsleep)
+                {
+                    Session.SendQueue(new SleepComposer(User, true));
+                }
+
+                if (User.CarryItemID > 0 && User.CarryTimer > 0)
+                {
+                    Session.SendQueue(new CarryObjectComposer(User.VirtualId, User.CarryItemID));
+                }
+
+                if (!User.IsBot && !User.IsPet && User.CurrentEffect > 0 && User.GetClient().GetHabbo().Effects() != null)
+                {
+                    Session.SendQueue(new AvatarEffectComposer(User.VirtualId, User.CurrentEffect));
+                }
+            }
+
+            Session.SendQueue(new ObjectsComposer(Room.RoomData.HideWired ? Room.GetRoomItemHandler().GetFloor.Where(Item => !Item.IsWired && Item.Data.Id != 716132).ToArray() : Room.GetRoomItemHandler().GetFloor.ToArray(), Room));
+            Session.SendQueue(new ItemsComposer(Room.GetRoomItemHandler().GetWall.ToArray(), Room));
+            Session.SendQueue(new UserUpdateComposer(RoomUsers.ToList()));
+            Session.SendQueue(new RoomEntryInfoComposer(Room.Id, Session.GetHabbo().Username == Room.RoomData.OwnerName));
+            Session.SendQueue(new RoomVisualizationSettingsComposer(Room.RoomData.WallThickness, Room.RoomData.FloorThickness, StarBlueServer.EnumToBool(Room.RoomData.Hidewall.ToString())));
 
             if (Habbo.GetStats().QuestID > 0)
             {
                 StarBlueServer.GetGame().GetQuestManager().QuestReminder(Session, Habbo.GetStats().QuestID);
             }
 
-            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
-            message.appendResponse(new RoomEntryInfoComposer(Room.Id, Session.GetHabbo().Username == Room.RoomData.OwnerName));
-            message.appendResponse(new RoomVisualizationSettingsComposer(Room.RoomData.WallThickness, Room.RoomData.FloorThickness, StarBlueServer.EnumToBool(Room.RoomData.Hidewall.ToString())));
-
             if (ThisUser != null && Habbo.PetId == 0)
             {
-                message.appendResponse(new UserChangeComposer(ThisUser, false));
+                Session.SendQueue(new UserChangeComposer(ThisUser, false));
             }
 
-            message.appendResponse(new RoomEventComposer(Room.RoomData, Room.RoomData.Promotion));
+            Session.SendQueue(new RoomEventComposer(Room.RoomData, Room.RoomData.Promotion));
 
             if (Habbo.Rank > 3 && !Habbo.StaffOk)
             {
                 if (!Session.GetHabbo().SendWebPacket(new PinVerifyComposer("open")))
-                    message.appendResponse(new SMSVerifyComposer(1, 1));
+                    Session.SendQueue(new SMSVerifyComposer(1, 1));
             }
 
             if (Room.poolQuestion != string.Empty)
             {
-                message.appendResponse(new QuickPollMessageComposer(Room.poolQuestion));
+                Session.SendQueue(new QuickPollMessageComposer(Room.poolQuestion));
 
                 if (Room.yesPoolAnswers.Contains(Habbo.Id) || Room.noPoolAnswers.Contains(Habbo.Id))
                 {
-                    message.appendResponse(new QuickPollResultsMessageComposer(Room.yesPoolAnswers.Count, Room.noPoolAnswers.Count));
+                    Session.SendQueue(new QuickPollResultsMessageComposer(Room.yesPoolAnswers.Count, Room.noPoolAnswers.Count));
                 }
             }
 
@@ -106,13 +144,13 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
             {
                 if (!Habbo.GetPolls().CompletedPolls.Contains(poll.Id))
                 {
-                    message.appendResponse(new PollOfferComposer(poll));
+                    Session.SendQueue(new PollOfferComposer(poll));
                 }
             }
 
             if (StarBlueServer.GetUnixTimestamp() < Habbo.FloodTime && Habbo.FloodTime != 0)
             {
-                message.appendResponse(new FloodControlComposer((int)Habbo.FloodTime - (int)StarBlueServer.GetUnixTimestamp()));
+                Session.SendQueue(new FloodControlComposer((int)Habbo.FloodTime - (int)StarBlueServer.GetUnixTimestamp()));
             }
 
             ConcurrentDictionary<int, RoomUser> RoomBots = Room.GetRoomUserManager().GetBots();
@@ -141,10 +179,10 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
             if (StarBlueServer.GetUnixTimestamp() < Habbo.FloodTime && Habbo.FloodTime != 0)
             {
-                message.appendResponse(new FloodControlComposer((int)Habbo.FloodTime - (int)StarBlueServer.GetUnixTimestamp()));
+                Session.SendQueue(new FloodControlComposer((int)Habbo.FloodTime - (int)StarBlueServer.GetUnixTimestamp()));
             }
 
-            message.sendResponse();
+            Session.Flush();
 
             if (Habbo.GetMessenger() != null)
             {

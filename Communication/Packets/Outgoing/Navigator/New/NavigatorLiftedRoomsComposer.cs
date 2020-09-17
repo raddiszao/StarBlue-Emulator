@@ -1,16 +1,20 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class NavigatorLiftedRoomsComposer : ServerPacket
+    internal class NavigatorLiftedRoomsComposer : MessageComposer
     {
         public NavigatorLiftedRoomsComposer()
-            : base(ServerPacketHeader.NavigatorLiftedRoomsMessageComposer)
+            : base(Composers.NavigatorLiftedRoomsMessageComposer)
         {
-            base.WriteInteger(0);//Count
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);//Count
             {
-                base.WriteInteger(1);//Flat Id
-                base.WriteInteger(0);//Unknown
-                base.WriteString("");//Image
-                base.WriteString("Caption");//Caption.
+                packet.WriteInteger(1);//Flat Id
+                packet.WriteInteger(0);//Unknown
+                packet.WriteString("");//Image
+                packet.WriteString("Caption");//Caption.
             }
         }
     }

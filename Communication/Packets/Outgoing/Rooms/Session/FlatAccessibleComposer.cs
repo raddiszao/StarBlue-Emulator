@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Session
 {
-    internal class FlatAccessibleComposer : ServerPacket
+    internal class FlatAccessibleComposer : MessageComposer
     {
+        private string Username { get; }
+
         public FlatAccessibleComposer(string Username)
-            : base(ServerPacketHeader.FlatAccessibleMessageComposer)
+            : base(Composers.FlatAccessibleMessageComposer)
         {
-            base.WriteString(Username);
+            this.Username = Username;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Username);
         }
     }
 }

@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class UnknownGroupComposer : ServerPacket
+    internal class UnknownGroupComposer : MessageComposer
     {
+        public int GroupId { get; }
+        public int HabboId { get; }
+
         public UnknownGroupComposer(int GroupId, int HabboId)
-            : base(ServerPacketHeader.UnknownGroupMessageComposer)
+            : base(Composers.UnknownGroupMessageComposer)
         {
-            base.WriteInteger(GroupId);
-            base.WriteInteger(HabboId);
+            this.GroupId = GroupId;
+            this.HabboId = HabboId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(GroupId);
+            packet.WriteInteger(HabboId);
         }
     }
 }

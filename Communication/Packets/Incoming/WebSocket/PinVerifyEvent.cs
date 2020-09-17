@@ -1,6 +1,7 @@
 using StarBlue.Communication.Packets.Outgoing.Moderation;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Communication.Packets.Outgoing.WebSocket;
+using StarBlue.Communication.WebSocket;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.WebClient;
@@ -10,7 +11,7 @@ namespace StarBlue.Communication.Packets.Incoming.WebSocket
 {
     class PinVerifyEvent : IPacketWebEvent
     {
-        public void Parse(WebClient Session, ClientPacket Packet)
+        public void Parse(WebClient Session, MessageWebEvent Packet)
         {
             if (Session == null)
                 return;

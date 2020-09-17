@@ -5,25 +5,32 @@ using System.Text;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class UserUpdateComposer : ServerPacket
+    internal class UserUpdateComposer : MessageComposer
     {
-        public UserUpdateComposer(ICollection<RoomUser> RoomUsers)
-            : base(ServerPacketHeader.UserUpdateMessageComposer)
+        public ICollection<RoomUser> Users { get; }
+
+        public UserUpdateComposer(ICollection<RoomUser> users)
+            : base(Composers.UserUpdateMessageComposer)
         {
-            base.WriteInteger(RoomUsers.Count);
-            foreach (RoomUser User in RoomUsers.ToList())
+            this.Users = users;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Users.Count);
+            foreach (RoomUser user in Users.ToList())
             {
-                base.WriteInteger(User.VirtualId);
-                base.WriteInteger(User.X);
-                base.WriteInteger(User.Y);
-                base.WriteString(User.Z.ToString("0.00"));
-                base.WriteInteger(User.RotHead);
-                base.WriteInteger(User.RotBody);
+                packet.WriteInteger(user.VirtualId);
+                packet.WriteInteger(user.X);
+                packet.WriteInteger(user.Y);
+                packet.WriteString(user.Z.ToString("0.00"));
+                packet.WriteInteger(user.RotHead);
+                packet.WriteInteger(user.RotBody);
 
                 StringBuilder StatusComposer = new StringBuilder();
                 StatusComposer.Append("/");
 
-                foreach (KeyValuePair<string, string> Status in User.Statusses.ToList())
+                foreach (KeyValuePair<string, string> Status in user.Statusses.ToList())
                 {
                     StatusComposer.Append(Status.Key);
 
@@ -37,7 +44,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
                 }
 
                 StatusComposer.Append("/");
-                base.WriteString(StatusComposer.ToString());
+                packet.WriteString(StatusComposer.ToString());
             }
         }
     }

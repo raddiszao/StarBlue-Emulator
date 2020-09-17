@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    public class SecretKeyComposer : ServerPacket
+    public class SecretKeyComposer : MessageComposer
     {
+        private string PublicKey { get; }
+
         public SecretKeyComposer(string PublicKey)
-            : base(ServerPacketHeader.SecretKeyMessageComposer)
+            : base(Composers.SecretKeyMessageComposer)
         {
-            base.WriteString(PublicKey);
+            this.PublicKey = PublicKey;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(PublicKey);
         }
     }
 }

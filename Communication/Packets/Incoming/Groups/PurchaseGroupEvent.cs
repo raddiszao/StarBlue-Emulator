@@ -16,7 +16,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class PurchaseGroupEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient session, ClientPacket packet)
+        public void Parse(HabboHotel.GameClients.GameClient session, MessageEvent packet)
         {
             string Name = packet.PopString();
             Name = StarBlueServer.GetGame().GetChatManager().GetFilter().IsUnnaceptableWord(Name, out string word) ? "Spam" : Name;
@@ -25,7 +25,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
             int RoomId = packet.PopInt();
             int Colour1 = packet.PopInt();
             int Colour2 = packet.PopInt();
-            int Unknown = packet.PopInt();
+
             if (session.GetHabbo().Credits < Convert.ToInt32(StarBlueServer.GetConfig().data["group.purchase.amount"]))
             {
                 session.SendMessage(new BroadcastMessageAlertComposer("A group costs " + Convert.ToInt32(StarBlueServer.GetConfig().data["group.purchase.amount"]) + " credits! You only have " + session.GetHabbo().Credits + "!"));
@@ -42,11 +42,13 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                 return;
             }
 
+            int Count = packet.PopInt();
             string Badge = string.Empty;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < Count; i += 3)
             {
                 Badge += BadgePartUtility.WorkBadgeParts(i == 0, packet.PopInt().ToString(), packet.PopInt().ToString(), packet.PopInt().ToString());
             }
+
             if (!StarBlueServer.GetGame().GetGroupManager().TryCreateGroup(session.GetHabbo(), Name, Description, RoomId, Badge, Colour1, Colour2, out Group Group))
             {
                 session.SendNotification("An error occured whilst trying to create this group.\n\nTry again. If you get this message more than once, report it at the link below.");
@@ -78,7 +80,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
                     User.GetClient().SendMessage(new YouAreControllerComposer(0));
                 }
 
-                session.SendMessage(new FlatControllerRemovedComposer(Instance, UserId));
+                session.SendMessage(new FlatControllerRemovedComposer(Instance.Id, UserId));
                 session.SendMessage(new RoomRightsListComposer(Instance));
                 session.SendMessage(new UserUpdateComposer(Instance.GetRoomUserManager().GetUserList().ToList()));
             }

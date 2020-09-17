@@ -12,7 +12,7 @@ namespace StarBlue.Core
     {
         private static ILog log = LogManager.GetLogger("StarBlue.Core.ServerStatusUpdatear");
 
-        private const int UPDATE_IN_SECS = 12;
+        private const int UPDATE_IN_SECS = 10;
 
         private Timer _timer;
         private Timer _hofTimer;

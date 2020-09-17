@@ -1,7 +1,7 @@
 ﻿using StarBlue.Communication.ConnectionManager;
 using System;
 
-namespace StarBlueServer.Communication
+namespace StarBlue.Communication
 {
     public class InitialPacketParser : IDataParser, IDisposable, ICloneable
     {

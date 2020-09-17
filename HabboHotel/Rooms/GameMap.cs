@@ -1,5 +1,4 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
 using StarBlue.Core;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Groups;
@@ -89,7 +88,7 @@ namespace StarBlue.HabboHotel.Rooms
             if (item == null || user == null)
                 return;
 
-            GameMap[user.SetStep ? user.SetX : user.X, user.SetStep ? user.SetY : user.Y] = user.SqState;
+            GameMap[user.GetX(), user.GetY()] = user.SqState;
             UpdateUserMovement(new Point(user.Coordinate.X, user.Coordinate.Y), new Point(item.Coordinate.X, item.Coordinate.Y), user);
             user.X = item.GetX;
             user.Y = item.GetY;
@@ -100,17 +99,17 @@ namespace StarBlue.HabboHotel.Rooms
             user.RotBody = item.Rotation;
             user.RotHead = item.Rotation;
 
-            user.GoalX = user.X;
-            user.GoalY = user.Y;
-            user.SetStep = false;
-            user.IsWalking = false;
-            user.UpdateNeeded = true;
+            user.ClearMovement(true);
+            user.PathRecalcNeeded = false;
         }
 
         public bool SquareHasFurniNoWalkable(int X, int Y, bool Override)
         {
             if (Override)
                 return false;
+
+            if (!ValidTile(X, Y))
+                return true;
 
             var point = new Point(X, Y);
             if (!mCoordinatedItems.ContainsKey(point))
@@ -428,8 +427,8 @@ namespace StarBlue.HabboHotel.Rooms
                     if (user == null)
                         continue;
 
-                    user.SqState = mGameMap[user.SetStep ? user.SetX : user.X, user.SetStep ? user.SetY : user.Y];
-                    mGameMap[user.SetStep ? user.SetX : user.X, user.SetStep ? user.SetY : user.Y] = 0;
+                    user.SqState = mGameMap[user.GetX(), user.GetY()];
+                    mGameMap[user.GetX(), user.GetY()] = 0;
                 }
             }
 
@@ -1002,7 +1001,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public double GetHeightForSquareFromData(Point coord)
         {
-            if (coord.X > mDynamicModel.SqFloorHeight.GetUpperBound(0) ||  coord.Y > mDynamicModel.SqFloorHeight.GetUpperBound(1) || coord.X < 0 || coord.Y < 0)
+            if (coord.X > mDynamicModel.SqFloorHeight.GetUpperBound(0) || coord.Y > mDynamicModel.SqFloorHeight.GetUpperBound(1) || coord.X < 0 || coord.Y < 0)
             {
                 return 1;
             }
@@ -1362,7 +1361,7 @@ namespace StarBlue.HabboHotel.Rooms
             return Model.SqState[CoordX, CoordY] == SquareState.OPEN;
         }
 
-        public bool IsValidStep2(RoomUser User, Vector2D From, Vector2D To, bool EndOfPath, bool Override)
+        public bool IsValidStep2(RoomUser User, Vector2D From, Vector2D To, bool EndOfPath, bool Override, bool Walk = false)
         {
             if (User == null)
                 return false;
@@ -1444,11 +1443,14 @@ namespace StarBlue.HabboHotel.Rooms
                     Chair = true;
             }
 
-            if ((mGameMap[To.X, To.Y] == 3 && !EndOfPath && !Chair) || (mGameMap[To.X, To.Y] == 0) || (mGameMap[To.X, To.Y] == 2 && !EndOfPath))
+            if (!Walk)
             {
-                if (User.Path.Count > 0)
-                    User.Path.Clear();
-                User.PathRecalcNeeded = true;
+                if ((mGameMap[To.X, To.Y] == 3 && !EndOfPath && !Chair) || (mGameMap[To.X, To.Y] == 0) || (mGameMap[To.X, To.Y] == 2 && !EndOfPath))
+                {
+                    if (User.Path.Count > 0)
+                        User.Path.Clear();
+                    User.PathRecalcNeeded = true;
+                }
             }
 
             double HeightDiff = SqAbsoluteHeight(To.X, To.Y) - SqAbsoluteHeight(From.X, From.Y);

@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Connection
 {
     internal class GoToFlatEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom || Session.GetHabbo().CurrentRoom == null)
             {

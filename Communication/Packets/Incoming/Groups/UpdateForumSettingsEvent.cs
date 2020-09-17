@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class UpdateForumSettingsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int ForumId = Packet.PopInt();
             int WhoCanRead = Packet.PopInt();

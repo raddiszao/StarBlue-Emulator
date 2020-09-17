@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Purse
 {
-    internal class CreditBalanceComposer : ServerPacket
+    internal class CreditBalanceComposer : MessageComposer
     {
+        public int CreditsBalance { get; }
+
         public CreditBalanceComposer(int creditsBalance)
-            : base(ServerPacketHeader.CreditBalanceMessageComposer)
+            : base(Composers.CreditBalanceMessageComposer)
         {
-            base.WriteString(creditsBalance + ".0");
+            this.CreditsBalance = creditsBalance;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(CreditsBalance + ".0");
         }
     }
 }

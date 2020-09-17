@@ -37,7 +37,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             SetItems = new ConcurrentDictionary<int, Item>();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             string Type = Packet.PopString();
@@ -66,7 +66,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
 
         public bool OnCycle()
         {
-            if (string.IsNullOrEmpty(StringData) || Instance == null || !Requested || _next == 0)
+            if (Instance == null || !Requested || _next == 0)
             {
                 return false;
             }

@@ -21,7 +21,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
             StringBuilder content = new StringBuilder();
             content.Append("Staffs conectados no " + StarBlueServer.HotelName + ":\r\n");
 
-            foreach (GameClient client in StarBlueServer.GetGame().GetClientManager()._clients.Values)
+            foreach (GameClient client in StarBlueServer.GetGame().GetClientManager().GetClients)
             {
                 if (client != null && client.GetHabbo() != null && client.GetHabbo().Rank > 3)
                 {

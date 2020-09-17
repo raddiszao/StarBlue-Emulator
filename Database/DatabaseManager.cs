@@ -1,7 +1,7 @@
-﻿using System;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using StarBlue.Core;
 using StarBlue.Database.Interfaces;
+using System;
 
 namespace StarBlue.Database
 {

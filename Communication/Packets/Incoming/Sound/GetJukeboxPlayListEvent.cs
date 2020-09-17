@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Sound
 {
     internal class GetJukeboxPlayListEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (Session.GetHabbo().CurrentRoom != null)
             {

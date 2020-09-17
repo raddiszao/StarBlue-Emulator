@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Avatar
 {
     internal class SaveWardrobeOutfitEvent : IPacketEvent
     {
-        public void Parse(GameClient session, ClientPacket packet)
+        public void Parse(GameClient session, MessageEvent packet)
         {
             int slotId = packet.PopInt();
             string look = packet.PopString();

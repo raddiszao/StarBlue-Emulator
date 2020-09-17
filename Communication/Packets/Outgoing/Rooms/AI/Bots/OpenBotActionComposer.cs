@@ -3,20 +3,31 @@ using StarBlue.HabboHotel.Rooms;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.AI.Bots
 {
-    internal class OpenBotActionComposer : ServerPacket
+    internal class OpenBotActionComposer : MessageComposer
     {
+        private RoomUser BotUser { get; }
+        private int ActionId { get; }
+        private string BotSpeech { get; }
+
         public OpenBotActionComposer(RoomUser BotUser, int ActionId, string BotSpeech)
-            : base(ServerPacketHeader.OpenBotActionMessageComposer)
+            : base(Composers.OpenBotActionMessageComposer)
         {
-            base.WriteInteger(BotUser.BotData.Id);
-            base.WriteInteger(ActionId);
+            this.BotUser = BotUser;
+            this.ActionId = ActionId;
+            this.BotSpeech = BotSpeech;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(BotUser.BotData.Id);
+            packet.WriteInteger(ActionId);
             if (ActionId == 2)
             {
-                base.WriteString(BotSpeech);
+                packet.WriteString(BotSpeech);
             }
             else if (ActionId == 5)
             {
-                base.WriteString(BotUser.BotData.Name);
+                packet.WriteString(BotUser.BotData.Name);
             }
         }
     }

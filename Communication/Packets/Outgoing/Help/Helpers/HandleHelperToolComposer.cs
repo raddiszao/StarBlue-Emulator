@@ -2,26 +2,23 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class HandleHelperToolComposer : ServerPacket
+    internal class HandleHelperToolComposer : MessageComposer
     {
-        public HandleHelperToolComposer(bool onDuty, int helperAmount, int guideAmount, int guardianAmount)
-            : base(ServerPacketHeader.HandleHelperToolMessageComposer)
-        {
-            base.WriteBoolean(onDuty);
-            base.WriteInteger(guideAmount);
-            base.WriteInteger(helperAmount);
-            base.WriteInteger(guardianAmount);
-        }
+        private bool onDuty { get; }
 
         public HandleHelperToolComposer(bool onDuty)
-            : base(ServerPacketHeader.HandleHelperToolMessageComposer)
+            : base(Composers.HandleHelperToolMessageComposer)
         {
-            base.WriteBoolean(onDuty);
-            base.WriteInteger(HelperToolsManager.GuideCount);
-            base.WriteInteger(HelperToolsManager.HelperCount);
-            base.WriteInteger(HelperToolsManager.GuardianCount);
+            this.onDuty = onDuty;
 
         }
 
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(onDuty);
+            packet.WriteInteger(HelperToolsManager.GuideCount);
+            packet.WriteInteger(HelperToolsManager.HelperCount);
+            packet.WriteInteger(HelperToolsManager.GuardianCount);
+        }
     }
 }

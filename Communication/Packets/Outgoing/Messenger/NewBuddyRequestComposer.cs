@@ -2,14 +2,21 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    internal class NewBuddyRequestComposer : ServerPacket
+    internal class NewBuddyRequestComposer : MessageComposer
     {
+        public UserCache UserCache { get; }
+
         public NewBuddyRequestComposer(UserCache Habbo)
-            : base(ServerPacketHeader.NewBuddyRequestMessageComposer)
+            : base(Composers.NewBuddyRequestMessageComposer)
         {
-            base.WriteInteger(Habbo.Id);
-            base.WriteString(Habbo.Username);
-            base.WriteString(Habbo.Look);
+            this.UserCache = Habbo;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(UserCache.Id);
+            packet.WriteString(UserCache.Username);
+            packet.WriteString(UserCache.Look);
         }
     }
 }

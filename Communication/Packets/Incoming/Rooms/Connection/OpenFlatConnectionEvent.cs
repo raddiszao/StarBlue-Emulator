@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Connection
 {
     public class OpenFlatConnectionEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (Session == null || Session.GetHabbo() == null)
             {

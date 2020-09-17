@@ -34,7 +34,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             }
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             if (SetItems.Count > 0)
             {

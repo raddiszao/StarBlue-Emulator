@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class SendHotelAlertLinkEventComposer : ServerPacket
+    internal class SendHotelAlertLinkEventComposer : MessageComposer
     {
+        private string Message { get; }
+        private string URL { get; }
+
         public SendHotelAlertLinkEventComposer(string Message, string URL = "")
-            : base(ServerPacketHeader.SendHotelAlertLinkEvent)
+            : base(Composers.SendHotelAlertLinkEvent)
         {
-            base.WriteString(Message);
-            base.WriteString(URL);
+            this.Message = Message;
+            this.URL = URL;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Message);
+            packet.WriteString(URL);
         }
     }
 }

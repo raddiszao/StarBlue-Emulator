@@ -3,14 +3,23 @@ using StarBlue.HabboHotel.Items;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class ItemRemoveComposer : ServerPacket
+    internal class ItemRemoveComposer : MessageComposer
     {
+        public int ItemId { get; }
+        public int UserId { get; }
+
         public ItemRemoveComposer(Item Item, int UserId)
-            : base(ServerPacketHeader.ItemRemoveMessageComposer)
+            : base(Composers.ItemRemoveMessageComposer)
         {
-            base.WriteString(Item.Id.ToString());
-            base.WriteBoolean(false);
-            base.WriteInteger(UserId);
+            this.ItemId = Item.Id;
+            this.UserId = UserId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(ItemId.ToString());
+            packet.WriteBoolean(false);
+            packet.WriteInteger(UserId);
         }
     }
 }

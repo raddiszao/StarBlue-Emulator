@@ -2,13 +2,22 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Avatar
 {
-    internal class DanceComposer : ServerPacket
+    internal class DanceComposer : MessageComposer
     {
+        private RoomUser Avatar { get; }
+        private int Dance { get; }
+
         public DanceComposer(RoomUser Avatar, int Dance)
-            : base(ServerPacketHeader.DanceMessageComposer)
+            : base(Composers.DanceMessageComposer)
         {
-            base.WriteInteger(Avatar.VirtualId);
-            base.WriteInteger(Dance);
+            this.Avatar = Avatar;
+            this.Dance = Dance;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Avatar.VirtualId);
+            packet.WriteInteger(Dance);
         }
     }
 }

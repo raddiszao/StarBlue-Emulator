@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.WebSocket
+﻿using StarBlue.Communication.WebSocket;
+
+namespace StarBlue.Communication.Packets.Outgoing.WebSocket
 {
-    internal class UpdateMobiComposer : ServerPacket
+    internal class UpdateMobiComposer : WebComposer
     {
         public UpdateMobiComposer(string itemName, int rotation, string state) : base(8)
         {

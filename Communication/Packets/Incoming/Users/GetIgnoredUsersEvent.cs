@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Users
 {
     internal class GetIgnoredUsersEvent : IPacketEvent
     {
-        public void Parse(GameClient session, ClientPacket packet)
+        public void Parse(GameClient session, MessageEvent packet)
         {
             List<string> ignoredUsers = new List<string>();
 

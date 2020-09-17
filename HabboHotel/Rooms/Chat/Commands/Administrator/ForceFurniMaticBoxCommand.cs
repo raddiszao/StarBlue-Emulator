@@ -1,5 +1,4 @@
-﻿using StarBlue.Communication.Packets.Outgoing;
-using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Items;
@@ -51,10 +50,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     Session.SendMessage(new FurniListUpdateComposer());
                 }
 
-                ServerPacket response = new ServerPacket(ServerPacketHeader.FurniMaticReceiveItem);
-                response.WriteInteger(1);
-                response.WriteInteger(GiveItem.Id); // received item id
-                Session.SendMessage(response);
+                Session.SendMessage(new FurniMaticReceiveItem(GiveItem.Id));
             }
         }
     }

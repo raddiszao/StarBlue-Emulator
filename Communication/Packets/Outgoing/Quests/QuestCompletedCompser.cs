@@ -1,9 +1,14 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Quests
 {
-    internal class QuestCompletedCompser : ServerPacket
+    internal class QuestCompletedCompser : MessageComposer
     {
         public QuestCompletedCompser()
-            : base(ServerPacketHeader.QuestCompletedMessageComposer)
+            : base(Composers.QuestCompletedMessageComposer)
+        {
+
+        }
+
+        public override void Compose(Composer packet)
         {
 
         }

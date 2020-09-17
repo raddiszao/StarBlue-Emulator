@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     public class RedeemHCGiftEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             string item = Packet.PopString();
 

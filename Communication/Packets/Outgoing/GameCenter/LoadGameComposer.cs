@@ -1,34 +1,38 @@
-﻿using StarBlue.HabboHotel.GameClients;
-using StarBlue.HabboHotel.Games;
-
-namespace StarBlue.Communication.Packets.Outgoing.GameCenter
+﻿namespace StarBlue.Communication.Packets.Outgoing.GameCenter
 {
-    internal class LoadGameComposer : ServerPacket
+    internal class LoadGameComposer : MessageComposer
     {
-        public LoadGameComposer(GameData GameData, string SSOTicket, GameClient Session)
-            : base(ServerPacketHeader.LoadGameMessageComposer)
+        private string SSOTicket { get; }
+
+        public LoadGameComposer(string SSOTicket)
+            : base(Composers.LoadGameMessageComposer)
         {
-            base.WriteInteger(1);
-            base.WriteString("1365260055982");
-            base.WriteString("https://www.heibbo.com/game/games/gamecenter_basejump/BaseJump.swf");
-            base.WriteString("best");
-            base.WriteString("showAll");
-            base.WriteInteger(60);//FPS?   
-            base.WriteInteger(10);
-            base.WriteInteger(8);
-            base.WriteInteger(6);//Asset count
-            base.WriteString("assetUrl");
-            base.WriteString("https://www.heibbo.com/game/games/gamecenter_basejump/BasicAssets.swf");
-            base.WriteString("habboHost");
-            base.WriteString("http://fuseus-private-httpd-fe-1");
-            base.WriteString("accessToken");
-            base.WriteString(SSOTicket);
-            base.WriteString("gameServerHost");
-            base.WriteString("37.59.173.22");
-            base.WriteString("gameServerPort");
-            base.WriteString("3030");
-            base.WriteString("socketPolicyPort");
-            base.WriteString("37.59.173.22");
+            this.SSOTicket = SSOTicket;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(1);
+            packet.WriteString("1365260055982");
+            packet.WriteString("https://www.heibbo.com/game/games/gamecenter_basejump/BaseJump.swf");
+            packet.WriteString("best");
+            packet.WriteString("showAll");
+            packet.WriteInteger(60);//FPS?   
+            packet.WriteInteger(10);
+            packet.WriteInteger(8);
+            packet.WriteInteger(6);//Asset count
+            packet.WriteString("assetUrl");
+            packet.WriteString("https://www.heibbo.com/game/games/gamecenter_basejump/BasicAssets.swf");
+            packet.WriteString("habboHost");
+            packet.WriteString("http://fuseus-private-httpd-fe-1");
+            packet.WriteString("accessToken");
+            packet.WriteString(SSOTicket);
+            packet.WriteString("gameServerHost");
+            packet.WriteString("37.59.173.22");
+            packet.WriteString("gameServerPort");
+            packet.WriteString("3030");
+            packet.WriteString("socketPolicyPort");
+            packet.WriteString("37.59.173.22");
         }
     }
 }

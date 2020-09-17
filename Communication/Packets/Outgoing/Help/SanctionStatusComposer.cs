@@ -1,23 +1,28 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help
 {
-    internal class SanctionStatusComposer : ServerPacket
+    internal class SanctionStatusComposer : MessageComposer
     {
         public SanctionStatusComposer()
-            : base(ServerPacketHeader.SanctionStatusMessageComposer)
+            : base(Composers.SanctionStatusMessageComposer)
         {
-            base.WriteBoolean(true);
-            base.WriteBoolean(false);
-            base.WriteString("ALERT");
-            base.WriteInteger(0);
-            base.WriteInteger(30);
-            base.WriteString("cfh.reason.EMPTY");
-            base.WriteString("2016-07-17 16:33 (GMT +0000)");
-            base.WriteInteger(720);
-            base.WriteString("ALERT");
-            base.WriteInteger(0);
-            base.WriteInteger(30);
-            base.WriteString("");
-            base.WriteBoolean(false);
+
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(true);
+            packet.WriteBoolean(false);
+            packet.WriteString("ALERT");
+            packet.WriteInteger(0);
+            packet.WriteInteger(30);
+            packet.WriteString("cfh.reason.EMPTY");
+            packet.WriteString("2016-07-17 16:33 (GMT +0000)");
+            packet.WriteInteger(720);
+            packet.WriteString("ALERT");
+            packet.WriteInteger(0);
+            packet.WriteInteger(30);
+            packet.WriteString("");
+            packet.WriteBoolean(false);
         }
     }
 }

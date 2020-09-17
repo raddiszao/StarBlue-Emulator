@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.Handshake
 {
     public class GetClientVersionEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             string Build = Packet.PopString();
 

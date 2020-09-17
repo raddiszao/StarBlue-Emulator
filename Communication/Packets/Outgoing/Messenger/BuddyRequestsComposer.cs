@@ -4,21 +4,28 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    internal class BuddyRequestsComposer : ServerPacket
+    internal class BuddyRequestsComposer : MessageComposer
     {
-        public BuddyRequestsComposer(ICollection<MessengerRequest> Requests)
-            : base(ServerPacketHeader.BuddyRequestsMessageComposer)
+        public ICollection<MessengerRequest> Requests { get; }
+
+        public BuddyRequestsComposer(ICollection<MessengerRequest> requests)
+            : base(Composers.BuddyRequestsMessageComposer)
         {
-            base.WriteInteger(Requests.Count);
-            base.WriteInteger(Requests.Count);
+            this.Requests = requests;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Requests.Count);
+            packet.WriteInteger(Requests.Count);
 
             foreach (MessengerRequest Request in Requests)
             {
-                base.WriteInteger(Request.From);
-                base.WriteString(Request.Username);
+                packet.WriteInteger(Request.From);
+                packet.WriteString(Request.Username);
 
                 UserCache User = StarBlueServer.GetGame().GetCacheManager().GenerateUser(Request.From);
-                base.WriteString(User != null ? User.Look : "");
+                packet.WriteString(User != null ? User.Look : "");
             }
         }
     }

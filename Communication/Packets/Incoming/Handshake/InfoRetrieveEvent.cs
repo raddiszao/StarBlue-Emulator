@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Handshake
 {
     public class InfoRetrieveEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             Session.SendMessage(new UserObjectComposer(Session.GetHabbo()));
             Session.SendMessage(new UserPerksComposer(Session.GetHabbo()));

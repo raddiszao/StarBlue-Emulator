@@ -1,17 +1,30 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Chat
 {
-    public class WhisperComposer : ServerPacket
+    public class WhisperComposer : MessageComposer
     {
-        public WhisperComposer(int VirtualId, string Text, int Emotion, int Colour)
-            : base(ServerPacketHeader.WhisperMessageComposer)
-        {
-            base.WriteInteger(VirtualId);
-            base.WriteString(Text);
-            base.WriteInteger(Emotion);
-            base.WriteInteger(Colour);
+        private int VirtualId { get; }
+        private string Text { get; }
+        private int Emotion { get; }
+        private int Colour { get; }
 
-            base.WriteInteger(0);
-            base.WriteInteger(-1);
+        public WhisperComposer(int VirtualId, string Text, int Emotion, int Colour)
+            : base(Composers.WhisperMessageComposer)
+        {
+            this.VirtualId = VirtualId;
+            this.Text = Text;
+            this.Emotion = Emotion;
+            this.Colour = Colour;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(VirtualId);
+            packet.WriteString(Text);
+            packet.WriteInteger(Emotion);
+            packet.WriteInteger(Colour);
+
+            packet.WriteInteger(0);
+            packet.WriteInteger(-1);
         }
     }
 }

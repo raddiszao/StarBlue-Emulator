@@ -1,6 +1,5 @@
 ﻿using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items.Wired;
-using System;
 
 namespace StarBlue.HabboHotel.Items.Interactor
 {

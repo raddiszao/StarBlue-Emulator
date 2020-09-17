@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     public class UpdateForumThreadStatusEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int ForumID = Packet.PopInt();
             int ThreadID = Packet.PopInt();

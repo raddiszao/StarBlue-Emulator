@@ -219,21 +219,21 @@ namespace StarBlue.HabboHotel.Catalog
                             }
                         }
 
-                        if (!_bcitems.ContainsKey(PageId))
+                        /*if (!_bcitems.ContainsKey(PageId))
                         {
                             _bcitems[PageId] = new Dictionary<int, BCCatalogItem>();
-                        }
+                        }*/
 
                         if (OfferId != -1 && !_itemOffers.ContainsKey(OfferId))
                         {
                             _itemOffers.Add(OfferId, PageId);
                         }
 
-                        _bcitems[PageId].Add(Convert.ToInt32(Row["id"]), new BCCatalogItem(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["item_id"]),
+                        /*_bcitems[PageId].Add(Convert.ToInt32(Row["id"]), new BCCatalogItem(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["item_id"]),
                             Data, Convert.ToString(Row["catalog_name"]), Convert.ToInt32(Row["page_id"]), Convert.ToInt32(Row["cost_credits"]), Convert.ToInt32(Row["cost_pixels"]), Convert.ToInt32(Row["cost_diamonds"]),
                             Convert.ToInt32(Row["amount"]), Convert.ToInt32(Row["limited_sells"]), Convert.ToInt32(Row["limited_stack"]), StarBlueServer.EnumToBool(Row["offer_active"].ToString()),
                             Convert.ToString(Row["extradata"]), Convert.ToString(Row["badge"]), Convert.ToInt32(Row["offer_id"]), Convert.ToInt32(Row["cost_gotw"]),
-                            Convert.ToInt32(Row["predesigned_id"])));
+                            Convert.ToInt32(Row["predesigned_id"])));*/
                     }
                 }
 
@@ -279,7 +279,7 @@ namespace StarBlue.HabboHotel.Catalog
                     }
                 }
 
-                dbClient.SetQuery("SELECT `id`,`parent_id`,`caption`,`page_link`,`visible`,`enabled`,`min_rank`,`min_vip`,`icon_image`,`page_layout`,`page_strings_1`,`page_strings_2` FROM `catalog_bc_pages` ORDER BY `order_num`");
+                /*dbClient.SetQuery("SELECT `id`,`parent_id`,`caption`,`page_link`,`visible`,`enabled`,`min_rank`,`min_vip`,`icon_image`,`page_layout`,`page_strings_1`,`page_strings_2` FROM `catalog_bc_pages` ORDER BY `order_num`");
                 DataTable BCCatalogPages = dbClient.GetTable();
 
                 if (BCCatalogPages != null)
@@ -294,7 +294,7 @@ namespace StarBlue.HabboHotel.Catalog
                             _predesignedItems.ContainsKey(Convert.ToInt32(Row["id"])) ? _predesignedItems[Convert.ToInt32(Row["id"])] : null,
                             ref _itemOffers));
                     }
-                }
+                }*/
 
                 dbClient.SetQuery("SELECT `id`,`name`,`figure`,`motto`,`gender`,`ai_type` FROM `catalog_bot_presets`");
                 DataTable bots = dbClient.GetTable();

@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class DeleteGroupThreadEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int int1 = Packet.PopInt();
             int int2 = Packet.PopInt();

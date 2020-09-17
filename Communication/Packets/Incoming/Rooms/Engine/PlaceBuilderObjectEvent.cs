@@ -1,4 +1,4 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Catalog;
+﻿/*using StarBlue.Communication.Packets.Outgoing.Catalog;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Furni;
 using StarBlue.Communication.Packets.Outgoing.Inventory.Purse;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
@@ -117,7 +117,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
                 }
             }
 
-            Session.SendMessage(new PurchaseOKComposer(Item, Item.Data));
+            //Session.SendMessage(new PurchaseOKComposer(Item, Item.Data));
             Session.SendMessage(new FurniListUpdateComposer());
 
             string Unknown = Packet.PopString();
@@ -147,4 +147,4 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 
         }
     }
-}
+}*/

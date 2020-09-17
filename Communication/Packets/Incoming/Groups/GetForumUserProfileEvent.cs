@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups.Forums
 {
     internal class GetForumUserProfileEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             string Username = Packet.PopString();
 
@@ -17,7 +17,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups.Forums
                 return;
             }
 
-            Session.SendMessage(new ProfileInformationComposer(Data, Session));
+            Session.SendMessage(new ProfileInformationComposer(Data, Session.GetHabbo()));
         }
     }
 }

@@ -1,13 +1,17 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    internal class AvailabilityStatusComposer : ServerPacket
+    internal class AvailabilityStatusComposer : MessageComposer
     {
         public AvailabilityStatusComposer()
-            : base(ServerPacketHeader.AvailabilityStatusMessageComposer)
+            : base(Composers.AvailabilityStatusMessageComposer)
         {
-            base.WriteBoolean(true);
-            base.WriteBoolean(false);
-            base.WriteBoolean(true);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(true);
+            packet.WriteBoolean(false);
+            packet.WriteBoolean(true);
         }
     }
 }

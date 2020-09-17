@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class UpdateForumReadMarkerEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int length = Packet.PopInt();
             for (int i = 0; i < length; i++)

@@ -1,18 +1,22 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    internal class CatalogItemDiscountComposer : ServerPacket
+    internal class CatalogItemDiscountComposer : MessageComposer
     {
         public CatalogItemDiscountComposer()
-            : base(ServerPacketHeader.CatalogItemDiscountMessageComposer)
+            : base(Composers.CatalogItemDiscountMessageComposer)
         {
-            base.WriteInteger(100);//Most you can get.
-            base.WriteInteger(6);
-            base.WriteInteger(1);
-            base.WriteInteger(1);
-            base.WriteInteger(2);//Count
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(100);//Most you can get.
+            packet.WriteInteger(6);
+            packet.WriteInteger(1);
+            packet.WriteInteger(1);
+            packet.WriteInteger(2);//Count
             {
-                base.WriteInteger(40);
-                base.WriteInteger(99);
+                packet.WriteInteger(40);
+                packet.WriteInteger(99);
             }
         }
     }

@@ -39,7 +39,7 @@ namespace StarBlue.HabboHotel.Groups.Forums
             return StarBlueServer.GetHabboById(UserId);
         }
 
-        public void SerializeData(ServerPacket Packet)
+        public void SerializeData(Composer Packet)
         {
 
             Habbo User = GetAuthor();

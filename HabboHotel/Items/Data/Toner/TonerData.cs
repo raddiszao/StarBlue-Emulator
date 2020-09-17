@@ -30,7 +30,7 @@ namespace StarBlue.HabboHotel.Items.Data.Toner
                 //throw new NullReferenceException("No toner data found in the database for " + ItemId);
                 using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.RunFastQuery("INSERT INTO `room_items_toner` VALUES (" + ItemId + ",'0',0,0,0)");
+                    dbClient.RunFastQuery("INSERT IGNORE INTO `room_items_toner` VALUES (" + ItemId + ",'0',0,0,0)");
                     dbClient.SetQuery("SELECT enabled,data1,data2,data3 FROM room_items_toner WHERE id=" + ItemId + " LIMIT 1");
                     Row = dbClient.GetRow();
                 }

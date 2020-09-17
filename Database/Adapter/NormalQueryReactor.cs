@@ -1,6 +1,5 @@
-﻿using System;
-
-using StarBlue.Database.Interfaces;
+﻿using StarBlue.Database.Interfaces;
+using System;
 
 namespace StarBlue.Database.Adapter
 {

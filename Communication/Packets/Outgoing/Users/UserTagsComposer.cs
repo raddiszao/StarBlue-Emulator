@@ -1,14 +1,19 @@
-﻿using StarBlue.HabboHotel.GameClients;
-
-namespace StarBlue.Communication.Packets.Outgoing.Users
+﻿namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    internal class UserTagsComposer : ServerPacket
+    internal class UserTagsComposer : MessageComposer
     {
-        public UserTagsComposer(int UserId, GameClient Session)
-            : base(ServerPacketHeader.UserTagsMessageComposer)
+        private int UserId { get; }
+
+        public UserTagsComposer(int UserId)
+            : base(Composers.UserTagsMessageComposer)
         {
-            base.WriteInteger(UserId);
-            base.WriteInteger(0);
+            this.UserId = UserId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(UserId);
+            packet.WriteInteger(0);
         }
     }
 }

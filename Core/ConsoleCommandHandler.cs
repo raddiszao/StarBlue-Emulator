@@ -1,9 +1,7 @@
 ﻿using log4net;
 using StarBlue.Communication.Packets.Outgoing.Moderation;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
+using StarBlue.Utilities;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace StarBlue.Core
 {
@@ -37,7 +35,19 @@ namespace StarBlue.Core
                             int total_time = int.Parse(time) * 60 * 1000;
                             Logging.WriteLine("O servidor irá fechar em " + time + " minutos.", ConsoleColor.Yellow);
                             StarBlueServer.GoingIsToBeClose = true;
-                            Task t = Task.Factory.StartNew(() => ShutdownIn(total_time));
+                            StarBlueServer.GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer("<b><font color=\"#ba3733\" size=\"14\">HOTEL SERÁ REINICIADO EM MINUTOS!</font></b><br><br>O hotel será reiniciado em " + time + " minutos!"));
+
+                            if (int.Parse(time) > 0)
+                            {
+                                Threading threading = new Threading();
+                                threading.SetMinutes(int.Parse(time));
+                                threading.SetAction(() => ShutdownIn());
+                                threading.Start();
+                            }
+                            else
+                            {
+                                ShutdownIn();
+                            }
                             break;
                         }
                     #endregion
@@ -86,11 +96,8 @@ namespace StarBlue.Core
             }
         }
 
-        public static void ShutdownIn(int time)
+        public static void ShutdownIn()
         {
-            StarBlueServer.GetGame().GetClientManager().SendMessage(new BroadcastMessageAlertComposer("<b><font color=\"#ba3733\" size=\"14\">HOTEL SERÁ REINICIADO EM MINUTOS!</font></b><br><br>O hotel será reiniciado em " + time / 60000 + " minutos!"));
-            Thread.Sleep(time);
-
             Logging.DisablePrimaryWriting(true);
             Logging.WriteLine("The server is saving users furniture, rooms, etc. WAIT FOR THE SERVER TO CLOSE, DO NOT EXIT THE PROCESS IN TASK MANAGER!!", ConsoleColor.Yellow);
             StarBlueServer.PerformShutDown();

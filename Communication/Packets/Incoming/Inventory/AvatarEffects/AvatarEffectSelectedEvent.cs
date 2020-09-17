@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.AvatarEffects
 {
     internal class AvatarEffectSelectedEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int EffectId = Packet.PopInt();
             if (EffectId < 0)

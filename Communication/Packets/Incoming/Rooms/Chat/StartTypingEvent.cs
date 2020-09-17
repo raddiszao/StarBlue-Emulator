@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Chat
 {
     public class StartTypingEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {

@@ -33,7 +33,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             _queue = new Queue();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             Packet.PopInt();
             Packet.PopString();

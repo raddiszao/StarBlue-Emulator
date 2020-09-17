@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.SMS
 {
-    internal class SMSVerifyComposer : ServerPacket
+    internal class SMSVerifyComposer : MessageComposer
     {
+        private int value1 { get; }
+        private int value2 { get; }
+
         public SMSVerifyComposer(int value1, int value2)
-            : base(ServerPacketHeader.SMSVerifyComposer)
+            : base(Composers.SMSVerifyComposer)
         {
-            base.WriteInteger(value1);
-            base.WriteInteger(value2);
+            this.value1 = value1;
+            this.value2 = value2;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(value1);
+            packet.WriteInteger(value2);
         }
     }
 }

@@ -1,13 +1,24 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.FloorPlan
 {
-    internal class FloorPlanSendDoorComposer : ServerPacket
+    internal class FloorPlanSendDoorComposer : MessageComposer
     {
+        private int DoorX { get; }
+        private int DoorY { get; }
+        private int DoorDirection { get; }
+
         public FloorPlanSendDoorComposer(int DoorX, int DoorY, int DoorDirection)
-            : base(ServerPacketHeader.FloorPlanSendDoorMessageComposer)
+            : base(Composers.FloorPlanSendDoorMessageComposer)
         {
-            base.WriteInteger(DoorX);
-            base.WriteInteger(DoorY);
-            base.WriteInteger(DoorDirection);
+            this.DoorX = DoorX;
+            this.DoorY = DoorY;
+            this.DoorDirection = DoorDirection;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(DoorX);
+            packet.WriteInteger(DoorY);
+            packet.WriteInteger(DoorDirection);
         }
     }
 }

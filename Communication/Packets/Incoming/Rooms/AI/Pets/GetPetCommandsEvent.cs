@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.AI.Pets
 {
     internal class GetPetCommandsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {

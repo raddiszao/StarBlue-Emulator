@@ -1,13 +1,22 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class FloorHeightMapComposer : ServerPacket
+    internal class FloorHeightMapComposer : MessageComposer
     {
+        public string Map { get; }
+        public int WallHeight { get; }
+
         public FloorHeightMapComposer(string Map, int WallHeight)
-            : base(ServerPacketHeader.FloorHeightMapMessageComposer)
+            : base(Composers.FloorHeightMapMessageComposer)
         {
-            base.WriteBoolean(WallHeight > 0);
-            base.WriteInteger(WallHeight);
-            base.WriteString(Map);
+            this.Map = Map;
+            this.WallHeight = WallHeight;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(WallHeight > 0);
+            packet.WriteInteger(WallHeight);
+            packet.WriteString(Map);
         }
     }
 }

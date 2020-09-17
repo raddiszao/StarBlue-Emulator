@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    internal class MysticBoxRewardComposer : ServerPacket
+    internal class MysticBoxRewardComposer : MessageComposer
     {
+        private string type { get; }
+        private int itemID { get; }
+
         public MysticBoxRewardComposer(string type, int itemID)
-            : base(ServerPacketHeader.MysticBoxRewardComposer)
+            : base(Composers.MysticBoxRewardComposer)
         {
-            base.WriteString(type);
-            base.WriteInteger(itemID);
+            this.type = type;
+            this.itemID = itemID;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(type);
+            packet.WriteInteger(itemID);
         }
     }
 }

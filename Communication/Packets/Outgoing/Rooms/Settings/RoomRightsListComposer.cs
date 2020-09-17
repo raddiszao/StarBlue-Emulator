@@ -4,26 +4,32 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    internal class RoomRightsListComposer : ServerPacket
+    internal class RoomRightsListComposer : MessageComposer
     {
+        public Room Room { get; }
         public RoomRightsListComposer(Room Instance)
-            : base(ServerPacketHeader.RoomRightsListMessageComposer)
+            : base(Composers.RoomRightsListMessageComposer)
         {
-            base.WriteInteger(Instance.Id);
+            this.Room = Instance;
+        }
 
-            base.WriteInteger(Instance.UsersWithRights.Count);
-            foreach (int Id in Instance.UsersWithRights.ToList())
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Room.Id);
+
+            packet.WriteInteger(Room.UsersWithRights.Count);
+            foreach (int Id in Room.UsersWithRights.ToList())
             {
                 UserCache Data = StarBlueServer.GetGame().GetCacheManager().GenerateUser(Id);
                 if (Data == null)
                 {
-                    base.WriteInteger(0);
-                    base.WriteString("Unknown Error");
+                    packet.WriteInteger(0);
+                    packet.WriteString("Unknown Error");
                 }
                 else
                 {
-                    base.WriteInteger(Data.Id);
-                    base.WriteString(Data.Username);
+                    packet.WriteInteger(Data.Id);
+                    packet.WriteString(Data.Username);
                 }
             }
         }

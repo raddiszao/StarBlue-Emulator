@@ -2,13 +2,22 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Avatar
 {
-    public class SleepComposer : ServerPacket
+    public class SleepComposer : MessageComposer
     {
+        private RoomUser User { get; }
+        private bool IsSleeping { get; }
+
         public SleepComposer(RoomUser User, bool IsSleeping)
-            : base(ServerPacketHeader.SleepMessageComposer)
+            : base(Composers.SleepMessageComposer)
         {
-            base.WriteInteger(User.VirtualId);
-            base.WriteBoolean(IsSleeping);
+            this.User = User;
+            this.IsSleeping = IsSleeping;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(User.VirtualId);
+            packet.WriteBoolean(IsSleeping);
         }
     }
 }

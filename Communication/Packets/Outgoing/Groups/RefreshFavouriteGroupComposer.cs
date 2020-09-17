@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class RefreshFavouriteGroupComposer : ServerPacket
+    internal class RefreshFavouriteGroupComposer : MessageComposer
     {
+        public int GroupId { get; }
+
         public RefreshFavouriteGroupComposer(int Id)
-            : base(ServerPacketHeader.RefreshFavouriteGroupMessageComposer)
+            : base(Composers.RefreshFavouriteGroupMessageComposer)
         {
-            base.WriteInteger(Id);
+            this.GroupId = Id;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(GroupId);
         }
     }
 }

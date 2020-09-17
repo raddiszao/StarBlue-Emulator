@@ -4,20 +4,29 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.YouTubeTelevisions
 {
-    internal class GetYouTubePlaylistComposer : ServerPacket
+    internal class GetYouTubePlaylistComposer : MessageComposer
     {
+        public int ItemId { get; }
+        public ICollection<TelevisionItem> Videos { get; }
+
         public GetYouTubePlaylistComposer(int ItemId, ICollection<TelevisionItem> Videos)
-            : base(ServerPacketHeader.GetYouTubePlaylistMessageComposer)
+            : base(Composers.GetYouTubePlaylistMessageComposer)
         {
-            base.WriteInteger(ItemId);
-            base.WriteInteger(Videos.Count);
+            this.ItemId = ItemId;
+            this.Videos = Videos;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ItemId);
+            packet.WriteInteger(Videos.Count);
             foreach (TelevisionItem Video in Videos.ToList())
             {
-                base.WriteString(Video.YouTubeId);
-                base.WriteString(Video.Title);//Title
-                base.WriteString(Video.Description);//Description
+                packet.WriteString(Video.YouTubeId);
+                packet.WriteString(Video.Title);//Title
+                packet.WriteString(Video.Description);//Description
             }
-            base.WriteString("");
+            packet.WriteString("");
         }
     }
 }

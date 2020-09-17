@@ -9,7 +9,7 @@ namespace StarBlue.Communication.Packets.Incoming.Navigator
 {
     internal class StaffPickRoomEvent : IPacketEvent
     {
-        public void Parse(GameClient session, ClientPacket packet)
+        public void Parse(GameClient session, MessageEvent packet)
         {
             GameClient TargetClient = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(session.GetHabbo().CurrentRoom.RoomData.OwnerName);
 

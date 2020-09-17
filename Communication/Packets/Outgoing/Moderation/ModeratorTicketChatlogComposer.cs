@@ -4,33 +4,44 @@ using StarBlue.Utilities;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class ModeratorTicketChatlogComposer : ServerPacket
+    internal class ModeratorTicketChatlogComposer : MessageComposer
     {
+        private ModerationTicket ticket { get; }
+        private RoomData roomData { get; }
+        private double timestamp { get; }
+
         public ModeratorTicketChatlogComposer(ModerationTicket ticket, RoomData roomData, double timestamp)
-              : base(ServerPacketHeader.ModeratorTicketChatlogMessageComposer)
+              : base(Composers.ModeratorTicketChatlogMessageComposer)
         {
-            base.WriteInteger(ticket.Id);
-            base.WriteInteger(ticket.Sender != null ? ticket.Sender.Id : 0);
-            base.WriteInteger(ticket.Reported != null ? ticket.Reported.Id : 0);
-            base.WriteInteger(roomData.Id);
+            this.ticket = ticket;
+            this.roomData = roomData;
+            this.timestamp = timestamp;
+        }
 
-            base.WriteByte(1);
-            base.WriteShort(2);//Count
-            base.WriteString("roomName");
-            base.WriteByte(2);
-            base.WriteString(roomData.Name);
-            base.WriteString("roomId");
-            base.WriteByte(1);
-            base.WriteInteger(roomData.Id);
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ticket.Id);
+            packet.WriteInteger(ticket.Sender != null ? ticket.Sender.Id : 0);
+            packet.WriteInteger(ticket.Reported != null ? ticket.Reported.Id : 0);
+            packet.WriteInteger(roomData.Id);
 
-            base.WriteShort(ticket.ReportedChats.Count);
+            packet.WriteByte(1);
+            packet.WriteShort(2);//Count
+            packet.WriteString("roomName");
+            packet.WriteByte(2);
+            packet.WriteString(roomData.Name);
+            packet.WriteString("roomId");
+            packet.WriteByte(1);
+            packet.WriteInteger(roomData.Id);
+
+            packet.WriteShort(ticket.ReportedChats.Count);
             foreach (string Chat in ticket.ReportedChats)
             {
-                base.WriteString(UnixTimestamp.FromUnixTimestamp(timestamp).ToShortTimeString());
-                base.WriteInteger(ticket.Id);
-                base.WriteString(ticket.Reported != null ? ticket.Reported.Username : "No username");
-                base.WriteString(Chat);
-                base.WriteBoolean(false);
+                packet.WriteString(UnixTimestamp.FromUnixTimestamp(timestamp).ToShortTimeString());
+                packet.WriteInteger(ticket.Id);
+                packet.WriteString(ticket.Reported != null ? ticket.Reported.Username : "No username");
+                packet.WriteString(Chat);
+                packet.WriteBoolean(false);
             }
         }
     }

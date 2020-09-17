@@ -1,11 +1,11 @@
-﻿using Enclosure;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
+﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Avatar;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.PathFinding;
+using StarBlue.Utilities.Enclosure;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -362,7 +362,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                 }
                 if (field != null)
                 {
-                    field.destroy();
+                    field.Dispose();
                 }
             }
         }
@@ -416,16 +416,16 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
                     {
                         user.LockedTilesCount++;
                         _room.GetGameManager().AddPointToTeam(item.team, 1);
-                        field.updateLocation(item.GetX, item.GetY, (byte)team);
-                        List<PointField> gfield = field.doUpdate();
+                        field.UpdateLocation(item.GetX, item.GetY, (byte)team);
+                        List<PointField> gfield = field.DoUpdate();
                         TEAM t;
                         foreach (PointField gameField in gfield)
                         {
-                            t = (TEAM)gameField.forValue;
-                            foreach (Point p in gameField.getPoints())
+                            t = (TEAM)gameField.ForValue;
+                            foreach (Point p in gameField.GetPoints())
                             {
                                 HandleMaxBanzaiTiles(new Point(p.X, p.Y), t);
-                                floorMap[p.Y, p.X] = gameField.forValue;
+                                floorMap[p.Y, p.X] = gameField.ForValue;
                             }
                         }
                     }
@@ -551,7 +551,7 @@ namespace StarBlue.HabboHotel.Rooms.Games.Banzai
 
             if (field != null)
             {
-                field.destroy();
+                field.Dispose();
             }
 
             _room = null;

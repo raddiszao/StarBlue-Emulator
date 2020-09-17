@@ -1,12 +1,21 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class RoomEntryInfoComposer : ServerPacket
+    internal class RoomEntryInfoComposer : MessageComposer
     {
+        public int RoomId { get; }
+        public bool IsOwner { get; }
+
         public RoomEntryInfoComposer(int roomID, bool isOwner)
-            : base(ServerPacketHeader.RoomEntryInfoMessageComposer)
+            : base(Composers.RoomEntryInfoMessageComposer)
         {
-            base.WriteInteger(roomID);
-            base.WriteBoolean(isOwner);
+            this.RoomId = roomID;
+            this.IsOwner = isOwner;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
+            packet.WriteBoolean(IsOwner);
         }
     }
 }

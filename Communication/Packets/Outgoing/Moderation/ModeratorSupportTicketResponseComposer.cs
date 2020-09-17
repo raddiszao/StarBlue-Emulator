@@ -1,12 +1,19 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class ModeratorSupportTicketResponseComposer : ServerPacket
+    internal class ModeratorSupportTicketResponseComposer : MessageComposer
     {
+        private int Result { get; }
+
         public ModeratorSupportTicketResponseComposer(int Result)
-            : base(ServerPacketHeader.ModeratorSupportTicketResponseMessageComposer)
+            : base(Composers.ModeratorSupportTicketResponseMessageComposer)
         {
-            base.WriteInteger(Result);
-            base.WriteString("");
+            this.Result = Result;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Result);
+            packet.WriteString("");
         }
     }
 }

@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    internal class FurniListRemoveComposer : ServerPacket
+    internal class FurniListRemoveComposer : MessageComposer
     {
+        public int FurniId { get; }
+
         public FurniListRemoveComposer(int Id)
-            : base(ServerPacketHeader.FurniListRemoveMessageComposer)
+            : base(Composers.FurniListRemoveMessageComposer)
         {
-            base.WriteInteger(Id);
+            this.FurniId = Id;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(FurniId);
         }
     }
 }

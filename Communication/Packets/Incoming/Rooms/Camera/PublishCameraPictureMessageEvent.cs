@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
 {
     public class PublishCameraPictureMessageEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             bool isOk = false;
             if (!Session.GetHabbo().InRoom)

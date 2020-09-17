@@ -3,21 +3,28 @@ using StarBlue.HabboHotel.Items.Data.Moodlight;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Moodlight
 {
-    internal class MoodlightConfigComposer : ServerPacket
+    internal class MoodlightConfigComposer : MessageComposer
     {
+        public MoodlightData Data { get; }
+
         public MoodlightConfigComposer(MoodlightData MoodlightData)
-            : base(ServerPacketHeader.MoodlightConfigMessageComposer)
+            : base(Composers.MoodlightConfigMessageComposer)
         {
-            base.WriteInteger(MoodlightData.Presets.Count);
-            base.WriteInteger(MoodlightData.CurrentPreset);
+            this.Data = MoodlightData;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Data.Presets.Count);
+            packet.WriteInteger(Data.CurrentPreset);
 
             int i = 1;
-            foreach (MoodlightPreset Preset in MoodlightData.Presets)
+            foreach (MoodlightPreset Preset in Data.Presets)
             {
-                base.WriteInteger(i);
-                base.WriteInteger(Preset.BackgroundOnly ? 2 : 1);
-                base.WriteString(Preset.ColorCode);
-                base.WriteInteger(Preset.ColorIntensity);
+                packet.WriteInteger(i);
+                packet.WriteInteger(Preset.BackgroundOnly ? 2 : 1);
+                packet.WriteString(Preset.ColorCode);
+                packet.WriteInteger(Preset.ColorIntensity);
                 i++;
             }
         }

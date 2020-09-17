@@ -3,25 +3,32 @@ using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    public class UserObjectComposer : ServerPacket
+    public class UserObjectComposer : MessageComposer
     {
+        private Habbo Habbo { get; }
+
         public UserObjectComposer(Habbo Habbo)
-            : base(ServerPacketHeader.UserObjectMessageComposer)
+            : base(Composers.UserObjectMessageComposer)
         {
-            base.WriteInteger(Habbo.Id);
-            base.WriteString(Habbo.Username);
-            base.WriteString(Habbo.Look);
-            base.WriteString(Habbo.Gender.ToUpper());
-            base.WriteString(Habbo.Motto);
-            base.WriteString("");
-            base.WriteBoolean(false);
-            base.WriteInteger(Habbo.GetStats().Respect);
-            base.WriteInteger(Habbo.GetStats().DailyRespectPoints);
-            base.WriteInteger(Habbo.GetStats().DailyPetRespectPoints);
-            base.WriteBoolean(true); // Friends stream active
-            base.WriteString(Habbo.LastOnline.ToString()); // last online?
-            base.WriteBoolean(Habbo.ChangingName); // Can change name
-            base.WriteBoolean(false);
+            this.Habbo = Habbo;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Habbo.Id);
+            packet.WriteString(Habbo.Username);
+            packet.WriteString(Habbo.Look);
+            packet.WriteString(Habbo.Gender.ToUpper());
+            packet.WriteString(Habbo.Motto);
+            packet.WriteString("");
+            packet.WriteBoolean(false);
+            packet.WriteInteger(Habbo.GetStats().Respect);
+            packet.WriteInteger(Habbo.GetStats().DailyRespectPoints);
+            packet.WriteInteger(Habbo.GetStats().DailyPetRespectPoints);
+            packet.WriteBoolean(true); // Friends stream active
+            packet.WriteString(Habbo.LastOnline.ToString()); // last online?
+            packet.WriteBoolean(Habbo.ChangingName); // Can change name
+            packet.WriteBoolean(false);
         }
     }
 }

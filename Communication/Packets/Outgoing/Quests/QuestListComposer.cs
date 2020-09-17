@@ -4,12 +4,27 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Quests
 {
-    public class QuestListComposer : ServerPacket
+    public class QuestListComposer : MessageComposer
     {
+        private GameClient Session { get; }
+        private List<Quest> Quests { get; }
+        private bool Send { get; }
+        private Dictionary<string, int> UserQuestGoals { get; }
+        private Dictionary<string, Quest> UserQuests { get; }
+
         public QuestListComposer(GameClient Session, List<Quest> Quests, bool Send, Dictionary<string, int> UserQuestGoals, Dictionary<string, Quest> UserQuests)
-            : base(ServerPacketHeader.QuestListMessageComposer)
+            : base(Composers.QuestListMessageComposer)
         {
-            base.WriteInteger(UserQuests.Count);
+            this.Session = Session;
+            this.Quests = Quests;
+            this.Send = Send;
+            this.UserQuestGoals = UserQuestGoals;
+            this.UserQuests = UserQuests;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(UserQuests.Count);
 
             // Active ones first
             foreach (KeyValuePair<string, Quest> UserQuest in UserQuests)
@@ -19,7 +34,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Quests
                     continue;
                 }
 
-                SerializeQuest(this, Session, UserQuest.Value, UserQuest.Key);
+                SerializeQuest(packet, Session, UserQuest.Value, UserQuest.Key);
             }
 
             // Dead ones last
@@ -30,13 +45,13 @@ namespace StarBlue.Communication.Packets.Outgoing.Quests
                     continue;
                 }
 
-                SerializeQuest(this, Session, UserQuest.Value, UserQuest.Key);
+                SerializeQuest(packet, Session, UserQuest.Value, UserQuest.Key);
             }
 
-            base.WriteBoolean(Send);
+            packet.WriteBoolean(Send);
         }
 
-        private void SerializeQuest(ServerPacket Message, GameClient Session, Quest Quest, string Category)
+        private void SerializeQuest(Composer Message, GameClient Session, Quest Quest, string Category)
         {
             if (Message == null || Session == null)
             {

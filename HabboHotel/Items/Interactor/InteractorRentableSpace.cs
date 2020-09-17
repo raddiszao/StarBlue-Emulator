@@ -5,7 +5,7 @@ namespace StarBlue.HabboHotel.Items.Interactor
 {
     public class InteractorRentableSpace : IFurniInteractor
     {
-        public void SerializeExtradata(ServerPacket Message, Item Item)
+        public void SerializeExtradata(Composer Message, Item Item)
         {
 
 

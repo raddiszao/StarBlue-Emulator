@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    internal class PurchaseErrorComposer : ServerPacket
+    internal class PurchaseErrorComposer : MessageComposer
     {
+        private int ErrorCode { get; }
+
         public PurchaseErrorComposer(int ErrorCode)
-            : base(ServerPacketHeader.PurchaseErrorMessageComposer)
+            : base(Composers.PurchaseErrorMessageComposer)
         {
-            base.WriteInteger(ErrorCode);
+            this.ErrorCode = ErrorCode;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ErrorCode);
         }
     }
 }

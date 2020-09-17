@@ -1,12 +1,16 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    public class VoucherRedeemOkComposer : ServerPacket
+    public class VoucherRedeemOkComposer : MessageComposer
     {
         public VoucherRedeemOkComposer()
-            : base(ServerPacketHeader.VoucherRedeemOkMessageComposer)
+            : base(Composers.VoucherRedeemOkMessageComposer)
         {
-            base.WriteString("");//productName
-            base.WriteString("");//productDescription
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("");//productName
+            packet.WriteString("");//productDescription
         }
     }
 }

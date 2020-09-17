@@ -1,9 +1,14 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    internal class FurniListUpdateComposer : ServerPacket
+    class FurniListUpdateComposer : MessageComposer
     {
         public FurniListUpdateComposer()
-            : base(ServerPacketHeader.FurniListUpdateMessageComposer)
+            : base(Composers.FurniListUpdateMessageComposer)
+        {
+
+        }
+
+        public override void Compose(Composer packet)
         {
 
         }

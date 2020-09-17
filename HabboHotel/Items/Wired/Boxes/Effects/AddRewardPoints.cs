@@ -35,7 +35,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             TickCount = Delay;
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             int Score = Packet.PopInt();

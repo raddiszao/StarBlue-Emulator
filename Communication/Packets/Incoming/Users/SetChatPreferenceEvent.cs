@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Users
 {
     internal class SetChatPreferenceEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             bool ChatPreference = Packet.PopBoolean();
 

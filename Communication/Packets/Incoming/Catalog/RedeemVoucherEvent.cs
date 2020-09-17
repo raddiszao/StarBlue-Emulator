@@ -12,7 +12,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     public class RedeemVoucherEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             string VoucherCode = Packet.PopString().Replace("\r", "");
 

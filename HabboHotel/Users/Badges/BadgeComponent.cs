@@ -123,7 +123,7 @@ namespace StarBlue.HabboHotel.Users.Badges
 
             if (Session != null)
             {
-                Session.SendMessage(new BadgesComposer(Session));
+                Session.SendMessage(new BadgesComposer(Session.GetHabbo().GetBadgeComponent().GetBadges()));
                 Session.SendMessage(new FurniListNotificationComposer(1, 4));
             }
         }
@@ -157,7 +157,7 @@ namespace StarBlue.HabboHotel.Users.Badges
 
             if (Session != null)
             {
-                Session.SendMessage(new BadgesComposer(Session));
+                Session.SendMessage(new BadgesComposer(Session.GetHabbo().GetBadgeComponent().GetBadges()));
             }
         }
 

@@ -9,7 +9,7 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Badges
 {
     internal class SetActivatedBadgesEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Session.GetHabbo().GetBadgeComponent().ResetSlots();
 

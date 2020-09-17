@@ -4,19 +4,26 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Bots
 {
-    internal class BotInventoryComposer : ServerPacket
+    internal class BotInventoryComposer : MessageComposer
     {
+        public ICollection<Bot> Bots { get; }
+
         public BotInventoryComposer(ICollection<Bot> Bots)
-            : base(ServerPacketHeader.BotInventoryMessageComposer)
+            : base(Composers.BotInventoryMessageComposer)
         {
-            base.WriteInteger(Bots.Count);
+            this.Bots = Bots;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Bots.Count);
             foreach (Bot Bot in Bots.ToList())
             {
-                base.WriteInteger(Bot.Id);
-                base.WriteString(Bot.Name);
-                base.WriteString(Bot.Motto);
-                base.WriteString(Bot.Gender);
-                base.WriteString(Bot.Figure);
+                packet.WriteInteger(Bot.Id);
+                packet.WriteString(Bot.Name);
+                packet.WriteString(Bot.Motto);
+                packet.WriteString(Bot.Gender);
+                packet.WriteString(Bot.Figure);
             }
         }
     }

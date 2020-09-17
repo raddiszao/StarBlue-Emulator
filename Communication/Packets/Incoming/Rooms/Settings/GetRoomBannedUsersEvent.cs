@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 {
     internal class GetRoomBannedUsersEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (!Session.GetHabbo().InRoom)
             {
@@ -21,7 +21,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Settings
 
             if (Instance.BannedUsers().Count > 0)
             {
-                Session.SendMessage(new GetRoomBannedUsersComposer(Instance));
+                Session.SendMessage(new GetRoomBannedUsersComposer(Instance.Id, Instance.BannedUsers()));
             }
         }
     }

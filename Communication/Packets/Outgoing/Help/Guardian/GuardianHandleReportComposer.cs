@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class GuardianHandleReportComposer : ServerPacket
+    internal class GuardianHandleReportComposer : MessageComposer
     {
+        private int seconds { get; }
+
         public GuardianHandleReportComposer(int seconds)
-            : base(ServerPacketHeader.GuardianHandleReportMessageComposer)
+            : base(Composers.GuardianHandleReportMessageComposer)
         {
-            base.WriteInteger(seconds);
+            this.seconds = seconds;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(seconds);
         }
     }
 }

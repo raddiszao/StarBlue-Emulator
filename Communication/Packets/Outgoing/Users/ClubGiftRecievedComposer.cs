@@ -1,15 +1,17 @@
-﻿using StarBlue.HabboHotel.GameClients;
-
-namespace StarBlue.Communication.Packets.Outgoing.Users
+﻿namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    internal class ClubGiftRecievedComposer : ServerPacket
+    internal class ClubGiftRecievedComposer : MessageComposer
     {
-        public ClubGiftRecievedComposer(GameClient Session) : base(ServerPacketHeader.ClubGiftRecievedComposer)
+        public ClubGiftRecievedComposer() : base(Composers.ClubGiftRecievedComposer)
         {
-            base.WriteString("PENE");
-            base.WriteInteger(1);
-            base.WriteString("b"); // tipo de furni
-            base.WriteString("ADMIN"); // nombre
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("PENE");
+            packet.WriteInteger(1);
+            packet.WriteString("b"); // tipo de furni
+            packet.WriteString("ADMIN"); // nombre
         }
     }
 }

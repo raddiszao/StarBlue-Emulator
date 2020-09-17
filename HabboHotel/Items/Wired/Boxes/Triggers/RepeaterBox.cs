@@ -27,7 +27,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
             SetItems = new ConcurrentDictionary<int, Item>();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             Delay = Packet.PopInt() * 500;
@@ -99,10 +99,11 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Triggers
                     }
 
                     //Woo! Almost there captain, now lets broadcast the update to the room instance.
-                    if (Instance != null)
+                    if (Instance != null && Instance.GetWired() != null)
                     {
                         Instance.GetWired().OnEvent(RandomBox.Item);
-                        Instance.GetWired().OnEvent(SelectedBox.Item);
+                        if (SelectedBox != null)
+                            Instance.GetWired().OnEvent(SelectedBox.Item);
                     }
                 }
                 else

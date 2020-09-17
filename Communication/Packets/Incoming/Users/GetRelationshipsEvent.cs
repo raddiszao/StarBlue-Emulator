@@ -7,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.Users
 {
     internal class GetRelationshipsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             Habbo Habbo = StarBlueServer.GetHabboById(Packet.PopInt());
             if (Habbo == null)

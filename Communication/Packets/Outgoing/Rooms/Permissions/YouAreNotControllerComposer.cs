@@ -1,9 +1,13 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Permissions
 {
-    internal class YouAreNotControllerComposer : ServerPacket
+    internal class YouAreNotControllerComposer : MessageComposer
     {
         public YouAreNotControllerComposer()
-            : base(ServerPacketHeader.YouAreNotControllerMessageComposer)
+            : base(Composers.YouAreNotControllerMessageComposer)
+        {
+        }
+
+        public override void Compose(Composer packet)
         {
         }
     }

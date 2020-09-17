@@ -1,15 +1,20 @@
-﻿
-using StarBlue.HabboHotel.Rooms;
-
-namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
+﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    internal class FlatControllerRemovedComposer : ServerPacket
+    internal class FlatControllerRemovedComposer : MessageComposer
     {
-        public FlatControllerRemovedComposer(Room Instance, int UserId)
-            : base(ServerPacketHeader.FlatControllerRemovedMessageComposer)
+        public int RoomId { get; }
+        public int UserId { get; }
+        public FlatControllerRemovedComposer(int RoomId, int UserId)
+            : base(Composers.FlatControllerRemovedMessageComposer)
         {
-            base.WriteInteger(Instance.Id);
-            base.WriteInteger(UserId);
+            this.RoomId = RoomId;
+            this.UserId = UserId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
+            packet.WriteInteger(UserId);
         }
     }
 }

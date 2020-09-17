@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class GetThreadDataEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int ForumId = Packet.PopInt(); //Maybe Forum ID
             int ThreadId = Packet.PopInt(); //Maybe Thread ID
@@ -34,7 +34,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
             }
 
 
-            Session.SendMessage(new ThreadDataComposer(Thread, StartIndex, length));
+            Session.SendMessage(new ThreadDataComposer(Thread, StartIndex));
 
         }
     }

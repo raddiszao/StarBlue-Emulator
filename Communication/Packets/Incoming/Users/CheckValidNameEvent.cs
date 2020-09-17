@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Users
 {
     internal class CheckValidNameEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             bool InUse = false;
             string Name = Packet.PopString();

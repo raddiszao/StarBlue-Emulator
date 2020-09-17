@@ -1,14 +1,19 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.BuildersClub
 {
-    internal class BuildersClubMembershipComposer : ServerPacket
+    internal class BuildersClubMembershipComposer : MessageComposer
     {
         public BuildersClubMembershipComposer()
-            : base(ServerPacketHeader.BuildersClubMembershipMessageComposer)
+            : base(Composers.BuildersClubMembershipMessageComposer)
         {
-            base.WriteInteger(int.MaxValue);
-            base.WriteInteger(100);
-            base.WriteInteger(0);
-            base.WriteInteger(int.MaxValue);
+
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(int.MaxValue);
+            packet.WriteInteger(100);
+            packet.WriteInteger(0);
+            packet.WriteInteger(int.MaxValue);
         }
     }
 }

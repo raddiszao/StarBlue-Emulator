@@ -1,10 +1,17 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Nux
 {
-    internal class NuxAlertComposer : ServerPacket
+    internal class NuxAlertComposer : MessageComposer
     {
-        public NuxAlertComposer(string Message) : base(ServerPacketHeader.NuxAlertMessageComposer)
+        private string Message { get; }
+
+        public NuxAlertComposer(string Message) : base(Composers.NuxAlertMessageComposer)
         {
-            base.WriteString(Message);
+            this.Message = Message;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Message);
         }
     }
 }

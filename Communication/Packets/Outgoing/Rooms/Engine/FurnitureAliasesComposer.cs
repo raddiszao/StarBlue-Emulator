@@ -1,11 +1,16 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Engine
 {
-    internal class FurnitureAliasesComposer : ServerPacket
+    internal class FurnitureAliasesComposer : MessageComposer
     {
         public FurnitureAliasesComposer()
-            : base(ServerPacketHeader.FurnitureAliasesMessageComposer)
+            : base(Composers.FurnitureAliasesMessageComposer)
         {
-            base.WriteInteger(0);
+
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(0);
         }
     }
 }

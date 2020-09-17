@@ -5,21 +5,28 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    internal class PromoArticlesComposer : ServerPacket
+    internal class PromoArticlesComposer : MessageComposer
     {
+        private ICollection<Promotion> LandingPromotions { get; }
+
         public PromoArticlesComposer(ICollection<Promotion> LandingPromotions)
-            : base(ServerPacketHeader.PromoArticlesMessageComposer)
+            : base(Composers.PromoArticlesMessageComposer)
         {
-            base.WriteInteger(LandingPromotions.Count);//Count
+            this.LandingPromotions = LandingPromotions;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(LandingPromotions.Count);//Count
             foreach (Promotion Promotion in LandingPromotions.ToList())
             {
-                base.WriteInteger(Promotion.Id); //ID
-                base.WriteString(Promotion.Title); //Title
-                base.WriteString(Promotion.Text); //Text
-                base.WriteString(Promotion.ButtonText); //Button text
-                base.WriteInteger(Promotion.ButtonType); //Link type 0 and 3
-                base.WriteString(Promotion.ButtonLink); //Link to article
-                base.WriteString(Promotion.ImageLink); //Image link
+                packet.WriteInteger(Promotion.Id); //ID
+                packet.WriteString(Promotion.Title); //Title
+                packet.WriteString(Promotion.Text); //Text
+                packet.WriteString(Promotion.ButtonText); //Button text
+                packet.WriteInteger(Promotion.ButtonType); //Link type 0 and 3
+                packet.WriteString(Promotion.ButtonLink); //Link to article
+                packet.WriteString(Promotion.ImageLink); //Image link
             }
         }
     }

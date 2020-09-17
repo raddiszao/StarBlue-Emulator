@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Furni
 {
     internal class RequestFurniInventoryEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             IEnumerable<Item> Items = Session.GetHabbo().GetInventoryComponent().GetWallAndFloor;
             int page = 0;

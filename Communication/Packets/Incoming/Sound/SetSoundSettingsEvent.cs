@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Sound
 {
     internal class SetSoundSettingsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             string Volume = "";
             for (int i = 0; i < 3; i++)

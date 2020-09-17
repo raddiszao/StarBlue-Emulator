@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     public class GetSellablePetBreedsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             string Type = Packet.PopString();
             int PetId = StarBlueServer.GetGame().GetCatalog().GetPetRaceManager().GetPetId(Type, out string PacketType);

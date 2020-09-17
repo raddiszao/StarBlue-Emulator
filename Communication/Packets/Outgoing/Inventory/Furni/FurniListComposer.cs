@@ -4,58 +4,70 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Inventory.Furni
 {
-    internal class FurniListComposer : ServerPacket
+    internal class FurniListComposer : MessageComposer
     {
-        public FurniListComposer(ICollection<Item> Items, int pages, int page)
-            : base(ServerPacketHeader.FurniListMessageComposer)
-        {
-            WriteInteger(pages);//Pages
-            WriteInteger(page);//Page?
+        public ICollection<Item> Items { get; }
+        public int Pages { get; }
+        public int Page { get; }
 
-            WriteInteger(Items.Count);
+        public FurniListComposer(ICollection<Item> Items, int pages, int page)
+            : base(Composers.FurniListMessageComposer)
+        {
+            this.Items = Items;
+            this.Pages = pages;
+            this.Page = page;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Pages);//Pages
+            packet.WriteInteger(Page);//Page?
+
+            packet.WriteInteger(Items.Count);
             foreach (Item Item in Items)
             {
-                WriteItem(Item);
+                WriteItem(Item, packet);
             }
         }
 
-        private void WriteItem(Item Item)
+
+        private void WriteItem(Item Item, Composer packet)
         {
             if (Item.GetBaseItem() == null)
             {
                 return;
             }
 
-            WriteInteger(Item.Id);
-            WriteString(Item.GetBaseItem().Type.ToString().ToUpper());
-            WriteInteger(Item.Id);
-            WriteInteger(Item.GetBaseItem().SpriteId);
+            packet.WriteInteger(Item.Id);
+            packet.WriteString(Item.GetBaseItem().Type.ToString().ToUpper());
+            packet.WriteInteger(Item.Id);
+            packet.WriteInteger(Item.GetBaseItem().SpriteId);
 
             if (Item.LimitedNo > 0)
             {
-                WriteInteger(1);
-                WriteInteger(256);
-                WriteString(Item.ExtraData);
-                WriteInteger(Item.LimitedNo);
-                WriteInteger(Item.LimitedTot);
+                packet.WriteInteger(1);
+                packet.WriteInteger(256);
+                packet.WriteString(Item.ExtraData);
+                packet.WriteInteger(Item.LimitedNo);
+                packet.WriteInteger(Item.LimitedTot);
             }
             else
             {
-                ItemBehaviourUtility.GenerateExtradata(Item, this);
+                ItemBehaviourUtility.GenerateExtradata(Item, packet);
             }
 
-            WriteBoolean(Item.GetBaseItem().AllowEcotronRecycle);
-            WriteBoolean(Item.GetBaseItem().AllowTrade);
-            WriteBoolean(Item.LimitedNo == 0 ? Item.GetBaseItem().AllowInventoryStack : false);
-            WriteBoolean(ItemUtility.IsRare(Item));
-            WriteInteger(-1);//Seconds to expiration.
-            WriteBoolean(true);
-            WriteInteger(-1);//Item RoomId
+            packet.WriteBoolean(Item.GetBaseItem().AllowEcotronRecycle);
+            packet.WriteBoolean(Item.GetBaseItem().AllowTrade);
+            packet.WriteBoolean(Item.LimitedNo == 0 ? Item.GetBaseItem().AllowInventoryStack : false);
+            packet.WriteBoolean(ItemUtility.IsRare(Item));
+            packet.WriteInteger(-1);//Seconds to expiration.
+            packet.WriteBoolean(true);
+            packet.WriteInteger(-1);//Item RoomId
 
             if (!Item.IsWallItem)
             {
-                WriteString(string.Empty);
-                WriteInteger(0);
+                packet.WriteString(string.Empty);
+                packet.WriteInteger(0);
             }
         }
     }

@@ -1,17 +1,22 @@
-﻿
-using StarBlue.HabboHotel.Rooms;
+﻿using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    internal class GetRoomFilterListComposer : ServerPacket
+    internal class GetRoomFilterListComposer : MessageComposer
     {
-        public GetRoomFilterListComposer(Room Instance)
-            : base(ServerPacketHeader.GetRoomFilterListMessageComposer)
+        public List<string> WordFilterList { get; }
+        public GetRoomFilterListComposer(List<string> WordFilterList)
+            : base(Composers.GetRoomFilterListMessageComposer)
         {
-            base.WriteInteger(Instance.WordFilterList.Count);
-            foreach (string Word in Instance.WordFilterList)
+            this.WordFilterList = WordFilterList;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(WordFilterList.Count);
+            foreach (string Word in WordFilterList)
             {
-                base.WriteString(Word);
+                packet.WriteString(Word);
             }
         }
     }

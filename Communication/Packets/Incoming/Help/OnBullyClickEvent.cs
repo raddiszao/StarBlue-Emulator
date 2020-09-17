@@ -2,7 +2,7 @@
 {
     internal class OnBullyClickEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             //I am a very boring packet.
         }

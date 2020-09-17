@@ -1,30 +1,37 @@
 ﻿using StarBlue.HabboHotel.Cache;
-using StarBlue.HabboHotel.Rooms;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    internal class GetRoomBannedUsersComposer : ServerPacket
+    internal class GetRoomBannedUsersComposer : MessageComposer
     {
-        public GetRoomBannedUsersComposer(Room Instance)
-            : base(ServerPacketHeader.GetRoomBannedUsersMessageComposer)
+        public int RoomId { get; }
+        public List<int> BannedUsers { get; }
+        public GetRoomBannedUsersComposer(int RoomId, List<int> BannedUsers)
+            : base(Composers.GetRoomBannedUsersMessageComposer)
         {
-            base.WriteInteger(Instance.Id);
+            this.RoomId = RoomId;
+            this.BannedUsers = BannedUsers;
+        }
 
-            base.WriteInteger(Instance.BannedUsers().Count);//Count
-            foreach (int Id in Instance.BannedUsers().ToList())
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
+
+            packet.WriteInteger(BannedUsers.Count);//Count
+            foreach (int Id in BannedUsers)
             {
                 UserCache Data = StarBlueServer.GetGame().GetCacheManager().GenerateUser(Id);
 
                 if (Data == null)
                 {
-                    base.WriteInteger(0);
-                    base.WriteString("Unknown Error");
+                    packet.WriteInteger(0);
+                    packet.WriteString("Unknown Error");
                 }
                 else
                 {
-                    base.WriteInteger(Data.Id);
-                    base.WriteString(Data.Username);
+                    packet.WriteInteger(Data.Id);
+                    packet.WriteString(Data.Username);
                 }
             }
         }

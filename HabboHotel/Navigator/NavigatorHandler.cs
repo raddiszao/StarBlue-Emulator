@@ -13,7 +13,7 @@ namespace StarBlue.HabboHotel.Navigator
 {
     internal static class NavigatorHandler
     {
-        public static void Search(ServerPacket Message, SearchResultList SearchResult, string SearchData, GameClient Session, int FetchLimit)
+        public static void Search(Composer Message, SearchResultList SearchResult, string SearchData, GameClient Session, int FetchLimit)
         {
             //Switching by categorys.
             switch (SearchResult.CategoryType)

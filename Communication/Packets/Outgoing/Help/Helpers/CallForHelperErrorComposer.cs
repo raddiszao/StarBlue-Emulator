@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Help.Helpers
 {
-    internal class CallForHelperErrorComposer : ServerPacket
+    internal class CallForHelperErrorComposer : MessageComposer
     {
+        private int errorCode { get; }
+
         public CallForHelperErrorComposer(int errorCode)
-            : base(ServerPacketHeader.CallForHelperErrorMessageComposer)
+            : base(Composers.CallForHelperErrorMessageComposer)
         {
-            base.WriteInteger(errorCode);
+            this.errorCode = errorCode;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(errorCode);
         }
     }
 }

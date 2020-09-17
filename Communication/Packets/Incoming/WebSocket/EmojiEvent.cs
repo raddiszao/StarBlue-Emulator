@@ -1,5 +1,6 @@
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
+using StarBlue.Communication.WebSocket;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.WebClient;
@@ -8,7 +9,7 @@ namespace StarBlue.Communication.Packets.Incoming.WebSocket
 {
     class EmojiEvent : IPacketWebEvent
     {
-        public void Parse(WebClient Session, ClientPacket Packet)
+        public void Parse(WebClient Session, MessageWebEvent Packet)
         {
             if (Session == null)
                 return;

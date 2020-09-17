@@ -1,13 +1,24 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.LandingView
 {
-    internal class ConcurrentUsersGoalProgressComposer : ServerPacket
+    internal class ConcurrentUsersGoalProgressComposer : MessageComposer
     {
+        private int UsersNow { get; }
+        private int Type { get; }
+        private int Goal { get; }
+
         public ConcurrentUsersGoalProgressComposer(int UsersNow, int Type, int Goal)
-            : base(ServerPacketHeader.ConcurrentUsersGoalProgressMessageComposer)
+            : base(Composers.ConcurrentUsersGoalProgressMessageComposer)
         {
-            base.WriteInteger(Type);
-            base.WriteInteger(UsersNow);
-            base.WriteInteger(Goal);
+            this.UsersNow = UsersNow;
+            this.Type = Type;
+            this.Goal = Goal;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Type);
+            packet.WriteInteger(UsersNow);
+            packet.WriteInteger(Goal);
         }
     }
 }

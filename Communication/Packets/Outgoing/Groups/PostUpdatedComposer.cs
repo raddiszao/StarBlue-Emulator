@@ -1,17 +1,23 @@
-﻿using StarBlue.HabboHotel.GameClients;
-using StarBlue.HabboHotel.Groups.Forums;
+﻿using StarBlue.HabboHotel.Groups.Forums;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class PostUpdatedComposer : ServerPacket
+    internal class PostUpdatedComposer : MessageComposer
     {
-        public PostUpdatedComposer(GameClient Session, GroupForumThreadPost Post)
-            : base(ServerPacketHeader.PostUpdatedMessageComposer)
-        {
-            base.WriteInteger(Post.ParentThread.ParentForum.Id);
-            base.WriteInteger(Post.ParentThread.Id);
+        private GroupForumThreadPost Post { get; }
 
-            Post.SerializeData(this);
+        public PostUpdatedComposer(GroupForumThreadPost Post)
+            : base(Composers.PostUpdatedMessageComposer)
+        {
+            this.Post = Post;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Post.ParentThread.ParentForum.Id);
+            packet.WriteInteger(Post.ParentThread.Id);
+
+            Post.SerializeData(packet);
         }
     }
 }

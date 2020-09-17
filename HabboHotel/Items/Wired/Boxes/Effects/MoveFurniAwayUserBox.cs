@@ -41,7 +41,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             Requested = false;
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             string Unknown2 = Packet.PopString();

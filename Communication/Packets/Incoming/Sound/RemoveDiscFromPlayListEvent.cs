@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Sound
 {
     internal class RemoveDiscFromPlayListEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             HabboHotel.Rooms.Room room = Session.GetHabbo().CurrentRoom;
             if (!room.CheckRights(Session))

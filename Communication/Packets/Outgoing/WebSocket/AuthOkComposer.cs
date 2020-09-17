@@ -1,6 +1,8 @@
-﻿namespace StarBlue.Communication.Packets.Outgoing.WebSocket
+﻿using StarBlue.Communication.WebSocket;
+
+namespace StarBlue.Communication.Packets.Outgoing.WebSocket
 {
-    internal class AuthOkComposer : ServerPacket
+    internal class AuthOkComposer : WebComposer
     {
         public AuthOkComposer() : base(1)
         {

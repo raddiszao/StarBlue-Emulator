@@ -1,16 +1,20 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class NavigatorPreferencesComposer : ServerPacket
+    internal class NavigatorPreferencesComposer : MessageComposer
     {
         public NavigatorPreferencesComposer()
-            : base(ServerPacketHeader.NavigatorPreferencesMessageComposer)
+            : base(Composers.NavigatorPreferencesMessageComposer)
         {
-            base.WriteInteger(95);
-            base.WriteInteger(60);
-            base.WriteInteger(425);
-            base.WriteInteger(450);
-            base.WriteBoolean(false);
-            base.WriteInteger(0);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(95);
+            packet.WriteInteger(60);
+            packet.WriteInteger(425);
+            packet.WriteInteger(450);
+            packet.WriteBoolean(false);
+            packet.WriteInteger(0);
         }
     }
 }

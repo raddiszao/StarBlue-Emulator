@@ -7,6 +7,11 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 
         public void Execute(GameClient Session, Room Room, string[] Params)
         {
+            if (!Room.CheckRights(Session, false, true))
+            {
+                Session.SendWhisper("Somente pessoas com direitos ou donos podem usar este comando.", 34);
+                return;
+            }
 
             Room.endQuestion();
         }
@@ -18,6 +23,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             "";
 
         public string PermissionRequired =>
-            "user_12";
+            "user_normal";
     }
 }

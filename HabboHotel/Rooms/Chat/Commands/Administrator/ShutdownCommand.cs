@@ -1,7 +1,6 @@
-﻿using StarBlue.Communication.Packets.Outgoing.Moderation;
-using StarBlue.Core;
+﻿using StarBlue.Core;
+using StarBlue.Utilities;
 using System;
-using System.Threading.Tasks;
 
 namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
 {
@@ -21,7 +20,17 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.User
             int total_time = int.Parse(time) * 60 * 1000;
             Logging.WriteLine("O servidor irá reiniciar em " + time + " minutos.", ConsoleColor.Yellow);
             StarBlueServer.GoingIsToBeClose = true;
-            Task t = Task.Factory.StartNew(() => ConsoleCommandHandler.ShutdownIn(total_time));
+            if (int.Parse(time) > 0)
+            {
+                Threading threading = new Threading();
+                threading.SetMinutes(int.Parse(time));
+                threading.SetAction(() => ConsoleCommandHandler.ShutdownIn());
+                threading.Start();
+            }
+            else
+            {
+                ConsoleCommandHandler.ShutdownIn();
+            }
         }
     }
 }

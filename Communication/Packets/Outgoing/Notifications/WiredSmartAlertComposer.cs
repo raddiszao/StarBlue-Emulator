@@ -1,12 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Notifications
 {
-    internal class WiredSmartAlertComposer : ServerPacket
+    internal class WiredSmartAlertComposer : MessageComposer
     {
-        public WiredSmartAlertComposer(string Message)
-            : base(ServerPacketHeader.WiredSmartAlertComposer)
+        private string Message { get; }
 
+        public WiredSmartAlertComposer(string Message)
+            : base(Composers.WiredSmartAlertComposer)
         {
-            base.WriteString(Message);
+            this.Message = Message;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString(Message);
         }
     }
 }

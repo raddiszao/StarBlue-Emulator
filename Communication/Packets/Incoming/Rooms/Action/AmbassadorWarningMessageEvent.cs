@@ -6,13 +6,9 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Action
 {
     internal class AmbassadorWarningMessageEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
-
             int UserId = Packet.PopInt();
-            int RoomId = Packet.PopInt();
-            int Time = Packet.PopInt();
-
             Room Room = Session.GetHabbo().CurrentRoom;
             RoomUser Target = Room.GetRoomUserManager().GetRoomUserByHabbo(StarBlueServer.GetUsernameById(UserId));
             if (Target == null)

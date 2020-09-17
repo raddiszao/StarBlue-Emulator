@@ -4,7 +4,7 @@ namespace StarBlue.Communication.Packets.Incoming.Misc
 {
     internal class EventTrackerEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             /*string Test1 = Packet.PopString();
             string Test2 = Packet.PopString();

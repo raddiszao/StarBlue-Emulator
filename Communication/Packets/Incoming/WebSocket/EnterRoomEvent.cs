@@ -1,4 +1,5 @@
 using StarBlue.Communication.Packets.Outgoing.Rooms.Session;
+using StarBlue.Communication.WebSocket;
 using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.WebClient;
 
@@ -6,7 +7,7 @@ namespace StarBlue.Communication.Packets.Incoming.WebSocket
 {
     class EnterRoomEvent : IPacketWebEvent
     {
-        public void Parse(WebClient Session, ClientPacket Packet)
+        public void Parse(WebClient Session, MessageWebEvent Packet)
         {
             if (Session == null)
                 return;

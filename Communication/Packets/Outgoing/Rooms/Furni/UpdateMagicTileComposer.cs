@@ -1,14 +1,21 @@
-﻿using System;
-
-namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
+﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni
 {
-    internal class UpdateMagicTileComposer : ServerPacket
+    internal class UpdateMagicTileComposer : MessageComposer
     {
+        public int ItemId { get; }
+        public int Decimal { get; }
+
         public UpdateMagicTileComposer(int ItemId, int Decimal)
-            : base(ServerPacketHeader.UpdateMagicTileMessageComposer)
+            : base(Composers.UpdateMagicTileMessageComposer)
         {
-            base.WriteInteger(Convert.ToInt32(ItemId));
-            base.WriteInteger(Decimal);
+            this.ItemId = ItemId;
+            this.Decimal = Decimal;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(ItemId);
+            packet.WriteInteger(Decimal);
         }
     }
 }

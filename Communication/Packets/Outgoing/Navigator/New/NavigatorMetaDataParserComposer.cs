@@ -4,23 +4,30 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class NavigatorMetaDataParserComposer : ServerPacket
+    internal class NavigatorMetaDataParserComposer : MessageComposer
     {
+        private ICollection<TopLevelItem> TopLevelItems { get; }
+
         public NavigatorMetaDataParserComposer(ICollection<TopLevelItem> TopLevelItems)
-            : base(ServerPacketHeader.NavigatorMetaDataParserMessageComposer)
+            : base(Composers.NavigatorMetaDataParserMessageComposer)
         {
-            base.WriteInteger(TopLevelItems.Count);//Count
+            this.TopLevelItems = TopLevelItems;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(TopLevelItems.Count);//Count
             foreach (TopLevelItem TopLevelItem in TopLevelItems.ToList())
             {
                 //TopLevelContext
-                base.WriteString(TopLevelItem.SearchCode);//Search code
-                base.WriteInteger(0);//Count of saved searches?
+                packet.WriteString(TopLevelItem.SearchCode);//Search code
+                packet.WriteInteger(0);//Count of saved searches?
                 /*{
                     //SavedSearch
-                    base.WriteInteger(TopLevelItem.Id);//Id
-                   base.WriteString(TopLevelItem.SearchCode);//Search code
-                   base.WriteString(TopLevelItem.Filter);//Filter
-                   base.WriteString(TopLevelItem.Localization);//localization
+                    packet.WriteInteger(TopLevelItem.Id);//Id
+                   packet.WriteString(TopLevelItem.SearchCode);//Search code
+                   packet.WriteString(TopLevelItem.Filter);//Filter
+                   packet.WriteString(TopLevelItem.Localization);//localization
                 }*/
             }
         }

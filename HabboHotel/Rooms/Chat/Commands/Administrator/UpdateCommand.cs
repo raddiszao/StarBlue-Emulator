@@ -14,7 +14,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
 {
     internal class UpdateCommand : IChatCommand
     {
-        public string PermissionRequired => "user_16";
+        public string PermissionRequired => "user_13";
         public string Parameters => "[VARIABLE]";
         public string Description => "Atualiza uma parte do hotel.";
 

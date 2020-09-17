@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Session
 {
-    public class RoomForwardComposer : ServerPacket
+    public class RoomForwardComposer : MessageComposer
     {
+        private int RoomId { get; }
+
         public RoomForwardComposer(int RoomId)
-            : base(ServerPacketHeader.RoomForwardMessageComposer)
+            : base(Composers.RoomForwardMessageComposer)
         {
-            base.WriteInteger(RoomId);
+            this.RoomId = RoomId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(RoomId);
         }
     }
 }

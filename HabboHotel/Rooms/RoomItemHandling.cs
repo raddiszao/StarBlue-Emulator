@@ -41,7 +41,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         private readonly List<int> rollerItemsMoved;
         private readonly List<int> rollerUsersMoved;
-        private readonly List<ServerPacket> rollerMessages;
+        private readonly List<MessageComposer> rollerMessages;
 
         private ConcurrentQueue<Item> _roomItemUpdateQueue;
         public bool usedwiredscorebord;
@@ -63,7 +63,7 @@ namespace StarBlue.HabboHotel.Rooms
 
             rollerItemsMoved = new List<int>();
             rollerUsersMoved = new List<int>();
-            rollerMessages = new List<ServerPacket>();
+            rollerMessages = new List<MessageComposer>();
 
             _roomItemUpdateQueue = new ConcurrentQueue<Item>();
             usedwiredscorebord = false;
@@ -92,7 +92,7 @@ namespace StarBlue.HabboHotel.Rooms
 
         public void UpdateWiredScoreBord()
         {
-            List<ServerPacket> messages = new List<ServerPacket>();
+            List<MessageComposer> messages = new List<MessageComposer>();
             foreach (Item scoreitem in _floorItems.Values)
             {
                 if (scoreitem.GetBaseItem().InteractionType == InteractionType.wired_score_board || scoreitem.GetBaseItem().InteractionType == InteractionType.wired_casino)
@@ -392,11 +392,11 @@ namespace StarBlue.HabboHotel.Rooms
             _room.GetRoomUserManager().UpdateUserStatusses();
         }
 
-        private List<ServerPacket> CycleRollers()
+        private List<MessageComposer> CycleRollers()
         {
             if (!mGotRollers)
             {
-                return new List<ServerPacket>();
+                return new List<MessageComposer>();
             }
 
             if (mRollerCycle >= mRollerSpeed || mRollerSpeed == 0)
@@ -512,50 +512,24 @@ namespace StarBlue.HabboHotel.Rooms
                 mRollerCycle++;
             }
 
-            return new List<ServerPacket>();
+            return new List<MessageComposer>();
         }
 
-        public ServerPacket UpdateItemOnRoller(Item pItem, Point NextCoord, int pRolledID, double NextZ)
+        public MessageComposer UpdateItemOnRoller(Item pItem, Point NextCoord, int pRolledID, double NextZ)
         {
-            ServerPacket mMessage = new ServerPacket(ServerPacketHeader.SlideObjectBundleMessageComposer);
-            mMessage.WriteInteger(pItem.GetX);
-            mMessage.WriteInteger(pItem.GetY);
-
-            mMessage.WriteInteger(NextCoord.X);
-            mMessage.WriteInteger(NextCoord.Y);
-
-            mMessage.WriteInteger(1);
-
-            mMessage.WriteInteger(pItem.Id);
-
-            mMessage.WriteString(TextHandling.GetString(pItem.GetZ));
-            mMessage.WriteString(TextHandling.GetString(NextZ));
-
-            mMessage.WriteInteger(pRolledID);
+            var mMessage = new SlideObjectBundleComposer(pItem.GetX, pItem.GetY, pItem.GetZ, NextCoord.X, NextCoord.Y, NextZ, pRolledID, 0, pItem.Id);
 
             SetFloorItem(pItem, NextCoord.X, NextCoord.Y, NextZ);
 
             return mMessage;
         }
 
-        public ServerPacket UpdateUserOnRoller(RoomUser pUser, Point pNextCoord, int pRollerID, double NextZ)
+        public MessageComposer UpdateUserOnRoller(RoomUser pUser, Point pNextCoord, int pRollerID, double NextZ)
         {
-            ServerPacket mMessage = new ServerPacket(ServerPacketHeader.SlideObjectBundleMessageComposer);
-            mMessage.WriteInteger(pUser.X);
-            mMessage.WriteInteger(pUser.Y);
-
-            mMessage.WriteInteger(pNextCoord.X);
-            mMessage.WriteInteger(pNextCoord.Y);
-
-            mMessage.WriteInteger(0);
-            mMessage.WriteInteger(pRollerID);
-            mMessage.WriteInteger(2);
-            mMessage.WriteInteger(pUser.VirtualId);
-            mMessage.WriteString(TextHandling.GetString(pUser.Z));
-            mMessage.WriteString(TextHandling.GetString(NextZ));
+            SlideObjectBundleComposer mMessage = new SlideObjectBundleComposer(pUser.X, pUser.Y, pUser.Z, pNextCoord.X, pNextCoord.Y, NextZ, pRollerID, pUser.VirtualId, -1);
 
             _room.GetGameMap().UpdateUserMovement(new Point(pUser.X, pUser.Y), new Point(pNextCoord.X, pNextCoord.Y), pUser);
-            _room.GetGameMap().GameMap[pUser.X, pUser.Y] = 1;
+            _room.GetGameMap().GameMap[pUser.GetX(), pUser.GetY()] = 1;
             pUser.X = pNextCoord.X;
             pUser.Y = pNextCoord.Y;
             pUser.Z = NextZ;
@@ -564,7 +538,7 @@ namespace StarBlue.HabboHotel.Rooms
 
             if (pUser != null && pUser.GetClient() != null && pUser.GetClient().GetHabbo() != null)
             {
-                List<Item> Items = _room.GetGameMap().GetRoomItemForSquare(pNextCoord.X, pNextCoord.Y);
+                List<Item> Items = _room.GetGameMap().GetCoordinatedItems(new Point(pNextCoord.X, pNextCoord.Y));
                 foreach (Item IItem in Items.ToList())
                 {
                     if (IItem == null)
@@ -956,7 +930,7 @@ namespace StarBlue.HabboHotel.Rooms
 
                 if (sendMessage)
                 {
-                    _room.SendMessage(new ObjectAddComposer(Item, _room));
+                    _room.SendMessage(new ObjectAddComposer(Item));
                 }
             }
             else
@@ -1014,22 +988,22 @@ namespace StarBlue.HabboHotel.Rooms
                     }
                 }
 
-                //foreach (Item _item in GetFurniObjects(Item.GetX, Item.GetY))
-                //{
-                foreach (ThreeDCoord Point in Item.GetAffectedTiles.Values.ToList())
+                foreach (Item _item in GetFurniObjects(Item.GetX, Item.GetY))
                 {
-                    foreach (Item __item in GetFurniObjects(Point.X, Point.Y).ToList())
+                    foreach (ThreeDCoord Point in _item.GetAffectedTiles.Values.ToList())
                     {
-                        if (_room.GetGameMap().HasStackTool(__item.GetX, __item.GetY) && __item.Data.InteractionType != InteractionType.STACKTOOL)
+                        foreach (Item __item in GetFurniObjects(Point.X, Point.Y).ToList())
                         {
-                            _room.SendMessage(new UpdateStackMapMessageComposer(_room, __item.GetAffectedTiles, true));
-                            _room.GetGameMap().RemoveFromMap(__item);
-                            foreach (Point coord in __item.GetCoords.ToList())
-                                _room.GetGameMap().AddCoordinatedMagicTileItem(__item, new Point(coord.X, coord.Y));
+                            if (_room.GetGameMap().HasStackTool(__item.GetX, __item.GetY) && __item.Data.InteractionType != InteractionType.STACKTOOL)
+                            {
+                                _room.SendMessage(new UpdateStackMapMessageComposer(_room, __item.GetAffectedTiles, true));
+                                _room.GetGameMap().RemoveFromMap(__item);
+                                foreach (Point coord in __item.GetCoords.ToList())
+                                    _room.GetGameMap().AddCoordinatedMagicTileItem(__item, new Point(coord.X, coord.Y));
+                            }
                         }
                     }
                 }
-                // }
             }
 
             //if (Session.GetRoomUser().IsWalking)

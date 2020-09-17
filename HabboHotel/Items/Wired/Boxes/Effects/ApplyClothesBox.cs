@@ -1,5 +1,4 @@
 ﻿using StarBlue.Communication.Packets.Incoming;
-using StarBlue.Communication.Packets.Outgoing;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.HabboHotel.Rooms;
 using StarBlue.HabboHotel.Users;
@@ -25,7 +24,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             SetItems = new ConcurrentDictionary<int, Item>();
         }
 
-        public void HandleSave(ClientPacket Packet)
+        public void HandleSave(MessageEvent Packet)
         {
             int Unknown = Packet.PopInt();
             string BotConfiguration = Packet.PopString();
@@ -76,14 +75,7 @@ namespace StarBlue.HabboHotel.Items.Wired.Boxes.Effects
             string Figure = Stuff[1];
 
             User.GetClient().GetHabbo().Look = Figure;
-
-            ServerPacket UserChangeComposer = new ServerPacket(ServerPacketHeader.UserChangeMessageComposer);
-            UserChangeComposer.WriteInteger(User.VirtualId);
-            UserChangeComposer.WriteString(Figure);
-            UserChangeComposer.WriteString("M");
-            UserChangeComposer.WriteString(User.GetClient().GetHabbo().Motto);
-            UserChangeComposer.WriteInteger(0);
-            Instance.SendMessage(UserChangeComposer);
+            Instance.SendMessage(new UserChangeComposer(User, false));
 
             User.GetClient().SendWhisper("Olá!", 1);
             User.GetClient().SendMessage(new AvatarAspectUpdateMessageComposer(User.GetClient().GetHabbo().Look, User.GetClient().GetHabbo().Gender));

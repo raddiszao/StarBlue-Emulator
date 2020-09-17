@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Inventory.Pets
 {
     internal class GetPetInventoryEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             if (Session.GetHabbo().GetInventoryComponent() == null)
             {

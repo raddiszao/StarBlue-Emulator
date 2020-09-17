@@ -3,6 +3,7 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Freeze;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Rooms.Games.Teams;
+using StarBlue.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -520,15 +521,11 @@ namespace StarBlue.HabboHotel.Rooms.Games.Freeze
             //_room.GetGameMap().TeleportToItem(User, GetRandomExitTile());
 
             User.GetClient().SendMessage(new UpdateFreezeLivesComposer(User.InternalRoomID, User.FreezeLives));
-            System.Timers.Timer _timer = new System.Timers.Timer();
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.AutoReset = false;
-            _timer.Interval = 5000;
-            _timer.Start();
-            void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-            {
-                User.ApplyEffect(0);
-            }
+
+            Threading threading = new Threading();
+            threading.SetSeconds(5);
+            threading.SetAction(() => User.ApplyEffect(0));
+            threading.Start();
         }
 
         private List<Item> GetVerticalItems(int x, int y, int length)

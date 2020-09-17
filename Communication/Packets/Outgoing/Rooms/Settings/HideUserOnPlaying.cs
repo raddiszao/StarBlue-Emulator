@@ -1,11 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Rooms.Settings
 {
-    internal class HideUserOnPlaying : ServerPacket
+    internal class HideUserOnPlaying : MessageComposer
     {
+        private bool state { get; }
+
         public HideUserOnPlaying(bool state)
-            : base(ServerPacketHeader.HideUserOnPlayingComposer)
+            : base(Composers.HideUserOnPlayingComposer)
         {
-            base.WriteBoolean(state);
+            this.state = state;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(state);
         }
     }
 }

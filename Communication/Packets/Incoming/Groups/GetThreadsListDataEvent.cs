@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class GetThreadsListDataEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int ForumId = Packet.PopInt(); //Forum ID
             int Int2 = Packet.PopInt(); //Start Index of Thread Count

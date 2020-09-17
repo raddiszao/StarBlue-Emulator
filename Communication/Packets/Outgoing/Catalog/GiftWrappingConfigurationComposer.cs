@@ -1,42 +1,46 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Catalog
 {
-    public class GiftWrappingConfigurationComposer : ServerPacket
+    public class GiftWrappingConfigurationComposer : MessageComposer
     {
         public GiftWrappingConfigurationComposer()
-            : base(ServerPacketHeader.GiftWrappingConfigurationMessageComposer)
+            : base(Composers.GiftWrappingConfigurationMessageComposer)
         {
-            base.WriteBoolean(true);
-            base.WriteInteger(1);
-            base.WriteInteger(10);
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(true);
+            packet.WriteInteger(1);
+            packet.WriteInteger(10);
             for (int i = 3372; i < 3382;)
             {
-                base.WriteInteger(i);
+                packet.WriteInteger(i);
                 i++;
             }
-            base.WriteInteger(7);
-            base.WriteInteger(0);
-            base.WriteInteger(1);
-            base.WriteInteger(2);
-            base.WriteInteger(3);
-            base.WriteInteger(4);
-            base.WriteInteger(5);
-            base.WriteInteger(6);
-            base.WriteInteger(11);
-            base.WriteInteger(0);
-            base.WriteInteger(1);
-            base.WriteInteger(2);
-            base.WriteInteger(3);
-            base.WriteInteger(4);
-            base.WriteInteger(5);
-            base.WriteInteger(6);
-            base.WriteInteger(7);
-            base.WriteInteger(8);
-            base.WriteInteger(9);
-            base.WriteInteger(10);
-            base.WriteInteger(7);
+            packet.WriteInteger(7);
+            packet.WriteInteger(0);
+            packet.WriteInteger(1);
+            packet.WriteInteger(2);
+            packet.WriteInteger(3);
+            packet.WriteInteger(4);
+            packet.WriteInteger(5);
+            packet.WriteInteger(6);
+            packet.WriteInteger(11);
+            packet.WriteInteger(0);
+            packet.WriteInteger(1);
+            packet.WriteInteger(2);
+            packet.WriteInteger(3);
+            packet.WriteInteger(4);
+            packet.WriteInteger(5);
+            packet.WriteInteger(6);
+            packet.WriteInteger(7);
+            packet.WriteInteger(8);
+            packet.WriteInteger(9);
+            packet.WriteInteger(10);
+            packet.WriteInteger(7);
             for (int i = 187; i < 194;)
             {
-                base.WriteInteger(i);
+                packet.WriteInteger(i);
                 i++;
             }
         }

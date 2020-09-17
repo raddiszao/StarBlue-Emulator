@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
 {
     internal class RedeemOfferCreditsEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             int CreditsOwed = 0;
 

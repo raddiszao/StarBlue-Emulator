@@ -3,15 +3,24 @@ using StarBlue.HabboHotel.Groups;
 
 namespace StarBlue.Communication.Packets.Outgoing.Groups
 {
-    internal class UpdateFavouriteGroupComposer : ServerPacket
+    internal class UpdateFavouriteGroupComposer : MessageComposer
     {
-        public UpdateFavouriteGroupComposer(int Id, Group Group, int VirtualId)
-            : base(ServerPacketHeader.UpdateFavouriteGroupMessageComposer)
+        public Group Group { get; }
+        public int VirtualId { get; }
+
+        public UpdateFavouriteGroupComposer(Group Group, int VirtualId)
+            : base(Composers.UpdateFavouriteGroupMessageComposer)
         {
-            base.WriteInteger(VirtualId);//Sends 0 on .COM
-            base.WriteInteger(Group != null ? Group.Id : 0);
-            base.WriteInteger(3);
-            base.WriteString(Group != null ? Group.Name : string.Empty);
+            this.Group = Group;
+            this.VirtualId = VirtualId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(VirtualId);//Sends 0 on .COM
+            packet.WriteInteger(Group != null ? Group.Id : 0);
+            packet.WriteInteger(3);
+            packet.WriteString(Group != null ? Group.Name : string.Empty);
         }
     }
 }

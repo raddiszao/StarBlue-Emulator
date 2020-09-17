@@ -2,8 +2,9 @@
 {
     internal class ClientVariablesEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
+            int idkYet = Packet.PopInt();
             string GordanPath = Packet.PopString();
             string ExternalVariables = Packet.PopString();
         }

@@ -1,13 +1,24 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Purse
 {
-    internal class HabboActivityPointNotificationComposer : ServerPacket
+    internal class HabboActivityPointNotificationComposer : MessageComposer
     {
-        public HabboActivityPointNotificationComposer(int Balance, int Notif, int currencyType = 0)
-            : base(ServerPacketHeader.HabboActivityPointNotificationMessageComposer)
+        public int Balance { get; }
+        public int Notify { get; }
+        public int Type { get; }
+
+        public HabboActivityPointNotificationComposer(int balance, int notify, int type = 0)
+            : base(Composers.HabboActivityPointNotificationMessageComposer)
         {
-            base.WriteInteger(Balance);
-            base.WriteInteger(Notif);
-            base.WriteInteger(currencyType);//Type
+            this.Balance = balance;
+            this.Notify = notify;
+            this.Type = type;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Balance);
+            packet.WriteInteger(Notify);
+            packet.WriteInteger(Type);//Type
         }
     }
 }

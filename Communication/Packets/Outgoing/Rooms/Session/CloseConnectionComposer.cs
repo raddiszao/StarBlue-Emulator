@@ -2,21 +2,31 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Session
 {
-    internal class CloseConnectionComposer : ServerPacket
+    internal class CloseConnectionComposer : MessageComposer
     {
+        private GameClient Session { get; }
+
         public CloseConnectionComposer(GameClient Session)
-            : base(ServerPacketHeader.CloseConnectionMessageComposer)
+            : base(Composers.CloseConnectionMessageComposer)
         {
-            Session.GetHabbo().IsTeleporting = false;
-            Session.GetHabbo().TeleportingRoomID = 0;
-            Session.GetHabbo().TeleporterId = 0;
-            Session.GetHabbo().CurrentRoomId = 0;
+            this.Session = Session;
         }
 
         public CloseConnectionComposer()
-            : base(ServerPacketHeader.CloseConnectionMessageComposer)
+            : base(Composers.CloseConnectionMessageComposer)
         {
 
+        }
+
+        public override void Compose(Composer packet)
+        {
+            if (Session != null)
+            {
+                Session.GetHabbo().IsTeleporting = false;
+                Session.GetHabbo().TeleportingRoomID = 0;
+                Session.GetHabbo().TeleporterId = 0;
+                Session.GetHabbo().CurrentRoomId = 0;
+            }
         }
     }
 }

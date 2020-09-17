@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Furni
 {
     internal class GetCraftingRecipesAvailableEvent : IPacketEvent
     {
-        public void Parse(HabboHotel.GameClients.GameClient Session, ClientPacket Packet)
+        public void Parse(HabboHotel.GameClients.GameClient Session, MessageEvent Packet)
         {
             int craftingTable = Packet.PopInt();
             List<Item> items = new List<Item>();

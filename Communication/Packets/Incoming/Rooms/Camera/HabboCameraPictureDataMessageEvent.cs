@@ -10,7 +10,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
 {
     public class HabboCameraPictureDataMessageEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket packet)
+        public void Parse(GameClient Session, MessageEvent packet)
         {
             Session.SendMessage(new SetCameraPicturePriceMessageComposer(100, 10, 10));
             string str = Camera.Decompiler(packet.ReadBytes(packet.PopInt()));

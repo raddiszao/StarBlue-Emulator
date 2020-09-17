@@ -4,41 +4,50 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Messenger
 {
-    internal class HabboSearchResultComposer : ServerPacket
+    internal class HabboSearchResultComposer : MessageComposer
     {
+        public List<SearchResult> Friends { get; }
+        public List<SearchResult> OtherUsers { get; }
+
         public HabboSearchResultComposer(List<SearchResult> Friends, List<SearchResult> OtherUsers)
-            : base(ServerPacketHeader.HabboSearchResultMessageComposer)
+            : base(Composers.HabboSearchResultMessageComposer)
         {
-            base.WriteInteger(Friends.Count);
+            this.Friends = Friends;
+            this.OtherUsers = OtherUsers;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Friends.Count);
             foreach (SearchResult Friend in Friends.ToList())
             {
                 bool Online = (StarBlueServer.GetGame().GetClientManager().GetClientByUserID(Friend.UserId) != null);
 
-                base.WriteInteger(Friend.UserId);
-                base.WriteString(Friend.Username);
-                base.WriteString(Friend.Motto);
-                base.WriteBoolean(Online);
-                base.WriteBoolean(false);
-                base.WriteString(string.Empty);
-                base.WriteInteger(0);
-                base.WriteString(Online ? Friend.Figure : "");
-                base.WriteString(Friend.LastOnline);
+                packet.WriteInteger(Friend.UserId);
+                packet.WriteString(Friend.Username);
+                packet.WriteString(Friend.Motto);
+                packet.WriteBoolean(Online);
+                packet.WriteBoolean(false);
+                packet.WriteString(string.Empty);
+                packet.WriteInteger(0);
+                packet.WriteString(Online ? Friend.Figure : "");
+                packet.WriteString(Friend.LastOnline);
             }
 
-            base.WriteInteger(OtherUsers.Count);
+            packet.WriteInteger(OtherUsers.Count);
             foreach (SearchResult OtherUser in OtherUsers.ToList())
             {
                 bool Online = (StarBlueServer.GetGame().GetClientManager().GetClientByUserID(OtherUser.UserId) != null);
 
-                base.WriteInteger(OtherUser.UserId);
-                base.WriteString(OtherUser.Username);
-                base.WriteString(OtherUser.Motto);
-                base.WriteBoolean(Online);
-                base.WriteBoolean(false);
-                base.WriteString(string.Empty);
-                base.WriteInteger(0);
-                base.WriteString(Online ? OtherUser.Figure : "");
-                base.WriteString(OtherUser.LastOnline);
+                packet.WriteInteger(OtherUser.UserId);
+                packet.WriteString(OtherUser.Username);
+                packet.WriteString(OtherUser.Motto);
+                packet.WriteBoolean(Online);
+                packet.WriteBoolean(false);
+                packet.WriteString(string.Empty);
+                packet.WriteInteger(0);
+                packet.WriteString(Online ? OtherUser.Figure : "");
+                packet.WriteString(OtherUser.LastOnline);
             }
         }
     }

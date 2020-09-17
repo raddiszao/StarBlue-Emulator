@@ -3,16 +3,23 @@ using StarBlue.Utilities;
 
 namespace StarBlue.Communication.Packets.Outgoing.Moderation
 {
-    internal class CallForHelpPendingCallsComposer : ServerPacket
+    internal class CallForHelpPendingCallsComposer : MessageComposer
     {
+        private ModerationTicket ticket { get; }
+
         public CallForHelpPendingCallsComposer(ModerationTicket ticket)
-            : base(ServerPacketHeader.CallForHelpPendingCallsMessageComposer)
+            : base(Composers.CallForHelpPendingCallsMessageComposer)
         {
-            base.WriteInteger(1);// Count for whatever reason?
+            this.ticket = ticket;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(1);// Count for whatever reason?
             {
-                base.WriteString(ticket.Id.ToString());
-                base.WriteString(UnixTimestamp.FromUnixTimestamp(ticket.Timestamp).ToShortTimeString());
-                base.WriteString(ticket.Issue);
+                packet.WriteString(ticket.Id.ToString());
+                packet.WriteString(UnixTimestamp.FromUnixTimestamp(ticket.Timestamp).ToShortTimeString());
+                packet.WriteString(ticket.Issue);
             }
         }
     }

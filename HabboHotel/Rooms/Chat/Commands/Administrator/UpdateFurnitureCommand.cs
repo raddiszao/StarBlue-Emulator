@@ -19,7 +19,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
         public string Description => "Editar uma mobília.";
         public void Execute(GameClients.GameClient Session, Rooms.Room Room, string[] Params)
         {
-            List<Item> Items = Room.GetGameMap().GetCoordinatedItems(new Point(Session.GetRoomUser().X, Session.GetRoomUser().Y));
+            Item IItem = Room.GetGameMap().GetCoordinatedItems(new Point(Session.GetRoomUser().X, Session.GetRoomUser().Y)).OrderBy(I => I.GetZ).LastOrDefault();
             if (Params.Length == 1 || Params[1] == "info")
             {
                 StringBuilder Lista = new StringBuilder();
@@ -54,27 +54,19 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             numeroint = Convert.ToInt32(Params[2]);
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `width` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Lagura do item: " + FurnitureID + " editada com sucesso. (Valor: " + numeroint.ToString() + ")");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `width` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("Lagura do item: " + FurnitureID + " editada com sucesso. (Valor: " + numeroint.ToString() + ")");
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -88,27 +80,19 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             numeroint = Convert.ToInt32(Params[2]);
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `length` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Comprimento do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `length` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("Comprimento do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -122,27 +106,19 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             numerodouble = Convert.ToDouble(Params[2]);
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `stack_height` = '" + numerodouble + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Altura do item: " + FurnitureID + " editado com sucesso. (Valor: " + numerodouble.ToString() + ")");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `stack_height` = '" + numerodouble + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("Altura do item: " + FurnitureID + " editado com sucesso. (Valor: " + numerodouble.ToString() + ")");
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -156,27 +132,20 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             numeroint = Convert.ToInt32(Params[2]);
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `interaction_modes_count` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Número de interações do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `interaction_modes_count` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("Número de interações do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
+
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -190,27 +159,20 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             numeroint = Convert.ToInt32(Params[2]);
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `effect_id` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Efeito do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `effect_id` = '" + numeroint + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("Efeito do item: " + FurnitureID + " editado com sucesso. (Valor: " + numeroint.ToString() + ")");
+
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -224,25 +186,18 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             value = Params[2];
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `vending_ids` = '" + value + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
 
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `vending_ids` = '" + value + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
                                 Session.SendWhisper("Vending ID do item: " + FurnitureID + " editado com sucesso. (Valor: " + value + ")");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
@@ -258,27 +213,20 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             value = Params[2];
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `height_adjustable` = '" + value + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Alturas do item: " + FurnitureID + " editado com sucesso. (Valor: " + value + ")");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `height_adjustable` = '" + value + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("Alturas do item: " + FurnitureID + " editado com sucesso. (Valor: " + value + ")");
+
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -306,27 +254,20 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                 opcion = "0";
                             }
 
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `can_sit` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("can_sit do item: " + FurnitureID + " editado com sucesso.");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `can_sit` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("can_sit do item: " + FurnitureID + " editado com sucesso.");
+
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -354,25 +295,18 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                 opcion = "0";
                             }
 
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `extra_rot` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
 
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `extra_rot` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
                                 Session.SendWhisper("extra_rot do item: " + FurnitureID + " editado com sucesso.");
                             }
                             StarBlueServer.GetGame().GetItemManager().Init();
@@ -402,27 +336,20 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                 opcion = "0";
                             }
 
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `can_stack` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("can_stack do item: " + FurnitureID + " editado com sucesso.");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `can_stack` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("can_stack do item: " + FurnitureID + " editado com sucesso.");
+
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -450,27 +377,20 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                                 opcion = "0";
                             }
 
-                            foreach (Item IItem in Items.ToList())
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `is_walkable` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("can_walk do item: " + FurnitureID + " editado com sucesso.");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `is_walkable` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("can_walk do item: " + FurnitureID + " editado com sucesso.");
+
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -484,27 +404,21 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         try
                         {
                             opcion = Params[2].ToLower();
-                            foreach (Item IItem in Items.ToList())
+
+                            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                             {
-                                if (IItem == null)
+                                dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
+                                Item = dbClient.GetRow();
+                                if (Item == null)
                                 {
-                                    continue;
+                                    return;
                                 }
 
-                                using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-                                {
-                                    dbClient.SetQuery("SELECT base_item FROM items WHERE id = '" + IItem.Id + "' LIMIT 1");
-                                    Item = dbClient.GetRow();
-                                    if (Item == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    FurnitureID = Convert.ToInt32(Item[0]);
-                                    dbClient.RunFastQuery("UPDATE `furniture` SET `interaction_type` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
-                                }
-                                Session.SendWhisper("Interação do item: " + FurnitureID + " editada com sucesso. (Valor: " + opcion + ")");
+                                FurnitureID = Convert.ToInt32(Item[0]);
+                                dbClient.RunFastQuery("UPDATE `furniture` SET `interaction_type` = '" + opcion + "' WHERE `id` = '" + FurnitureID + "' LIMIT 1");
                             }
+                            Session.SendWhisper("Interação do item: " + FurnitureID + " editada com sucesso. (Valor: " + opcion + ")");
+
                             StarBlueServer.GetGame().GetItemManager().Init();
                         }
                         catch (Exception)
@@ -519,8 +433,6 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
                         return;
                     }
             }
-
-
         }
     }
 }

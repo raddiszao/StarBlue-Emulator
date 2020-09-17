@@ -1,14 +1,18 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Handshake
 {
-    internal class VideoOffersRewardsComposer : ServerPacket
+    internal class VideoOffersRewardsComposer : MessageComposer
     {
         public VideoOffersRewardsComposer(/*int Id, string Type, string Message*/)
-            : base(ServerPacketHeader.VideoOffersRewardsMessageComposer)
+            : base(Composers.VideoOffersRewardsMessageComposer)
         {
-            base.WriteString("start_video");
-            base.WriteInteger(0);
-            base.WriteString("");
-            base.WriteString("");
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteString("start_video");
+            packet.WriteInteger(0);
+            packet.WriteString("");
+            packet.WriteString("");
         }
     }
 }

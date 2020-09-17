@@ -4,27 +4,34 @@ using System.Linq;
 
 namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
 {
-    internal class WiredConditionConfigComposer : ServerPacket
+    internal class WiredConditionConfigComposer : MessageComposer
     {
+        public IWiredItem Box { get; }
+
         public WiredConditionConfigComposer(IWiredItem Box)
-            : base(ServerPacketHeader.WiredConditionConfigMessageComposer)
+            : base(Composers.WiredConditionConfigMessageComposer)
         {
-            base.WriteBoolean(false);
-            if (Box.Type == WiredBoxType.TotalUsersCoincidence) { base.WriteInteger(25); }
+            this.Box = Box;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(false);
+            if (Box.Type == WiredBoxType.TotalUsersCoincidence) { packet.WriteInteger(25); }
             else
             {
-                base.WriteInteger(15);
+                packet.WriteInteger(15);
             }
 
-            base.WriteInteger(Box.SetItems.Count);
+            packet.WriteInteger(Box.SetItems.Count);
             foreach (Item Item in Box.SetItems.Values.ToList())
             {
-                base.WriteInteger(Item.Id);
+                packet.WriteInteger(Item.Id);
             }
 
-            base.WriteInteger(Box.Item.GetBaseItem().SpriteId);
-            base.WriteInteger(Box.Item.Id);
-            base.WriteString(Box.StringData);
+            packet.WriteInteger(Box.Item.GetBaseItem().SpriteId);
+            packet.WriteInteger(Box.Item.Id);
+            packet.WriteString(Box.StringData);
 
             if (Box.Type == WiredBoxType.ConditionDateRangeActive)
             {
@@ -33,9 +40,9 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
                     Box.StringData = "0;0";
                 }
 
-                base.WriteInteger(2);//Loop
-                base.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[0]) : 0);
-                base.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[1]) : 0);
+                packet.WriteInteger(2);//Loop
+                packet.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[0]) : 0);
+                packet.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[1]) : 0);
 
             }
 
@@ -46,10 +53,10 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
                     Box.StringData = "0;0;0";
                 }
 
-                base.WriteInteger(3);//Loop
-                base.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[0]) : 0);
-                base.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[1]) : 0);
-                base.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[2]) : 0);
+                packet.WriteInteger(3);//Loop
+                packet.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[0]) : 0);
+                packet.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[1]) : 0);
+                packet.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[2]) : 0);
             }
             else if (Box.Type == WiredBoxType.ConditionUserCountInRoom || Box.Type == WiredBoxType.ConditionUserCountDoesntInRoom)
             {
@@ -58,26 +65,26 @@ namespace StarBlue.Communication.Packets.Outgoing.Rooms.Furni.Wired
                     Box.StringData = "0;0";
                 }
 
-                base.WriteInteger(2);//Loop
-                base.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[0]) : 1);
-                base.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[1]) : 50);
+                packet.WriteInteger(2);//Loop
+                packet.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[0]) : 1);
+                packet.WriteInteger(Box.StringData != null ? int.Parse(Box.StringData.Split(';')[1]) : 50);
             }
 
             if (Box.Type == WiredBoxType.ConditionFurniHasNoFurni || Box.Type == WiredBoxType.ConditionFurniHasFurni)
             {
-                base.WriteInteger(1);
+                packet.WriteInteger(1);
             }
 
             if (Box.Type != WiredBoxType.ConditionUserCountInRoom && Box.Type != WiredBoxType.ConditionUserCountDoesntInRoom && Box.Type != WiredBoxType.ConditionFurniHasNoFurni && Box.Type != WiredBoxType.ConditionFurniHasFurni && Box.Type != WiredBoxType.ConditionDateRangeActive)
             {
-                base.WriteInteger(0);
+                packet.WriteInteger(0);
             }
             else if (Box.Type == WiredBoxType.ConditionFurniHasNoFurni || Box.Type == WiredBoxType.ConditionFurniHasFurni)
             {
-                base.WriteInteger(Box.BoolData ? 1 : 0);
+                packet.WriteInteger(Box.BoolData ? 1 : 0);
             }
-            base.WriteInteger(0);
-            base.WriteInteger(WiredBoxTypeUtility.GetWiredId(Box.Type));
+            packet.WriteInteger(0);
+            packet.WriteInteger(WiredBoxTypeUtility.GetWiredId(Box.Type));
         }
     }
 }

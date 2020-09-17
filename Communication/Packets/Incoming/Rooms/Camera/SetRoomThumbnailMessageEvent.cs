@@ -5,7 +5,7 @@ namespace StarBlue.Communication.Packets.Incoming.Rooms.Camera
 {
     public class SetRoomThumbnailMessageEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket paket)
+        public void Parse(GameClient Session, MessageEvent paket)
         {
             Session.SendMessage(new SendRoomThumbnailAlertMessageComposer());
         }

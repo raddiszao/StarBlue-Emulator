@@ -1,90 +1,104 @@
 ﻿using StarBlue.HabboHotel.GameClients;
 using StarBlue.HabboHotel.Navigator;
 using StarBlue.HabboHotel.Rooms;
+using StarBlue.HabboHotel.Users;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class GetGuestRoomResultComposer : ServerPacket
+    internal class GetGuestRoomResultComposer : MessageComposer
     {
+        private Habbo Habbo { get; }
+        private RoomData Data { get; }
+        private bool isLoading { get; }
+        private bool checkEntry { get; }
+
         public GetGuestRoomResultComposer(GameClient Session, RoomData Data, bool isLoading, bool checkEntry)
-            : base(ServerPacketHeader.GetGuestRoomResultMessageComposer)
+            : base(Composers.GetGuestRoomResultMessageComposer)
         {
-            base.WriteBoolean(isLoading);
-            base.WriteInteger(Data.Id);
-            base.WriteString(Data.Name);
+            this.Habbo = Session.GetHabbo();
+            this.Data = Data;
+            this.isLoading = isLoading;
+            this.checkEntry = checkEntry;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteBoolean(isLoading);
+            packet.WriteInteger(Data.Id);
+            packet.WriteString(Data.Name);
             if (Data.Type == "public")
             {
-                base.WriteInteger(0);
-                base.WriteString("Quarto Público");
+                packet.WriteInteger(0);
+                packet.WriteString("Quarto Público");
             }
             else
             {
-                base.WriteInteger(Data.OwnerId);
-                base.WriteString(Data.OwnerName);
+                packet.WriteInteger(Data.OwnerId);
+                packet.WriteString(Data.OwnerName);
             }
 
-            base.WriteInteger(Session.GetHabbo().GetPermissions().HasRight("room_any_rights") ? 0 : RoomAccessUtility.GetRoomAccessPacketNum(Data.Access));
-            base.WriteInteger(Data.UsersNow);
-            base.WriteInteger(Data.UsersMax);
-            base.WriteString(Data.Description);
-            base.WriteInteger(Data.TradeSettings);
-            base.WriteInteger(2);
-            base.WriteInteger(Data.Score);
-            base.WriteInteger(Data.Category);
+            packet.WriteInteger(Habbo.GetPermissions().HasRight("room_any_rights") ? 0 : RoomAccessUtility.GetRoomAccessPacketNum(Data.Access));
+            packet.WriteInteger(Data.UsersNow);
+            packet.WriteInteger(Data.UsersMax);
+            packet.WriteString(Data.Description);
+            packet.WriteInteger(Data.TradeSettings);
+            packet.WriteInteger(2);
+            packet.WriteInteger(Data.Score);
+            packet.WriteInteger(Data.Category);
 
-            base.WriteInteger(Data.Tags.Count);
+            packet.WriteInteger(Data.Tags.Count);
             foreach (string Tag in Data.Tags)
             {
-                base.WriteString(Tag);
+                packet.WriteString(Tag);
             }
 
             if (Data.Group != null && Data.Promotion != null)
             {
-                base.WriteInteger(62);//What?
+                packet.WriteInteger(62);//What?
 
-                base.WriteInteger(Data.Group == null ? 0 : Data.Group.Id);
-                base.WriteString(Data.Group == null ? "" : Data.Group.Name);
-                base.WriteString(Data.Group == null ? "" : Data.Group.Badge);
+                packet.WriteInteger(Data.Group == null ? 0 : Data.Group.Id);
+                packet.WriteString(Data.Group == null ? "" : Data.Group.Name);
+                packet.WriteString(Data.Group == null ? "" : Data.Group.Badge);
 
-                base.WriteString(Data.Promotion != null ? Data.Promotion.Name : "");
-                base.WriteString(Data.Promotion != null ? Data.Promotion.Description : "");
-                base.WriteInteger(Data.Promotion != null ? Data.Promotion.MinutesLeft : 0);
+                packet.WriteString(Data.Promotion != null ? Data.Promotion.Name : "");
+                packet.WriteString(Data.Promotion != null ? Data.Promotion.Description : "");
+                packet.WriteInteger(Data.Promotion != null ? Data.Promotion.MinutesLeft : 0);
             }
             else if (Data.Group != null && Data.Promotion == null)
             {
-                base.WriteInteger(58);//What?
-                base.WriteInteger(Data.Group == null ? 0 : Data.Group.Id);
-                base.WriteString(Data.Group == null ? "" : Data.Group.Name);
-                base.WriteString(Data.Group == null ? "" : Data.Group.Badge);
+                packet.WriteInteger(58);//What?
+                packet.WriteInteger(Data.Group == null ? 0 : Data.Group.Id);
+                packet.WriteString(Data.Group == null ? "" : Data.Group.Name);
+                packet.WriteString(Data.Group == null ? "" : Data.Group.Badge);
             }
             else if (Data.Group == null && Data.Promotion != null)
             {
-                base.WriteInteger(60);//What?
-                base.WriteString(Data.Promotion != null ? Data.Promotion.Name : "");
-                base.WriteString(Data.Promotion != null ? Data.Promotion.Description : "");
-                base.WriteInteger(Data.Promotion != null ? Data.Promotion.MinutesLeft : 0);
+                packet.WriteInteger(60);//What?
+                packet.WriteString(Data.Promotion != null ? Data.Promotion.Name : "");
+                packet.WriteString(Data.Promotion != null ? Data.Promotion.Description : "");
+                packet.WriteInteger(Data.Promotion != null ? Data.Promotion.MinutesLeft : 0);
             }
             else
             {
-                base.WriteInteger(56);//What?
+                packet.WriteInteger(56);//What?
             }
 
 
-            base.WriteBoolean(checkEntry);
-            base.WriteBoolean(StarBlueServer.GetGame().GetNavigator().TryGetStaffPickedRoom(Data.Id, out StaffPick staffPick));
-            base.WriteBoolean(Data.Group != null && Data.Group.IsMember(Session.GetHabbo().Id)); //Unknown
-            base.WriteBoolean(Data.RoomMuted); //Unknown
+            packet.WriteBoolean(checkEntry);
+            packet.WriteBoolean(StarBlueServer.GetGame().GetNavigator().TryGetStaffPickedRoom(Data.Id, out StaffPick staffPick));
+            packet.WriteBoolean(Data.Group != null && Data.Group.IsMember(Habbo.Id)); //Unknown
+            packet.WriteBoolean(Data.RoomMuted); //Unknown
 
-            base.WriteInteger(Data.WhoCanMute);
-            base.WriteInteger(Data.WhoCanKick);
-            base.WriteInteger(Data.WhoCanBan);
+            packet.WriteInteger(Data.WhoCanMute);
+            packet.WriteInteger(Data.WhoCanKick);
+            packet.WriteInteger(Data.WhoCanBan);
 
-            base.WriteBoolean(Session.GetHabbo().GetPermissions().HasRight("mod_tool") || Data.OwnerName == Session.GetHabbo().Username);//Room muting.
-            base.WriteInteger(Data.chatMode);
-            base.WriteInteger(Data.chatSize);
-            base.WriteInteger(Data.chatSpeed);
-            base.WriteInteger(Data.chatDistance);//Hearing distance
-            base.WriteInteger(Data.extraFlood);//Flood!!
+            packet.WriteBoolean(Habbo.GetPermissions().HasRight("mod_tool") || Data.OwnerName == Habbo.Username);//Room muting.
+            packet.WriteInteger(Data.chatMode);
+            packet.WriteInteger(Data.chatSize);
+            packet.WriteInteger(Data.chatSpeed);
+            packet.WriteInteger(Data.chatDistance);//Hearing distance
+            packet.WriteInteger(Data.extraFlood);//Flood!!
         }
     }
 }

@@ -1,12 +1,19 @@
 ﻿namespace StarBlue.Communication.Packets.Outgoing.Inventory.Trading
 {
-    internal class TradingClosedComposer : ServerPacket
+    internal class TradingClosedComposer : MessageComposer
     {
+        public int UserId { get; }
+
         public TradingClosedComposer(int UserId)
-            : base(ServerPacketHeader.TradingClosedMessageComposer)
+            : base(Composers.TradingClosedMessageComposer)
         {
-            base.WriteInteger(UserId);
-            base.WriteInteger(0);
+            this.UserId = UserId;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(UserId);
+            packet.WriteInteger(0);
         }
     }
 }

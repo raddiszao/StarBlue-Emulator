@@ -6,7 +6,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
 {
     internal class DeleteGroupPostEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int forumId = Packet.PopInt();
             int threadId = Packet.PopInt();
@@ -22,7 +22,7 @@ namespace StarBlue.Communication.Packets.Incoming.Groups
             post.DeletedLevel = deleteLevel / 10;
             post.DeleterId = Session.GetHabbo().Id;
             post.Save();
-            Session.SendMessage(new PostUpdatedComposer(Session, post));
+            Session.SendMessage(new PostUpdatedComposer(post));
 
             if (post.DeletedLevel != 0)
             {

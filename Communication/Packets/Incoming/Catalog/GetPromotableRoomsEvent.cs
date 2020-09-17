@@ -8,7 +8,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     internal class GetPromotableRoomsEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             List<RoomData> Rooms = Session.GetHabbo().UsersRooms;
             Rooms = Rooms.Where(x => (x.Promotion == null || x.Promotion.TimestampExpires < StarBlueServer.GetUnixTimestamp())).ToList();

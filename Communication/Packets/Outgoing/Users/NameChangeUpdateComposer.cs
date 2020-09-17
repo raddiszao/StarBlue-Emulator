@@ -2,27 +2,37 @@
 
 namespace StarBlue.Communication.Packets.Outgoing.Users
 {
-    internal class NameChangeUpdateComposer : ServerPacket
+    internal class NameChangeUpdateComposer : MessageComposer
     {
-        public NameChangeUpdateComposer(string Name, int Error, ICollection<string> Tags)
-            : base(ServerPacketHeader.NameChangeUpdateMessageComposer)
+        public int Error { get; }
+        public string Name { get; }
+        public ICollection<string> Tags { get; }
+        public NameChangeUpdateComposer(string name, int error, ICollection<string> tags)
+            : base(Composers.NameChangeUpdateMessageComposer)
         {
-            base.WriteInteger(Error);
-            base.WriteString(Name);
-
-            base.WriteInteger(Tags.Count);
-            foreach (string Tag in Tags)
-            {
-                base.WriteString(Name + Tag);
-            }
+            this.Error = error;
+            this.Name = name;
+            this.Tags = tags;
         }
 
-        public NameChangeUpdateComposer(string Name, int Error)
-            : base(ServerPacketHeader.NameChangeUpdateMessageComposer)
+        public NameChangeUpdateComposer(string name, int error)
+            : base(Composers.NameChangeUpdateMessageComposer)
         {
-            base.WriteInteger(Error);
-            base.WriteString(Name);
-            base.WriteInteger(0);
+            this.Error = error;
+            this.Name = name;
+            this.Tags = new List<string>();
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Error);
+            packet.WriteString(Name);
+
+            packet.WriteInteger(Tags.Count);
+            foreach (string tag in Tags)
+            {
+                packet.WriteString(Name + tag);
+            }
         }
     }
 }

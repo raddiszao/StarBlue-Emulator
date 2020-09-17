@@ -176,7 +176,6 @@ namespace StarBlue.HabboHotel
                 this._cycleEnded = false;
 
                 GetRoomManager().OnCycle();
-                GetClientManager().TestClientConnections();
                 Thread.Sleep(this._cycleSleepTime);
             }
 

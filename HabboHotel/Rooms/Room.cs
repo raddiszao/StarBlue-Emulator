@@ -20,7 +20,6 @@ using StarBlue.HabboHotel.Rooms.Games.Teams;
 using StarBlue.HabboHotel.Rooms.Instance;
 using StarBlue.HabboHotel.Rooms.Trading;
 using StarBlue.HabboHotel.Rooms.TraxMachine;
-using StarBlue.Messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -299,9 +298,9 @@ namespace StarBlue.HabboHotel.Rooms
 
         public bool CanTradeInRoom => true;
 
-        public List<ServerPacket> HideWiredMessages(bool hideWired)
+        public List<MessageComposer> HideWiredMessages(bool hideWired)
         {
-            List<ServerPacket> list = new List<ServerPacket>();
+            List<MessageComposer> list = new List<MessageComposer>();
             List<Item> items = GetRoomItemHandler().GetFloor.ToList();
             foreach (Item item in items)
             {
@@ -313,7 +312,7 @@ namespace StarBlue.HabboHotel.Rooms
                 if (hideWired)
                     list.Add(new ObjectRemoveComposer(item, 0));
                 else
-                    list.Add(new ObjectAddComposer(item, this));
+                    list.Add(new ObjectAddComposer(item));
             }
 
             return list;
@@ -993,54 +992,6 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public void SendObjects(GameClient Session)
-        {
-            QueuedServerMessage message = new QueuedServerMessage(Session.GetConnection());
-
-            ICollection<RoomUser> RoomUsers = _roomUserManager.GetUserList();
-            message.appendResponse(new HeightMapComposer(this));
-            message.appendResponse(new FloorHeightMapComposer(_gamemap.Model.GetRelativeHeightmap(), _gamemap.StaticModel.WallHeight));
-            message.appendResponse(new UsersComposer(RoomUsers.Where(x => x != null).ToList()));
-
-            foreach (RoomUser User in RoomUsers.ToList())
-            {
-                if (User == null)
-                {
-                    return;
-                }
-
-                if (User.IsBot && User.BotData.DanceId > 0)
-                {
-                    message.appendResponse(new DanceComposer(User, User.BotData.DanceId));
-                }
-                else if (!User.IsBot && !User.IsPet && User.IsDancing)
-                {
-                    message.appendResponse(new DanceComposer(User, User.DanceId));
-                }
-
-                if (User.IsAsleep)
-                {
-                    message.appendResponse(new SleepComposer(User, true));
-                }
-
-                if (User.CarryItemID > 0 && User.CarryTimer > 0)
-                {
-                    message.appendResponse(new CarryObjectComposer(User.VirtualId, User.CarryItemID));
-                }
-
-                if (!User.IsBot && !User.IsPet && User.CurrentEffect > 0)
-                {
-                    message.appendResponse(new AvatarEffectComposer(User.VirtualId, User.CurrentEffect));
-                }
-            }
-
-
-            message.appendResponse(new ObjectsComposer(_roomData.HideWired ? _roomItemHandling.GetFloor.Where(Item => !Item.IsWired && Item.Data.Id != 716132).ToArray() : _roomItemHandling.GetFloor.ToArray(), this));
-            message.appendResponse(new ItemsComposer(_roomItemHandling.GetWall.ToArray(), this));
-            message.appendResponse(new UserUpdateComposer(_roomUserManager.GetUserList().ToList()));
-            message.sendResponse();
-        }
-
         #region Tents
         public void AddTent(int TentId)
         {
@@ -1112,7 +1063,7 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public void SendToTent(int Id, int TentId, IServerPacket Packet)
+        public void SendToTent(int Id, int TentId, MessageComposer Packet)
         {
             if (!Tents.ContainsKey(TentId))
             {
@@ -1132,7 +1083,7 @@ namespace StarBlue.HabboHotel.Rooms
         #endregion
 
         #region Communication (Packets)
-        public void SendMessage(IServerPacket Message, bool UsersWithRightsOnly = false)
+        public void SendMessage(MessageComposer Message, bool UsersWithRightsOnly = false)
         {
             if (Message == null)
             {
@@ -1156,7 +1107,7 @@ namespace StarBlue.HabboHotel.Rooms
                         continue;
                     }
 
-                    if (User.GetClient() == null || User.GetClient().GetConnection() == null)
+                    if (User.GetClient() == null)
                     {
                         continue;
                     }
@@ -1175,56 +1126,26 @@ namespace StarBlue.HabboHotel.Rooms
             }
         }
 
-        public void BroadcastPacket(byte[] Packet)
+        public void BroadcastPacket(List<MessageComposer> packets)
         {
-            foreach (RoomUser User in _roomUserManager.GetUserList().ToList())
+            foreach (RoomUser user in _roomUserManager.GetUserList().ToList())
             {
-                if (User == null || User.IsBot)
-                {
+                if (user == null || user.IsBot)
                     continue;
-                }
 
-                if (User.GetClient() == null || User.GetClient().GetConnection() == null)
-                {
+                if (user.GetClient() == null)
                     continue;
-                }
 
-                User.GetClient().GetConnection().SendData(Packet);
+                user.GetClient().SendMessages(packets);
             }
         }
 
-        public void SendMessage(List<ServerPacket> Messages)
+        public void SendMessage(List<MessageComposer> packets)
         {
-            if (Messages.Count == 0)
-            {
+            if (packets.Count == 0)
                 return;
-            }
 
-            try
-            {
-                byte[] TotalBytes = new byte[0];
-                int Current = 0;
-
-                foreach (ServerPacket Packet in Messages.ToList())
-                {
-                    byte[] ToAdd = Packet.GetBytes();
-                    int NewLen = TotalBytes.Length + ToAdd.Length;
-
-                    Array.Resize(ref TotalBytes, NewLen);
-
-                    for (int i = 0; i < ToAdd.Length; i++)
-                    {
-                        TotalBytes[Current] = ToAdd[i];
-                        Current++;
-                    }
-                }
-
-                BroadcastPacket(TotalBytes);
-            }
-            catch (Exception e)
-            {
-                Logging.HandleException(e, "Room.SendMessage List<ServerPacket>");
-            }
+            BroadcastPacket(packets);
         }
         #endregion
 

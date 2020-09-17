@@ -28,7 +28,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
             StringBuilder builder = new StringBuilder();
             if (StarBlueServer.GetGame().GetClientManager().GetClientByUsername(username) != null)
             {
-                str2 = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(username).GetConnection().getIp();
+                str2 = StarBlueServer.GetGame().GetClientManager().GetClientByUsername(username).GetIpAddress();
                 builder.AppendLine("Username :  " + username + " - Ip : " + str2);
                 using (adapter = StarBlueServer.GetDatabaseManager().GetQueryReactor())
                 {

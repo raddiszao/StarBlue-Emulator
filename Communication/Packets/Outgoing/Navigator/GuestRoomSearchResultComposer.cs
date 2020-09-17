@@ -3,21 +3,32 @@ using System.Collections.Generic;
 
 namespace StarBlue.Communication.Packets.Outgoing.Navigator
 {
-    internal class GuestRoomSearchResultComposer : ServerPacket
+    internal class GuestRoomSearchResultComposer : MessageComposer
     {
-        public GuestRoomSearchResultComposer(int Mode, string UserQuery, ICollection<RoomData> Rooms)
-            : base(ServerPacketHeader.GuestRoomSearchResultMessageComposer)
-        {
-            base.WriteInteger(Mode);
-            base.WriteString(UserQuery);
+        private int Mode { get; }
+        private string UserQuery { get; }
+        private ICollection<RoomData> Rooms { get; }
 
-            base.WriteInteger(Rooms.Count);
+        public GuestRoomSearchResultComposer(int Mode, string UserQuery, ICollection<RoomData> Rooms)
+            : base(Composers.GuestRoomSearchResultMessageComposer)
+        {
+            this.Mode = Mode;
+            this.UserQuery = UserQuery;
+            this.Rooms = Rooms;
+        }
+
+        public override void Compose(Composer packet)
+        {
+            packet.WriteInteger(Mode);
+            packet.WriteString(UserQuery);
+
+            packet.WriteInteger(Rooms.Count);
             foreach (RoomData data in Rooms)
             {
-                RoomAppender.WriteRoom(this, data, data.Promotion);
+                RoomAppender.WriteRoom(packet, data, data.Promotion);
             }
 
-            base.WriteBoolean(false);
+            packet.WriteBoolean(false);
         }
     }
 }

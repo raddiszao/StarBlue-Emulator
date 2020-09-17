@@ -1,8 +1,8 @@
-﻿using StarBlue.Core;
-using StarBlueServer.Communication;
+﻿using StarBlue.Communication.ConnectionManager;
+using StarBlue.Core;
 using System;
 
-namespace StarBlue.Communication.ConnectionManager
+namespace StarBlue.Communication.WebSocket
 {
     public class WebSocketManager
     {

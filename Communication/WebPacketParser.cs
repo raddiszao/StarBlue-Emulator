@@ -1,5 +1,4 @@
 ﻿using StarBlue.Communication.ConnectionManager;
-using StarBlue.Communication.Packets.Incoming;
 using StarBlue.Communication.WebSocket;
 using StarBlue.HabboHotel.WebClient;
 using StarBlue.Utilities;
@@ -63,7 +62,7 @@ namespace StarBlue.Communication
                         byte[] Content = new byte[Packet.Length - 2];
                         Buffer.BlockCopy(Packet, 2, Content, 0, Packet.Length - 2);
 
-                        ClientPacket Message = new ClientPacket(Header, Content);
+                        MessageWebEvent Message = new MessageWebEvent(Header, Content);
                         onNewPacket.Invoke(Message);
                     }
                 }
@@ -77,8 +76,6 @@ namespace StarBlue.Communication
         private void PolicyRequest(byte[] packet)
         {
             string data = Encoding.UTF8.GetString(packet);
-            /* Handshaking and managing ClientSocket */
-
             if (!data.Contains("ey:"))
                 return;
 
@@ -115,6 +112,6 @@ namespace StarBlue.Communication
             return new WebPacketParser(this.currentClient);
         }
 
-        public delegate void HandlePacket(ClientPacket message);
+        public delegate void HandlePacket(MessageWebEvent message);
     }
 }

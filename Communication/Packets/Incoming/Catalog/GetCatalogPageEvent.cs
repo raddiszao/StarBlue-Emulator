@@ -7,14 +7,14 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
 {
     public class GetCatalogPageEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient Session, MessageEvent Packet)
         {
             int PageId = Packet.PopInt();
             int Something = Packet.PopInt();
             string CataMode = Packet.PopString();
 
             CatalogPage Page = null;
-            BCCatalogPage BCPage = null;
+            //BCCatalogPage BCPage = null;
 
             if (CataMode == "NORMAL")
             {
@@ -31,7 +31,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 Session.SendMessage(new CatalogPageComposer(Page, CataMode, Session));
             }
 
-            if (CataMode == "BUILDERS_CLUB")
+            /*if (CataMode == "BUILDERS_CLUB")
             {
                 if (!StarBlueServer.GetGame().GetCatalog().TryGetBCPage(PageId, out BCPage))
                 {
@@ -44,7 +44,7 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 }
 
                 Session.SendMessage(new BCCatalogPageComposer(BCPage, CataMode));
-            }
+            }*/
 
         }
     }
