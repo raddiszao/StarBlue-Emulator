@@ -11,7 +11,6 @@ using StarBlue.Communication.Packets.Outgoing.Rooms.Camera;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Chat;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Notifications;
-using StarBlue.Communication.Packets.Outgoing.Rooms.Nux;
 using StarBlue.Communication.Packets.Outgoing.Sound;
 using StarBlue.Communication.Packets.Outgoing.Users;
 using StarBlue.Core;
@@ -26,7 +25,6 @@ using StarBlue.HabboHotel.Users.Messenger.FriendBar;
 using StarBlue.HabboHotel.Users.UserDataManagement;
 using StarBlue.Utilities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -36,7 +34,6 @@ namespace StarBlue.HabboHotel.GameClients
 {
     public class GameClient
     {
-        private readonly int _id;
         private Habbo _habbo;
         public string MachineId;
         private bool _disconnected;
@@ -531,8 +528,6 @@ namespace StarBlue.HabboHotel.GameClients
             SendMessage(new ShoutComposer(User.VirtualId, Message, 0, (Colour == 0 ? User.LastBubble : Colour)));
         }
 
-        public int ConnectionID => _id;
-
         public Habbo GetHabbo()
         {
             return _habbo;
@@ -562,7 +557,6 @@ namespace StarBlue.HabboHotel.GameClients
             {
                 if (channel != null)
                 {
-                    channel.DisconnectAsync();
                     channel.CloseAsync();
                 }
                 _disconnected = true;
@@ -579,8 +573,6 @@ namespace StarBlue.HabboHotel.GameClients
             MachineId = string.Empty;
             _disconnected = true;
             _habbo = null;
-            channel.DisconnectAsync();
-            channel.CloseAsync();
         }
 
         public RoomUser GetRoomUser()

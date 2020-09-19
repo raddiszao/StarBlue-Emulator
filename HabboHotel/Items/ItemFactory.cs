@@ -45,37 +45,7 @@ namespace StarBlue.HabboHotel.Items
             }
         }
 
-        public static Item CreateSingleItem(ItemData Data, Habbo Habbo, string ExtraData, string DisplayFlags, int ItemId, int LimitedNumber = 0, int LimitedStack = 0)
-        {
-            if (Data == null)
-            {
-                throw new InvalidOperationException("Data cannot be null.");
-            }
-
-            Item Item = new Item(ItemId, 0, Data.Id, ExtraData, 0, 0, 0, 0, Habbo.Id, 0, LimitedNumber, LimitedStack, "");
-
-            using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
-            {
-                dbClient.SetQuery("INSERT INTO `items` (`id`,base_item,user_id,room_id,x,y,z,wall_pos,rot,extra_data,`limited_number`,`limited_stack`) VALUES (@id, @did,@uid,@rid,@x,@y,@z,@wall_pos,@rot,@extra_data, @limited_number, @limited_stack)");
-                dbClient.AddParameter("id", ItemId);
-                dbClient.AddParameter("did", Data.Id);
-                dbClient.AddParameter("uid", Habbo.Id);
-                dbClient.AddParameter("rid", 0);
-                dbClient.AddParameter("x", 0);
-                dbClient.AddParameter("y", 0);
-                dbClient.AddParameter("z", 0);
-                dbClient.AddParameter("wall_pos", "");
-                dbClient.AddParameter("rot", 0);
-                dbClient.AddParameter("extra_data", ExtraData);
-                dbClient.AddParameter("limited_number", LimitedNumber);
-                dbClient.AddParameter("limited_stack", LimitedStack);
-                dbClient.RunQuery();
-
-                return Item;
-            }
-        }
-
-        public static Item CreateGiftItem(ItemData Data, Habbo Habbo, string ExtraData, string DisplayFlags, int ItemId, int LimitedNumber = 0, int LimitedStack = 0)
+        public static Item CreateSingleItem(ItemData Data, Habbo Habbo, string ExtraData, int ItemId, int LimitedNumber = 0, int LimitedStack = 0)
         {
             if (Data == null)
             {

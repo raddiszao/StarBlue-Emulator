@@ -11,6 +11,11 @@ namespace StarBlue.Communication.Packets.Outgoing
             this.Header = Id;
         }
 
+        public int GetId()
+        {
+            return this.Header;
+        }
+
         public Composer WriteMessage(IByteBuffer buf)
         {
             Composer packet = new Composer(Header, buf);

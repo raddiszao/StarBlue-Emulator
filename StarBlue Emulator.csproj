@@ -1431,10 +1431,10 @@
     <Compile Include="HabboHotel\WebClient\WebClientManager.cs" />
     <Compile Include="Network\Codec\EncryptionDecoder.cs" />
     <Compile Include="Network\Codec\GamePolicyDecoder.cs" />
-    <Compile Include="Network\Codec\GameDecoder.cs" />
-    <Compile Include="Network\Codec\GameEncoder.cs" />
+    <Compile Include="Network\Codec\GameByteDecoder.cs" />
+    <Compile Include="Network\Codec\GameByteEncoder.cs" />
     <Compile Include="Network\NetworkBootstrap.cs" />
-    <Compile Include="Network\NetworkChannelHandler.cs" />
+    <Compile Include="Network\Codec\GameMessageHandler.cs" />
     <Compile Include="StarBlueServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Core\ConfigurationData.cs" />

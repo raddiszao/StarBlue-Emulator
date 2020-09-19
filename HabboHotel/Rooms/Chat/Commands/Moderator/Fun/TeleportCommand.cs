@@ -2,7 +2,7 @@
 {
     internal class TeleportCommand : IChatCommand
     {
-        public string PermissionRequired => "user_7";
+        public string PermissionRequired => "user_12";
         public string Parameters => "";
         public string Description => "Obter a habilidade de se teletransportar.";
 

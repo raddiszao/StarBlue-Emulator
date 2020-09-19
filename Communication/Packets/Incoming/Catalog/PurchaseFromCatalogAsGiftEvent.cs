@@ -25,9 +25,9 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
             string GiftUser = StringCharFilter.Escape(Packet.PopString());
             string GiftMessage = StringCharFilter.Escape(Packet.PopString().Replace(Convert.ToChar(5), ' '));
             int SpriteId = Packet.PopInt();
-            int Ribbon = Packet.PopInt();
             int Colour = Packet.PopInt();
-            bool dnow = Packet.PopBoolean();
+            int Ribbon = Packet.PopInt();
+            bool ShowName = Packet.PopBoolean();
 
             if (StarBlueServer.GetSettingsManager().TryGetValue("gifts_enabled") != "1")
             {
@@ -123,14 +123,14 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
                 return;
             }
 
-            string ED = GiftUser + Convert.ToChar(5) + GiftMessage + Convert.ToChar(5) + Session.GetHabbo().Id + Convert.ToChar(5) + Item.Data.Id + Convert.ToChar(5) + SpriteId + Convert.ToChar(5) + Ribbon + Convert.ToChar(5) + Colour;
+            string GiftData = GiftUser + Convert.ToChar(5) + GiftMessage + Convert.ToChar(5) + Session.GetHabbo().Id + Convert.ToChar(5) + Item.Data.Id + Convert.ToChar(5) + SpriteId + Convert.ToChar(5) + Ribbon + Convert.ToChar(5) + Colour;
 
             int NewItemId = 0;
             using (IQueryAdapter dbClient = StarBlueServer.GetDatabaseManager().GetQueryReactor())
             {
                 //Insert the dummy item.
                 dbClient.SetQuery("INSERT INTO `items` (`base_item`,`user_id`,`extra_data`) VALUES ('" + PresentData.Id + "', '" + Habbo.Id + "', @extra_data)");
-                dbClient.AddParameter("extra_data", ED);
+                dbClient.AddParameter("extra_data", GiftData);
                 NewItemId = Convert.ToInt32(dbClient.InsertQuery());
 
                 string ItemExtraData = null;
@@ -244,13 +244,13 @@ namespace StarBlue.Communication.Packets.Incoming.Catalog
             }
 
 
-            Item GiveItem = ItemFactory.CreateGiftItem(PresentData, Habbo, ED, ED, NewItemId, 0, 0);
+            Item GiveItem = ItemFactory.CreateSingleItem(PresentData, Habbo, GiftData, NewItemId);
             if (GiveItem != null)
             {
                 GameClient Receiver = StarBlueServer.GetGame().GetClientManager().GetClientByUserID(Habbo.Id);
                 if (Receiver != null)
                 {
-                    if (Receiver.GetHabbo().Rank <= 5)
+                    if (Receiver.GetHabbo().Rank <= 5 && ShowName)
                     {
 
                         Receiver.SendNotification("Você acabou de receber um presente de " + Session.GetHabbo().Username);

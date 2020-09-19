@@ -9,7 +9,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     internal class RewardEventCommand : IChatCommand
     {
-        public string PermissionRequired => "user_7";
+        public string PermissionRequired => "user_12";
 
         public string Parameters => "[USUARIO]";
 

@@ -5,7 +5,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     internal class RoomMuteCommand : IChatCommand
     {
-        public string PermissionRequired => "user_7";
+        public string PermissionRequired => "user_12";
         public string Parameters => "[MENSAGEM]";
         public string Description => "Mutar quarto.";
 

@@ -24,9 +24,7 @@ namespace StarBlue.Communication.Packets.Outgoing.Inventory.Badges
                 packet.WriteString(Badge.Code);
 
                 if (Badge.Slot > 0)
-                {
                     EquippedBadges.Add(Badge);
-                }
             }
 
             packet.WriteInteger(EquippedBadges.Count);

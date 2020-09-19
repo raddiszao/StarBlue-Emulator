@@ -15,7 +15,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StarBlue.Network
@@ -24,14 +23,12 @@ namespace StarBlue.Network
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(NetworkBootstrap));
 
-        private static int BUFFER_SIZE = 5120;
-
         private string[] Ports { get; }
         private string Host { get; }
 
         private IEventLoopGroup BossGroup { get; set; }
         private IEventLoopGroup WorkerGroup { get; set; }
-        private IEventExecutorGroup ChannelGroup { get; set; }
+        private IEventLoopGroup ChannelGroup { get; set; }
         private ServerBootstrap ServerBootstrap { get; set; }
         private List<IChannel> ServerChannels { get; set; }
 
@@ -68,7 +65,6 @@ namespace StarBlue.Network
                     string IpAddress = ((IPEndPoint)channel.RemoteAddress).Address.MapToIPv4().ToString();
                     if (BlockedIps.Contains(IpAddress))
                     {
-                        channel.DisconnectAsync();
                         channel.CloseAsync();
                         return;
                     }
@@ -80,7 +76,6 @@ namespace StarBlue.Network
                         {
                             BlockedIps.Add(IpAddress);
                             log.Warn("Suspicious attack [" + IpAddress + "]. Country (" + IpCountry + ").");
-                            channel.DisconnectAsync();
                             channel.CloseAsync();
                             return;
                         }
@@ -90,7 +85,6 @@ namespace StarBlue.Network
                     {
                         log.Warn("Client denied for suspicious activity at address " + IpAddress + ". Suspicious mode was activated for 10 minutes.");
                         SuspiciousMode = true;
-                        channel.DisconnectAsync();
                         channel.CloseAsync();
 
                         Threading threading = new Threading();
@@ -104,22 +98,23 @@ namespace StarBlue.Network
                         Pipeline.AddLast("logger", new LoggingHandler());
 
                         Pipeline.AddLast("xmlDecoder", new GamePolicyDecoder());
-                        Pipeline.AddLast("stringEncoder", new StringEncoder());
-                        Pipeline.AddLast("gameDecoder", new GameDecoder());
-                        Pipeline.AddLast("gameEncoder", new GameEncoder());
+                        Pipeline.AddLast("gameDecoder", new GameByteDecoder());
+
+                        Pipeline.AddLast("gameEncoder", new GameByteEncoder());
 
                         if (IdleTimerEnabled)
                             Pipeline.AddLast("idleHandler", new IdleStateHandler(60, 30, 0));
 
-                        Pipeline.AddLast(ChannelGroup, "clientHandler", new NetworkChannelHandler());
+                        Pipeline.AddLast(ChannelGroup, "clientHandler", new GameMessageHandler());
                         IncrementCounterForIp(IpAddress, (IpConnectionCount(IpAddress) + 1));
                     }
                 }))
                 .ChildOption(ChannelOption.TcpNodelay, true)
                 .ChildOption(ChannelOption.SoKeepalive, true)
-                .ChildOption(ChannelOption.SoRcvbuf, BUFFER_SIZE)
-                .ChildOption(ChannelOption.RcvbufAllocator, new FixedRecvByteBufAllocator(BUFFER_SIZE))
-                .ChildOption(ChannelOption.Allocator, UnpooledByteBufferAllocator.Default);
+                .ChildOption(ChannelOption.SoReuseaddr, true)
+                .ChildOption(ChannelOption.SoRcvbuf, 4096)
+                .ChildOption(ChannelOption.RcvbufAllocator, new FixedRecvByteBufAllocator(4096))
+                .ChildOption(ChannelOption.Allocator, new UnpooledByteBufferAllocator(false));
 
             try
             {
@@ -147,7 +142,6 @@ namespace StarBlue.Network
         {
             BossGroup.ShutdownGracefullyAsync();
             WorkerGroup.ShutdownGracefullyAsync();
-            ChannelGroup.ShutdownGracefullyAsync();
         }
 
         public static void IncrementCounterForIp(string Ip, int Amount)

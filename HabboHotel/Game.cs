@@ -35,6 +35,7 @@ using StarBlue.HabboHotel.Talents;
 using StarBlue.HabboHotel.WebClient;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace StarBlue.HabboHotel
 {
@@ -79,7 +80,7 @@ namespace StarBlue.HabboHotel
 
         private bool _cycleEnded;
         private bool _cycleActive = true;
-        private Thread _gameCycle;
+        private Task _gameCycle;
 
         private int _cycleSleepTime = 25;
 
@@ -164,8 +165,7 @@ namespace StarBlue.HabboHotel
         public void StartGameLoop()
         {
             this._cycleActive = true;
-            this._gameCycle = new Thread(new ThreadStart(GameCycle));
-            this._gameCycle.Priority = ThreadPriority.Highest;
+            this._gameCycle = new Task(GameCycle);
             this._gameCycle.Start();
         }
 

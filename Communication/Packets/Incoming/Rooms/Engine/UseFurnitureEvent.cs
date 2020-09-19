@@ -1,14 +1,12 @@
 ﻿using StarBlue.Communication.Packets.Outgoing.Rooms.Engine;
 using StarBlue.Communication.Packets.Outgoing.Rooms.Furni;
 using StarBlue.Communication.Packets.Outgoing.WebSocket;
-using StarBlue.Core;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Catalog;
 using StarBlue.HabboHotel.Items;
 using StarBlue.HabboHotel.Items.Wired;
 using StarBlue.HabboHotel.Quests;
 using StarBlue.HabboHotel.Rooms;
-using System;
 
 namespace StarBlue.Communication.Packets.Incoming.Rooms.Engine
 {

@@ -1,0 +1,54 @@
+
+Exception logged 17/09/2020 22:46:51 in Error in encode message:
+System.FormatException: A cadeia de caracteres de entrada n?o estava em um formato correto.
+   em System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   em System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   em System.Convert.ToInt32(String value)
+   em StarBlue.HabboHotel.Items.ItemBehaviourUtility.GenerateExtradata(Item Item, Composer Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Items\ItemBehaviourUtility.cs:linha 230
+   em StarBlue.Communication.Packets.Outgoing.Inventory.Furni.FurniListAddComposer.Compose(Composer packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Inventory\Furni\FurniListAddComposer.cs:linha 34
+   em StarBlue.Communication.Packets.Outgoing.MessageComposer.WriteMessage(IByteBuffer buf) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\MessageComposer.cs:linha 19
+   em StarBlue.Network.Codec.GameEncoder.Encode(IChannelHandlerContext context, MessageComposer message, IByteBuffer buffer) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameEncoder.cs:linha 16
+Source:
+mscorlib
+Data:
+Message:
+A cadeia de caracteres de entrada n?o estava em um formato correto.
+Stack trace:
+   em System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   em System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   em System.Convert.ToInt32(String value)
+   em StarBlue.HabboHotel.Items.ItemBehaviourUtility.GenerateExtradata(Item Item, Composer Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Items\ItemBehaviourUtility.cs:linha 230
+   em StarBlue.Communication.Packets.Outgoing.Inventory.Furni.FurniListAddComposer.Compose(Composer packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Inventory\Furni\FurniListAddComposer.cs:linha 34
+   em StarBlue.Communication.Packets.Outgoing.MessageComposer.WriteMessage(IByteBuffer buf) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\MessageComposer.cs:linha 19
+   em StarBlue.Network.Codec.GameEncoder.Encode(IChannelHandlerContext context, MessageComposer message, IByteBuffer buffer) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameEncoder.cs:linha 16
+
+
+
+
+
+Exception logged 17/09/2020 22:47:43 in Error in encode message:
+System.FormatException: A cadeia de caracteres de entrada n?o estava em um formato correto.
+   em System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   em System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   em System.Convert.ToInt32(String value)
+   em StarBlue.HabboHotel.Items.ItemBehaviourUtility.GenerateExtradata(Item Item, Composer Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Items\ItemBehaviourUtility.cs:linha 230
+   em StarBlue.Communication.Packets.Outgoing.Inventory.Furni.FurniListAddComposer.Compose(Composer packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Inventory\Furni\FurniListAddComposer.cs:linha 34
+   em StarBlue.Communication.Packets.Outgoing.MessageComposer.WriteMessage(IByteBuffer buf) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\MessageComposer.cs:linha 19
+   em StarBlue.Network.Codec.GameEncoder.Encode(IChannelHandlerContext context, MessageComposer message, IByteBuffer buffer) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameEncoder.cs:linha 16
+Source:
+mscorlib
+Data:
+Message:
+A cadeia de caracteres de entrada n?o estava em um formato correto.
+Stack trace:
+   em System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   em System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   em System.Convert.ToInt32(String value)
+   em StarBlue.HabboHotel.Items.ItemBehaviourUtility.GenerateExtradata(Item Item, Composer Message) na E:\BKP\Desktop\StarBlue Emulator\HabboHotel\Items\ItemBehaviourUtility.cs:linha 230
+   em StarBlue.Communication.Packets.Outgoing.Inventory.Furni.FurniListAddComposer.Compose(Composer packet) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\Inventory\Furni\FurniListAddComposer.cs:linha 34
+   em StarBlue.Communication.Packets.Outgoing.MessageComposer.WriteMessage(IByteBuffer buf) na E:\BKP\Desktop\StarBlue Emulator\Communication\Packets\Outgoing\MessageComposer.cs:linha 19
+   em StarBlue.Network.Codec.GameEncoder.Encode(IChannelHandlerContext context, MessageComposer message, IByteBuffer buffer) na E:\BKP\Desktop\StarBlue Emulator\Network\Codec\GameEncoder.cs:linha 16
+
+
+
+

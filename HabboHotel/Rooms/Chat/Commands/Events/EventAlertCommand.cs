@@ -10,7 +10,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Events
 {
     internal class EventAlertCommand : IChatCommand
     {
-        public string PermissionRequired => "user_7";
+        public string PermissionRequired => "user_12";
         public string Parameters => "";
         public string Description => "Envia alerta de evento ao Hotel!";
 

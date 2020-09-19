@@ -1,6 +1,8 @@
 using DotNetty.Buffers;
 using DotNetty.Codecs;
+using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
+using StarBlue.Communication.Encryption.Crypto.Prng;
 using StarBlue.Communication.Packets.Incoming;
 using StarBlue.Core;
 using System;
@@ -8,20 +10,22 @@ using System.Collections.Generic;
 
 namespace StarBlue.Network.Codec
 {
-    public class GameDecoder : ByteToMessageDecoder
+    public class GameByteDecoder : ByteToMessageDecoder
     {
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
         {
             try
             {
-                if (input.ReadableBytes < 6) {
+                if (input.ReadableBytes < 6)
+                {
                     return;
                 }
 
                 input.MarkReaderIndex();
                 int length = input.ReadInt();
 
-                if (!(input.ReadableBytes >= length)) {
+                if (!(input.ReadableBytes >= length))
+                {
                     input.ResetReaderIndex();
                     return;
                 }

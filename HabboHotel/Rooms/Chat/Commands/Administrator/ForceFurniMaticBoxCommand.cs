@@ -40,7 +40,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Administrator
                     dbClient.RunFastQuery("DELETE FROM `items` WHERE `id` = " + rewardId + " LIMIT 1;");
                 }
 
-                Item GiveItem = ItemFactory.CreateGiftItem(data, Session.GetHabbo(), maticData, maticData, rewardId, 0, 0);
+                Item GiveItem = ItemFactory.CreateSingleItem(data, Session.GetHabbo(), maticData, rewardId);
                 if (GiveItem != null)
                 {
                     Session.GetHabbo().GetInventoryComponent().TryAddItem(GiveItem);

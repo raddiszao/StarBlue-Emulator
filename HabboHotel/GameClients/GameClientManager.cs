@@ -6,6 +6,7 @@ using StarBlue.Core;
 using StarBlue.Database.Interfaces;
 using StarBlue.HabboHotel.Groups;
 using StarBlue.HabboHotel.Users.Messenger;
+using StarBlue.Network;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -57,15 +58,6 @@ namespace StarBlue.HabboHotel.GameClients
             return null;
         }
 
-        internal Dictionary<int, GameClient> getGuides()
-        {
-            return guides;
-        }
-
-        internal Dictionary<int, GameClient> getAlphas()
-        {
-            return alphas;
-        }
 
         public GameClient GetClientByUsername(string username)
         {
@@ -375,6 +367,7 @@ namespace StarBlue.HabboHotel.GameClients
             if (Client != null)
                 Client.Dispose();
 
+            NetworkBootstrap.IncrementCounterForIp(Client.GetIpAddress(), (NetworkBootstrap.IpConnectionCount(Client.GetIpAddress()) - 1));
             this._clients.TryRemove(clientID, out Client);
         }
 

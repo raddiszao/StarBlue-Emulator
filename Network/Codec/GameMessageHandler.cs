@@ -1,7 +1,6 @@
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
-using log4net;
 using StarBlue.Communication.Packets.Incoming;
 using StarBlue.Communication.Packets.Outgoing.Misc;
 using StarBlue.Core;
@@ -10,21 +9,25 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
-namespace StarBlue.Network
+namespace StarBlue.Network.Codec
 {
-    public class NetworkChannelHandler : SimpleChannelInboundHandler<MessageEvent>
+    public class GameMessageHandler : SimpleChannelInboundHandler<MessageEvent>
     {
         public override void ChannelActive(IChannelHandlerContext context)
         {
             StarBlueServer.GetGame().GetClientManager().CreateAndStartClient(context);
         }
 
+        public override void ChannelUnregistered(IChannelHandlerContext context)
+        {
+            context.Channel.CloseAsync();
+            StarBlueServer.GetGame().GetClientManager().DisposeConnection(context.Channel.Id);
+        }
+
         public override void ChannelInactive(IChannelHandlerContext context)
         {
-            string IpAddress = ((IPEndPoint)context.Channel.RemoteAddress).Address.MapToIPv4().ToString();
-            NetworkBootstrap.IncrementCounterForIp(IpAddress, (NetworkBootstrap.IpConnectionCount(IpAddress) - 1));
-            if (StarBlueServer.GetGame().GetClientManager().TryGetClient(context.Channel.Id, out var client))
-                StarBlueServer.GetGame().GetClientManager().DisposeConnection(context.Channel.Id);
+            context.Channel.CloseAsync();
+            StarBlueServer.GetGame().GetClientManager().DisposeConnection(context.Channel.Id);
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
@@ -40,7 +43,8 @@ namespace StarBlue.Network
             {
                 if (StarBlueServer.GetGame().GetClientManager().TryGetClient(context.Channel.Id, out var client))
                     StarBlueServer.GetGame().GetPacketManager().TryExecutePacket(client, msg);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Logging.HandleException(e, "Error while receiving message");
             }
@@ -60,7 +64,6 @@ namespace StarBlue.Network
                     IdleStateEvent e = (IdleStateEvent)evt;
                     if (e.State == IdleState.ReaderIdle)
                     {
-                        context.DisconnectAsync();
                         context.CloseAsync();
                     }
                     else if (e.State == IdleState.WriterIdle)
@@ -72,7 +75,6 @@ namespace StarBlue.Network
 
             if (evt.GetType().IsInstanceOfType(ChannelInputShutdownEvent.Instance))
             {
-                context.DisconnectAsync();
                 context.CloseAsync();
             }
         }

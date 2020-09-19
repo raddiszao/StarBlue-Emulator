@@ -70,7 +70,7 @@ namespace StarBlue.Communication.Packets.Incoming.Marketplace
                 Session.GetHabbo().Diamonds -= Convert.ToInt32(Row["total_price"]);
                 Session.SendMessage(new HabboActivityPointNotificationComposer(Session.GetHabbo().Diamonds, Convert.ToInt32(Row["total_price"]), 5));
 
-                Item GiveItem = ItemFactory.CreateSingleItem(Item, Session.GetHabbo(), Convert.ToString(Row["extra_data"]), Convert.ToString(Row["extra_data"]), Convert.ToInt32(Row["furni_id"]), Convert.ToInt32(Row["limited_number"]), Convert.ToInt32(Row["limited_stack"]));
+                Item GiveItem = ItemFactory.CreateSingleItem(Item, Session.GetHabbo(), Convert.ToString(Row["extra_data"]), Convert.ToInt32(Row["furni_id"]), Convert.ToInt32(Row["limited_number"]), Convert.ToInt32(Row["limited_stack"]));
                 if (GiveItem != null)
                 {
                     Session.GetHabbo().GetInventoryComponent().TryAddItem(GiveItem);

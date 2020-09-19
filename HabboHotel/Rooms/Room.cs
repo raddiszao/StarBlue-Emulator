@@ -919,14 +919,14 @@ namespace StarBlue.HabboHotel.Rooms
             }
             catch (Exception e)
             {
-                //isCycling = false;
+                //   isCycling = false;
                 Logging.WriteLine("Room ID [" + Id + "] travou!");
                 Logging.LogException("Room ID [" + Id + "] travou!" + e.ToString());
                 OnRoomCrash(e);
             }
             //finally
-            //{
-            //  isCycling = false;
+            // {
+            // isCycling = false;
             // }
         }
 

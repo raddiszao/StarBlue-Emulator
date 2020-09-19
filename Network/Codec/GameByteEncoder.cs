@@ -7,7 +7,7 @@ using System;
 
 namespace StarBlue.Network.Codec
 {
-    public class GameEncoder : MessageToByteEncoder<MessageComposer>
+    public class GameByteEncoder : MessageToByteEncoder<MessageComposer>
     {
         protected override void Encode(IChannelHandlerContext context, MessageComposer message, IByteBuffer buffer)
         {

@@ -4,7 +4,7 @@ namespace StarBlue.HabboHotel.Rooms.Chat.Commands.Moderator
 {
     internal class RoomKickCommand : IChatCommand
     {
-        public string PermissionRequired => "user_7";
+        public string PermissionRequired => "user_12";
         public string Parameters => "[MENSAGEM]";
         public string Description => "Expulsar todos os usuários do quarto.";
 
